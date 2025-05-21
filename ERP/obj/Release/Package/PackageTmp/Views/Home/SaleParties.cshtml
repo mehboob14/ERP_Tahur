@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "SaleParties";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div class="white-box">
+    <table id="" class="table table-striped DataTable ExportTable">
+        <thead>
+            <tr>
+                <th class="width20">Date</th>
+                <th class="width20">Region</th>
+                <th class="width50">Party Description</th>
+                <th class="width20">Reg Status</th>
+                <th class="width20">Taxable</th>
+                <th class="width20">Party Status</th>
+                <th class="width20">Category</th>
+                <th class="width20">NTN</th>
+                <th class="width20">S.T.R.N</th>
+                <th class="width20">CNIC</th>
+                <th class="width20">FBR Status</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (ViewBag.SaleParties != null)
+            {
+                foreach (var item in ViewBag.SaleParties)
+                {
+            <tr>
+                <td>@item.UpdDate.ToString("dd/MM/yyyy")</td>
+                <td>@item.RegionCode | @item.RegionDescription</td>
+                <td>@item.PartyName</td>
+                <td>@item.STaxReg</td>
+                <td>@item.Taxable</td>
+                <td>@item.PartyType</td>
+                <td>@item.Category</td>
+                <td>@item.NTN</td>
+                <td>@item.SalesTaxNumber</td>
+                <td>@item.CNIC</td>
+                <td>@item.ThirdSch_Category</td>
+
+            </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>
+<script>
+    document.getElementById("PageHeader").innerHTML = "Sale Party Detail";
+
+
+    document.getElementById("PageLink").style.visibility = "hidden";
+    //var str = "Add New Unit";
+    //var result = str.link("/CompanySetup/UnitSetup");
+    //document.getElementById("PageLink").innerHTML = result;
+
+
+</script>

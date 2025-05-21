@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "BranchDetail";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+            <div class="table-responsive">
+                <table id="myTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th width="10%">Branch Code</th>
+                            <th width="30%">Branch Description</th>
+                            <th width="">Address</th>
+                            <th width="10%">Phone</th>
+                            <th width="5%" style="text-align:left">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>001</td>
+                            <td>At-Tahur Branch 1</td>
+                            <td>Abu-Bakar Block Lahore</td>
+                            <td>03211212321</td>
+                            <td class="text-nowrap" >
+                                <a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                <a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>002</td>
+                            <td>At-Tahur Branch 2</td>
+                            <td>Abu-Bakar Block Lahore</td>
+                            <td>03211212321</td>
+                            <td class="text-nowrap">
+                                <a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                <a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>003</td>
+                            <td>At-Tahur Branch 3</td>
+                            <td>Lahore</td>
+                            <td>03211212321</td>
+                            <td class="text-nowrap">
+                                <a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                <a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.getElementById("PageHeader").innerHTML = "Region Detail";
+    
+    var str = "Add New Region";
+    var result = str.link("/Company/RegionSetup");
+    document.getElementById("PageLink").innerHTML = result;
+
+
+</script>

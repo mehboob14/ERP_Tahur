@@ -1,0 +1,154 @@
+﻿
+@{
+    ViewBag.Title = "ShortCashOpening";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <div class="row">
+
+                    <div class="col-md-12">
+                         <input class="form-group" style="font-size:16px;width:1200px" type="text" id="SearchTbl2" name="SearchTbl2" aria-controls="tblMain" placeholder="Search" />
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="tableBody" style="margin-top:15px">
+                            <div class="table-responsive" style="overflow-y:scroll;height:450px">
+                                <table id="tblMain" class="table table-bordered table-hover">
+                                    <thead class="bg-info">
+                                        <tr>
+                                            <th style="color:white" width="10">Sr.</th>
+                                            <th style="color:white" width="">Region</th>
+                                            <th style="color:white" width="350">Employee</th>
+                                            <th style="color:white" width="100">Opening</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
+                    @if (ERP.Models.CommonDAL.UserRights("1030", "002"))
+                    {
+                        <div class="col-md-6" style="margin-top:15px;margin-left:35rem">
+                            <button class="btn btn-success waves-effect form-control" id="btnSave" type="button" style="font-size:16px;color:white" >Save</button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-6" style="margin-top:25px;margin-left:20rem">
+                            <button class="btn btn-success waves-effect form-control" id="btnSave" type="button" disabled>Save</button>
+                        </div>
+                    }
+                </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+
+<script>
+
+    
+
+    $(document).ready(function () {
+        $('#tblMain tbody tr').remove();
+
+        loadPageData();
+
+        function loadPageData() {
+            $('#tblMain tbody tr').remove();
+
+            $.ajax({
+                url: "/Transaction/GetLazyShortCashOpening",
+                method: 'get',
+                dataType: "json",
+                data: {},
+                success: function (data) {
+                    $('#tblMain tbody tr').remove();
+                    var DTable = $('#tblMain tbody');
+                    var i = 1;
+
+                    $(data).each(function (index, obj) {
+                        DTable.append('<tr><td>' + i + '</td><td style="display:none">' + obj.RegionCode
+                            + '</td><td style="font-size:16px">' + obj.RegionDesc
+                            + '</td><td style="display:none">' + obj.EmpCode
+                            + '</td><td style="font-size:16px">' + obj.EmpName
+                            + '</td><td width="50"><input style="font-size:16px" type="number" id="Opening" name="Opening" value="' + obj.Opening + '"/></td></tr>');
+                            
+                        i++;
+                    });
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            });
+        }
+
+    })
+
+    $("#SearchTbl2").keyup(function () {
+        var value = this.value.toLowerCase().trim();
+
+        $("table#tblMain tbody tr").each(function (index) {
+            if (!index) return;
+            $(this).find("td").each(function () {
+                var id = $(this).text().toLowerCase().trim();
+                var not_found = (id.indexOf(value) == -1);
+                $(this).closest('tr').toggle(!not_found);
+                return not_found;
+            });
+        });
+    });
+
+    var tblPMOpening = [];
+
+    function ItemRows1() {
+        itemCount = 0;
+        $("table#tblMain tbody").find('tr').each(function () {
+            var tableItem = document.getElementById('tblMain');
+            //if (itemCount != 0) {
+            var itemList = $(this).find("td");
+            // check empty row
+            var rows = tableItem.rows;
+            var Opening = $(this).find("input[name='Opening']").val();
+
+            var vouch = {
+                RegionCode: $(itemList[1]).html(), EmpCode: $(itemList[3]).html(), Opening: Opening
+            };
+
+            tblPMOpening.push(vouch);
+
+            itemCount++;
+        })
+    }
+
+    $("#btnSave").click(function (e) {
+        e.preventDefault();
+
+            ItemRows1();
+
+            $.ajax({
+                type: "POST",
+                url: "/Transaction/PMOpening",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({ OpeningList: tblPMOpening }),
+                contentType: "application/json; charset=utf-8",
+                complete: function (data) {
+                    location.reload();
+                }
+            });
+
+    });
+
+
+</script>
+

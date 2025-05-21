@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "AgingReportData";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div class="white-box">
+
+
+
+    <table id="" class="table table-striped table-bordered DataTable ExportTable">
+        <thead>
+           
+            <tr>
+                <th class="width20">Region Description</th>
+                <th class="width50">Party Name</th>
+                <th class="width20">Total Credit</th>
+                <th class="width20">0-30</th>
+                <th class="width20">31-60</th>
+                <th class="width20">61-90</th>
+                <th class="width20">91-180</th>
+                <th class="width20">181-360</th>
+                <th class="width20"> > 360</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (ViewBag.AgingData != null)
+            {
+                foreach (var item in ViewBag.AgingData)
+                {
+            <tr>
+                <td>@item.RegionDescripion</td>
+                <td>@item.PartyName</td>
+                <td class="text-dark"> @Math.Round(item.C0_30 + item.C31_60 + item.C61_90 + item.C91_180 + item.C181_360 + item.More_Than_360)</td>
+                <td>@Math.Round(item.C0_30)</td>
+                <td>@Math.Round(item.C31_60)</td>
+                <td>@Math.Round(item.C61_90)</td>
+                <td>@Math.Round(item.C91_180)</td>
+                <td>@Math.Round(item.C181_360)</td>
+                <td>@Math.Round(item.More_Than_360)</td>
+            </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>
+<script>
+    document.getElementById("PageHeader").innerHTML = "Debter Aging";
+
+    document.getElementById("PageTitle").innerHTML = "Debter Aging (From:  @ViewBag.FromDate)"
+
+    document.getElementById("PageLink").style.visibility = "hidden";
+    //var str = "Add New Unit";
+    //var result = str.link("/CompanySetup/UnitSetup");
+    //document.getElementById("PageLink").innerHTML = result;
+
+
+</script>
+
+
+

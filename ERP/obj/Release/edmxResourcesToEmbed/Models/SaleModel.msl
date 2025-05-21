@@ -1,0 +1,1002 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="AT_Tahur_SUITEModelStoreContainer" CdmEntityContainer="AT_Tahur_SUITEEntities">
+    <FunctionImportMapping FunctionImportName="GetDinstinctParty" FunctionName="AT_Tahur_SUITEModel.Store.GetDinstinctParty" />
+    <EntitySetMapping Name="PartyDiscounts">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.PartyDiscount">
+        <MappingFragment StoreEntitySet="PartyDiscount">
+          <ScalarProperty Name="UpdTerm" ColumnName="UpdTerm" />
+          <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="LabbanStrawberry" ColumnName="LabbanStrawberry" />
+          <ScalarProperty Name="LabbanPlain" ColumnName="LabbanPlain" />
+          <ScalarProperty Name="Cream" ColumnName="Cream" />
+          <ScalarProperty Name="SmoothieStrawberry220" ColumnName="SmoothieStrawberry220" />
+          <ScalarProperty Name="SmoothieMango220" ColumnName="SmoothieMango220" />
+          <ScalarProperty Name="PineApple90" ColumnName="PineApple90" />
+          <ScalarProperty Name="RaitaZeera80" ColumnName="RaitaZeera80" />
+          <ScalarProperty Name="RaitaPodina250" ColumnName="RaitaPodina250" />
+          <ScalarProperty Name="RaitaZeera250" ColumnName="RaitaZeera250" />
+          <ScalarProperty Name="FreshCream" ColumnName="FreshCream" />
+          <ScalarProperty Name="Podina" ColumnName="Podina" />
+          <ScalarProperty Name="YgrtPouch500" ColumnName="YgrtPouch500" />
+          <ScalarProperty Name="YgrtSweet400" ColumnName="YgrtSweet400" />
+          <ScalarProperty Name="YgrtVanilla100" ColumnName="YgrtVanilla100" />
+          <ScalarProperty Name="YgrtMango80" ColumnName="YgrtMango80" />
+          <ScalarProperty Name="YgrtBlueBerry90" ColumnName="YgrtBlueBerry90" />
+          <ScalarProperty Name="YgrtLF400" ColumnName="YgrtLF400" />
+          <ScalarProperty Name="YgrtStrawBerry80" ColumnName="YgrtStrawBerry80" />
+          <ScalarProperty Name="YgrtStrawBerry90" ColumnName="YgrtStrawBerry90" />
+          <ScalarProperty Name="YgrtNatural1kg" ColumnName="YgrtNatural1kg" />
+          <ScalarProperty Name="YgrtNatural80" ColumnName="YgrtNatural80" />
+          <ScalarProperty Name="YgrtNatural400" ColumnName="YgrtNatural400" />
+          <ScalarProperty Name="PremaRotation" ColumnName="PremaRotation" />
+          <ScalarProperty Name="Ecolean" ColumnName="Ecolean" />
+          <ScalarProperty Name="MilkStrawBerry200" ColumnName="MilkStrawBerry200" />
+          <ScalarProperty Name="ChokoMilk" ColumnName="ChokoMilk" />
+          <ScalarProperty Name="MilkLF250" ColumnName="MilkLF250" />
+          <ScalarProperty Name="MilkFF250" ColumnName="MilkFF250" />
+          <ScalarProperty Name="MilkFF450" ColumnName="MilkFF450" />
+          <ScalarProperty Name="RawMilk" ColumnName="RawMilk" />
+          <ScalarProperty Name="MilkNeutra" ColumnName="MilkNeutra" />
+          <ScalarProperty Name="MilkNeutraHalf" ColumnName="MilkNeutraHalf" />
+          <ScalarProperty Name="MilkLF" ColumnName="MilkLF" />
+          <ScalarProperty Name="MilkFF" ColumnName="MilkFF" />
+          <ScalarProperty Name="PDDate" ColumnName="PDDate" />
+          <ScalarProperty Name="PDCode" ColumnName="PDCode" />
+          <ScalarProperty Name="PartyCode" ColumnName="PartyCode" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="CompCode" ColumnName="CompCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetDinstinctPartyDiscount" FunctionName="AT_Tahur_SUITEModel.Store.GetDinstinctPartyDiscount">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.GetDinstinctPartyDiscount_Result">
+          <ScalarProperty Name="PdCode" ColumnName="PdCode" />
+          <ScalarProperty Name="PdDate" ColumnName="PdDate" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="PartyCode" ColumnName="PartyCode" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetDinstinctDSRNo" FunctionName="AT_Tahur_SUITEModel.Store.GetDinstinctDSRNo">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.GetDinstinctDSRNo_Result">
+          <ScalarProperty Name="DSRNo" ColumnName="DSRNo" />
+          <ScalarProperty Name="DSRDate" ColumnName="DSRDate" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetDinstinctSOSNo" FunctionName="AT_Tahur_SUITEModel.Store.GetDinstinctSOSNo">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.GetDinstinctSOSNo_Result">
+          <ScalarProperty Name="SOSNo" ColumnName="SOSNo" />
+          <ScalarProperty Name="SOSDate" ColumnName="SOSDate" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="EmpCode" ColumnName="EmpCode" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="CountPartyDis" FunctionName="AT_Tahur_SUITEModel.Store.CountPartyDis">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.CountPartyDis_Result">
+          <ScalarProperty Name="PdCode" ColumnName="PdCode" />
+          <ScalarProperty Name="PartyCode" ColumnName="PartyCode" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetDistinctRegion" FunctionName="AT_Tahur_SUITEModel.Store.GetDistinctRegion">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.GetDistinctRegion_Result">
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="RegionDescription" ColumnName="RegionDescription" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ButterAllQty" FunctionName="AT_Tahur_SUITEModel.Store.ButterAllQty">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.ButterAllQty_Result">
+          <ScalarProperty Name="Qty" ColumnName="Qty" />
+          <ScalarProperty Name="SubCategory" ColumnName="SubCategory" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="MilkAllQty" FunctionName="AT_Tahur_SUITEModel.Store.MilkAllQty">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.MilkAllQty_Result">
+          <ScalarProperty Name="Qty" ColumnName="Qty" />
+          <ScalarProperty Name="SubCategory" ColumnName="SubCategory" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="RaitaAllQty" FunctionName="AT_Tahur_SUITEModel.Store.RaitaAllQty">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.RaitaAllQty_Result">
+          <ScalarProperty Name="Qty" ColumnName="Qty" />
+          <ScalarProperty Name="SubCategory" ColumnName="SubCategory" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="YougartAllQty" FunctionName="AT_Tahur_SUITEModel.Store.YougartAllQty">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.YougartAllQty_Result">
+          <ScalarProperty Name="Qty" ColumnName="Qty" />
+          <ScalarProperty Name="SubCategory" ColumnName="SubCategory" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SaleTaxRegisterFBR" FunctionName="AT_Tahur_SUITEModel.Store.SaleTaxRegisterFBR">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.SaleTaxRegisterFBR_Result">
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="PartyCode" ColumnName="PartyCode" />
+          <ScalarProperty Name="PartyName" ColumnName="PartyName" />
+          <ScalarProperty Name="STaxReg" ColumnName="STaxReg" />
+          <ScalarProperty Name="Province" ColumnName="Province" />
+          <ScalarProperty Name="NTN" ColumnName="NTN" />
+          <ScalarProperty Name="ManInvoiceNo" ColumnName="ManInvoiceNo" />
+          <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+          <ScalarProperty Name="CNIC" ColumnName="CNIC" />
+          <ScalarProperty Name="ExcTaxAmt" ColumnName="ExcTaxAmt" />
+          <ScalarProperty Name="SaleTaxAmt" ColumnName="SaleTaxAmt" />
+          <ScalarProperty Name="FurtherTaxAmts" ColumnName="FurtherTaxAmts" />
+          <ScalarProperty Name="SaleType" ColumnName="SaleType" />
+          <ScalarProperty Name="Rate" ColumnName="Rate" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="FixedNotifiedValueOrRetailPrice" ColumnName="FixedNotifiedValueOrRetailPrice" />
+          <ScalarProperty Name="STWithheldAtSource" ColumnName="STWithheldAtSource" />
+          <ScalarProperty Name="SRONo" ColumnName="SRONo" />
+          <ScalarProperty Name="ItemSRNo" ColumnName="ItemSRNo" />
+          <ScalarProperty Name="FurtherTaxFBR" ColumnName="FurtherTaxFBR" />
+          <ScalarProperty Name="TotalValueOfSales" ColumnName="TotalValueOfSales" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="Farms">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.Farm">
+        <MappingFragment StoreEntitySet="Farm">
+          <ScalarProperty Name="FarmName" ColumnName="FarmName" />
+          <ScalarProperty Name="FarmCode" ColumnName="FarmCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DailyIntakes">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.DailyIntake">
+        <MappingFragment StoreEntitySet="DailyIntake">
+          <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="UpdTerm" ColumnName="UpdTerm" />
+          <ScalarProperty Name="RawMilkQty" ColumnName="RawMilkQty" />
+          <ScalarProperty Name="FarmCode" ColumnName="FarmCode" />
+          <ScalarProperty Name="DIDate" ColumnName="DIDate" />
+          <ScalarProperty Name="DICode" ColumnName="DICode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DailyProductions">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.DailyProduction">
+        <MappingFragment StoreEntitySet="DailyProduction">
+          <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+          <ScalarProperty Name="UpdTerm" ColumnName="UpdTerm" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+          <ScalarProperty Name="DPDate" ColumnName="DPDate" />
+          <ScalarProperty Name="DPCode" ColumnName="DPCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="DistinctDPCode" FunctionName="AT_Tahur_SUITEModel.Store.DistinctDPCode" />
+    <FunctionImportMapping FunctionImportName="GetSalePartiesFast" FunctionName="AT_Tahur_SUITEModel.Store.GetSalePartiesFast">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.GetSalePartiesFast_Result">
+          <ScalarProperty Name="CompCode" ColumnName="CompCode" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="PartyCode" ColumnName="PartyCode" />
+          <ScalarProperty Name="PartyName" ColumnName="PartyName" />
+          <ScalarProperty Name="PartyRegisterName" ColumnName="PartyRegisterName" />
+          <ScalarProperty Name="PartyAddress" ColumnName="PartyAddress" />
+          <ScalarProperty Name="CNIC" ColumnName="CNIC" />
+          <ScalarProperty Name="PartyType" ColumnName="PartyType" />
+          <ScalarProperty Name="NTN" ColumnName="NTN" />
+          <ScalarProperty Name="SalesTaxNumber" ColumnName="SalesTaxNumber" />
+          <ScalarProperty Name="Opening" ColumnName="Opening" />
+          <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+          <ScalarProperty Name="MainPartyCode" ColumnName="MainPartyCode" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="STaxReg" ColumnName="STaxReg" />
+          <ScalarProperty Name="DelFlag" ColumnName="DelFlag" />
+          <ScalarProperty Name="Taxable" ColumnName="Taxable" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+          <ScalarProperty Name="UpdTerm" ColumnName="UpdTerm" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="CountAllParties" FunctionName="AT_Tahur_SUITEModel.Store.CountAllParties" />
+    <FunctionImportMapping FunctionImportName="FindItemTax" FunctionName="AT_Tahur_SUITEModel.Store.FindItemTax">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.FindItemTax_Result">
+          <ScalarProperty Name="SaleGSTPer" ColumnName="SaleGSTPer" />
+          <ScalarProperty Name="SaleFurtherTaxPer" ColumnName="SaleFurtherTaxPer" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="FindItemRate" FunctionName="AT_Tahur_SUITEModel.Store.FindItemRate">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.FindItemRate_Result">
+          <ScalarProperty Name="RegCorporateRate" ColumnName="RegCorporateRate" />
+          <ScalarProperty Name="UnRegCorporateRate" ColumnName="UnRegCorporateRate" />
+          <ScalarProperty Name="RegRetailerRate" ColumnName="RegRetailerRate" />
+          <ScalarProperty Name="UnRegRetailerRate" ColumnName="UnRegRetailerRate" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="Vehicles">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.Vehicle">
+        <MappingFragment StoreEntitySet="Vehicle">
+          <ScalarProperty Name="VehicleDescription" ColumnName="VehicleDescription" />
+          <ScalarProperty Name="VehicleRegNo" ColumnName="VehicleRegNo" />
+          <ScalarProperty Name="VehicleCode" ColumnName="VehicleCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DailyDispatches">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.DailyDispatch">
+        <MappingFragment StoreEntitySet="DailyDispatch">
+          <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+          <ScalarProperty Name="UpdTerm" ColumnName="UpdTerm" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="DispatchQty" ColumnName="DispatchQty" />
+          <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+          <ScalarProperty Name="VehicleCode" ColumnName="VehicleCode" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="DispatchDate" ColumnName="DispatchDate" />
+          <ScalarProperty Name="DispatchCode" ColumnName="DispatchCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetDistinctDispatchList" FunctionName="AT_Tahur_SUITEModel.Store.GetDistinctDispatchList" />
+    <FunctionImportMapping FunctionImportName="GetDistinctShortCash" FunctionName="AT_Tahur_SUITEModel.Store.GetDistinctShortCash" />
+    <EntitySetMapping Name="CompanyEmps">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.CompanyEmp">
+        <MappingFragment StoreEntitySet="CompanyEmp">
+          <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+          <ScalarProperty Name="UpdTerm" ColumnName="UpdTerm" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="DelFlag" ColumnName="DelFlag" />
+          <ScalarProperty Name="OpeningShortCash" ColumnName="OpeningShortCash" />
+          <ScalarProperty Name="EmpQualification" ColumnName="EmpQualification" />
+          <ScalarProperty Name="EmpStatus" ColumnName="EmpStatus" />
+          <ScalarProperty Name="EmpContactNo" ColumnName="EmpContactNo" />
+          <ScalarProperty Name="EmpEperiance" ColumnName="EmpEperiance" />
+          <ScalarProperty Name="EmpBasicSalary" ColumnName="EmpBasicSalary" />
+          <ScalarProperty Name="EmpDepartment" ColumnName="EmpDepartment" />
+          <ScalarProperty Name="EmpDesignation" ColumnName="EmpDesignation" />
+          <ScalarProperty Name="EmpLeavingDate" ColumnName="EmpLeavingDate" />
+          <ScalarProperty Name="EmpJoiningDate" ColumnName="EmpJoiningDate" />
+          <ScalarProperty Name="EmpDOB" ColumnName="EmpDOB" />
+          <ScalarProperty Name="EmpAddress" ColumnName="EmpAddress" />
+          <ScalarProperty Name="EmpRemarks" ColumnName="EmpRemarks" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="EmpCode" ColumnName="EmpCode" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="CompCode" ColumnName="CompCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CompanySetups">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.CompanySetup">
+        <MappingFragment StoreEntitySet="CompanySetup">
+          <ScalarProperty Name="UpdTerm" ColumnName="UpdTerm" />
+          <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="SalesTaxRegNo" ColumnName="SalesTaxRegNo" />
+          <ScalarProperty Name="NTN" ColumnName="NTN" />
+          <ScalarProperty Name="PicSize" ColumnName="PicSize" />
+          <ScalarProperty Name="Picture" ColumnName="Picture" />
+          <ScalarProperty Name="GI_MaxLevel" ColumnName="GI_MaxLevel" />
+          <ScalarProperty Name="Length_LevelDetail" ColumnName="Length_LevelDetail" />
+          <ScalarProperty Name="Length_Level3" ColumnName="Length_Level3" />
+          <ScalarProperty Name="Length_Level2" ColumnName="Length_Level2" />
+          <ScalarProperty Name="Length_Level1" ColumnName="Length_Level1" />
+          <ScalarProperty Name="Fax" ColumnName="Fax" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Phone2" ColumnName="Phone2" />
+          <ScalarProperty Name="Phone1" ColumnName="Phone1" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Address2" ColumnName="Address2" />
+          <ScalarProperty Name="Address1" ColumnName="Address1" />
+          <ScalarProperty Name="CompName" ColumnName="CompName" />
+          <ScalarProperty Name="CompCode" ColumnName="CompCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Discounts">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.Discount">
+        <MappingFragment StoreEntitySet="Discount">
+          <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+          <ScalarProperty Name="UpdTerm" ColumnName="UpdTerm" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+          <ScalarProperty Name="PartyCode" ColumnName="PartyCode" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="PdDate" ColumnName="PdDate" />
+          <ScalarProperty Name="PdCode" ColumnName="PdCode" />
+          <ScalarProperty Name="CompCode" ColumnName="CompCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RegionSetups">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.RegionSetup">
+        <MappingFragment StoreEntitySet="RegionSetup">
+          <ScalarProperty Name="UpdTerm" ColumnName="UpdTerm" />
+          <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="DelFlag" ColumnName="DelFlag" />
+          <ScalarProperty Name="UnRegRetailerRate" ColumnName="UnRegRetailerRate" />
+          <ScalarProperty Name="RegRetailerRate" ColumnName="RegRetailerRate" />
+          <ScalarProperty Name="UnRegCorporateRate" ColumnName="UnRegCorporateRate" />
+          <ScalarProperty Name="RegCorporateRate" ColumnName="RegCorporateRate" />
+          <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="NameAbbreviate" ColumnName="NameAbbreviate" />
+          <ScalarProperty Name="RegionDescription" ColumnName="RegionDescription" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="CompCode" ColumnName="CompCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetDEOPerfomance1" FunctionName="AT_Tahur_SUITEModel.Store.GetDEOPerfomance">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.GetDEOPerfomance1_Result">
+          <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+          <ScalarProperty Name="From" ColumnName="From" />
+          <ScalarProperty Name="To" ColumnName="To" />
+          <ScalarProperty Name="Working_Hours" ColumnName="Working Hours" />
+          <ScalarProperty Name="No_of_Invoices" ColumnName="No of Invoices" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="AgingReport" FunctionName="AT_Tahur_SUITEModel.Store.AgingReport">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.AgingReport_Result">
+          <ScalarProperty Name="PartyCode" ColumnName="PartyCode" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="RecoveryAmount" ColumnName="RecoveryAmount" />
+          <ScalarProperty Name="TotalCredit" ColumnName="TotalCredit" />
+          <ScalarProperty Name="C0" ColumnName="0" />
+          <ScalarProperty Name="C1_30" ColumnName="1-30" />
+          <ScalarProperty Name="C31_60" ColumnName="31-60" />
+          <ScalarProperty Name="C61_90" ColumnName="61-90" />
+          <ScalarProperty Name="C91_120" ColumnName="91-120" />
+          <ScalarProperty Name="C121_150" ColumnName="121-150" />
+          <ScalarProperty Name="C151_180" ColumnName="151-180" />
+          <ScalarProperty Name="C181_210" ColumnName="181-210" />
+          <ScalarProperty Name="C211_240" ColumnName="211-240" />
+          <ScalarProperty Name="C241_270" ColumnName="241-270" />
+          <ScalarProperty Name="C271_300" ColumnName="271-300" />
+          <ScalarProperty Name="C301_330" ColumnName="301-330" />
+          <ScalarProperty Name="C331_360" ColumnName="331-360" />
+          <ScalarProperty Name="More_Than_360" ColumnName="More Than 360" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Sp_LastSaleParties" FunctionName="AT_Tahur_SUITEModel.Store.Sp_LastSaleParties">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.Sp_LastSaleParties_Result">
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="PartyCode" ColumnName="PartyCode" />
+          <ScalarProperty Name="PartyName" ColumnName="PartyName" />
+          <ScalarProperty Name="Last_Sale" ColumnName="Last Sale" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="ShortCashes">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.ShortCash">
+        <MappingFragment StoreEntitySet="ShortCash">
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="UpdTerm" ColumnName="UpdTerm" />
+          <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+          <ScalarProperty Name="Adjustment" ColumnName="Adjustment" />
+          <ScalarProperty Name="BouncedCheque" ColumnName="BouncedCheque" />
+          <ScalarProperty Name="CashPaidBack" ColumnName="CashPaidBack" />
+          <ScalarProperty Name="cheqPaidBack" ColumnName="cheqPaidBack" />
+          <ScalarProperty Name="CashSubmited" ColumnName="CashSubmited" />
+          <ScalarProperty Name="EmpCode" ColumnName="EmpCode" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="CSDate" ColumnName="CSDate" />
+          <ScalarProperty Name="CSCode" ColumnName="CSCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="Sp_PartyAnalysis" FunctionName="AT_Tahur_SUITEModel.Store.Sp_PartyAnalysis">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.Sp_PartyAnalysis_Result">
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="PartyCode" ColumnName="PartyCode" />
+          <ScalarProperty Name="PartyName" ColumnName="PartyName" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="NoofInvoices" ColumnName="NoofInvoices" />
+          <ScalarProperty Name="SaleAmount" ColumnName="SaleAmount" />
+          <ScalarProperty Name="LastSaleDate" ColumnName="LastSaleDate" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Sp_GetMissingCalculationInvoices" FunctionName="AT_Tahur_SUITEModel.Store.Sp_GetMissingCalculationInvoices">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.Sp_GetMissingCalculationInvoices_Result">
+          <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
+          <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+          <ScalarProperty Name="ManInvoiceNo" ColumnName="ManInvoiceNo" />
+          <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SP_NewAgingReport" FunctionName="AT_Tahur_SUITEModel.Store.SP_NewAgingReport">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.SP_NewAgingReport_Result">
+          <ScalarProperty Name="MainPartyCode" ColumnName="MainPartyCode" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="RecoveryAmount" ColumnName="RecoveryAmount" />
+          <ScalarProperty Name="TotalCredit" ColumnName="TotalCredit" />
+          <ScalarProperty Name="C0" ColumnName="0" />
+          <ScalarProperty Name="C1_30" ColumnName="1-30" />
+          <ScalarProperty Name="C31_60" ColumnName="31-60" />
+          <ScalarProperty Name="C61_90" ColumnName="61-90" />
+          <ScalarProperty Name="C91_120" ColumnName="91-120" />
+          <ScalarProperty Name="C121_150" ColumnName="121-150" />
+          <ScalarProperty Name="C151_180" ColumnName="151-180" />
+          <ScalarProperty Name="C181_210" ColumnName="181-210" />
+          <ScalarProperty Name="C211_240" ColumnName="211-240" />
+          <ScalarProperty Name="C241_270" ColumnName="241-270" />
+          <ScalarProperty Name="C271_300" ColumnName="271-300" />
+          <ScalarProperty Name="C301_330" ColumnName="301-330" />
+          <ScalarProperty Name="C331_360" ColumnName="331-360" />
+          <ScalarProperty Name="MoreThan360" ColumnName="MoreThan360" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="DailyStockReceiveTerminals">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.DailyStockReceiveTerminal">
+        <MappingFragment StoreEntitySet="DailyStockReceiveTerminal">
+          <ScalarProperty Name="UpdTerm" ColumnName="UpdTerm" />
+          <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+          <ScalarProperty Name="DSRDate" ColumnName="DSRDate" />
+          <ScalarProperty Name="DSRNo" ColumnName="DSRNo" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="CompCode" ColumnName="CompCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SalesmanOpeningStockTerminals">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.SalesmanOpeningStockTerminal">
+        <MappingFragment StoreEntitySet="SalesmanOpeningStockTerminal">
+          <ScalarProperty Name="UpdTerm" ColumnName="UpdTerm" />
+          <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+          <ScalarProperty Name="VehicleNo" ColumnName="VehicleNo" />
+          <ScalarProperty Name="EmpCode" ColumnName="EmpCode" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="SOSDate" ColumnName="SOSDate" />
+          <ScalarProperty Name="SOSNo" ColumnName="SOSNo" />
+          <ScalarProperty Name="CompCode" ColumnName="CompCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetDinstinctDSRNoTerminal" FunctionName="AT_Tahur_SUITEModel.Store.GetDinstinctDSRNoTerminal">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.GetDinstinctDSRNoTerminal_Result">
+          <ScalarProperty Name="DSRNo" ColumnName="DSRNo" />
+          <ScalarProperty Name="DSRDate" ColumnName="DSRDate" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetDinstinctDSRNoTerminals" FunctionName="AT_Tahur_SUITEModel.Store.GetDinstinctDSRNoTerminals">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.GetDinstinctDSRNoTerminals_Result">
+          <ScalarProperty Name="DSRNo" ColumnName="DSRNo" />
+          <ScalarProperty Name="DSRDate" ColumnName="DSRDate" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetDinstinctSOSNoTerminal" FunctionName="AT_Tahur_SUITEModel.Store.GetDinstinctSOSNoTerminal">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.GetDinstinctSOSNoTerminal_Result">
+          <ScalarProperty Name="SOSNo" ColumnName="SOSNo" />
+          <ScalarProperty Name="SOSDate" ColumnName="SOSDate" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="EmpCode" ColumnName="EmpCode" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="DailyStockReceives">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.DailyStockReceive">
+        <MappingFragment StoreEntitySet="DailyStockReceive">
+          <ScalarProperty Name="UpdTerm" ColumnName="UpdTerm" />
+          <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="MainComment" ColumnName="MainComment" />
+          <ScalarProperty Name="ItemComment" ColumnName="ItemComment" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+          <ScalarProperty Name="DSRDate" ColumnName="DSRDate" />
+          <ScalarProperty Name="DSRNo" ColumnName="DSRNo" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="CompCode" ColumnName="CompCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SalesmanOpeningStocks">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.SalesmanOpeningStock">
+        <MappingFragment StoreEntitySet="SalesmanOpeningStock">
+          <ScalarProperty Name="UpdTerm" ColumnName="UpdTerm" />
+          <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="MainComment" ColumnName="MainComment" />
+          <ScalarProperty Name="ItemComment" ColumnName="ItemComment" />
+          <ScalarProperty Name="VehicleCode" ColumnName="VehicleCode" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+          <ScalarProperty Name="EmpCode" ColumnName="EmpCode" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="SOSDate" ColumnName="SOSDate" />
+          <ScalarProperty Name="SOSNo" ColumnName="SOSNo" />
+          <ScalarProperty Name="CompCode" ColumnName="CompCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DailyDemands">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.DailyDemand">
+        <MappingFragment StoreEntitySet="DailyDemand">
+          <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+          <ScalarProperty Name="UpdTerm" ColumnName="UpdTerm" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="DemandQty" ColumnName="DemandQty" />
+          <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="DDate" ColumnName="DDate" />
+          <ScalarProperty Name="DCode" ColumnName="DCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="Sp_GetDistinctDemandList" FunctionName="AT_Tahur_SUITEModel.Store.Sp_GetDistinctDemandList">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.Sp_GetDistinctDemandList_Result">
+          <ScalarProperty Name="DDate" ColumnName="DDate" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="SaleDemandRights">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.SaleDemandRight">
+        <MappingFragment StoreEntitySet="SaleDemandRights">
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PreRegionSetups">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.PreRegionSetup">
+        <MappingFragment StoreEntitySet="PreRegionSetup">
+          <ScalarProperty Name="UpdTerm" ColumnName="UpdTerm" />
+          <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="DelFlag" ColumnName="DelFlag" />
+          <ScalarProperty Name="UnRegRetailerRate" ColumnName="UnRegRetailerRate" />
+          <ScalarProperty Name="RegRetailerRate" ColumnName="RegRetailerRate" />
+          <ScalarProperty Name="UnRegCorporateRate" ColumnName="UnRegCorporateRate" />
+          <ScalarProperty Name="RegCorporateRate" ColumnName="RegCorporateRate" />
+          <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="NameAbbreviate" ColumnName="NameAbbreviate" />
+          <ScalarProperty Name="RegionDescription" ColumnName="RegionDescription" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="CompCode" ColumnName="CompCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetDistinctPreRegion" FunctionName="AT_Tahur_SUITEModel.Store.GetDistinctPreRegion">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.GetDistinctPreRegion_Result">
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="RegionDescription" ColumnName="RegionDescription" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="FindPreItemRate" FunctionName="AT_Tahur_SUITEModel.Store.FindPreItemRate">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.FindPreItemRate_Result">
+          <ScalarProperty Name="RegCorporateRate" ColumnName="RegCorporateRate" />
+          <ScalarProperty Name="UnRegCorporateRate" ColumnName="UnRegCorporateRate" />
+          <ScalarProperty Name="RegRetailerRate" ColumnName="RegRetailerRate" />
+          <ScalarProperty Name="UnRegRetailerRate" ColumnName="UnRegRetailerRate" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Sp_FAS_ChartOfAccounts_Banks" FunctionName="AT_Tahur_SUITEModel.Store.Sp_FAS_ChartOfAccounts_Banks">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.Sp_FAS_ChartOfAccounts_Banks_Result">
+          <ScalarProperty Name="ParentCode" ColumnName="ParentCode" />
+          <ScalarProperty Name="ChildCode" ColumnName="ChildCode" />
+          <ScalarProperty Name="ATypeCode" ColumnName="ATypeCode" />
+          <ScalarProperty Name="SATypeCode" ColumnName="SATypeCode" />
+          <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Sp_Get_FAS_ChartOfAccounts_Banks" FunctionName="AT_Tahur_SUITEModel.Store.Sp_Get_FAS_ChartOfAccounts_Banks">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.Sp_Get_FAS_ChartOfAccounts_Banks_Result">
+          <ScalarProperty Name="ChildCode" ColumnName="ChildCode" />
+          <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Sp_GetRegionPartiesFast" FunctionName="AT_Tahur_SUITEModel.Store.Sp_GetRegionPartiesFast">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.Sp_GetRegionPartiesFast_Result">
+          <ScalarProperty Name="PartyCode" ColumnName="PartyCode" />
+          <ScalarProperty Name="PartyName" ColumnName="PartyName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetDistinctRecovery" FunctionName="AT_Tahur_SUITEModel.Store.GetDistinctRecovery">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.GetDistinctRecovery_Result">
+          <ScalarProperty Name="RecoveryNo" ColumnName="RecoveryNo" />
+          <ScalarProperty Name="RecoveryDate" ColumnName="RecoveryDate" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="PartyCode" ColumnName="PartyCode" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Sp_GetPDCData" FunctionName="AT_Tahur_SUITEModel.Store.Sp_GetPDCData">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.Sp_GetPDCData_Result">
+          <ScalarProperty Name="CheqNo" ColumnName="CheqNo" />
+          <ScalarProperty Name="CheqDate" ColumnName="CheqDate" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="PartyCode" ColumnName="PartyCode" />
+          <ScalarProperty Name="RecAmount" ColumnName="RecAmount" />
+          <ScalarProperty Name="RecWHT" ColumnName="RecWHT" />
+          <ScalarProperty Name="RecDiscount" ColumnName="RecDiscount" />
+          <ScalarProperty Name="Count" ColumnName="Count" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="HR_DepartmentInfo">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.HR_DepartmentInfo">
+        <MappingFragment StoreEntitySet="HR_DepartmentInfo">
+          <ScalarProperty Name="DepShortName" ColumnName="DepShortName" />
+          <ScalarProperty Name="DepDescription" ColumnName="DepDescription" />
+          <ScalarProperty Name="DepCode" ColumnName="DepCode" />
+          <ScalarProperty Name="SiteCode" ColumnName="SiteCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HR_SiteInfo">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.HR_SiteInfo">
+        <MappingFragment StoreEntitySet="HR_SiteInfo">
+          <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+          <ScalarProperty Name="SiteCode" ColumnName="SiteCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="InvoiceTableSrNoes">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.InvoiceTableSrNo">
+        <MappingFragment StoreEntitySet="InvoiceTableSrNo">
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+          <ScalarProperty Name="ManInvoiceNo" ColumnName="ManInvoiceNo" />
+          <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
+          <ScalarProperty Name="SrNo" ColumnName="SrNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Recoveries">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.Recovery">
+        <MappingFragment StoreEntitySet="Recovery">
+          <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+          <ScalarProperty Name="UpdTerm" ColumnName="UpdTerm" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="PostFlag" ColumnName="PostFlag" />
+          <ScalarProperty Name="DelFlag" ColumnName="DelFlag" />
+          <ScalarProperty Name="RecDiscount" ColumnName="RecDiscount" />
+          <ScalarProperty Name="RecWHT" ColumnName="RecWHT" />
+          <ScalarProperty Name="RecAmount" ColumnName="RecAmount" />
+          <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+          <ScalarProperty Name="EmpCode" ColumnName="EmpCode" />
+          <ScalarProperty Name="PartyCode" ColumnName="PartyCode" />
+          <ScalarProperty Name="MainPartyCode" ColumnName="MainPartyCode" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="VoucherNo" ColumnName="VoucherNo" />
+          <ScalarProperty Name="ClearanceDate" ColumnName="ClearanceDate" />
+          <ScalarProperty Name="ClearOrBounce" ColumnName="ClearOrBounce" />
+          <ScalarProperty Name="AccountCode" ColumnName="AccountCode" />
+          <ScalarProperty Name="CheqNo" ColumnName="CheqNo" />
+          <ScalarProperty Name="CheqDate" ColumnName="CheqDate" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="RepInvoiceNo" ColumnName="RepInvoiceNo" />
+          <ScalarProperty Name="ManInvoiceNo" ColumnName="ManInvoiceNo" />
+          <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
+          <ScalarProperty Name="RecoveryDate" ColumnName="RecoveryDate" />
+          <ScalarProperty Name="RecoveryNo" ColumnName="RecoveryNo" />
+          <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="Sp_GetPendingPDCData" FunctionName="AT_Tahur_SUITEModel.Store.Sp_GetPendingPDCData">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.Sp_GetPendingPDCData_Result">
+          <ScalarProperty Name="CheqNo" ColumnName="CheqNo" />
+          <ScalarProperty Name="CheqDate" ColumnName="CheqDate" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="PartyCode" ColumnName="PartyCode" />
+          <ScalarProperty Name="RecAmount" ColumnName="RecAmount" />
+          <ScalarProperty Name="RecWHT" ColumnName="RecWHT" />
+          <ScalarProperty Name="RecDiscount" ColumnName="RecDiscount" />
+          <ScalarProperty Name="Count" ColumnName="Count" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="HR_DesignationInfo">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.HR_DesignationInfo">
+        <MappingFragment StoreEntitySet="HR_DesignationInfo">
+          <ScalarProperty Name="DesShortName" ColumnName="DesShortName" />
+          <ScalarProperty Name="DesDescription" ColumnName="DesDescription" />
+          <ScalarProperty Name="DesCode" ColumnName="DesCode" />
+          <ScalarProperty Name="SubDepCode" ColumnName="SubDepCode" />
+          <ScalarProperty Name="DepCode" ColumnName="DepCode" />
+          <ScalarProperty Name="SiteCode" ColumnName="SiteCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HR_EmployeeInfo">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.HR_EmployeeInfo">
+        <MappingFragment StoreEntitySet="HR_EmployeeInfo">
+          <ScalarProperty Name="DelFlag" ColumnName="DelFlag" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="UpdBy" ColumnName="UpdBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="ProfilePicture" ColumnName="ProfilePicture" />
+          <ScalarProperty Name="Qualification" ColumnName="Qualification" />
+          <ScalarProperty Name="InactiveDescription" ColumnName="InactiveDescription" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
+          <ScalarProperty Name="PlaceOfJoining" ColumnName="PlaceOfJoining" />
+          <ScalarProperty Name="DOR" ColumnName="DOR" />
+          <ScalarProperty Name="DOJ" ColumnName="DOJ" />
+          <ScalarProperty Name="DOB" ColumnName="DOB" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+          <ScalarProperty Name="CNIC" ColumnName="CNIC" />
+          <ScalarProperty Name="EmpFatherName" ColumnName="EmpFatherName" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="EmpRefNo" ColumnName="EmpRefNo" />
+          <ScalarProperty Name="EmpCode" ColumnName="EmpCode" />
+          <ScalarProperty Name="DesCode" ColumnName="DesCode" />
+          <ScalarProperty Name="SubDepCode" ColumnName="SubDepCode" />
+          <ScalarProperty Name="DepCode" ColumnName="DepCode" />
+          <ScalarProperty Name="SiteCode" ColumnName="SiteCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HR_SubDepartmentInfo">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.HR_SubDepartmentInfo">
+        <MappingFragment StoreEntitySet="HR_SubDepartmentInfo">
+          <ScalarProperty Name="SubDepShortName" ColumnName="SubDepShortName" />
+          <ScalarProperty Name="SubDepDescription" ColumnName="SubDepDescription" />
+          <ScalarProperty Name="SubDepCode" ColumnName="SubDepCode" />
+          <ScalarProperty Name="DepCode" ColumnName="DepCode" />
+          <ScalarProperty Name="SiteCode" ColumnName="SiteCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ShortCashOpenings">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.ShortCashOpening">
+        <MappingFragment StoreEntitySet="ShortCashOpening">
+          <ScalarProperty Name="Opening" ColumnName="Opening" />
+          <ScalarProperty Name="EmpCode" ColumnName="EmpCode" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ShortCashRecoveries">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.ShortCashRecovery">
+        <MappingFragment StoreEntitySet="ShortCashRecovery">
+          <ScalarProperty Name="UpdBy" ColumnName="UpdBy" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="CreateBy" ColumnName="CreateBy" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="RecoveryAmount" ColumnName="RecoveryAmount" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="EmpCode" ColumnName="EmpCode" />
+          <ScalarProperty Name="PartyCode" ColumnName="PartyCode" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="CheqDate" ColumnName="CheqDate" />
+          <ScalarProperty Name="CheqNo" ColumnName="CheqNo" />
+          <ScalarProperty Name="RecDate" ColumnName="RecDate" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ActivePartiesSalesmen">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.ActivePartiesSalesman">
+        <MappingFragment StoreEntitySet="ActivePartiesSalesman">
+          <ScalarProperty Name="EmpCode" ColumnName="EmpCode" />
+          <ScalarProperty Name="MainPartyCode" ColumnName="MainPartyCode" />
+          <ScalarProperty Name="PartyCode" ColumnName="PartyCode" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="Sp_GetDistinctActiveParties" FunctionName="AT_Tahur_SUITEModel.Store.Sp_GetDistinctActiveParties">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.Sp_GetDistinctActiveParties_Result">
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="PartyCode" ColumnName="PartyCode" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="Sp_GetInActiveParteisSalesman" FunctionName="AT_Tahur_SUITEModel.Store.Sp_GetInActiveParteisSalesman">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AT_Tahur_SUITEModel.Sp_GetInActiveParteisSalesman_Result">
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="PartyCode" ColumnName="PartyCode" />
+          <ScalarProperty Name="PartyName" ColumnName="PartyName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="SaleParties">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.SaleParty">
+        <MappingFragment StoreEntitySet="SaleParties">
+          <ScalarProperty Name="UpdTerm" ColumnName="UpdTerm" />
+          <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="Taxable" ColumnName="Taxable" />
+          <ScalarProperty Name="DelFlag" ColumnName="DelFlag" />
+          <ScalarProperty Name="ThirdSch_Category" ColumnName="ThirdSch_Category" />
+          <ScalarProperty Name="STaxReg" ColumnName="STaxReg" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="MainPartyCode" ColumnName="MainPartyCode" />
+          <ScalarProperty Name="ContactNumber" ColumnName="ContactNumber" />
+          <ScalarProperty Name="Opening" ColumnName="Opening" />
+          <ScalarProperty Name="SalesTaxNumber" ColumnName="SalesTaxNumber" />
+          <ScalarProperty Name="NTN" ColumnName="NTN" />
+          <ScalarProperty Name="PartyType" ColumnName="PartyType" />
+          <ScalarProperty Name="CNIC" ColumnName="CNIC" />
+          <ScalarProperty Name="PartyAddress" ColumnName="PartyAddress" />
+          <ScalarProperty Name="PartyRegisterName" ColumnName="PartyRegisterName" />
+          <ScalarProperty Name="PartyName" ColumnName="PartyName" />
+          <ScalarProperty Name="PartyCode" ColumnName="PartyCode" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="CompCode" ColumnName="CompCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SaleInvoiceDetails">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.SaleInvoiceDetail">
+        <MappingFragment StoreEntitySet="SaleInvoiceDetail">
+          <ScalarProperty Name="FEDTaxPer" ColumnName="FEDTaxPer" />
+          <ScalarProperty Name="FEDTaxAmt" ColumnName="FEDTaxAmt" />
+          <ScalarProperty Name="IncomeTaxPer" ColumnName="IncomeTaxPer" />
+          <ScalarProperty Name="IncomeTaxAmt" ColumnName="IncomeTaxAmt" />
+          <ScalarProperty Name="ConsumerRate" ColumnName="ConsumerRate" />
+          <ScalarProperty Name="SaleTaxAmt" ColumnName="SaleTaxAmt" />
+          <ScalarProperty Name="SaleTaxPer" ColumnName="SaleTaxPer" />
+          <ScalarProperty Name="ExcTaxAmt" ColumnName="ExcTaxAmt" />
+          <ScalarProperty Name="IncTaxAmt" ColumnName="IncTaxAmt" />
+          <ScalarProperty Name="FurtherTaxAmt" ColumnName="FurtherTaxAmt" />
+          <ScalarProperty Name="FurtherTaxPer" ColumnName="FurtherTaxPer" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="DiscAmt" ColumnName="DiscAmt" />
+          <ScalarProperty Name="DiscPer" ColumnName="DiscPer" />
+          <ScalarProperty Name="WHT" ColumnName="WHT" />
+          <ScalarProperty Name="Retrn" ColumnName="Retrn" />
+          <ScalarProperty Name="Scheme" ColumnName="Scheme" />
+          <ScalarProperty Name="Sampling" ColumnName="Sampling" />
+          <ScalarProperty Name="FOC" ColumnName="FOC" />
+          <ScalarProperty Name="Replace" ColumnName="Replace" />
+          <ScalarProperty Name="Damage" ColumnName="Damage" />
+          <ScalarProperty Name="Rate" ColumnName="Rate" />
+          <ScalarProperty Name="SaleQty" ColumnName="SaleQty" />
+          <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+          <ScalarProperty Name="TransType" ColumnName="TransType" />
+          <ScalarProperty Name="MainPartyCode" ColumnName="MainPartyCode" />
+          <ScalarProperty Name="PartyCode" ColumnName="PartyCode" />
+          <ScalarProperty Name="RepInvoiceNo" ColumnName="RepInvoiceNo" />
+          <ScalarProperty Name="ManInvoiceNo" ColumnName="ManInvoiceNo" />
+          <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+          <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
+          <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SaleInvoiceMasters">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.SaleInvoiceMaster">
+        <MappingFragment StoreEntitySet="SaleInvoiceMaster">
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+          <ScalarProperty Name="ExcTaxAmt" ColumnName="ExcTaxAmt" />
+          <ScalarProperty Name="IncTaxAmt" ColumnName="IncTaxAmt" />
+          <ScalarProperty Name="UpdTerm" ColumnName="UpdTerm" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+          <ScalarProperty Name="TransType" ColumnName="TransType" />
+          <ScalarProperty Name="PostFlag" ColumnName="PostFlag" />
+          <ScalarProperty Name="DelFlag" ColumnName="DelFlag" />
+          <ScalarProperty Name="CashReceived" ColumnName="CashReceived" />
+          <ScalarProperty Name="NetTotal" ColumnName="NetTotal" />
+          <ScalarProperty Name="IncomeTaxAmt" ColumnName="IncomeTaxAmt" />
+          <ScalarProperty Name="FurtherTaxAmt" ColumnName="FurtherTaxAmt" />
+          <ScalarProperty Name="SaleTaxAmt" ColumnName="SaleTaxAmt" />
+          <ScalarProperty Name="TotalAmt" ColumnName="TotalAmt" />
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
+          <ScalarProperty Name="PartyStatus" ColumnName="PartyStatus" />
+          <ScalarProperty Name="ExemptTax" ColumnName="ExemptTax" />
+          <ScalarProperty Name="EmpCode" ColumnName="EmpCode" />
+          <ScalarProperty Name="MainPartyCode" ColumnName="MainPartyCode" />
+          <ScalarProperty Name="PartyCode" ColumnName="PartyCode" />
+          <ScalarProperty Name="RegionCode" ColumnName="RegionCode" />
+          <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+          <ScalarProperty Name="VoucherNo" ColumnName="VoucherNo" />
+          <ScalarProperty Name="RepInvoiceNo" ColumnName="RepInvoiceNo" />
+          <ScalarProperty Name="ManInvoiceNo" ColumnName="ManInvoiceNo" />
+          <ScalarProperty Name="InvoiceNo" ColumnName="InvoiceNo" />
+          <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SaleItems">
+      <EntityTypeMapping TypeName="AT_Tahur_SUITEModel.SaleItem">
+        <MappingFragment StoreEntitySet="SaleItem">
+          <ScalarProperty Name="ProductionOpening" ColumnName="ProductionOpening" />
+          <ScalarProperty Name="PackSize" ColumnName="PackSize" />
+          <ScalarProperty Name="ActiveFlag" ColumnName="ActiveFlag" />
+          <ScalarProperty Name="WeightType" ColumnName="WeightType" />
+          <ScalarProperty Name="stdWeight" ColumnName="stdWeight" />
+          <ScalarProperty Name="ItemPic" ColumnName="ItemPic" />
+          <ScalarProperty Name="UpdTerm" ColumnName="UpdTerm" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="UpdUser" ColumnName="UpdUser" />
+          <ScalarProperty Name="FEDTaxPer" ColumnName="FEDTaxPer" />
+          <ScalarProperty Name="RetTaxPer_InAct" ColumnName="RetTaxPer_InAct" />
+          <ScalarProperty Name="RetTaxPer_Act" ColumnName="RetTaxPer_Act" />
+          <ScalarProperty Name="DistTaxPer_InAct" ColumnName="DistTaxPer_InAct" />
+          <ScalarProperty Name="DistTaxPer_Act" ColumnName="DistTaxPer_Act" />
+          <ScalarProperty Name="Consumer_Rate" ColumnName="Consumer_Rate" />
+          <ScalarProperty Name="SaleFurtherTaxPer" ColumnName="SaleFurtherTaxPer" />
+          <ScalarProperty Name="SaleGSTPer" ColumnName="SaleGSTPer" />
+          <ScalarProperty Name="SaleRateUnReg" ColumnName="SaleRateUnReg" />
+          <ScalarProperty Name="SaleRateReg" ColumnName="SaleRateReg" />
+          <ScalarProperty Name="SubCategory" ColumnName="SubCategory" />
+          <ScalarProperty Name="Category" ColumnName="Category" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="ItemDesc" ColumnName="ItemDesc" />
+          <ScalarProperty Name="ItemCode" ColumnName="ItemCode" />
+          <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

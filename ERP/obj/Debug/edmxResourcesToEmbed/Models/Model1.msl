@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="FAS_BlazorModelStoreContainer" CdmEntityContainer="FAS_BlazorEntities">
+    <EntitySetMapping Name="AccountTypes">
+      <EntityTypeMapping TypeName="FAS_BlazorModel.AccountType">
+        <MappingFragment StoreEntitySet="AccountTypes">
+          <ScalarProperty Name="ATypeCode" ColumnName="ATypeCode" />
+          <ScalarProperty Name="ATypeName" ColumnName="ATypeName" />
+          <ScalarProperty Name="ATypeDetail" ColumnName="ATypeDetail" />
+          <ScalarProperty Name="ActiveFlag" ColumnName="ActiveFlag" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="UpdBy" ColumnName="UpdBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="chartOfAccounts">
+      <EntityTypeMapping TypeName="FAS_BlazorModel.chartOfAccount">
+        <MappingFragment StoreEntitySet="chartOfAccounts">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ParentCode" ColumnName="ParentCode" />
+          <ScalarProperty Name="ChildCode" ColumnName="ChildCode" />
+          <ScalarProperty Name="IsChild" ColumnName="IsChild" />
+          <ScalarProperty Name="AccountName" ColumnName="AccountName" />
+          <ScalarProperty Name="AccountDescription" ColumnName="AccountDescription" />
+          <ScalarProperty Name="OpeningBalance" ColumnName="OpeningBalance" />
+          <ScalarProperty Name="ATypeCode" ColumnName="ATypeCode" />
+          <ScalarProperty Name="SATypeCode" ColumnName="SATypeCode" />
+          <ScalarProperty Name="ActiveFlag" ColumnName="ActiveFlag" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="UpdBy" ColumnName="UpdBy" />
+          <ScalarProperty Name="AllParentCode" ColumnName="AllParentCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SubAccountTypes">
+      <EntityTypeMapping TypeName="FAS_BlazorModel.SubAccountType">
+        <MappingFragment StoreEntitySet="SubAccountTypes">
+          <ScalarProperty Name="SATypeCode" ColumnName="SATypeCode" />
+          <ScalarProperty Name="SATypeName" ColumnName="SATypeName" />
+          <ScalarProperty Name="SATypeDetail" ColumnName="SATypeDetail" />
+          <ScalarProperty Name="ActiveFlag" ColumnName="ActiveFlag" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="UpdBy" ColumnName="UpdBy" />
+          <ScalarProperty Name="ATypeCode" ColumnName="ATypeCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BRV_Details">
+      <EntityTypeMapping TypeName="FAS_BlazorModel.BRV_Details">
+        <MappingFragment StoreEntitySet="BRV_Details">
+          <ScalarProperty Name="Debit" ColumnName="Debit" />
+          <ScalarProperty Name="Credit" ColumnName="Credit" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Voucher_Ref_No" ColumnName="Voucher_Ref_No" />
+          <ScalarProperty Name="BRV_No" ColumnName="BRV_No" />
+          <ScalarProperty Name="Detail_Acc_ChildCode" ColumnName="Detail_Acc_ChildCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="BRV_Masters">
+      <EntityTypeMapping TypeName="FAS_BlazorModel.BRV_Masters">
+        <MappingFragment StoreEntitySet="BRV_Masters">
+          <ScalarProperty Name="BRV_TotalDebit" ColumnName="BRV_TotalDebit" />
+          <ScalarProperty Name="BRV_TotalCredit" ColumnName="BRV_TotalCredit" />
+          <ScalarProperty Name="UpdBy" ColumnName="UpdBy" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="MainDescription" ColumnName="MainDescription" />
+          <ScalarProperty Name="BRV_Date" ColumnName="BRV_Date" />
+          <ScalarProperty Name="Voucher_Ref_No" ColumnName="Voucher_Ref_No" />
+          <ScalarProperty Name="BRV_No" ColumnName="BRV_No" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CRV_Details">
+      <EntityTypeMapping TypeName="FAS_BlazorModel.CRV_Details">
+        <MappingFragment StoreEntitySet="CRV_Details">
+          <ScalarProperty Name="Credit" ColumnName="Credit" />
+          <ScalarProperty Name="Debit" ColumnName="Debit" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Voucher_Ref_No" ColumnName="Voucher_Ref_No" />
+          <ScalarProperty Name="CRV_No" ColumnName="CRV_No" />
+          <ScalarProperty Name="Detail_Acc_ChildCode" ColumnName="Detail_Acc_ChildCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CRV_Masters">
+      <EntityTypeMapping TypeName="FAS_BlazorModel.CRV_Masters">
+        <MappingFragment StoreEntitySet="CRV_Masters">
+          <ScalarProperty Name="UpdBy" ColumnName="UpdBy" />
+          <ScalarProperty Name="UpdDate" ColumnName="UpdDate" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CRV_TotalCredit" ColumnName="CRV_TotalCredit" />
+          <ScalarProperty Name="CRV_TotalDebit" ColumnName="CRV_TotalDebit" />
+          <ScalarProperty Name="MainDescription" ColumnName="MainDescription" />
+          <ScalarProperty Name="CRV_Date" ColumnName="CRV_Date" />
+          <ScalarProperty Name="Voucher_Ref_No" ColumnName="Voucher_Ref_No" />
+          <ScalarProperty Name="CRV_No" ColumnName="CRV_No" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

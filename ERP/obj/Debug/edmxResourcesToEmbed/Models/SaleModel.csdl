@@ -1,0 +1,1191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AT_Tahur_SUITEModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="AT_Tahur_SUITEEntities" annotation:LazyLoadingEnabled="true">
+    <FunctionImport Name="GetDinstinctParty" ReturnType="Collection(String)">
+      <Parameter Name="CompanyCode" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="PartyDiscounts" EntityType="AT_Tahur_SUITEModel.PartyDiscount" />
+    <FunctionImport Name="GetDinstinctPartyDiscount" ReturnType="Collection(AT_Tahur_SUITEModel.GetDinstinctPartyDiscount_Result)">
+      <Parameter Name="CompanyCode" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetDinstinctDSRNo" ReturnType="Collection(AT_Tahur_SUITEModel.GetDinstinctDSRNo_Result)">
+      <Parameter Name="CompanyCode" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetDinstinctSOSNo" ReturnType="Collection(AT_Tahur_SUITEModel.GetDinstinctSOSNo_Result)">
+      <Parameter Name="CompanyCode" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="CountPartyDis" ReturnType="Collection(AT_Tahur_SUITEModel.CountPartyDis_Result)">
+      <Parameter Name="CompanyCode" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetDistinctRegion" ReturnType="Collection(AT_Tahur_SUITEModel.GetDistinctRegion_Result)" />
+    <FunctionImport Name="ButterAllQty" ReturnType="Collection(AT_Tahur_SUITEModel.ButterAllQty_Result)">
+      <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+      <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="MilkAllQty" ReturnType="Collection(AT_Tahur_SUITEModel.MilkAllQty_Result)">
+      <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+      <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="RaitaAllQty" ReturnType="Collection(AT_Tahur_SUITEModel.RaitaAllQty_Result)">
+      <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+      <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="YougartAllQty" ReturnType="Collection(AT_Tahur_SUITEModel.YougartAllQty_Result)">
+      <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+      <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="SaleTaxRegisterFBR" ReturnType="Collection(AT_Tahur_SUITEModel.SaleTaxRegisterFBR_Result)">
+      <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+      <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <EntitySet Name="Farms" EntityType="AT_Tahur_SUITEModel.Farm" />
+    <EntitySet Name="DailyIntakes" EntityType="AT_Tahur_SUITEModel.DailyIntake" />
+    <EntitySet Name="DailyProductions" EntityType="AT_Tahur_SUITEModel.DailyProduction" />
+    <FunctionImport Name="DistinctDPCode" ReturnType="Collection(String)" />
+    <FunctionImport Name="GetSalePartiesFast" ReturnType="Collection(AT_Tahur_SUITEModel.GetSalePartiesFast_Result)" />
+    <FunctionImport Name="CountAllParties" ReturnType="Collection(Int32)" />
+    <FunctionImport Name="FindItemTax" ReturnType="Collection(AT_Tahur_SUITEModel.FindItemTax_Result)">
+      <Parameter Name="ItemCode" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="FindItemRate" ReturnType="Collection(AT_Tahur_SUITEModel.FindItemRate_Result)">
+      <Parameter Name="RegionCode" Mode="In" Type="String" />
+      <Parameter Name="ItemCode" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="Vehicles" EntityType="AT_Tahur_SUITEModel.Vehicle" />
+    <EntitySet Name="DailyDispatches" EntityType="AT_Tahur_SUITEModel.DailyDispatch" />
+    <FunctionImport Name="GetDistinctDispatchList" ReturnType="Collection(String)" />
+    <FunctionImport Name="GetDistinctShortCash" ReturnType="Collection(String)" />
+    <EntitySet Name="CompanyEmps" EntityType="AT_Tahur_SUITEModel.CompanyEmp" />
+    <EntitySet Name="CompanySetups" EntityType="AT_Tahur_SUITEModel.CompanySetup" />
+    <EntitySet Name="Discounts" EntityType="AT_Tahur_SUITEModel.Discount" />
+    <EntitySet Name="RegionSetups" EntityType="AT_Tahur_SUITEModel.RegionSetup" />
+    <FunctionImport Name="GetDEOPerfomance" ReturnType="Collection(AT_Tahur_SUITEModel.GetDEOPerfomance_Result)">
+      <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+      <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="GetDEOPerfomance1" ReturnType="Collection(AT_Tahur_SUITEModel.GetDEOPerfomance1_Result)">
+      <Parameter Name="fromDate" Mode="In" Type="DateTime" />
+      <Parameter Name="toDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="AgingReport" ReturnType="Collection(AT_Tahur_SUITEModel.AgingReport_Result)">
+      <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="Sp_LastSaleParties" ReturnType="Collection(AT_Tahur_SUITEModel.Sp_LastSaleParties_Result)" />
+    <FunctionImport Name="SP_Insert_SaleInvoiceDetail">
+      <Parameter Name="InvoiceNo" Mode="In" Type="String" />
+      <Parameter Name="InvoiceDate" Mode="In" Type="DateTime" />
+      <Parameter Name="ManInvoiceNo" Mode="In" Type="String" />
+      <Parameter Name="RepInvoiceNo" Mode="In" Type="String" />
+      <Parameter Name="PartyCode" Mode="In" Type="String" />
+      <Parameter Name="MainPartyCode" Mode="In" Type="String" />
+      <Parameter Name="TransType" Mode="In" Type="String" />
+      <Parameter Name="ItemCode" Mode="In" Type="String" />
+      <Parameter Name="SaleQty" Mode="In" Type="Double" />
+      <Parameter Name="Rate" Mode="In" Type="Double" />
+      <Parameter Name="Damage" Mode="In" Type="Double" />
+      <Parameter Name="Replace" Mode="In" Type="Double" />
+      <Parameter Name="FOC" Mode="In" Type="Double" />
+      <Parameter Name="Sampling" Mode="In" Type="Double" />
+      <Parameter Name="Scheme" Mode="In" Type="Double" />
+      <Parameter Name="Retrn" Mode="In" Type="Double" />
+      <Parameter Name="WHT" Mode="In" Type="Double" />
+      <Parameter Name="DiscPer" Mode="In" Type="Double" />
+      <Parameter Name="DiscAmt" Mode="In" Type="Double" />
+      <Parameter Name="Amount" Mode="In" Type="Double" />
+      <Parameter Name="FurtherTaxPer" Mode="In" Type="Double" />
+      <Parameter Name="FurtherTaxAmt" Mode="In" Type="Double" />
+      <Parameter Name="IncTaxAmt" Mode="In" Type="Double" />
+      <Parameter Name="ExcTaxAmt" Mode="In" Type="Double" />
+      <Parameter Name="SaleTaxPer" Mode="In" Type="Double" />
+      <Parameter Name="SaleTaxAmt" Mode="In" Type="Double" />
+    </FunctionImport>
+    <FunctionImport Name="SP_Insert_SaleInvoiceMaster">
+      <Parameter Name="CompanyCode" Mode="In" Type="String" />
+      <Parameter Name="InvoiceNo" Mode="In" Type="String" />
+      <Parameter Name="ManInvoiceNo" Mode="In" Type="String" />
+      <Parameter Name="RepInvoiceNo" Mode="In" Type="String" />
+      <Parameter Name="InvoiceDate" Mode="In" Type="DateTime" />
+      <Parameter Name="RegionCode" Mode="In" Type="String" />
+      <Parameter Name="PartyCode" Mode="In" Type="String" />
+      <Parameter Name="MainPartyCode" Mode="In" Type="String" />
+      <Parameter Name="EmpCode" Mode="In" Type="String" />
+      <Parameter Name="ExemptTax" Mode="In" Type="String" />
+      <Parameter Name="PartyStatus" Mode="In" Type="String" />
+      <Parameter Name="Discount" Mode="In" Type="Double" />
+      <Parameter Name="TotalAmt" Mode="In" Type="Double" />
+      <Parameter Name="SaleTaxAmt" Mode="In" Type="Double" />
+      <Parameter Name="FurtherTaxAmt" Mode="In" Type="Double" />
+      <Parameter Name="NetTotal" Mode="In" Type="Double" />
+      <Parameter Name="DelFlag" Mode="In" Type="String" />
+      <Parameter Name="PostFlag" Mode="In" Type="String" />
+      <Parameter Name="TransType" Mode="In" Type="String" />
+      <Parameter Name="UpdUser" Mode="In" Type="String" />
+      <Parameter Name="UpdDate" Mode="In" Type="DateTime" />
+      <Parameter Name="UpdTerm" Mode="In" Type="String" />
+      <Parameter Name="IncTaxAmt" Mode="In" Type="Double" />
+      <Parameter Name="ExcTaxAmt" Mode="In" Type="Double" />
+    </FunctionImport>
+    <EntitySet Name="ShortCashes" EntityType="AT_Tahur_SUITEModel.ShortCash" />
+    <FunctionImport Name="Sp_PartyAnalysis" ReturnType="Collection(AT_Tahur_SUITEModel.Sp_PartyAnalysis_Result)" />
+    <FunctionImport Name="SP_MergeSaleDetail">
+      <Parameter Name="RegionCode" Mode="In" Type="String" />
+      <Parameter Name="PartyCode" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="Sp_GetMissingCalculationInvoices" ReturnType="Collection(AT_Tahur_SUITEModel.Sp_GetMissingCalculationInvoices_Result)" />
+    <FunctionImport Name="SP_NewAgingReport" ReturnType="Collection(AT_Tahur_SUITEModel.SP_NewAgingReport_Result)">
+      <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <EntitySet Name="DailyStockReceiveTerminals" EntityType="AT_Tahur_SUITEModel.DailyStockReceiveTerminal" />
+    <EntitySet Name="SalesmanOpeningStockTerminals" EntityType="AT_Tahur_SUITEModel.SalesmanOpeningStockTerminal" />
+    <FunctionImport Name="GetDinstinctDSRNoTerminal" ReturnType="Collection(AT_Tahur_SUITEModel.GetDinstinctDSRNoTerminal_Result)">
+      <Parameter Name="CompanyCode" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetDinstinctDSRNoTerminals" ReturnType="Collection(AT_Tahur_SUITEModel.GetDinstinctDSRNoTerminals_Result)">
+      <Parameter Name="CompanyCode" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetDinstinctSOSNoTerminal" ReturnType="Collection(AT_Tahur_SUITEModel.GetDinstinctSOSNoTerminal_Result)">
+      <Parameter Name="CompanyCode" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="DailyStockReceives" EntityType="AT_Tahur_SUITEModel.DailyStockReceive" />
+    <EntitySet Name="SalesmanOpeningStocks" EntityType="AT_Tahur_SUITEModel.SalesmanOpeningStock" />
+    <EntitySet Name="DailyDemands" EntityType="AT_Tahur_SUITEModel.DailyDemand" />
+    <FunctionImport Name="Sp_GetDistinctDemandList" ReturnType="Collection(AT_Tahur_SUITEModel.Sp_GetDistinctDemandList_Result)" />
+    <EntitySet Name="SaleDemandRights" EntityType="AT_Tahur_SUITEModel.SaleDemandRight" />
+    <EntitySet Name="PreRegionSetups" EntityType="AT_Tahur_SUITEModel.PreRegionSetup" />
+    <FunctionImport Name="GetDistinctPreRegion" ReturnType="Collection(AT_Tahur_SUITEModel.GetDistinctPreRegion_Result)" />
+    <FunctionImport Name="FindPreItemRate" ReturnType="Collection(AT_Tahur_SUITEModel.FindPreItemRate_Result)">
+      <Parameter Name="RegionCode" Mode="In" Type="String" />
+      <Parameter Name="ItemCode" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="Sp_FAS_ChartOfAccounts_Banks" ReturnType="Collection(AT_Tahur_SUITEModel.Sp_FAS_ChartOfAccounts_Banks_Result)" />
+    <FunctionImport Name="Sp_Get_FAS_ChartOfAccounts_Banks" ReturnType="Collection(AT_Tahur_SUITEModel.Sp_Get_FAS_ChartOfAccounts_Banks_Result)">
+      <Parameter Name="ChildCode" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Sp_GetRegionPartiesFast" ReturnType="Collection(AT_Tahur_SUITEModel.Sp_GetRegionPartiesFast_Result)">
+      <Parameter Name="RegionCode" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="GetDistinctRecovery" ReturnType="Collection(AT_Tahur_SUITEModel.GetDistinctRecovery_Result)">
+      <Parameter Name="CompanyCode" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="Sp_GetPDCData" ReturnType="Collection(AT_Tahur_SUITEModel.Sp_GetPDCData_Result)">
+      <Parameter Name="RegionCode" Mode="In" Type="String" />
+      <Parameter Name="CheqDate" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <EntitySet Name="HR_DepartmentInfo" EntityType="AT_Tahur_SUITEModel.HR_DepartmentInfo" />
+    <EntitySet Name="HR_SiteInfo" EntityType="AT_Tahur_SUITEModel.HR_SiteInfo" />
+    <AssociationSet Name="FK_HR_DepartmentInfo_HR_SiteInfo" Association="AT_Tahur_SUITEModel.FK_HR_DepartmentInfo_HR_SiteInfo">
+      <End Role="HR_SiteInfo" EntitySet="HR_SiteInfo" />
+      <End Role="HR_DepartmentInfo" EntitySet="HR_DepartmentInfo" />
+    </AssociationSet>
+    <EntitySet Name="InvoiceTableSrNoes" EntityType="AT_Tahur_SUITEModel.InvoiceTableSrNo" />
+    <EntitySet Name="Recoveries" EntityType="AT_Tahur_SUITEModel.Recovery" />
+    <FunctionImport Name="Sp_GetPendingPDCData" ReturnType="Collection(AT_Tahur_SUITEModel.Sp_GetPendingPDCData_Result)" />
+    <EntitySet Name="HR_DesignationInfo" EntityType="AT_Tahur_SUITEModel.HR_DesignationInfo" />
+    <EntitySet Name="HR_EmployeeInfo" EntityType="AT_Tahur_SUITEModel.HR_EmployeeInfo" />
+    <EntitySet Name="HR_SubDepartmentInfo" EntityType="AT_Tahur_SUITEModel.HR_SubDepartmentInfo" />
+    <AssociationSet Name="FK_HR_SubDepartmentInfo_HR_DepartmentInfo" Association="AT_Tahur_SUITEModel.FK_HR_SubDepartmentInfo_HR_DepartmentInfo">
+      <End Role="HR_DepartmentInfo" EntitySet="HR_DepartmentInfo" />
+      <End Role="HR_SubDepartmentInfo" EntitySet="HR_SubDepartmentInfo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HR_DesignationInfo_HR_SubDepartmentInfo" Association="AT_Tahur_SUITEModel.FK_HR_DesignationInfo_HR_SubDepartmentInfo">
+      <End Role="HR_SubDepartmentInfo" EntitySet="HR_SubDepartmentInfo" />
+      <End Role="HR_DesignationInfo" EntitySet="HR_DesignationInfo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HR_EmployeeInfo_HR_DesignationInfo" Association="AT_Tahur_SUITEModel.FK_HR_EmployeeInfo_HR_DesignationInfo">
+      <End Role="HR_DesignationInfo" EntitySet="HR_DesignationInfo" />
+      <End Role="HR_EmployeeInfo" EntitySet="HR_EmployeeInfo" />
+    </AssociationSet>
+    <EntitySet Name="ShortCashOpenings" EntityType="AT_Tahur_SUITEModel.ShortCashOpening" />
+    <EntitySet Name="ShortCashRecoveries" EntityType="AT_Tahur_SUITEModel.ShortCashRecovery" />
+    <EntitySet Name="ActivePartiesSalesmen" EntityType="AT_Tahur_SUITEModel.ActivePartiesSalesman" />
+    <FunctionImport Name="Sp_GetDistinctActiveParties" ReturnType="Collection(AT_Tahur_SUITEModel.Sp_GetDistinctActiveParties_Result)">
+      <Parameter Name="RegionCode" Mode="In" Type="String" />
+      <Parameter Name="EmpCode" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="Sp_GetInActiveParteisSalesman" ReturnType="Collection(AT_Tahur_SUITEModel.Sp_GetInActiveParteisSalesman_Result)">
+      <Parameter Name="RegionCode" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="SaleParties" EntityType="AT_Tahur_SUITEModel.SaleParty" />
+    <EntitySet Name="SaleInvoiceDetails" EntityType="AT_Tahur_SUITEModel.SaleInvoiceDetail" />
+    <EntitySet Name="SaleInvoiceMasters" EntityType="AT_Tahur_SUITEModel.SaleInvoiceMaster" />
+    <EntitySet Name="SaleItems" EntityType="AT_Tahur_SUITEModel.SaleItem" />
+    <AssociationSet Name="FK_SaleInvoiceDetail_SaleInvoiceMaster" Association="AT_Tahur_SUITEModel.FK_SaleInvoiceDetail_SaleInvoiceMaster">
+      <End Role="SaleInvoiceMaster" EntitySet="SaleInvoiceMasters" />
+      <End Role="SaleInvoiceDetail" EntitySet="SaleInvoiceDetails" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="PartyDiscount">
+    <Key>
+      <PropertyRef Name="CompCode" />
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="PartyCode" />
+      <PropertyRef Name="PDCode" />
+    </Key>
+    <Property Name="CompCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="RegionCode" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="PartyCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="PDCode" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
+    <Property Name="PDDate" Type="DateTime" Precision="3" />
+    <Property Name="MilkFF" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="MilkLF" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="MilkNeutraHalf" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="MilkNeutra" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="RawMilk" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="MilkFF450" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="MilkFF250" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="MilkLF250" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="ChokoMilk" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="MilkStrawBerry200" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Ecolean" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="PremaRotation" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="YgrtNatural400" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="YgrtNatural80" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="YgrtNatural1kg" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="YgrtStrawBerry90" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="YgrtStrawBerry80" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="YgrtLF400" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="YgrtBlueBerry90" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="YgrtMango80" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="YgrtVanilla100" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="YgrtSweet400" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="YgrtPouch500" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Podina" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="FreshCream" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="RaitaZeera250" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="RaitaPodina250" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="RaitaZeera80" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="PineApple90" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="SmoothieMango220" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="SmoothieStrawberry220" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Cream" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="LabbanPlain" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="LabbanStrawberry" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="UpdDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdTerm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="GetDinstinctPartyDiscount_Result">
+    <Property Type="String" Name="PdCode" Nullable="false" MaxLength="8" />
+    <Property Type="DateTime" Name="PdDate" Nullable="false" Precision="23" />
+    <Property Type="String" Name="RegionCode" Nullable="false" MaxLength="3" />
+    <Property Type="String" Name="PartyCode" Nullable="false" MaxLength="5" />
+  </ComplexType>
+  <ComplexType Name="GetDinstinctDSRNo_Result">
+    <Property Type="String" Name="DSRNo" Nullable="false" MaxLength="8" />
+    <Property Type="DateTime" Name="DSRDate" Nullable="false" Precision="23" />
+    <Property Type="String" Name="RegionCode" Nullable="false" MaxLength="3" />
+  </ComplexType>
+  <ComplexType Name="GetDinstinctSOSNo_Result">
+    <Property Type="String" Name="SOSNo" Nullable="false" MaxLength="8" />
+    <Property Type="DateTime" Name="SOSDate" Nullable="false" Precision="23" />
+    <Property Type="String" Name="RegionCode" Nullable="false" MaxLength="3" />
+    <Property Type="String" Name="EmpCode" Nullable="false" MaxLength="8" />
+  </ComplexType>
+  <ComplexType Name="CountPartyDis_Result">
+    <Property Type="String" Name="PdCode" Nullable="false" MaxLength="8" />
+    <Property Type="String" Name="PartyCode" Nullable="false" MaxLength="5" />
+  </ComplexType>
+  <ComplexType Name="GetDistinctRegion_Result">
+    <Property Type="String" Name="RegionCode" Nullable="false" MaxLength="3" />
+    <Property Type="String" Name="RegionDescription" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="ButterAllQty_Result">
+    <Property Type="Double" Name="Qty" Nullable="true" />
+    <Property Type="String" Name="SubCategory" Nullable="true" MaxLength="20" />
+  </ComplexType>
+  <ComplexType Name="MilkAllQty_Result">
+    <Property Type="Double" Name="Qty" Nullable="true" />
+    <Property Type="String" Name="SubCategory" Nullable="true" MaxLength="20" />
+  </ComplexType>
+  <ComplexType Name="RaitaAllQty_Result">
+    <Property Type="Double" Name="Qty" Nullable="true" />
+    <Property Type="String" Name="SubCategory" Nullable="true" MaxLength="20" />
+  </ComplexType>
+  <ComplexType Name="YougartAllQty_Result">
+    <Property Type="Double" Name="Qty" Nullable="true" />
+    <Property Type="String" Name="SubCategory" Nullable="true" MaxLength="20" />
+  </ComplexType>
+  <ComplexType Name="SaleTaxRegisterFBR_Result">
+    <Property Type="String" Name="RegionCode" Nullable="true" MaxLength="3" />
+    <Property Type="String" Name="PartyCode" Nullable="true" MaxLength="5" />
+    <Property Type="String" Name="PartyName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="STaxReg" Nullable="false" MaxLength="12" />
+    <Property Type="String" Name="Province" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="NTN" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="ManInvoiceNo" Nullable="false" MaxLength="8" />
+    <Property Type="DateTime" Name="InvoiceDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="CNIC" Nullable="true" MaxLength="20" />
+    <Property Type="Double" Name="ExcTaxAmt" Nullable="true" />
+    <Property Type="Double" Name="SaleTaxAmt" Nullable="true" />
+    <Property Type="Double" Name="FurtherTaxAmts" Nullable="true" />
+    <Property Type="String" Name="SaleType" Nullable="false" MaxLength="21" />
+    <Property Type="String" Name="Rate" Nullable="false" MaxLength="6" />
+    <Property Type="String" Name="Description" Nullable="false" MaxLength="198" />
+    <Property Type="String" Name="FixedNotifiedValueOrRetailPrice" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="STWithheldAtSource" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="SRONo" Nullable="false" MaxLength="23" />
+    <Property Type="String" Name="ItemSRNo" Nullable="false" MaxLength="2" />
+    <Property Type="String" Name="FurtherTaxFBR" Nullable="false" MaxLength="1" />
+    <Property Type="String" Name="TotalValueOfSales" Nullable="false" MaxLength="1" />
+  </ComplexType>
+  <EntityType Name="Farm">
+    <Key>
+      <PropertyRef Name="FarmCode" />
+    </Key>
+    <Property Name="FarmCode" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="false" />
+    <Property Name="FarmName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="DailyIntake">
+    <Key>
+      <PropertyRef Name="DICode" />
+      <PropertyRef Name="DIDate" />
+      <PropertyRef Name="FarmCode" />
+    </Key>
+    <Property Name="DICode" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
+    <Property Name="DIDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="FarmCode" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="false" />
+    <Property Name="RawMilkQty" Type="Double" />
+    <Property Name="UpdTerm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="DailyProduction">
+    <Key>
+      <PropertyRef Name="DPCode" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="DPCode" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
+    <Property Name="DPDate" Type="DateTime" Precision="3" />
+    <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="Quantity" Type="Double" />
+    <Property Name="UpdDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdTerm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="GetSalePartiesFast_Result">
+    <Property Type="String" Name="CompCode" Nullable="false" MaxLength="5" />
+    <Property Type="String" Name="RegionCode" Nullable="false" MaxLength="3" />
+    <Property Type="String" Name="PartyCode" Nullable="false" MaxLength="5" />
+    <Property Type="String" Name="PartyName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="PartyRegisterName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="PartyAddress" Nullable="true" MaxLength="300" />
+    <Property Type="String" Name="CNIC" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="PartyType" Nullable="true" MaxLength="6" />
+    <Property Type="String" Name="NTN" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="SalesTaxNumber" Nullable="true" MaxLength="100" />
+    <Property Type="Decimal" Name="Opening" Nullable="true" Precision="18" Scale="0" />
+    <Property Type="String" Name="ContactNumber" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="MainPartyCode" Nullable="true" MaxLength="5" />
+    <Property Type="String" Name="Category" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="STaxReg" Nullable="true" MaxLength="1" />
+    <Property Type="String" Name="DelFlag" Nullable="true" MaxLength="1" />
+    <Property Type="String" Name="Taxable" Nullable="true" MaxLength="1" />
+    <Property Type="DateTime" Name="UpdDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="UpdUser" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="UpdTerm" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="FindItemTax_Result">
+    <Property Type="Double" Name="SaleGSTPer" Nullable="true" />
+    <Property Type="Double" Name="SaleFurtherTaxPer" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="FindItemRate_Result">
+    <Property Type="Double" Name="RegCorporateRate" Nullable="true" />
+    <Property Type="Double" Name="UnRegCorporateRate" Nullable="true" />
+    <Property Type="Double" Name="RegRetailerRate" Nullable="true" />
+    <Property Type="Double" Name="UnRegRetailerRate" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="Vehicle">
+    <Key>
+      <PropertyRef Name="VehicleCode" />
+    </Key>
+    <Property Name="VehicleCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="VehicleRegNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="VehicleDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="DailyDispatch">
+    <Key>
+      <PropertyRef Name="DispatchCode" />
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="VehicleCode" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="DispatchCode" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
+    <Property Name="DispatchDate" Type="DateTime" Precision="3" />
+    <Property Name="RegionCode" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="VehicleCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="DispatchQty" Type="Double" />
+    <Property Name="UpdDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdTerm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="CompanyEmp">
+    <Key>
+      <PropertyRef Name="CompCode" />
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="EmpCode" />
+    </Key>
+    <Property Name="CompCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="RegionCode" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="EmpCode" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
+    <Property Name="EmpName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="EmpRemarks" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="EmpAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="EmpDOB" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="EmpJoiningDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="EmpLeavingDate" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="EmpDesignation" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="EmpDepartment" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="EmpBasicSalary" Type="Double" />
+    <Property Name="EmpEperiance" Type="Double" />
+    <Property Name="EmpContactNo" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="EmpStatus" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="EmpQualification" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="OpeningShortCash" Type="Double" />
+    <Property Name="DelFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="UpdDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdTerm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="CompanySetup">
+    <Key>
+      <PropertyRef Name="CompCode" />
+    </Key>
+    <Property Name="CompCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="CompName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Address1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Address2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="City" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Phone1" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Phone2" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Fax" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Length_Level1" Type="Decimal" Precision="9" Scale="0" />
+    <Property Name="Length_Level2" Type="Decimal" Precision="9" Scale="0" />
+    <Property Name="Length_Level3" Type="Decimal" Precision="9" Scale="0" />
+    <Property Name="Length_LevelDetail" Type="Decimal" Precision="9" Scale="0" />
+    <Property Name="GI_MaxLevel" Type="Decimal" Precision="9" Scale="0" />
+    <Property Name="Picture" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="PicSize" Type="Decimal" Precision="9" Scale="0" />
+    <Property Name="NTN" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+    <Property Name="SalesTaxRegNo" Type="String" MaxLength="120" FixedLength="false" Unicode="false" />
+    <Property Name="UpdDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdTerm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Discount">
+    <Key>
+      <PropertyRef Name="CompCode" />
+      <PropertyRef Name="PdCode" />
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="PartyCode" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="CompCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="PdCode" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
+    <Property Name="PdDate" Type="DateTime" Precision="3" />
+    <Property Name="RegionCode" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="PartyCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="Amount" Type="Double" />
+    <Property Name="UpdDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdTerm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="RegionSetup">
+    <Key>
+      <PropertyRef Name="CompCode" />
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="CompCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="RegionCode" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="RegionDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="NameAbbreviate" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="City" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="RegCorporateRate" Type="Double" />
+    <Property Name="UnRegCorporateRate" Type="Double" />
+    <Property Name="RegRetailerRate" Type="Double" />
+    <Property Name="UnRegRetailerRate" Type="Double" />
+    <Property Name="DelFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="UpdDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdTerm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="GetDEOPerfomance_Result">
+    <Property Type="String" Name="UpdUser" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Date" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="From" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="To" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="Working_Hours" Nullable="true" MaxLength="30" />
+    <Property Type="Int32" Name="No_of_Invoices" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="GetDEOPerfomance1_Result">
+    <Property Type="String" Name="UpdUser" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="From" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="To" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="Working_Hours" Nullable="true" MaxLength="30" />
+    <Property Type="Int32" Name="No_of_Invoices" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="AgingReport_Result">
+    <Property Type="String" Name="PartyCode" Nullable="false" MaxLength="5" />
+    <Property Type="String" Name="RegionCode" Nullable="false" MaxLength="3" />
+    <Property Type="Double" Name="RecoveryAmount" Nullable="false" />
+    <Property Type="Double" Name="TotalCredit" Nullable="true" />
+    <Property Type="Double" Name="C0" Nullable="true" />
+    <Property Type="Double" Name="C1_30" Nullable="true" />
+    <Property Type="Double" Name="C31_60" Nullable="true" />
+    <Property Type="Double" Name="C61_90" Nullable="true" />
+    <Property Type="Double" Name="C91_120" Nullable="true" />
+    <Property Type="Double" Name="C121_150" Nullable="true" />
+    <Property Type="Double" Name="C151_180" Nullable="true" />
+    <Property Type="Double" Name="C181_210" Nullable="true" />
+    <Property Type="Double" Name="C211_240" Nullable="true" />
+    <Property Type="Double" Name="C241_270" Nullable="true" />
+    <Property Type="Double" Name="C271_300" Nullable="true" />
+    <Property Type="Double" Name="C301_330" Nullable="true" />
+    <Property Type="Double" Name="C331_360" Nullable="true" />
+    <Property Type="Double" Name="More_Than_360" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="Sp_LastSaleParties_Result">
+    <Property Type="String" Name="RegionCode" Nullable="false" MaxLength="3" />
+    <Property Type="String" Name="PartyCode" Nullable="false" MaxLength="5" />
+    <Property Type="String" Name="PartyName" Nullable="true" MaxLength="200" />
+    <Property Type="DateTime" Name="Last_Sale" Nullable="true" Precision="23" />
+  </ComplexType>
+  <EntityType Name="ShortCash">
+    <Key>
+      <PropertyRef Name="CSCode" />
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="EmpCode" />
+    </Key>
+    <Property Name="CSCode" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
+    <Property Name="CSDate" Type="DateTime" Precision="3" />
+    <Property Name="RegionCode" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="EmpCode" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
+    <Property Name="CashSubmited" Type="Double" />
+    <Property Name="cheqPaidBack" Type="Double" />
+    <Property Name="CashPaidBack" Type="Double" />
+    <Property Name="BouncedCheque" Type="Double" />
+    <Property Name="Adjustment" Type="Double" />
+    <Property Name="UpdUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdTerm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <ComplexType Name="Sp_PartyAnalysis_Result">
+    <Property Type="String" Name="RegionCode" Nullable="false" MaxLength="3" />
+    <Property Type="String" Name="PartyCode" Nullable="false" MaxLength="5" />
+    <Property Type="String" Name="PartyName" Nullable="true" MaxLength="200" />
+    <Property Type="DateTime" Name="UpdDate" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="NoofInvoices" Nullable="true" />
+    <Property Type="Double" Name="SaleAmount" Nullable="false" />
+    <Property Type="DateTime" Name="LastSaleDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="Sp_GetMissingCalculationInvoices_Result">
+    <Property Type="Int32" Name="InvoiceNo" Nullable="false" />
+    <Property Type="DateTime" Name="InvoiceDate" Nullable="false" Precision="23" />
+    <Property Type="String" Name="ManInvoiceNo" Nullable="false" MaxLength="8" />
+    <Property Type="String" Name="UpdUser" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="SP_NewAgingReport_Result">
+    <Property Type="String" Name="MainPartyCode" Nullable="true" MaxLength="5" />
+    <Property Type="String" Name="RegionCode" Nullable="false" MaxLength="3" />
+    <Property Type="Double" Name="RecoveryAmount" Nullable="false" />
+    <Property Type="Double" Name="TotalCredit" Nullable="false" />
+    <Property Type="Double" Name="C0" Nullable="false" />
+    <Property Type="Double" Name="C1_30" Nullable="false" />
+    <Property Type="Double" Name="C31_60" Nullable="false" />
+    <Property Type="Double" Name="C61_90" Nullable="false" />
+    <Property Type="Double" Name="C91_120" Nullable="false" />
+    <Property Type="Double" Name="C121_150" Nullable="false" />
+    <Property Type="Double" Name="C151_180" Nullable="false" />
+    <Property Type="Double" Name="C181_210" Nullable="false" />
+    <Property Type="Double" Name="C211_240" Nullable="false" />
+    <Property Type="Double" Name="C241_270" Nullable="false" />
+    <Property Type="Double" Name="C271_300" Nullable="false" />
+    <Property Type="Double" Name="C301_330" Nullable="false" />
+    <Property Type="Double" Name="C331_360" Nullable="false" />
+    <Property Type="Double" Name="MoreThan360" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="DailyStockReceiveTerminal">
+    <Key>
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="DSRNo" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="CompCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="RegionCode" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="DSRNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DSRDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="Quantity" Type="Double" />
+    <Property Name="UpdDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdTerm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="SalesmanOpeningStockTerminal">
+    <Key>
+      <PropertyRef Name="SOSNo" />
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="EmpCode" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="CompCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="SOSNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SOSDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="RegionCode" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="EmpCode" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
+    <Property Name="VehicleNo" Type="Int32" Nullable="false" />
+    <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="Quantity" Type="Double" />
+    <Property Name="UpdDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdTerm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="GetDinstinctDSRNoTerminal_Result">
+    <Property Type="String" Name="DSRNo" Nullable="false" MaxLength="8" />
+    <Property Type="DateTime" Name="DSRDate" Nullable="false" Precision="23" />
+    <Property Type="String" Name="RegionCode" Nullable="false" MaxLength="3" />
+  </ComplexType>
+  <ComplexType Name="GetDinstinctDSRNoTerminals_Result">
+    <Property Type="Int32" Name="DSRNo" Nullable="false" />
+    <Property Type="DateTime" Name="DSRDate" Nullable="false" Precision="23" />
+    <Property Type="String" Name="RegionCode" Nullable="false" MaxLength="3" />
+  </ComplexType>
+  <ComplexType Name="GetDinstinctSOSNoTerminal_Result">
+    <Property Type="Int32" Name="SOSNo" Nullable="false" />
+    <Property Type="DateTime" Name="SOSDate" Nullable="false" Precision="23" />
+    <Property Type="String" Name="RegionCode" Nullable="false" MaxLength="3" />
+    <Property Type="String" Name="EmpCode" Nullable="false" MaxLength="8" />
+  </ComplexType>
+  <EntityType Name="DailyStockReceive">
+    <Key>
+      <PropertyRef Name="CompCode" />
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="DSRNo" />
+      <PropertyRef Name="DSRDate" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="CompCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="RegionCode" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="DSRNo" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
+    <Property Name="DSRDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="Quantity" Type="Double" />
+    <Property Name="ItemComment" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="MainComment" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="UpdDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdTerm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="SalesmanOpeningStock">
+    <Key>
+      <PropertyRef Name="CompCode" />
+      <PropertyRef Name="SOSNo" />
+      <PropertyRef Name="SOSDate" />
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="EmpCode" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="CompCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="SOSNo" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
+    <Property Name="SOSDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="RegionCode" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="EmpCode" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
+    <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="Quantity" Type="Double" />
+    <Property Name="VehicleCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="ItemComment" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="MainComment" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="UpdDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdTerm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="DailyDemand">
+    <Key>
+      <PropertyRef Name="DDate" />
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="DCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="RegionCode" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="false" />
+    <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="DemandQty" Type="Double" />
+    <Property Name="UpdDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdTerm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="Sp_GetDistinctDemandList_Result">
+    <Property Type="DateTime" Name="DDate" Nullable="false" Precision="23" />
+    <Property Type="String" Name="RegionCode" Nullable="false" MaxLength="15" />
+  </ComplexType>
+  <EntityType Name="SaleDemandRight">
+    <Key>
+      <PropertyRef Name="RegionCode" />
+    </Key>
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="RegionCode" Type="String" Nullable="false" MaxLength="50" FixedLength="true" Unicode="false" />
+  </EntityType>
+  <EntityType Name="PreRegionSetup">
+    <Key>
+      <PropertyRef Name="CompCode" />
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="CompCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="RegionCode" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="RegionDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="NameAbbreviate" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="City" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Phone" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="RegCorporateRate" Type="Double" />
+    <Property Name="UnRegCorporateRate" Type="Double" />
+    <Property Name="RegRetailerRate" Type="Double" />
+    <Property Name="UnRegRetailerRate" Type="Double" />
+    <Property Name="DelFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="UpdDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdTerm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="GetDistinctPreRegion_Result">
+    <Property Type="String" Name="RegionCode" Nullable="false" MaxLength="3" />
+    <Property Type="String" Name="RegionDescription" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="FindPreItemRate_Result">
+    <Property Type="Double" Name="RegCorporateRate" Nullable="true" />
+    <Property Type="Double" Name="UnRegCorporateRate" Nullable="true" />
+    <Property Type="Double" Name="RegRetailerRate" Nullable="true" />
+    <Property Type="Double" Name="UnRegRetailerRate" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="Sp_FAS_ChartOfAccounts_Banks_Result">
+    <Property Type="Int32" Name="ParentCode" Nullable="false" />
+    <Property Type="Int32" Name="ChildCode" Nullable="false" />
+    <Property Type="Int32" Name="ATypeCode" Nullable="true" />
+    <Property Type="Int32" Name="SATypeCode" Nullable="true" />
+    <Property Type="String" Name="AccountName" Nullable="false" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="Sp_Get_FAS_ChartOfAccounts_Banks_Result">
+    <Property Type="Int32" Name="ChildCode" Nullable="false" />
+    <Property Type="String" Name="AccountName" Nullable="false" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="Sp_GetRegionPartiesFast_Result">
+    <Property Type="String" Name="PartyCode" Nullable="false" MaxLength="5" />
+    <Property Type="String" Name="PartyName" Nullable="true" MaxLength="200" />
+  </ComplexType>
+  <ComplexType Name="GetDistinctRecovery_Result">
+    <Property Type="Int32" Name="RecoveryNo" Nullable="false" />
+    <Property Type="DateTime" Name="RecoveryDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="RegionCode" Nullable="true" MaxLength="3" />
+    <Property Type="String" Name="PartyCode" Nullable="true" MaxLength="5" />
+  </ComplexType>
+  <ComplexType Name="Sp_GetPDCData_Result">
+    <Property Type="String" Name="CheqNo" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="CheqDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="RegionCode" Nullable="true" MaxLength="3" />
+    <Property Type="String" Name="PartyCode" Nullable="true" MaxLength="5" />
+    <Property Type="Double" Name="RecAmount" Nullable="true" />
+    <Property Type="Double" Name="RecWHT" Nullable="true" />
+    <Property Type="Double" Name="RecDiscount" Nullable="true" />
+    <Property Type="Int32" Name="Count" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="HR_DepartmentInfo">
+    <Key>
+      <PropertyRef Name="SiteCode" />
+      <PropertyRef Name="DepCode" />
+    </Key>
+    <Property Name="SiteCode" Type="Int32" Nullable="false" />
+    <Property Name="DepCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DepDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="DepShortName" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="HR_SiteInfo" Relationship="AT_Tahur_SUITEModel.FK_HR_DepartmentInfo_HR_SiteInfo" FromRole="HR_DepartmentInfo" ToRole="HR_SiteInfo" />
+    <NavigationProperty Name="HR_SubDepartmentInfo" Relationship="AT_Tahur_SUITEModel.FK_HR_SubDepartmentInfo_HR_DepartmentInfo" FromRole="HR_DepartmentInfo" ToRole="HR_SubDepartmentInfo" />
+  </EntityType>
+  <EntityType Name="HR_SiteInfo">
+    <Key>
+      <PropertyRef Name="SiteCode" />
+    </Key>
+    <Property Name="SiteCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SiteName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="HR_DepartmentInfo" Relationship="AT_Tahur_SUITEModel.FK_HR_DepartmentInfo_HR_SiteInfo" FromRole="HR_SiteInfo" ToRole="HR_DepartmentInfo" />
+  </EntityType>
+  <Association Name="FK_HR_DepartmentInfo_HR_SiteInfo">
+    <End Type="AT_Tahur_SUITEModel.HR_SiteInfo" Role="HR_SiteInfo" Multiplicity="1" />
+    <End Type="AT_Tahur_SUITEModel.HR_DepartmentInfo" Role="HR_DepartmentInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HR_SiteInfo">
+        <PropertyRef Name="SiteCode" />
+      </Principal>
+      <Dependent Role="HR_DepartmentInfo">
+        <PropertyRef Name="SiteCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="InvoiceTableSrNo">
+    <Key>
+      <PropertyRef Name="InvoiceNo" />
+      <PropertyRef Name="ManInvoiceNo" />
+      <PropertyRef Name="InvoiceDate" />
+      <PropertyRef Name="RegionCode" />
+    </Key>
+    <Property Name="SrNo" Type="Int64" />
+    <Property Name="InvoiceNo" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+    <Property Name="ManInvoiceNo" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
+    <Property Name="InvoiceDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="RegionCode" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Recovery">
+    <Key>
+      <PropertyRef Name="CompanyCode" />
+      <PropertyRef Name="RecoveryNo" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="CompanyCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="RecoveryNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RecoveryDate" Type="DateTime" Precision="3" />
+    <Property Name="InvoiceNo" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+    <Property Name="ManInvoiceNo" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+    <Property Name="RepInvoiceNo" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+    <Property Name="Type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Remarks" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="CheqDate" Type="DateTime" Precision="3" />
+    <Property Name="CheqNo" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+    <Property Name="AccountCode" Type="Int32" />
+    <Property Name="ClearOrBounce" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+    <Property Name="ClearanceDate" Type="DateTime" Precision="3" />
+    <Property Name="VoucherNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="RegionCode" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="MainPartyCode" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="PartyCode" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="EmpCode" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+    <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
+    <Property Name="RecAmount" Type="Double" />
+    <Property Name="RecWHT" Type="Double" />
+    <Property Name="RecDiscount" Type="Double" />
+    <Property Name="DelFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="PostFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="UpdDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdTerm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="Sp_GetPendingPDCData_Result">
+    <Property Type="String" Name="CheqNo" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="CheqDate" Nullable="true" Precision="23" />
+    <Property Type="String" Name="RegionCode" Nullable="true" MaxLength="3" />
+    <Property Type="String" Name="PartyCode" Nullable="true" MaxLength="5" />
+    <Property Type="Double" Name="RecAmount" Nullable="true" />
+    <Property Type="Double" Name="RecWHT" Nullable="true" />
+    <Property Type="Double" Name="RecDiscount" Nullable="true" />
+    <Property Type="Int32" Name="Count" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="HR_DesignationInfo">
+    <Key>
+      <PropertyRef Name="SiteCode" />
+      <PropertyRef Name="DepCode" />
+      <PropertyRef Name="SubDepCode" />
+      <PropertyRef Name="DesCode" />
+    </Key>
+    <Property Name="SiteCode" Type="Int32" Nullable="false" />
+    <Property Name="DepCode" Type="Int32" Nullable="false" />
+    <Property Name="SubDepCode" Type="Int32" Nullable="false" />
+    <Property Name="DesCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DesDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="DesShortName" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="HR_SubDepartmentInfo" Relationship="AT_Tahur_SUITEModel.FK_HR_DesignationInfo_HR_SubDepartmentInfo" FromRole="HR_DesignationInfo" ToRole="HR_SubDepartmentInfo" />
+    <NavigationProperty Name="HR_EmployeeInfo" Relationship="AT_Tahur_SUITEModel.FK_HR_EmployeeInfo_HR_DesignationInfo" FromRole="HR_DesignationInfo" ToRole="HR_EmployeeInfo" />
+  </EntityType>
+  <EntityType Name="HR_EmployeeInfo">
+    <Key>
+      <PropertyRef Name="SiteCode" />
+      <PropertyRef Name="DepCode" />
+      <PropertyRef Name="SubDepCode" />
+      <PropertyRef Name="DesCode" />
+      <PropertyRef Name="EmpCode" />
+    </Key>
+    <Property Name="SiteCode" Type="Int32" Nullable="false" />
+    <Property Name="DepCode" Type="Int32" Nullable="false" />
+    <Property Name="SubDepCode" Type="Int32" Nullable="false" />
+    <Property Name="DesCode" Type="Int32" Nullable="false" />
+    <Property Name="EmpCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmpRefNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="EmpName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="EmpFatherName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="CNIC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="ContactNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Gender" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+    <Property Name="DOB" Type="DateTime" Precision="3" />
+    <Property Name="DOJ" Type="DateTime" Precision="3" />
+    <Property Name="DOR" Type="DateTime" Precision="3" />
+    <Property Name="PlaceOfJoining" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Active" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="InactiveDescription" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="Qualification" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ProfilePicture" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdDate" Type="DateTime" Precision="3" />
+    <Property Name="DelFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <NavigationProperty Name="HR_DesignationInfo" Relationship="AT_Tahur_SUITEModel.FK_HR_EmployeeInfo_HR_DesignationInfo" FromRole="HR_EmployeeInfo" ToRole="HR_DesignationInfo" />
+  </EntityType>
+  <EntityType Name="HR_SubDepartmentInfo">
+    <Key>
+      <PropertyRef Name="SiteCode" />
+      <PropertyRef Name="DepCode" />
+      <PropertyRef Name="SubDepCode" />
+    </Key>
+    <Property Name="SiteCode" Type="Int32" Nullable="false" />
+    <Property Name="DepCode" Type="Int32" Nullable="false" />
+    <Property Name="SubDepCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SubDepDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="SubDepShortName" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="HR_DepartmentInfo" Relationship="AT_Tahur_SUITEModel.FK_HR_SubDepartmentInfo_HR_DepartmentInfo" FromRole="HR_SubDepartmentInfo" ToRole="HR_DepartmentInfo" />
+    <NavigationProperty Name="HR_DesignationInfo" Relationship="AT_Tahur_SUITEModel.FK_HR_DesignationInfo_HR_SubDepartmentInfo" FromRole="HR_SubDepartmentInfo" ToRole="HR_DesignationInfo" />
+  </EntityType>
+  <Association Name="FK_HR_SubDepartmentInfo_HR_DepartmentInfo">
+    <End Type="AT_Tahur_SUITEModel.HR_DepartmentInfo" Role="HR_DepartmentInfo" Multiplicity="1" />
+    <End Type="AT_Tahur_SUITEModel.HR_SubDepartmentInfo" Role="HR_SubDepartmentInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HR_DepartmentInfo">
+        <PropertyRef Name="SiteCode" />
+        <PropertyRef Name="DepCode" />
+      </Principal>
+      <Dependent Role="HR_SubDepartmentInfo">
+        <PropertyRef Name="SiteCode" />
+        <PropertyRef Name="DepCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HR_DesignationInfo_HR_SubDepartmentInfo">
+    <End Type="AT_Tahur_SUITEModel.HR_SubDepartmentInfo" Role="HR_SubDepartmentInfo" Multiplicity="1" />
+    <End Type="AT_Tahur_SUITEModel.HR_DesignationInfo" Role="HR_DesignationInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HR_SubDepartmentInfo">
+        <PropertyRef Name="SiteCode" />
+        <PropertyRef Name="DepCode" />
+        <PropertyRef Name="SubDepCode" />
+      </Principal>
+      <Dependent Role="HR_DesignationInfo">
+        <PropertyRef Name="SiteCode" />
+        <PropertyRef Name="DepCode" />
+        <PropertyRef Name="SubDepCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HR_EmployeeInfo_HR_DesignationInfo">
+    <End Type="AT_Tahur_SUITEModel.HR_DesignationInfo" Role="HR_DesignationInfo" Multiplicity="1" />
+    <End Type="AT_Tahur_SUITEModel.HR_EmployeeInfo" Role="HR_EmployeeInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HR_DesignationInfo">
+        <PropertyRef Name="SiteCode" />
+        <PropertyRef Name="DepCode" />
+        <PropertyRef Name="SubDepCode" />
+        <PropertyRef Name="DesCode" />
+      </Principal>
+      <Dependent Role="HR_EmployeeInfo">
+        <PropertyRef Name="SiteCode" />
+        <PropertyRef Name="DepCode" />
+        <PropertyRef Name="SubDepCode" />
+        <PropertyRef Name="DesCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ShortCashOpening">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RegionCode" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="EmpCode" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+    <Property Name="Opening" Type="Double" />
+  </EntityType>
+  <EntityType Name="ShortCashRecovery">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RecDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CheqNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CheqDate" Type="DateTime" Precision="3" />
+    <Property Name="RegionCode" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="PartyCode" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="EmpCode" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+    <Property Name="Type" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="RecoveryAmount" Type="Double" />
+    <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="UpdBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="ActivePartiesSalesman">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RegionCode" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="PartyCode" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="MainPartyCode" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="EmpCode" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+  </EntityType>
+  <ComplexType Name="Sp_GetDistinctActiveParties_Result">
+    <Property Type="String" Name="RegionCode" Nullable="true" MaxLength="3" />
+    <Property Type="String" Name="PartyCode" Nullable="true" MaxLength="5" />
+  </ComplexType>
+  <ComplexType Name="Sp_GetInActiveParteisSalesman_Result">
+    <Property Type="String" Name="RegionCode" Nullable="false" MaxLength="3" />
+    <Property Type="String" Name="PartyCode" Nullable="false" MaxLength="5" />
+    <Property Type="String" Name="PartyName" Nullable="true" MaxLength="200" />
+  </ComplexType>
+  <EntityType Name="SaleParty">
+    <Key>
+      <PropertyRef Name="CompCode" />
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="PartyCode" />
+    </Key>
+    <Property Name="CompCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="RegionCode" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="PartyCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="PartyName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="PartyRegisterName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="PartyAddress" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="CNIC" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="PartyType" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+    <Property Name="NTN" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="SalesTaxNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Opening" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="ContactNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="MainPartyCode" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="Category" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="STaxReg" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="ThirdSch_Category" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="DelFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="Taxable" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="UpdDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdTerm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="SaleInvoiceDetail">
+    <Key>
+      <PropertyRef Name="InvoiceNo" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="CompanyCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="InvoiceNo" Type="Int32" Nullable="false" />
+    <Property Name="InvoiceDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ManInvoiceNo" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="false" />
+    <Property Name="RepInvoiceNo" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
+    <Property Name="PartyCode" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="MainPartyCode" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="TransType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="SaleQty" Type="Double" />
+    <Property Name="Rate" Type="Double" />
+    <Property Name="Damage" Type="Double" />
+    <Property Name="Replace" Type="Double" />
+    <Property Name="FOC" Type="Double" />
+    <Property Name="Sampling" Type="Double" />
+    <Property Name="Scheme" Type="Double" />
+    <Property Name="Retrn" Type="Double" />
+    <Property Name="WHT" Type="Double" />
+    <Property Name="DiscPer" Type="Double" />
+    <Property Name="DiscAmt" Type="Double" />
+    <Property Name="Amount" Type="Double" />
+    <Property Name="FurtherTaxPer" Type="Double" />
+    <Property Name="FurtherTaxAmt" Type="Double" />
+    <Property Name="IncTaxAmt" Type="Double" />
+    <Property Name="ExcTaxAmt" Type="Double" />
+    <Property Name="SaleTaxPer" Type="Double" />
+    <Property Name="SaleTaxAmt" Type="Double" />
+    <Property Name="ConsumerRate" Type="Double" />
+    <Property Name="IncomeTaxAmt" Type="Double" />
+    <Property Name="IncomeTaxPer" Type="Double" />
+    <Property Name="FEDTaxAmt" Type="Double" />
+    <Property Name="FEDTaxPer" Type="Double" />
+    <NavigationProperty Name="SaleInvoiceMaster" Relationship="AT_Tahur_SUITEModel.FK_SaleInvoiceDetail_SaleInvoiceMaster" FromRole="SaleInvoiceDetail" ToRole="SaleInvoiceMaster" />
+  </EntityType>
+  <EntityType Name="SaleInvoiceMaster">
+    <Key>
+      <PropertyRef Name="InvoiceNo" />
+    </Key>
+    <Property Name="CompanyCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="InvoiceNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ManInvoiceNo" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="false" />
+    <Property Name="RepInvoiceNo" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
+    <Property Name="VoucherNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="InvoiceDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="RegionCode" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="PartyCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="MainPartyCode" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="EmpCode" Type="String" Nullable="false" MaxLength="8" FixedLength="true" Unicode="false" />
+    <Property Name="ExemptTax" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="PartyStatus" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+    <Property Name="Discount" Type="Double" />
+    <Property Name="TotalAmt" Type="Double" />
+    <Property Name="SaleTaxAmt" Type="Double" />
+    <Property Name="FurtherTaxAmt" Type="Double" />
+    <Property Name="IncomeTaxAmt" Type="Double" />
+    <Property Name="NetTotal" Type="Double" />
+    <Property Name="CashReceived" Type="Double" />
+    <Property Name="DelFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="PostFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="TransType" Type="String" MaxLength="6" FixedLength="true" Unicode="false" />
+    <Property Name="UpdUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdTerm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="IncTaxAmt" Type="Double" />
+    <Property Name="ExcTaxAmt" Type="Double" />
+    <Property Name="Latitude" Type="Double" />
+    <Property Name="Longitude" Type="Double" />
+    <NavigationProperty Name="SaleInvoiceDetails" Relationship="AT_Tahur_SUITEModel.FK_SaleInvoiceDetail_SaleInvoiceMaster" FromRole="SaleInvoiceMaster" ToRole="SaleInvoiceDetail" />
+  </EntityType>
+  <EntityType Name="SaleItem">
+    <Key>
+      <PropertyRef Name="CompanyCode" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="CompanyCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="ItemCode" Type="String" Nullable="false" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="ItemDesc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Brand" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+    <Property Name="Category" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+    <Property Name="SubCategory" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+    <Property Name="SaleRateReg" Type="Double" />
+    <Property Name="SaleRateUnReg" Type="Double" />
+    <Property Name="SaleGSTPer" Type="Double" />
+    <Property Name="SaleFurtherTaxPer" Type="Double" />
+    <Property Name="Consumer_Rate" Type="Double" />
+    <Property Name="DistTaxPer_Act" Type="Double" />
+    <Property Name="DistTaxPer_InAct" Type="Double" />
+    <Property Name="RetTaxPer_Act" Type="Double" />
+    <Property Name="RetTaxPer_InAct" Type="Double" />
+    <Property Name="FEDTaxPer" Type="Double" />
+    <Property Name="UpdUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdDate" Type="DateTime" Precision="3" />
+    <Property Name="UpdTerm" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ItemPic" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="stdWeight" Type="Double" />
+    <Property Name="WeightType" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="ActiveFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="PackSize" Type="Double" />
+    <Property Name="ProductionOpening" Type="Int32" />
+  </EntityType>
+  <Association Name="FK_SaleInvoiceDetail_SaleInvoiceMaster">
+    <End Type="AT_Tahur_SUITEModel.SaleInvoiceMaster" Role="SaleInvoiceMaster" Multiplicity="1" />
+    <End Type="AT_Tahur_SUITEModel.SaleInvoiceDetail" Role="SaleInvoiceDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SaleInvoiceMaster">
+        <PropertyRef Name="InvoiceNo" />
+      </Principal>
+      <Dependent Role="SaleInvoiceDetail">
+        <PropertyRef Name="InvoiceNo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

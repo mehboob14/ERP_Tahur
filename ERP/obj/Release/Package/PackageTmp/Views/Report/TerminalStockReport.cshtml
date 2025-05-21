@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "TerminalStockReport";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <form name="EmployeeMaster" role="form" method="post" style="margin-top:20px">
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+
+                        <div class="form-group row">
+                            <label for="exampleInputuname" class="offset-md-2 col-md-1">From Date</label>
+                            <div class="input-group col-md-2">
+                                <input type="text" class="form-control Datepicker-AutoClose" data-mask="99/99/9999" id="FromDate" placeholder="dd/mm/yyyy">
+                            </div>
+                            <label for="exampleInputuname" class="col-md-1">To Date</label>
+                            <div class="input-group col-md-2">
+                                <input type="text" class="form-control Datepicker-AutoClose" data-mask="99/99/9999" id="ToDate" placeholder="dd/mm/yyyy">
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <!--Buttons For Actions-->
+                <div class="form-group row">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="input-group offset-md-3">
+                            @if (ERP.Models.CommonDAL.UserRights("15", "006"))
+                            {
+                                <input type="button" class="btn btn-info" value="Print" onclick="SimpleInNewWin();" style="width:70px;height:30px;background: #0067b8;padding:10px" />
+                            }
+                            else
+                            {
+                                <input type="button" class="btn btn-info" value="Print" onclick="SimpleInNewWin();" style="width:70px;height:30px;background: #0067b8;padding:10px" disabled />
+                            }
+
+                            &nbsp;&nbsp;
+                            <input type="reset" class="btn btn-info" value="Clear" style="width: 70px; height: 30px; background: #0067b8; padding: 10px; " />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<!--Scripts-->
+<script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+<script>
+    document.getElementById("PageHeader").innerHTML = "Terminal Stock Report";
+
+    document.getElementById("PageTitle").innerHTML = "Terminal Stock Report"
+
+</script>
+
+<script type="text/javascript">
+
+
+    // For Reporting
+    function SimpleInNewWin() {
+
+        var FromDate = $("#FromDate").val();
+        var ToDate = $("#ToDate").val();
+
+        window.open("../ReportWebForms/DetailWebForms/TerminalStockReport.aspx?FromDate=" + FromDate + "&ToDate=" + ToDate, 'mywindow', 'fullscreen=yes, scrollbars=auto,height=900,width=1100');
+
+    }
+
+</script>
+

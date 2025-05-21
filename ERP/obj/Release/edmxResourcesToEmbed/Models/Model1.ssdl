@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FAS_BlazorModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AccountTypes">
+    <Key>
+      <PropertyRef Name="ATypeCode" />
+    </Key>
+    <Property Name="ATypeCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ATypeName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ATypeDetail" Type="nvarchar" MaxLength="500" Nullable="false" />
+    <Property Name="ActiveFlag" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="UpdDate" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="UpdBy" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BRV_Details">
+    <Key>
+      <PropertyRef Name="Detail_Acc_ChildCode" />
+      <PropertyRef Name="BRV_No" />
+    </Key>
+    <Property Name="Detail_Acc_ChildCode" Type="int" Nullable="false" />
+    <Property Name="BRV_No" Type="int" Nullable="false" />
+    <Property Name="Voucher_Ref_No" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="150" />
+    <Property Name="Credit" Type="float" Nullable="false" />
+    <Property Name="Debit" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="BRV_Masters">
+    <Key>
+      <PropertyRef Name="BRV_No" />
+    </Key>
+    <Property Name="BRV_No" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Voucher_Ref_No" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="BRV_Date" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="MainDescription" Type="nvarchar" MaxLength="200" />
+    <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="UpdDate" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="UpdBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="BRV_TotalCredit" Type="float" Nullable="false" />
+    <Property Name="BRV_TotalDebit" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="chartOfAccounts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ParentCode" Type="int" Nullable="false" />
+    <Property Name="ChildCode" Type="int" Nullable="false" />
+    <Property Name="IsChild" Type="bit" Nullable="false" />
+    <Property Name="AccountName" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="AccountDescription" Type="nvarchar" MaxLength="300" />
+    <Property Name="OpeningBalance" Type="float" />
+    <Property Name="ATypeCode" Type="int" />
+    <Property Name="SATypeCode" Type="int" />
+    <Property Name="ActiveFlag" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="UpdDate" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="UpdBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="AllParentCode" Type="nvarchar" MaxLength="300" />
+  </EntityType>
+  <EntityType Name="CRV_Details">
+    <Key>
+      <PropertyRef Name="Detail_Acc_ChildCode" />
+      <PropertyRef Name="CRV_No" />
+    </Key>
+    <Property Name="Detail_Acc_ChildCode" Type="int" Nullable="false" />
+    <Property Name="CRV_No" Type="int" Nullable="false" />
+    <Property Name="Voucher_Ref_No" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="150" />
+    <Property Name="Debit" Type="float" Nullable="false" />
+    <Property Name="Credit" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CRV_Masters">
+    <Key>
+      <PropertyRef Name="CRV_No" />
+    </Key>
+    <Property Name="CRV_No" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Voucher_Ref_No" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="CRV_Date" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="MainDescription" Type="nvarchar" MaxLength="200" />
+    <Property Name="CRV_TotalDebit" Type="float" Nullable="false" />
+    <Property Name="CRV_TotalCredit" Type="float" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="UpdDate" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="UpdBy" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SubAccountTypes">
+    <Key>
+      <PropertyRef Name="SATypeCode" />
+    </Key>
+    <Property Name="SATypeCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SATypeName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="SATypeDetail" Type="nvarchar" MaxLength="500" />
+    <Property Name="ActiveFlag" Type="char" MaxLength="1" />
+    <Property Name="CreatedDate" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdDate" Type="datetime2" Precision="7" Nullable="false" />
+    <Property Name="UpdBy" Type="varchar" MaxLength="50" />
+    <Property Name="ATypeCode" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_BRV_Details_BRV_Masters_BRV_No">
+    <End Role="BRV_Masters" Type="Self.BRV_Masters" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="BRV_Details" Type="Self.BRV_Details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BRV_Masters">
+        <PropertyRef Name="BRV_No" />
+      </Principal>
+      <Dependent Role="BRV_Details">
+        <PropertyRef Name="BRV_No" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_chartOfAccounts_SubAccountTypes_SATypeCode">
+    <End Role="SubAccountTypes" Type="Self.SubAccountTypes" Multiplicity="0..1" />
+    <End Role="chartOfAccounts" Type="Self.chartOfAccounts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SubAccountTypes">
+        <PropertyRef Name="SATypeCode" />
+      </Principal>
+      <Dependent Role="chartOfAccounts">
+        <PropertyRef Name="SATypeCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CRV_Details_CRV_Masters_CRV_No">
+    <End Role="CRV_Masters" Type="Self.CRV_Masters" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="CRV_Details" Type="Self.CRV_Details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CRV_Masters">
+        <PropertyRef Name="CRV_No" />
+      </Principal>
+      <Dependent Role="CRV_Details">
+        <PropertyRef Name="CRV_No" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SubAccountTypes_AccountTypes_ATypeCode">
+    <End Role="AccountTypes" Type="Self.AccountTypes" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="SubAccountTypes" Type="Self.SubAccountTypes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccountTypes">
+        <PropertyRef Name="ATypeCode" />
+      </Principal>
+      <Dependent Role="SubAccountTypes">
+        <PropertyRef Name="ATypeCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="FAS_BlazorModelStoreContainer">
+    <EntitySet Name="AccountTypes" EntityType="Self.AccountTypes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BRV_Details" EntityType="Self.BRV_Details" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="BRV_Masters" EntityType="Self.BRV_Masters" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="chartOfAccounts" EntityType="Self.chartOfAccounts" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CRV_Details" EntityType="Self.CRV_Details" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CRV_Masters" EntityType="Self.CRV_Masters" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SubAccountTypes" EntityType="Self.SubAccountTypes" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_BRV_Details_BRV_Masters_BRV_No" Association="Self.FK_BRV_Details_BRV_Masters_BRV_No">
+      <End Role="BRV_Masters" EntitySet="BRV_Masters" />
+      <End Role="BRV_Details" EntitySet="BRV_Details" />
+    </AssociationSet>
+    <AssociationSet Name="FK_chartOfAccounts_SubAccountTypes_SATypeCode" Association="Self.FK_chartOfAccounts_SubAccountTypes_SATypeCode">
+      <End Role="SubAccountTypes" EntitySet="SubAccountTypes" />
+      <End Role="chartOfAccounts" EntitySet="chartOfAccounts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CRV_Details_CRV_Masters_CRV_No" Association="Self.FK_CRV_Details_CRV_Masters_CRV_No">
+      <End Role="CRV_Masters" EntitySet="CRV_Masters" />
+      <End Role="CRV_Details" EntitySet="CRV_Details" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SubAccountTypes_AccountTypes_ATypeCode" Association="Self.FK_SubAccountTypes_AccountTypes_ATypeCode">
+      <End Role="AccountTypes" EntitySet="AccountTypes" />
+      <End Role="SubAccountTypes" EntitySet="SubAccountTypes" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

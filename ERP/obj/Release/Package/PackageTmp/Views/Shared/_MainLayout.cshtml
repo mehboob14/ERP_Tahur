@@ -1,0 +1,1022 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/plugins/images/At-Tahur-Logo-16x16-new.png">
+    <title id="PageTitle">AT-TAHUR LIMITED</title>
+    <!-- Bootstrap Core CSS -->
+    <!-- toast CSS -->
+    <link href="../Content/plugins/bower_components/toast-master/css/jquery.toast.css" rel="stylesheet">
+
+    <link href="../Content/plugins/bower_components/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/plugins/bower_components/bootstrap-switch/bootstrap-switch.min.css" rel="stylesheet">
+    <link href="~/Content/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css" rel="stylesheet">
+    <link href="~/Content/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="~/Content/plugins/bower_components/icheck/skins/all.css" rel="stylesheet">
+    <link href="~/Content/plugins/bower_components/bootstrap-table/dist/bootstrap-table.min.css" rel="stylesheet" type="text/css" />
+    <!-- Chosen CSS -->
+    <link href="~/Content/Chosen/chosen.min.css" rel="stylesheet" />
+    <!-- Menu CSS -->
+    <link href="~/Content/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
+    <!-- morris CSS -->
+    <link href="~/Content/plugins/bower_components/morrisjs/morris.css" rel="stylesheet">
+    <!-- animation CSS -->
+    <link href="~/Content/css/animate.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="~/Content/css/style.css" rel="stylesheet">
+    <!-- color CSS -->
+    <link href="~/Content/css/colors/purple.css" id="theme" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/plugins/bower_components/dropify/dist/css/dropify.min.css">
+    <!-- Date picker plugins css -->
+    @*<link href="../Content/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />*@
+    <link href="~/Content/css/buttons.datatables.min.css" rel="stylesheet" />
+    <!-- carousal css -->
+    <link href="~/Content/plugins/bower_components/owl.carousel/owl.carousel.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/plugins/bower_components/owl.carousel/owl.theme.default.css" rel="stylesheet" type="text/css" />
+
+    <link href="~/Content/plugins/bower_components/css-chart/css-chart.css" rel="stylesheet">
+
+    @*Filtered Select2*@
+
+    <link href="~/Content/plugins/bower_components/custom-select/custom-select.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/plugins/bower_components/switchery/dist/switchery.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/bower_components/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" rel="stylesheet" />
+    <link href="~/Content/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/bower_components/multiselect/css/multi-select.css" rel="stylesheet" type="text/css" />
+
+    <link href="~/Content/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
+
+    <link href="~/Content/JQueryDP/jquery-ui.min.css" rel="stylesheet" />
+
+    <!-- Footable CSS -->
+    <link href="~/Content/plugins/bower_components/footable/css/footable.core.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src=""></script>
+        <script src=""></script>
+    <![endif]-->
+
+</head>
+<body>
+
+
+
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="cssload-speeding-wheel"></div>
+    </div>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top m-b-0">
+            <div class="navbar-header bg-info">
+                <a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse"><i class="ti-menu"></i></a>
+                <div class="top-left-part"><a class="logo" href="/Home/Index"><b><img src="~/Content/plugins/images/LogoText-New.png" alt="home" /></b><span class="hidden-xs"><img src="~/Content/LoginBG/3DTextLog.png" alt="home" height="60" width="160" id="3dlogotext" /></span> </a></div>
+                <ul class="nav navbar-top-links navbar-left hidden-xs">
+                    <li><a href="javascript:void(0)" id="Arrow-Left" class="open-close hidden-xs waves-effect waves-light"><i class="icon-arrow-left-circle ti-menu"></i></a></li>
+                    @*<li>
+                            <form role="search" class="app-search hidden-xs">
+                                <input type="text" placeholder="Search..." class="form-control"> <a href=""><i class="fa fa-search"></i></a>
+                            </form>
+                        </li>*@
+                    <li>
+
+                        @*<h1 style="color:white;text-align:center;margin-left:250px;height:30px"><b>Sales Management System</b></h1>*@
+                        @*<img style="margin-left:300px" src="~/Content/LoginBG/MainLogo.png" height="60" width="700" />*@
+                    </li>
+                </ul>
+
+
+                <ul class="nav navbar-top-links navbar-right pull-right">
+
+                    <li class="dropdown">
+                        <a class="dropdown-toggle waves-effect waves-light" onClick="sendRequestForMissInvoices()" data-toggle="dropdown" href="#">
+                            <i class="icon-envelope"></i>
+                            <div class="notify">
+                                <span class="label label-rouded label-danger pull-right" id="userCount"></span>
+                            </div>
+
+                        </a>
+                        <ul class="dropdown-menu mailbox animated bounceInDown" style="width:400px">
+
+                            <li>
+                                <div class="message-center" id="ULList" style="overflow-y:scroll;height:400px">
+                                    @*<a href="#">
+                                            <div class="mail-contnet">
+                                                <div class="row"><h5 class="stat-item">234324</h5> <h5 class="stat-item">11/09/2020</h5> <h5 class="stat-item">Tanzeel</h5></div>
+                                            </div>
+                                        </a>*@
+
+
+
+                                </div>
+                            </li>
+
+                        </ul>
+                        <!-- /.dropdown-messages -->
+                    </li>
+
+
+
+                    <!-- /.dropdown -->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <img src="~/Content/plugins/images/man.png" alt="user-img" width="36" class="img-circle"><b class="hidden-xs" style="font-size:large">@Session["UserName"]</b> </a>
+                        <ul class="dropdown-menu dropdown-user animated flipInY">
+
+                            <li><a href="/Home/Logout"><i class="fa fa-power-off"></i> Logout</a></li>
+                        </ul>
+                        <!-- /.dropdown-user -->
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-header -->
+            <!-- /.navbar-top-links -->
+            <!-- /.navbar-static-side -->
+        </nav>
+        <!-- Left navbar-header -->
+        <div class="navbar-default sidebar" role="navigation" style="color:black">
+            <div class="sidebar-nav navbar-collapse slimscrollsidebar">
+                <ul class="nav" id="side-menu">
+                    <li class="sidebar-search hidden-sm hidden-md hidden-lg">
+                        <!-- input-group -->
+                        <div class="input-group custom-search-form">
+                            <input type="text" class="form-control" placeholder="Search..."> <span class="input-group-btn">
+                                <button class="btn btn-default" type="button"> <i class="fa fa-search"></i> </button>
+                            </span>
+                        </div>
+                        <!-- /input-group -->
+                    </li>
+
+                    <li class="nav-small-cap m-t-10">--- Main Menu</li>
+                    @*//Sales Menu*@
+                    @if (ERP.Models.CommonDAL.UserApplication("001"))
+                    {
+                        <li class="text-dark">
+                            <a href="#" class="waves-effect"><i data-icon=")" class="fa fa-modx fa-spin"></i><strong><span class="hide-menu" style="margin-left:10px">  Sale<span class="fa arrow"></span></span></strong></a>
+                            <ul class="nav nav-second-level">
+                                @if (ERP.Models.CommonDAL.UserRights("1", "001") || ERP.Models.CommonDAL.UserRights("2", "001") || ERP.Models.CommonDAL.UserRights("3", "001") || ERP.Models.CommonDAL.UserRights("4", "001") || ERP.Models.CommonDAL.UserRights("26", "001"))
+                                {
+                                    <li>
+                                        <a href="#" class="waves-effect active"><i class="fa fa-arrow-right" data-icon="&#xe00b;"></i> <span class="hide-menu" style="margin-left:10px"> Company Info <span class="fa arrow"></span></span></a>
+                                        <ul class="nav nav-third-level">
+                                            @if (ERP.Models.CommonDAL.UserRights("1", "001"))
+                                            {
+
+                                                <li> <a href="/Company/CompanySetup">Company Setup</a> </li>
+                                            }
+                                            @if (ERP.Models.CommonDAL.UserRights("2", "001"))
+                                            {
+                                                <li> <a href="/Company/RegionSetup">Region Setup</a> </li>
+                                            }
+
+                                            @if (ERP.Models.CommonDAL.UserRights("2", "001"))
+                                            {
+                                                <li> <a href="/Company/PreRegionSetup">Previous Region Setup</a> </li>
+                                            }
+
+                                            @*<li> <a href="/Company/AreaSetup">Area Setup</a> </li>*@
+                                            @if (ERP.Models.CommonDAL.UserRights("3", "001"))
+                                            {
+                                                <li> <a href="/Company/PartySetup">Party Setup</a> </li>
+                                            }
+                                            @if (ERP.Models.CommonDAL.UserRights("4", "001"))
+                                            {
+                                                <li> <a href="/Company/CompanyEmployee">Employee Setup</a> </li>
+                                            }
+                                            @if (ERP.Models.CommonDAL.UserRights("26", "001"))
+                                            {
+                                                <li> <a href="/Transaction/ActivePartiesSalesman">Active Parties</a> </li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+
+                                @*@if (ERP.Models.CommonDAL.UserRights("22", "001") || ERP.Models.CommonDAL.UserRights("23", "001"))
+                                    {
+                                        <li>
+                                            <a href="#" class="waves-effect active"><i class="fa fa-arrow-right" data-icon="&#xe00b;"></i> <span class="hide-menu" style="margin-left:10px"> Terminal <span class="fa arrow"></span></span></a>
+                                            <ul class="nav nav-third-level">
+                                                @if (ERP.Models.CommonDAL.UserRights("23", "001"))
+                                                {
+                                                    <li> <a href="/Transaction/DailyStockReceiveTerminal">Region wise stock</a> </li>
+                                                }
+                                                @if (ERP.Models.CommonDAL.UserRights("22", "001"))
+                                                {
+                                                    <li> <a href="/Transaction/SalesmanOpeningStockTerminal">Salesman stock</a> </li>
+                                                }
+
+                                            </ul>
+                                        </li>
+                                    }*@
+
+
+                                @if (ERP.Models.CommonDAL.UserRights("5", "001") || ERP.Models.CommonDAL.UserRights("6", "001") || ERP.Models.CommonDAL.UserRights("7", "001") || ERP.Models.CommonDAL.UserRights("8", "001") || ERP.Models.CommonDAL.UserRights("9", "001") || ERP.Models.CommonDAL.UserRights("10", "001") || ERP.Models.CommonDAL.UserRights("19", "001") || ERP.Models.CommonDAL.UserRights("24", "001"))
+                                {
+                                    <li>
+                                        <a href="#" class="waves-effect"><i class="fa fa-pagelines" data-icon="/"></i> <span class="hide-menu" style="margin-left:10px"> Transaction <span class="fa arrow"></span></span></a>
+                                        <ul class="nav nav-third-level">
+                                            @if (ERP.Models.CommonDAL.UserRights("5", "001"))
+                                            {
+                                                <li> <a href="/Transaction/DailyStockReceive">Daily Stock Receive</a> </li>
+                                            }
+                                            @if (ERP.Models.CommonDAL.UserRights("6", "001"))
+                                            {
+                                                <li> <a href="/Transaction/SalesmanOpeningStock">Salesman Daily Stock</a> </li>
+                                            }
+                                            @if (ERP.Models.CommonDAL.UserRights("7", "001"))
+                                            {
+                                                <li> <a href="/Transaction/SaleInvoice">Sale Invoice</a> </li>
+                                            }
+
+                                            <li> <a href="/Transaction/SaleInvoiceResponsive">Sale Invoice Resp.</a> </li>
+
+                                            @if (ERP.Models.CommonDAL.UserRights("8", "001"))
+                                            {
+                                                <li> <a href="/Transaction/RecoveryAgainstSale">Recovery Against Sale</a> </li>
+                                            }
+
+                                            @if (ERP.Models.CommonDAL.UserRights("24", "001"))
+                                            {
+                                                <li> <a href="/Transaction/PDC">PDC</a> </li>
+                                            }
+
+                                            @*<li> <a href="/Transaction/PartyDiscount">Discount(Party Wise)</a> </li>*@
+                                            @if (ERP.Models.CommonDAL.UserRights("9", "001"))
+                                            {
+                                                <li> <a href="/Transaction/PartyDiscountNew">Discount(Party Wise)</a> </li>
+                                            }
+                                            @if (ERP.Models.CommonDAL.UserRights("10", "001"))
+                                            {
+                                                <li> <a href="/Transaction/SaleItem">Sale Item</a> </li>
+                                            }
+                                            @*@if (ERP.Models.CommonDAL.UserRights("19", "001"))
+                                                {
+                                                    <li> <a href="/Transaction/ShortCash">Short Cash</a> </li>
+                                                }*@
+                                            @if (ERP.Models.CommonDAL.UserRights("19", "001"))
+                                            {
+                                                <li> <a href="/Transaction/ShortCashOpening">ShortCash Opening</a> </li>
+                                            }
+                                            @if (ERP.Models.CommonDAL.UserRights("19", "001"))
+                                            {
+                                                <li> <a href="/Transaction/ShortCashRecovery">ShortCash Recovery</a> </li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+
+
+
+                                @if (ERP.Models.CommonDAL.UserRights("11", "001") || ERP.Models.CommonDAL.UserRights("12", "001") || ERP.Models.CommonDAL.UserRights("13", "001") || ERP.Models.CommonDAL.UserRights("14", "001") || ERP.Models.CommonDAL.UserRights("15", "001") || ERP.Models.CommonDAL.UserRights("17", "001") || ERP.Models.CommonDAL.UserRights("18", "001") || ERP.Models.CommonDAL.UserRights("20", "001") || ERP.Models.CommonDAL.UserRights("21", "001") || ERP.Models.CommonDAL.UserRights("25", "001"))
+                                {
+                                    <li>
+                                        <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-book" data-icon="/"></i> <span class="hide-menu" style="margin-left:10px">Reports <span class="fa arrow"></span></span></a>
+                                        <ul class="nav nav-third-level">
+
+                                            @if (ERP.Models.CommonDAL.UserRights("11", "001"))
+                                            {
+                                                <li> <a href="/Report/ReportIndex">Daily Sale Report</a> </li>
+                                            }
+
+                                            @if (ERP.Models.CommonDAL.UserRights("12", "001"))
+                                            {
+                                                <li> <a href="/Report/PartyLedger">Party Ledger</a> </li>
+                                            }
+
+                                            @if (ERP.Models.CommonDAL.UserRights("13", "001"))
+                                            {
+                                                <li> <a href="/Report/DailyStockDetail">Stock Summary</a> </li>
+                                            }
+
+                                            @if (ERP.Models.CommonDAL.UserRights("14", "001"))
+                                            {
+                                                <li> <a href="/Report/CreditorSummary">Debtor Summary</a> </li>
+                                            }
+
+                                            @if (ERP.Models.CommonDAL.UserRights("15", "001"))
+                                            {
+                                                <li> <a href="/Report/SaleTaxRegister">Sale Tax Register</a> </li>
+                                            }
+
+                                            @if (ERP.Models.CommonDAL.UserRights("17", "001"))
+                                            {
+                                                <li> <a href="/Report/CreditorAgeing">Debor Ageing</a> </li>
+                                            }
+
+                                            @if (ERP.Models.CommonDAL.UserRights("18", "001"))
+                                            {
+                                                <li> <a href="/Report/RecoveryDetailReport">Recovery Detail</a> </li>
+                                            }
+
+                                            @if (ERP.Models.CommonDAL.UserRights("25", "001"))
+                                            {
+                                                <li> <a href="/Report/PDC_Report">PDC Report</a> </li>
+                                            }
+
+                                            @if (ERP.Models.CommonDAL.UserRights("18", "001"))
+                                            {
+                                                <li> <a href="#" onclick="OpenRecoveryAging()">Recovery Aging</a> </li>
+                                            }
+
+                                            @if (ERP.Models.CommonDAL.UserRights("20", "001"))
+                                            {
+                                                <li> <a href="/Report/ShortCashReport">Short Cash Report</a> </li>
+                                            }
+
+                                            @if (ERP.Models.CommonDAL.UserRights("21", "001"))
+                                            {
+                                                <li> <a href="/Report/DEOPerformance">DEO Invoice Detail</a> </li>
+                                            }
+                                            <li> <a href="/Report/DEO_vs_Salesman">DEO vs Salesman</a> </li>
+                                            <li> <a href="/Report/SalesmanIncentive">Salesman Incentive</a> </li>
+                                            <li> <a href="/Report/SalesmanSummaryForEmployees">Salesman Summary</a> </li>
+                                            <li> <a href="/Report/SaleTaxInvoice">Sale Tax Invoice</a> </li>
+                                            <li> <a href="/Report/TerminalStockReport">Stock Report Terminal</a> </li>
+                                            <li> <a href="#" onclick="OpenPartyWiseWHT()">Party Wise WHT</a> </li>
+                                            <li> <a href="#" onclick="OpenPRates()">Products Rates (Party Wise)</a> </li>
+                                            <li> <a href="/Report/ShortCash_Report">Short Cash Ledger</a></li>
+
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                    @*Production Menu*@
+
+                    @if (ERP.Models.CommonDAL.UserApplication("002"))
+                    {
+                        <li style="text-decoration:double">
+                            <a href="#" class="waves-effect"><i data-icon=")" class="fa fa-cog fa-spin"></i><strong><span class="hide-menu" style="margin-left:10px"> Production<span class="fa arrow"></span></span></strong></a>
+                            <ul class="nav nav-second-level">
+
+                                @if (ERP.Models.CommonDAL.UserRights("501", "001") || ERP.Models.CommonDAL.UserRights("502", "001"))
+                                {
+                                    <li>
+                                        <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-arrow-right" data-icon="/"></i> <span class="hide-menu" style="margin-left:10px"> Profile <span class="fa arrow"></span></span></a>
+                                        <ul class="nav nav-third-level">
+
+
+
+                                            @if (ERP.Models.CommonDAL.UserRights("502", "001"))
+                                            {
+                                                <li> <a href="/ProdTransaction/Vehicle">Vehicle Info</a> </li>
+                                            }
+                                            @if (ERP.Models.CommonDAL.UserRights("501", "001"))
+                                            {
+                                                <li> <a href="/ProdTransaction/Farm">Farms</a> </li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+
+                                @if (ERP.Models.CommonDAL.UserRights("503", "001") || ERP.Models.CommonDAL.UserRights("504", "001") || ERP.Models.CommonDAL.UserRights("505", "001") || ERP.Models.CommonDAL.UserRights("510", "001"))
+                                {
+                                    <li>
+                                        <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-pagelines" data-icon="/"></i> <span class="hide-menu" style="margin-left:10px"> Transaction <span class="fa arrow"></span></span></a>
+                                        <ul class="nav nav-third-level">
+                                            @if (ERP.Models.CommonDAL.UserRights("503", "001"))
+                                            {
+                                                <li> <a href="/ProdTransaction/DailyIntake">Daily Intak</a> </li>
+                                            }
+                                            @if (ERP.Models.CommonDAL.UserRights("504", "001"))
+                                            {
+                                                <li> <a href="/ProdTransaction/DailyProduction">Daily Production</a> </li>
+                                            }
+                                            @if (ERP.Models.CommonDAL.UserRights("505", "001"))
+                                            {
+                                                <li> <a href="/ProdTransaction/DailyDispatch">Daily Dispatch</a> </li>
+                                            }
+
+                                            @if (ERP.Models.CommonDAL.UserRights("510", "001"))
+                                            {
+                                                <li> <a href="/ProdTransaction/DailyDemand">Daily Demand</a> </li>
+                                            }
+
+                                        </ul>
+                                    </li>
+                                }
+
+                                @if (ERP.Models.CommonDAL.UserRights("506", "001") || ERP.Models.CommonDAL.UserRights("507", "001") || ERP.Models.CommonDAL.UserRights("508", "001") || ERP.Models.CommonDAL.UserRights("509", "001") || ERP.Models.CommonDAL.UserRights("511", "001"))
+                                {
+                                    <li>
+                                        <a href="javascript:void(0);" class="waves-effect"><i class="fa fa-book" data-icon="/"></i> <span class="hide-menu" style="margin-left:10px">Reports <span class="fa arrow"></span></span></a>
+                                        <ul class="nav nav-third-level">
+                                            @if (ERP.Models.CommonDAL.UserRights("506", "001"))
+                                            {
+                                                <li> <a href="~/Report/DailyIntakeReport">Raw Milk Intake</a> </li>
+                                            }
+                                            @if (ERP.Models.CommonDAL.UserRights("507", "001"))
+                                            {
+                                                <li> <a href="~/Report/DailyProductionReport">Daily Production</a> </li>
+                                            }
+                                            @if (ERP.Models.CommonDAL.UserRights("508", "001"))
+                                            {
+                                                <li> <a href="~/Report/DailyDispatchReport">Daily Dispatch</a> </li>
+                                            }
+                                            @if (ERP.Models.CommonDAL.UserRights("512", "001"))
+                                            {
+                                                <li> <a href="~/Report/DailyStockReport">Stock Report</a> </li>
+                                            }
+                                            @if (ERP.Models.CommonDAL.UserRights("511", "001"))
+                                            {
+                                                <li> <a href="~/Report/PlantStockReport">Plant Stock</a> </li>
+                                            }
+
+                                            @if (ERP.Models.CommonDAL.UserRights("511", "001"))
+                                            {
+                                                <li> <a href="~/Report/DemandWithDispatch">Demand Dispatch</a> </li>
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+
+                    @if (ERP.Models.CommonDAL.UserApplication("003"))
+                    {
+
+                        <li style="text-decoration:double">
+                            <a href="#" class="waves-effect"><i data-icon=")" class="fa fa-cog fa-refresh"></i><strong><span class="hide-menu" style="margin-left:10px"> Inventory<span class="fa arrow"></span></span></strong></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="http://124.29.220.101:8484">Login</a></li>
+                            </ul>
+                        </li>
+                    }
+
+                    @if (ERP.Models.CommonDAL.UserApplication("004"))
+                    {
+
+                        <li style="text-decoration:double">
+                            <a href="#" class="waves-effect"><i data-icon=")" class="fa fa-rupee fa-refresh"></i><strong><span class="hide-menu" style="margin-left:10px"> HR & Payroll<span class="fa arrow"></span></span></strong></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="/HR/HR_Dashboard">Dashboard</a></li>
+                            </ul>
+                        </li>
+                    }
+
+                </ul>
+            </div>
+        </div>
+        <!-- Left navbar-header end -->
+        <!-- Page Content -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row bg-title" id="Page_Header">
+                    <div class="col-lg-4 col-md-4 col-sm-7 col-xs-12">
+                        <h4 class="page-title" id="PageHeader">Dashboard</h4>
+                    </div>
+
+                    <div class="col-md-8 input-group" id="SearchAutoComplete" style="display:none">
+                        <h4 class="page-title" id="Search">Search: </h4>
+                        &nbsp;
+                        <input class="col-md-10 form-control" type="text" id="SearchParty" placeholder="Search Lahore Parties With Name & Get Code" style="overflow-y:scroll" />
+                    </div>
+
+                    @*<div class="col-lg-2 col-sm-2 col-md-2 col-xs-12">
+                            <a href="https://www.at-tahur.com" target="_blank" id="PageLink" class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Visit Our Site</a>
+
+                        </div>*@
+                    <!-- /.col-lg-12 -->
+                </div>
+
+                <div>
+                    @RenderBody()
+                </div>
+
+                <!-- .right-sidebar -->
+                <!-- /.right-sidebar -->
+            </div>
+            @*<footer class="text-center footer" style="color:black">2019 &copy; Designed and Developed By Muhammad Fahad </footer>*@
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <!-- jQuery -->
+    <script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/Content/bootstrap/dist/js/tether.min.js"></script>
+    <script src="~/Content/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/Content/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js"></script>
+    <!-- Menu Plugin JavaScript -->
+    <script src="~/Content/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
+    <!--Counter js -->
+    <script src="~/Content/plugins/bower_components/waypoints/lib/jquery.waypoints.js"></script>
+    <script src="~/Content/plugins/bower_components/counterup/jquery.counterup.min.js"></script>
+    <!--slimscroll JavaScript -->
+    <script src="~/Content/js/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script src="~/Content/js/waves.js"></script>
+    <!--Morris JavaScript -->
+    <script src="~/Content/plugins/bower_components/raphael/raphael-min.js"></script>
+    <script src="~/Content/plugins/bower_components/morrisjs/morris.js"></script>
+
+    <!--Chosen -->
+    <script src="~/Content/Chosen/chosen.jquery.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="~/Content/js/cbpFWTabs.js"></script>
+    <script src="~/Content/js/validator.js"></script>
+    <script src="~/Content/js/custom.min.js"></script>
+    <script src="~/Content/js/dashboard3.js"></script>
+    <!--Style Switcher -->
+    <script src="~/Content/plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
+    <script src="~/Content/plugins/bower_components/dropify/dist/js/dropify.min.js"></script>
+    <script src="~/Content/plugins/bower_components/datatables/jquery.dataTables.min.js"></script>
+    <!-- start - This is for export functionality only -->
+    <script src=""></script>
+    <!-- Date Picker Plugin JavaScript -->
+    @*<script src="../Content/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>*@
+    <!-- bt-switch -->
+    <script src="~/Content/plugins/bower_components/bootstrap-switch/bootstrap-switch.min.js"></script>
+    <!-- Sweet-Alert  -->
+    <script src="../Content/plugins/bower_components/sweetalert/sweetalert.min.js"></script>
+    <script src="../Content/plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js"></script>
+    <script src="../Content/js/mask.js"></script>
+    <!-- icheck -->
+    <script src="../Content/plugins/bower_components/icheck/icheck.min.js"></script>
+    <script src="../Content/plugins/bower_components/icheck/icheck.init.js"></script>
+    <script src="../Content/plugins/bower_components/bootstrap-table/dist/bootstrap-table.min.js"></script>
+    <script src="../Content/plugins/bower_components/bootstrap-table/dist/bootstrap-table.ints.js"></script>
+
+    <!-- start - This is for export functionality only -->
+
+    <script src="~/Content/js/buttons.print.min.js"></script>
+    <script src="~/Content/js/buttons.html5.min.js"></script>
+    <script src="~/Content/js/vfs_fonts.js"></script>
+    <script src="~/Content/js/pdfmake.mis.js"></script>
+    <script src="~/Content/js/jszip.min.js"></script>
+    <script src="~/Content/js/buttons.flash.min.js"></script>
+    <script src="~/Content/js/dataTables.buttons.min.js"></script>
+
+    <!-- jQuery for carousel -->
+    <script src="~/Content/plugins/bower_components/owl.carousel/owl.carousel.min.js"></script>
+    <script src="~/Content/plugins/bower_components/owl.carousel/owl.custom.js"></script>
+
+    <!-- Sparkline chart JavaScript -->
+    <script src="~/Content/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <script src="~/Content/plugins/bower_components/jquery-sparkline/jquery.charts-sparkline.js"></script>
+
+    <script src="~/Content/plugins/bower_components/toast-master/js/jquery.toast.js"></script>
+
+    <!--Counter js -->
+    <script src="~/Content/plugins/bower_components/waypoints/lib/jquery.waypoints.js"></script>
+    <script src="~/Content/plugins/bower_components/counterup/jquery.counterup.min.js"></script>
+
+    <!--weather icon -->
+    <script src="~/Content/plugins/bower_components/skycons/skycons.js"></script>
+
+
+    <!-- Calendar JavaScript -->
+    <!-- Custom Theme JavaScript -->
+
+    <script src="~/Content/plugins/bower_components/switchery/dist/switchery.min.js"></script>
+    <script src="~/Content/plugins/bower_components/custom-select/custom-select.min.js" type="text/javascript"></script>
+    <script src="~/Content/plugins/bower_components/bootstrap-select/bootstrap-select.min.js" type="text/javascript"></script>
+    <script src="~/Content/plugins/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+    <script src="~/Content/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="~/Content/plugins/bower_components/multiselect/js/jquery.multi-select.js"></script>
+
+    <!-- Footable -->
+    <script src="~/Content/plugins/bower_components/footable/js/footable.all.min.js"></script>
+    <!--FooTable init-->
+    <script src="~/Content/js/footable-init.js"></script>
+
+    @*<script src="~/Content/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>*@
+
+    <script src="~/Content/JQueryDP/jquery-ui.min.js"></script>
+    @*<script src="~/Content/JQueryDP/jquery-3.0.0.js"></script>*@
+    <script>
+
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+
+        function formatDate(date) {
+        var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [day,month,year].join('/');
+        }
+
+        function OpenRecoveryAging() {
+
+            window.open("../ReportWebForms/DetailWebForms/RecoveryAging.aspx", 'mywindow', 'fullscreen=yes, scrollbars=auto,height=auto,width=1500');
+        }
+
+        function sendRequestForMissInvoices() {
+            $.ajax({
+                url: "/Home/GetAllMissCalInvoices",
+                success: function (data) {
+                    if (data.MissCalInc.length > 0) {
+                        $("#ULList a").remove();
+                        var i = 1;
+                        $.each(data.MissCalInc, function (index, obj) {
+                            //var row = '<li><a href="#" onClick="return false;"><span class="menu-info"><span class="menu-title">' + obj.ManInvoiceNo + '"></span><span class="menu-info"><span class="menu-title">' + obj.InvoiceDate + '</span><span class="menu-title">' + obj.UpdUser + '">' + '</span><span class="menu-desc">' + obj.InvoiceNo + '</span><span class="menu-desc"><i class="material-icons">access_time</i>' + + '</span></span></a></li>';
+
+                            var row = '<a href="#"><div class="mail-contnet"><div class="row"><h5 class="stat-item">' + i + '</h5 ><h5 class="stat-item">' + obj.ManInvoiceNo + '</h5><h5 class="stat-item">' + obj.InvoiceDate + '</h5><h5 class="stat-item">' + obj.UpdUser + '</h5></div></div></a>';
+
+                            i++;
+                            $("#ULList").append(row);
+                        });
+
+                    }
+                },
+            });
+        };
+
+        $(document).ready(function () {
+            sendRequest();
+            function sendRequest() {
+                $.ajax({
+                    url: "/Home/GetAllMissCalInvoicesCount",
+                    success:
+                           function (data) {
+                               $("#userCount").text(data.CountInv);
+                           }
+
+                });
+            };
+        });
+
+        $(function () {
+            $('#SearchParty').autocomplete({
+                source: '@Url.Action("SearchParty", "Home")',
+                minLength:3
+            })
+        })
+
+        function GoToAddRegion() {
+            location.href = '/Company/RegionSetup';
+        }
+
+        (function () {
+            [].slice.call(document.querySelectorAll('.sttabs')).forEach(function (el) {
+                new CBPFWTabs(el);
+            });
+        })();
+
+
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-19175540-9', 'auto');
+        ga('send', 'pageview');
+
+
+
+
+        $(document).ready(function () {
+            //Date picker Test Format
+
+            //$(".Datepicker-AutoClose").datepicker({
+            //    format: 'dd/mm/yyyy',
+            //    autoclose: true,
+            //    todayHighlight: true,
+
+
+            //}).find('input:first').on("blur", function () {
+
+            //    var date = parseDate($(this).val());
+
+            //    if (!isValidDate(date)) {
+
+            //        date = moment().format('dd/mm/yyyy');
+            //    }
+
+            //    $(this).val(date);
+            //});
+
+            //---------------------------
+            // Date Picker
+
+            //$('.mydatepicker, #datepicker').datepicker();
+            //$('#datepicker-autoclose').datepicker({
+            //    autoclose: true,
+            //    todayHighlight: true,
+            //    minDate: '31/03/2020',
+            //});
+            //$(".Datepicker-AutoClose").datepicker({
+            //    minDate: 0
+            //});
+
+
+            $(document).ready(function () {
+                // Date Object
+                $('.Datepicker-AutoCloseDEO').datepicker({
+                    dateFormat: "dd/mm/yy",
+                    minDate: -7
+                });
+
+
+                $('.Datepicker-AutoCloseAdmin').datepicker({
+                    dateFormat: "dd/mm/yy"
+                });
+
+                $('.Datepicker-AutoClose').datepicker({
+                    dateFormat: "dd/mm/yy",
+                });
+
+            });
+
+
+            // Basic
+            $('.dropify').dropify();
+            // Translated
+            $('.dropify-fr').dropify({
+                messages: {
+                    default: 'Glissez-déposez un fichier ici ou cliquez',
+                    replace: 'Glissez-déposez un fichier ou cliquez pour remplacer',
+                    remove: 'Supprimer',
+                    error: 'Désolé, le fichier trop volumineux'
+                }
+            });
+            // Used events
+            var drEvent = $('#input-file-events').dropify();
+            drEvent.on('dropify.beforeClear', function (event, element) {
+                return confirm("Do you really want to delete \"" + element.file.name + "\" ?");
+            });
+            drEvent.on('dropify.afterClear', function (event, element) {
+                alert('File deleted');
+            });
+            drEvent.on('dropify.errors', function (event, element) {
+                console.log('Has Errors');
+            });
+            var drDestroy = $('#input-file-to-destroy').dropify();
+            drDestroy = drDestroy.data('dropify')
+            $('#toggleDropify').on('click', function (e) {
+                e.preventDefault();
+                if (drDestroy.isDropified()) {
+                    drDestroy.destroy();
+                } else {
+                    drDestroy.init();
+                }
+            })
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+            $('.DataTable').DataTable();
+            $(document).ready(function () {
+                var table = $('#example').DataTable({
+                    "columnDefs": [{
+                        "visible": false,
+                        "targets": 2
+                    }],
+                    "order": [
+                        [2, 'asc']
+                    ],
+                    "displayLength": 25,
+                    "drawCallback": function (settings) {
+                        var api = this.api();
+                        var rows = api.rows({
+                            page: 'current'
+                        }).nodes();
+                        var last = null;
+                        api.column(2, {
+                            page: 'current'
+                        }).data().each(function (group, i) {
+                            if (last !== group) {
+                                $(rows).eq(i).before('<tr class="group"><td colspan="5">' + group + '</td></tr>');
+                                last = group;
+                            }
+                        });
+                    }
+                });
+                // Order by the grouping
+                $('#example tbody').on('click', 'tr.group', function () {
+                    var currentOrder = table.order()[0];
+                    if (currentOrder[0] === 2 && currentOrder[1] === 'asc') {
+                        table.order([2, 'desc']).draw();
+                    } else {
+                        table.order([2, 'asc']).draw();
+                    }
+                });
+            });
+        });
+        $('.ExportTable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        });
+
+        //$(document).ready(function () {
+        //    $.toast({
+        //        heading: 'Welcome to SMS',
+        //        text: 'It is the full fledge Web Application, It is the fully Responsive for any type device.',
+        //        position: 'top-right',
+        //        loaderBg: '#ff6849',
+        //        icon: 'info',
+        //        hideAfter: 3500,
+        //        stack: 6
+        //    })
+        //});
+    </script>
+
+    <script type="text/javascript">
+        $(".bt-switch input[type='checkbox'], .bt-switch input[type='radio']").bootstrapSwitch();
+        var radioswitch = function () {
+            var bt = function () {
+                $(".radio-switch").on("switch-change", function () {
+                    $(".radio-switch").bootstrapSwitch("toggleRadioState")
+                }),
+                    $(".radio-switch").on("switch-change", function () {
+                        $(".radio-switch").bootstrapSwitch("toggleRadioStateAllowUncheck")
+                    }),
+                    $(".radio-switch").on("switch-change", function () {
+                        $(".radio-switch").bootstrapSwitch("toggleRadioStateAllowUncheck", !1)
+                    })
+            };
+            return {
+                init: function () {
+                    bt()
+                }
+            }
+        }();
+        $(document).ready(function () {
+            radioswitch.init()
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(document).on("submit", "#selectbox_validate", function () {
+                if ($("div#maindiv").hasClass("has-error")) {
+                    $(this).find(".bootstrap-select")
+                        .after("<h6 class='has-error' style='color:red;'>please select any value from options.</h6>");
+                }
+            });
+            $("#select").on("changed.bs.select", function (e) {
+                if (!$("div#maindiv").hasClass("has-error")) {
+                    $("#selectbox_validate").find("h6.has-error").hide();
+                }
+            });
+            $('.vcarousel').carousel({
+                interval: 3000
+            });
+        });
+
+
+
+
+
+
+    </script>
+
+
+    <script>
+        jQuery(document).ready(function () {
+            // Switchery
+            var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+            $('.js-switch').each(function () {
+                new Switchery($(this)[0], $(this).data());
+            });
+            // For select 2
+            $(".select2").select2();
+            $('.selectpicker').selectpicker();
+            //Bootstrap-TouchSpin
+            $(".vertical-spin").TouchSpin({
+                verticalbuttons: true,
+                verticalupclass: 'ti-plus',
+                verticaldownclass: 'ti-minus'
+            });
+            var vspinTrue = $(".vertical-spin").TouchSpin({
+                verticalbuttons: true
+            });
+            if (vspinTrue) {
+                $('.vertical-spin').prev('.bootstrap-touchspin-prefix').remove();
+            }
+            $("input[name='tch1']").TouchSpin({
+                min: 0,
+                max: 100,
+                step: 0.1,
+                decimals: 2,
+                boostat: 5,
+                maxboostedstep: 10,
+                postfix: '%'
+            });
+            $("input[name='tch2']").TouchSpin({
+                min: -1000000000,
+                max: 1000000000,
+                stepinterval: 50,
+                maxboostedstep: 10000000,
+                prefix: '$'
+            });
+            $("input[name='tch3']").TouchSpin();
+            $("input[name='tch3_22']").TouchSpin({
+                initval: 40
+            });
+            $("input[name='tch5']").TouchSpin({
+                prefix: "pre",
+                postfix: "post"
+            });
+            // For multiselect
+            $('#pre-selected-options').multiSelect();
+            $('#optgroup').multiSelect({
+                selectableOptgroup: true
+            });
+            $('#public-methods').multiSelect();
+            $('#select-all').click(function () {
+                $('#public-methods').multiSelect('select_all');
+                return false;
+            });
+            $('#deselect-all').click(function () {
+                $('#public-methods').multiSelect('deselect_all');
+                return false;
+            });
+            $('#refresh').on('click', function () {
+                $('#public-methods').multiSelect('refresh');
+                return false;
+            });
+            $('#add-option').on('click', function () {
+                $('#public-methods').multiSelect('addOption', {
+                    value: 42,
+                    text: 'test 42',
+                    index: 0
+                });
+                return false;
+            });
+        });
+    </script>
+
+
+    <script>
+
+
+
+
+
+
+        function OpenPRates() {
+
+            window.open("../ReportWebForms/DetailWebForms/AllPartyRates.aspx", 'mywindow', 'fullscreen=yes, scrollbars=auto');
+        }
+
+        function OpenPartyWiseWHT() {
+
+            window.open("../ReportWebForms/DetailWebForms/PartyWiseWHT.aspx", 'mywindow', 'fullscreen=yes, scrollbars=auto');
+        }
+
+        $(function () {
+            $("body").on('click keypress', function () {
+                ResetThisSession();
+            });
+        });
+
+        var timeInSecondsAfterSessionOut = 5400; // change this to change session time out (in seconds).
+        var secondTick = 0;
+
+        function ResetThisSession() {
+            secondTick = 0;
+        }
+
+        function StartThisSessionTimer() {
+            secondTick++;
+            var timeLeft = ((timeInSecondsAfterSessionOut - secondTick) / 60).toFixed(0); // in minutes
+            timeLeft = timeInSecondsAfterSessionOut - secondTick; // override, we have 30 secs only
+
+            $("#spanTimeLeft").html(timeLeft);
+
+            if (secondTick > timeInSecondsAfterSessionOut) {
+                clearTimeout(tick);
+                window.location = "/Home/Logout";
+                return;
+            }
+            tick = setTimeout("StartThisSessionTimer()", 1000);
+        }
+
+        StartThisSessionTimer();
+    </script>
+
+
+
+</body>
+</html>

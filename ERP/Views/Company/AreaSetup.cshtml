@@ -1,0 +1,203 @@
+﻿
+@{
+    ViewBag.Title = "AreaSetup";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<style type="text/css">
+    /*label {
+        font-weight: 100;
+        font-size: 12px;
+    }*/
+
+    /*.btn {
+        line-height: 0.25;
+        font-size: 12px;
+    }*/
+
+    .checkbox {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-off,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-on,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-label {
+        line-height: 1.2;
+    }
+
+    /*.modal-header {
+        padding: 5px;
+    }*/
+
+
+
+    /*.input-group-addon {
+        padding: 3px 8px;
+        /*color: #0084BF;
+    }*/
+
+
+
+    .table-Scroll {
+        max-height: 540px;
+        max-width: 100%;
+        overflow: auto;
+    }
+
+    td {
+        font-size: 12px;
+    }
+
+    th {
+        font-size: 12px;
+        font: bold;
+    }
+
+    .width50 {
+        width: 500px;
+    }
+
+    .width40 {
+        width: 400px;
+    }
+
+    .width15 {
+        width: 150px;
+    }
+
+    .width30 {
+        width: 300px;
+    }
+
+    .width20 {
+        width: 200px;
+    }
+
+    .width10 {
+        width: 100px;
+    }
+</style>
+
+<style>
+    .Top {
+        margin-top: 5px;
+    }
+
+    .Btn-width {
+        width: 80px;
+        font-family: Calibri;
+        font-size: large;
+        font-style: normal;
+    }
+
+    .table-head {
+        height: 10px;
+        line-height: 8px;
+    }
+
+    .btn-TopHeight {
+        margin-top: 23px;
+    }
+
+    .btn-ItemWidth {
+        width: 100px;
+        /*height: 32px;*/
+    }
+
+    fieldset {
+        margin-top: 20px
+    }
+
+    thead {
+        height: 32px
+    }
+</style>
+
+
+<div class="form-group">
+    <div class="col-md-12">
+        <div class="white-box">
+            <form role="form" action="/Company/RegionSetup" method="post" name="RegionSetup">
+                <div class="row">
+                    <div class="col-md-12">
+                        @if (TempData["SuccessMsg"] != null)
+                        {
+                            <div class="alert alert-success">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <b> @TempData["SuccessMsg"]</b>
+                            </div>
+                        }
+
+                        <div class="row">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Region Code</label>
+                            <div class="col-md-6 input-group">
+                                <div class="input-group-addon"><a data-toggle="modal" data-target="#RegionModal" style="color:blue"><i class="fa fa-search"></i></a></div>
+                                <input class="form-control" type="text" placeholder="Region Code" id="RegionCode" name="RegionCode" readonly>
+                            </div>
+                            <div class="col-md-2 input-group">
+                                <input class="form-control" type="text" placeholder="dd/MM/yyyy" id="TransDate" name="TransDate" value="@ViewBag.CurrentDate" readonly>
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="row Top">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Region Description</label>
+                            <div class="col-md-8 input-group">
+                                <input class="form-control" type="text" placeholder="Region Description" id="RegionDescription" name="RegionDescription" maxlength="90" required>
+                            </div>
+                        </div>
+
+                        <div class="row Top">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Name Abbreviate</label>
+                            <div class="col-md-8 input-group">
+                                <input class="form-control" type="text" placeholder="Name Abbreviate" id="NameAbbreviate" name="NameAbbreviate" maxlength="40" required>
+                            </div>
+                        </div>
+
+                        <div class="row Top">
+                            <label for="example-text-input" class="col-md-2 col-form-label">City</label>
+                            <div class="col-md-8 input-group">
+                                <input class="form-control" type="text" placeholder="City" id="City" name="City" maxlength="20" required>
+                            </div>
+                        </div>
+
+                        <div class="row Top">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Address</label>
+                            <div class="col-md-8 input-group">
+                                <input class="form-control" type="text" placeholder="Address" id="Address" name="Address" maxlength="140">
+                            </div>
+                        </div>
+
+                        <div class="row Top">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Phone #</label>
+                            <div class="col-md-8 input-group">
+                                <input class="form-control" type="text" data-mask="0999 9999999" placeholder="Contact No" id="Phone" name="Phone" required>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+
+                    <div class="row col-md-12" style="margin-top:15px">
+                        <div class="input-group offset-md-2">
+                            <input class="btn btn-info Btn-width model_img" type="submit" id="btnSave" value="Save" style="margin-left:20px" />
+                            &nbsp;
+                            <input class="btn btn-danger Btn-width model_img" type="button" onclick="DeleteModal()" value="Delete" />
+                            &nbsp;
+                            <input class="btn btn-default Btn-width" type="reset" id="btnClear" value="Clear" />
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+

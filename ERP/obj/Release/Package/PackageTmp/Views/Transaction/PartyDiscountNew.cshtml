@@ -1,0 +1,809 @@
+﻿@model ERP.Models.SaleInvoiceMaster
+@{
+    ViewBag.Title = "PartyDiscountNew";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+<style type="text/css">
+    /*label {
+        font-weight: 100;
+        font-size: 12px;
+    }*/
+
+    /*.btn {
+        line-height: 0.25;
+        font-size: 12px;
+    }*/
+
+    .checkbox {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-off,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-on,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-label {
+        line-height: 1.2;
+    }
+
+    /*.modal-header {
+        padding: 5px;
+    }*/
+
+
+
+    /*.input-group-addon {
+        padding: 3px 8px;
+        /*color: #0084BF;
+    }*/
+
+
+
+    .table-Scroll {
+        max-height: 540px;
+        max-width: 100%;
+        overflow: auto;
+    }
+
+    td {
+        font-size: 12px;
+    }
+
+    th {
+        font-size: 12px;
+        font: bold;
+    }
+
+    .width50 {
+        width: 500px;
+    }
+
+    .width40 {
+        width: 400px;
+    }
+
+    .width15 {
+        width: 150px;
+    }
+
+    .width30 {
+        width: 300px;
+    }
+
+    .width20 {
+        width: 200px;
+    }
+
+    .width10 {
+        width: 100px;
+    }
+    .White {
+        color: white;
+    }
+
+    .Black {
+        color: black;
+    }
+</style>
+
+<style>
+    .Top {
+        margin-top: 5px;
+    }
+
+    .Btn-width {
+        width: 80px;
+        font-family: Calibri;
+        font-size: large;
+        font-style: normal;
+    }
+
+    .table-head {
+        height: 10px;
+        line-height: 8px;
+    }
+
+    .btn-TopHeight {
+        margin-top: 23px;
+    }
+
+    .btn-ItemWidth {
+        width: 100px;
+        /*height: 32px;*/
+    }
+
+    fieldset {
+        margin-top: 20px
+    }
+
+    thead {
+        height: 32px
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="white-box">
+            <form action="/Transaction/PartyDiscountNew" id="PartyDiscountNew" name="PartyDiscountNew" method="post">
+
+                @if (TempData["SuccessMsg"] != null)
+                {
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <b> @TempData["SuccessMsg"]</b>
+                    </div>
+                }
+
+                    <div class="row">
+                        <label for="example-text-input" class="col-md-2 col-form-label">Party Discount Code</label>
+                        <div class="col-md-1 input-group">
+                            @*<div class="input-group-addon"><a data-toggle="modal" data-target="#PDModal" style="color:blue"><b><i class="fa fa-search"></i></b></a></div>*@
+                            <input class="form-control" type="text" placeholder="Party Discount Code" id="PdCode" name="PdCode" readonly>
+                        </div>
+
+                        <div class="col-md-1 input-group">
+                            <input class="form-control" type="text" placeholder="dd/MM/yyyy" id="PdDate" name="PdDate" value="@ViewBag.CurrentDate" readonly>
+                        </div>
+                        <label for="example-text-input" class="col-md-1 col-form-label">Upd Discount</label>
+                        <div class="col-md-1 input-group">
+                            <input class="form-control col-md-2" type="text" placeholder="Party Code" id="UpdPartyCode" tabindex="1">
+                        </div>
+                        <div class="col-md-2 input-group">
+                            <select class="form-control" id="UpdRegionCode" onchange="RemoveRO()">
+                                <option>Select Region</option>
+                                <option value="001">Lahore</option>
+                                <option value="002">Islamabad</option>
+                                <option value="003">Rawalpindi</option>
+                                <option value="004">KPK</option>
+                                <option value="005">AJA</option>
+                                <option value="006">Multan</option>
+                                <option value="007">GT-Road</option>
+                                <option value="008">Faisalabad</option>
+                                <option value="009">Sargodha</option>
+                                <option value="010">Karachi</option>
+                            </select>
+                        </div>
+
+
+                    </div>
+
+                <div class="row Top">
+                    <label for="example-text-input" class="col-md-2 col-form-label">Region Code</label>
+                    <div class="col-md-6 input-group">
+                        @Html.DropDownListFor(M => M.RegionCode, (IEnumerable<SelectListItem>)ViewBag.RegionDDL as SelectList, "Please Select Region", new { @class = "form-control p-0", @name = "RegionCode", @id = "RegionCode" , @onchange = "GetRegionPartyDDL()" })
+                        <input type="hidden" id="HideRegionCode" value="@Session["RegionCode"]" />
+                    </div>
+                   
+                </div>
+
+                <div class="row Top">
+                    <label for="example-text-input" class="col-md-2 col-form-label">Party Code</label>
+                    @*<div class="col-md-6 input-group">
+            @Html.DropDownListFor(M => M.PartyCode, (IEnumerable<SelectListItem>)ViewBag.PartyDDL as SelectList, "Please Select Party", new { @class = "form-control p-0", @name = "PartyCode", @id = "PartyCode", @onchange = "GetPartyDetail()" })
+        </div>*@
+
+                    <div class="col-md-1 input-group">
+                        <input type="text" id="ManualMPartyCode" name="ManualMPartyCode" class="form-control col-md-2" />
+                    </div>
+                    <div class="col-md-5 input-group">
+                        <select class="form-control p-0" name="PartyCode" id="PartyCode" onchange="GetPartyDetail()">
+                            <option value="Select Any Value">Select Any Value</option>
+                        </select>
+                    </div>
+                    <div class="col-md-1 input-group">
+                        <input class="form-control" type="text" placeholder="Party Type" id="PartyType" name="TransType" readonly>
+                    </div>
+                    <div class="col-md-1 input-group">
+                        <input class="form-control" type="text" placeholder="SaleTaxReg" id="STaxReg" name="PartyStatus" readonly>
+                    </div>
+                    <div class="col-md-1 input-group">
+                        <input class="form-control" type="text" placeholder="Category" id="Category" name="Category" readonly>
+                    </div>
+
+                    @*<div class="col-md-2 input-group">
+            <div class="input-group-addon"><a data-toggle="modal" data-target="#PartyModal" style="color:blue"><b><i class="fa fa-search"></i></b></a></div>
+            <input class="form-control" type="text" placeholder="Party Code" id="PartyCode" name="PartyCode" readonly>
+        </div>
+        <div class="col-md-6 input-group">
+            <input class="form-control" type="text" placeholder="Party Description" id="PartyName" name="PartyName" readonly>
+        </div>*@
+
+                </div>
+
+                    <fieldset>
+                        <legend>Add Item Discount</legend>
+                        <div class="col-sm-12">
+                            <div class="white-box">
+                                <table id="ItemTable" data-toggle="table" data-height="250" data-mobile-responsive="true" class="table-striped">
+                                    <thead class="bg-info">
+                                        <tr>
+                                            <th class="White" data-width="100"> Item Code </th>
+                                            <th class="White"> Item Description </th>
+                                            <th class="White" data-width="200"> Discount Amount </th>
+                                            <th class="White" data-width="200"> Item Rate </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (ViewBag.ItemList != null)
+                                        {
+                                            foreach (var item in ViewBag.ItemList)
+                                            {
+                                                <tr class="GetQty Discount">
+                                                    <td class="Black">@item.ItemCode</td>
+                                                    <td class="Black">@item.ItemDesc</td>
+                                                    <td class="Black">
+                                                        <input value="0" name="DiscountAmt" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                               type="number"
+                                                               maxlength="5" />
+                                                    </td>
+                                                    <td>0</td>
+                                                </tr>
+                                            }
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </fieldset>
+
+
+                    <div class="form-group row">
+                        <div class="col-md-4 offset-md-9">
+                            @if (ERP.Models.CommonDAL.UserRights("9", "002"))
+                            {
+                                <input class="btn btn-info Btn-width" type="button" id="btnSave" value="Save" />
+                            }
+                            else
+                            {
+                                <input class="btn btn-info Btn-width" type="button" id="btnSave" value="Save" disabled />
+                            }
+
+
+                            <input class="btn btn-default Btn-width" type="reset" id="btnClear" value="Clear" />
+
+
+                            @if (ERP.Models.CommonDAL.UserRights("9", "006"))
+                            {
+                                <input class="btn btn-success Btn-width" type="button" onclick="SimpleInNewWin()" id="btnPrint" value="Print" />
+                            }
+                            else
+                            {
+                                <input class="btn btn-success Btn-width" type="button" onclick="SimpleInNewWin()" id="btnPrint" value="Print" disabled />
+                            }
+                        </div>
+                    </div>
+</form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+<script>
+    document.getElementById("PageHeader").innerHTML = "New Party Discount";
+
+    $("#SearchAutoComplete").show("true");
+
+ 
+    //var str = "Add New Unit";
+    //var result = str.link("/CompanySetup/UnitSetup");
+    //document.getElementById("PageLink").innerHTML = result;
+
+     $(document).ready(function () {
+        var HideRegionCode = $("#HideRegionCode").val();
+         $("#RegionCode").val(HideRegionCode).trigger("chosen:updated");
+         $("#UpdRegionCode").val(HideRegionCode).trigger("chosen:updated");
+         
+         GetRegionPartyDDL();
+
+         document.getElementById("UpdPartyCode").focus();
+     })
+
+    $(document).on('keypress', function (e) {
+        if (e.ctrlKey && (e.which == 13 || e.which == 10)) {
+            $("#btnSave").click();
+        }
+    });
+
+     document.getElementById("PageTitle").innerHTML = "Party Discount"
+</script>
+
+<script>
+
+     $(function () {
+
+        $("#PartyCode").chosen();
+        $("#RegionCode").chosen();
+         $("#UpdRegionCode").chosen();
+
+    });
+
+
+    $(document).keydown(function (e) {
+        if (e.ctrlKey && (e.which == 80)) {
+            e.preventDefault();
+
+            GeSinglePartyDDL();
+        }
+    })
+
+    function GeSinglePartyDDL() {
+        var RegionCode = $("#RegionCode").val();
+        var ManualPartyCode = $("#ManualMPartyCode").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/SinglePartyDDL",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode, PartyCode: ManualPartyCode }),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $('#PartyCode').empty().trigger("chosen:updated");
+
+                if (data.Party !== null) {
+
+
+                    $('#PartyCode').append($('<option>', {
+                        value: data.PartyCode,
+                        text: data.PartyName
+                    })).trigger("chosen:updated");
+
+                    GetPartyDetail();
+                }
+               
+            }
+        });
+
+    }
+
+    function RemoveRO() {
+        $("#UpdPartyCode").removeAttr("readonly", true)
+    }
+
+    function GetRegionPartyDDL() {
+        var RegionCode = $("#RegionCode").val();
+
+        if (RegionCode !== "001") {
+
+            $.ajax({
+                type: "POST",
+                url: "/Transaction/GetRegionPartyDDL",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({ RegionCode: RegionCode }),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    $('#PartyCode').empty().trigger("chosen:updated");
+
+                    $('#PartyCode').append($('<option>', {
+                        value: "",
+                        text: "Select Any Value"
+                    })).trigger("chosen:updated");
+
+                    if (data.length > 0) {
+                        $.each(data, function (index, obj) {
+
+                            $('#PartyCode').append($('<option>', {
+                                value: obj.PartyCode,
+                                text: obj.PartyCode + "   ==>  " + obj.PartyName
+                            })).trigger("chosen:updated");
+
+                        });
+                    }
+                }
+            });
+        }
+     
+    }
+
+
+   
+
+       function SimpleInNewWin() {
+         var RegionCode = $("#RegionCode").val();
+         var PartyCode = $("#PartyCode").val();
+
+           if (RegionCode == null || RegionCode == "") {
+             alert("Please, Select Regoin Code . . . !");
+         }else if (PartyCode == null || PartyCode == "") {
+             alert("Please, Select Party Code . . . !");
+         } else {
+             window.open("../ReportWebForms/Transaction/PartyInfo.aspx?RegionCode=" + encodeURI(RegionCode) + "&PartyCode=" + encodeURI(PartyCode) , 'mywindow', 'fullscreen=yes, scrollbars=auto');
+         }
+               
+    }
+
+    function GetDiscountedItemRate() {
+
+        var RegionCode = $('#RegionCode').val();
+        var STaxReg = $('#STaxReg').val();
+        var Category = $('#Category').val();  
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/ItemDiscountedRate",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode, STaxReg: STaxReg, Category: Category }),
+            contentType: "application/json; charset=utf-8",
+            complete: function (ItemList) {
+                if (ItemList.responseJSON.length > 0) {
+                    $("#ItemTable tbody tr").remove();
+                    $.each(ItemList.responseJSON, function (index, obj) {
+                        var row = '<tr class="Discount" ><td>' + obj.ItemCode + ' </td> <td> ' + obj.ItemDesc +
+                            '</td><td><input name="DiscountAmt" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type = "number" maxlength = "5" value="' + 0 + '"/></td><td>' + obj.DiscountRate   + '</td></tr>';
+                        $("#ItemTable tbody").append(row);
+                    });
+                   
+                }
+            }
+        });
+
+    }
+
+    $("#ItemTable").on("keyup", ".Discount", function () {
+
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+
+        var Rate = parseFloat(rIndex.find('td:eq(3)').text().replace(/\s+/g, ""));
+        var DiscountAmt = parseFloat($(this).find("input[name='DiscountAmt']").val());
+
+        if (DiscountAmt > Rate) {
+            alert("Discount Amount Should be less than from Item Rate . . . !");
+            $(this).find("input[name='DiscountAmt']").val(0);
+        }
+       
+
+    });
+
+
+    function GetRegion(RegionCode, RegionDescription) {
+        document.getElementById("RegionCode").value = RegionCode;
+        document.getElementById("RegionDescription").value = RegionDescription;
+
+             $.ajax({
+             type: "POST",
+             url: "/Transaction/GetRegionParty",
+             dataType: "json",
+             contentType: 'application/json',
+             data: JSON.stringify({ RegionCode : RegionCode }),
+             contentType: "application/json; charset=utf-8",
+             success: function (data) {
+                 $("#tblParty tbody tr").remove();
+                 if (data.Data.length > 0) {
+                     $.each(data.Data, function (index, obj) {
+                         var RegStatus;
+                         if (obj.STaxReg == "N") {
+                             RegStatus = "Un-Rag";
+                         } else {
+                             RegStatus = "Reg";
+                         }
+                         var row = '<tr class="GetParty"><td width="200px"> ' + obj.PartyCode + ' </td> <td> ' + obj.PartyName + ' </td> <td> ' + obj.PartyType + ' </td><td> ' + RegStatus + ' </td><td> ' + obj.Category + '</td><tr>'
+                         $("#tblParty tbody").append(row);
+                     });
+                 }
+             }
+         });
+
+
+
+        $("#RegionModal").modal("hide");
+    }
+
+
+    function GetPartyDetail() {
+        var PartyCode = $("#PartyCode").val();
+        var RegionCode = $('#RegionCode').val();
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/DDLPartyDetail",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode:RegionCode, PartyCode: PartyCode }),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data != null) {
+
+                    document.getElementById("PartyType").value = data.PartyType;
+                    var RegStatus = "";
+                    if (data.STaxReg == "N") {
+                        RegStatus = "Un-Reg";
+                    } else {
+                        RegStatus = "Reg";
+                    }
+
+                    document.getElementById("STaxReg").value = RegStatus;
+                    document.getElementById("Category").value = data.Category;
+
+                    GetDiscountedItemRate();
+
+                }
+
+            }
+        })
+
+    }
+
+
+    $("#tblParty").on('click', '.GetParty', function () {
+
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+
+        var PartyCode = rIndex.find('td:eq(0)').text().replace(/\s+/g, "");
+        var PartyName = rIndex.find('td:eq(1)').text().replace(/\s+/g, "");
+
+        document.getElementById("PartyCode").value = PartyCode;
+        document.getElementById("PartyName").value = PartyName;
+
+        $("#PartyModal").modal("hide");
+    });
+
+
+</script>
+
+<script>
+    var ItemTable = []
+
+
+    function checkAllEmptyInputs() {
+        var isEmpty = false,
+            RegionCode = document.getElementById('RegionCode').value,
+            PartyCode = document.getElementById('PartyCode').value,
+            PdDate = document.getElementById('PdDate').value
+
+        if (RegionCode == "") {
+            alert('Region Code cannot be Empty');
+            isEmpty = true;
+        }
+        else if (PartyCode == "") {
+            alert('Party Code cannot be Empty');
+            isEmpty = true;
+        }
+        else if (PdDate == "") {
+            alert('Date cannot be Empty');
+            isEmpty = true;
+        }
+
+        return isEmpty;
+    }
+
+
+    function ItemRows() {
+      
+            itemCount = 0;
+            $("table#ItemTable").find('tr').each(function () {
+                var tableItem = document.getElementById('ItemTable');
+                var DiscountAmt = $(this).find("input[name='DiscountAmt']").val();
+
+                if (itemCount != 0) {
+                    var itemList = $(this).find("td");
+                    // check empty row
+                   
+                    var vouch = {
+                        ItemCode: $(itemList[0]).html(), ItemDesc: $(itemList[1]).html(), DiscountAmt: parseFloat(DiscountAmt) 
+                    };
+                    ItemTable.push(vouch);
+                }
+                itemCount++;
+            })
+
+            //var itemList = $(this).find("td");
+            //var DiscountAmt = $(this).find("input[name='DiscountAmt']").val();
+            //var vouch = {
+            //    ItemCode: $(itemList[1]).html(), ItemDesc: $(itemList[2]).html(), DiscountAmt: DiscountAmt 
+            //};
+            //ItemTable.push(vouch);
+    }
+
+    $("#btnSave").click(function (e) {
+        e.preventDefault();
+
+        var RegionCode = $("#RegionCode").val();
+        var PartyCode = $("#PartyCode").val();
+        var PdCode = $("#PdCode").val();
+
+        if (PdCode === "") {
+
+
+
+            $.ajax({
+                type: "POST",
+                url: "/Transaction/CheckDiscountedParty",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({ RegionCode: RegionCode, PartyCode: PartyCode }),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data == true) {
+                        swal({
+                            title: "Same Party Discount Found!",
+                            text: "Discount For this Party Already Exist,You can Update Discount but you can't save",
+                            type: "warning"
+                        }, function () {
+                            isEmpty = true;
+                        });
+                        isEmpty = true;
+                    }
+                    else {
+
+                        if (!(checkAllEmptyInputs())) {
+                            ItemRows();
+
+                            $.ajax({
+                                type: "POST",
+                                url: "/Transaction/ItemDiscountDetail",
+                                dataType: "json",
+                                contentType: 'application/json',
+                                data: JSON.stringify({ ItemTable: ItemTable }),
+                                contentType: "application/json; charset=utf-8",
+                                complete: function (data) {
+                                    document.forms["PartyDiscountNew"].submit();
+                                    document.getElementById("UpdPartyCode").focus();
+                                }
+                            });
+                        }
+                    }
+
+                }
+            });
+        }
+        else {
+            if (!(checkAllEmptyInputs())) {
+                ItemRows();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Transaction/ItemDiscountDetail",
+                    dataType: "json",
+                    contentType: 'application/json',
+                    data: JSON.stringify({ ItemTable: ItemTable }),
+                    contentType: "application/json; charset=utf-8",
+                    complete: function (data) {
+                        document.forms["PartyDiscountNew"].submit();
+                        document.getElementById("UpdPartyCode").focus();
+                    }
+                });
+            }
+        }
+
+   
+
+
+
+
+
+           
+
+       
+    });
+
+</script>
+
+
+
+<script type="text/javascript">
+
+    $(document).keydown(function (e) {
+        if (e.ctrlKey && (e.which == 85 || e.altKey)) {
+            e.preventDefault();
+
+            var RegionCode = $("#UpdRegionCode").val();
+            var PartyCode = $("#UpdPartyCode").val();
+            RemoveRO();
+            GetPdDetail(PartyCode,RegionCode);
+        }
+    })
+
+    function GetPdDetail(PartyCode,RegionCode) {
+
+      
+        var PartyCode;
+        var RegionCode;
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetSinglePartyDiscount",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode, PartyCode:PartyCode }),
+            contentType: "application/json; charset=utf-8",
+            complete: function (data) {
+                if (data.responseJSON.ItemList.length > 0 && data.responseJSON.UpdTrue == "Update") {
+                    $("#ItemTable tbody tr").remove();
+                    $.each(data.responseJSON.ItemList, function (index, obj) {
+                        var I = 2;
+                        var row = '<tr class="Discount" ><td>' + obj.ItemCode + ' </td> <td> ' + obj.ItemDesc +
+                            '</td><td><input name="DiscountAmt" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type = "number" maxlength = "5" tabindex="' + I + '" value="' + obj.Amount + '"/></td><td>' + obj.ItemRate + '</td></tr>';
+
+                        I++;
+
+                        $("#ItemTable tbody").append(row);
+
+                        $('#RegionCode').val(obj.RegionCode);
+                        $('#RegionCode').trigger("chosen:updated");
+
+                        document.getElementById("PdCode").value = obj.PdCode;
+                        var date = new Date(parseInt(obj.PdDate.substr(6)));
+
+
+                        document.getElementById("PdDate").value = formatDate(date);
+
+                        PartyCode = obj.PartyCode;
+                        RegionCode = obj.RegionCode;
+
+                        $('#PartyCode').empty().trigger("chosen:updated");
+
+                        $('#PartyCode').append($('<option>', {
+                            value: obj.PartyCode,
+                            text: obj.PartyDesc
+                        })).trigger("chosen:updated");
+                    });
+
+
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Transaction/DDLPartyDetail",
+                        dataType: "json",
+                        contentType: 'application/json',
+                        data: JSON.stringify({ RegionCode: RegionCode, PartyCode: PartyCode }),
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            if (data != null) {
+
+                                document.getElementById("PartyType").value = data.PartyType;
+                                var RegStatus = "";
+                                if (data.STaxReg == "N") {
+                                    RegStatus = "Un-Reg";
+                                } else {
+                                    RegStatus = "Reg";
+                                }
+
+                                document.getElementById("STaxReg").value = RegStatus;
+                                document.getElementById("Category").value = data.Category;
+
+                            }
+
+                        }
+                    })
+
+                    
+
+
+
+                    $("#PDModal").modal("hide");
+
+
+                } else if (data.responseJSON.ItemList.length == 0 && data.responseJSON.UpdTrue == "Update") {
+                    swal("Discount Not Found", "There is no Discount Against this Party . . . !", "error");
+                } else {
+                    swal("Limited Right", "You can't update party discount.Contact to Administrator ...!", "warning");
+                }
+            }
+        });
+
+    }
+    
+
+</script>
+

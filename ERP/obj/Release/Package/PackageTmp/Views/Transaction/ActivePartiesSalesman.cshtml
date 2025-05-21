@@ -1,0 +1,651 @@
+﻿@model ERP.Models.ActivePartiesSalesman
+@{
+    ViewBag.Title = "ActivePartiesSalesman";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<style>
+
+    
+
+    tr.duplicate td {
+        color: red;
+    }
+
+    .White {
+        color: white;
+    }
+
+    .Black {
+        color: black;
+    }
+
+    .width50 {
+        width: 500px;
+    }
+
+    .width40 {
+        width: 400px;
+    }
+
+    .width15 {
+        width: 150px;
+    }
+
+    .width30 {
+        width: 300px;
+    }
+
+    .width20 {
+        width: 200px;
+    }
+
+    .width10 {
+        width: 100px;
+    }
+
+    .width5 {
+        width: 50px;
+    }
+
+    
+</style>
+
+<div class="row">
+
+    <div class="col-lg-12">
+        <form action="/Transaction/ActivePartiesSalesman" method="post" id="ActivePartiesSalesman" name="ActivePartiesSalesman">
+            <div class="white-box mt-5" >
+                @if (TempData["SuccessMsg"] != null)
+                {
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <b> @TempData["SuccessMsg"]</b>
+                    </div>
+                }
+
+                @if (ERP.Models.CommonDAL.UserRights("26", "001"))
+                {
+
+
+                    <div class="row">
+
+                        <div class="col-md-12">
+
+                            <div class="col-md-4 form-control-line ">
+                                <input class="input-group" type="text" id="SearchTbl" name="SearchTbl" aria-controls="tblItem" placeholder="Search Parties" />
+                            </div>
+
+                            <label for="example-text-input" class="col-md-1 col-form-label">Region Code</label>
+                            <div class="col-md-2 input-group">
+                                @Html.DropDownListFor(M => M.RegionCode, (IEnumerable<SelectListItem>)ViewBag.RegionDDL as SelectList, "Please Select Region", new { @class = "form-control p-0", @name = "RegionCode", @id = "RegionCode" })
+                            </div>
+                            @*<div class="col-md-2 form-control-line input-group">
+                                <select class="form-control p-0" id="EmpCode" name="EmpCode"></select>
+                            </div>*@
+                            <div class="col-md-4">
+                                @*<input class="btn btn-info btn-rounded btn-sm" type="button" value="Get Active" onclick="loadPageData()" style="margin-left:5px;" />*@
+                                <input class="btn btn-info btn-rounded btn-sm" type="button" value="Get Data" onclick="loadInActivePageData()" style="margin-left:5px" />
+                                @if (ERP.Models.CommonDAL.UserRights("26", "002"))
+                                {
+                                    <input class="btn btn-success btn-rounded btn-sm" type="button" id="btnSave" value="Submit Data" onclick="" style="margin-left:5px;" />
+                                }
+
+                                <span id="Act" class="label label-success label-rounded" style="font-size:13px">
+                                    0
+                                </span>
+
+                                <span id="InAct" class="label label-danger label-rounded" style="font-size:13px">
+                                    0
+                                </span>
+
+                                <input class="btn btn-info btn-rounded btn-sm" type="button" id="btnAll" value="Select All" onclick="SelectAll()" style="margin-left:5px;" />
+
+
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-8 mt-1">
+                            <input type="hidden" id="XPos" value="0" />
+                            <div style="height:600px;overflow-y:scroll" id="myDIV">
+                                <table id="tblItem" class="table-striped table-bordered" style="overflow-x:scroll">
+                                    <thead class="bg-info">
+                                        <tr>
+                                            <th class="White" width="50" style="text-align:center">Sr.</th>
+                                            <th class="White" width="100" style="text-align:center">Region Code</th>
+                                            <th class="White" width="280">Region Description</th>
+                                            <th class="White" width="100" style="text-align:center">Party Code</th>
+                                            <th class="White" width="800">Party Description</th>
+                                            <th class="White" width="60" style="text-align:center">Status</th>
+                                            <th class="White" width="100" style="text-align:center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4">
+                            <input class="col-md-12 mt-2" style="font-size:16px;" type="text" id="PName" placeholder="Party Name" readonly />
+                            <div class="form-group row">
+                                <div style="height:600px;overflow-y:scroll">
+                                    <table id="tblRate" class="table table-bordered">
+                                        <thead class="bg-info">
+                                            <tr>
+                                                <th class="White" style="width:100px">Code</th>
+                                                <th class="White" style="width:400px">Descrioption</th>
+                                                @*<th class="White" style="width:100px">Discount</th>
+                                                <th class="White" style="width:100px">Sale Tax</th>
+                                                <th class="White" style="width:100px">Further Tax</th>*@
+                                                <th class="White" style="width:100px">Rate</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                }
+                else
+                {
+                    <h2 style="color:red">Limited Rights. Contact to Administrator . . . !</h2>
+                }
+            </div>
+
+
+
+
+
+        </form>
+    </div>
+</div>
+
+
+
+<script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+
+
+<script>
+
+    $(function () {
+
+        $("#EmpCode").chosen();
+
+       
+    });
+
+    $("#SearchTbl").keyup(function () {
+        var value = this.value.toLowerCase().trim();
+
+        $("table#tblItem tbody tr").each(function (index) {
+            if (!index) return;
+            $(this).find("td").each(function () {
+                var id = $(this).text().toLowerCase().trim();
+                var not_found = (id.indexOf(value) == -1);
+                $(this).closest('tr').toggle(!not_found);
+                return not_found;
+            });
+        });
+    });
+
+    function GetRegionEmpDDL() {
+        var RegionCode = $("#RegionCode").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetRegionParty",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode }),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $('#EmpCode').empty().trigger("chosen:updated");
+
+                $('#EmpCode').append($('<option>', {
+                    value: "",
+                    text: "Select Any Value"
+                })).trigger("chosen:updated");
+
+                if (data.length > 0) {
+                    $.each(data, function (index, obj) {
+
+                        $('#EmpCode').append($('<option>', {
+                            value: obj.EmpCode,
+                            text: obj.EmpName
+                        })).trigger("chosen:updated");
+
+                    });
+
+                }
+            }
+        });
+
+    }
+
+    function MyFunc() {
+        const element = document.getElementById("myDIV");
+        let x = element.scrollLeft;
+        let y = element.scrollTop;
+        document.getElementById("demo").innerHTML = "Horizontally: " + x.toFixed() + "<br>Vertically: " + y.toFixed();
+        $("#XPos").val(y);
+    }
+
+    function SelectAll() {
+
+        $('.Act').empty().trigger("change");
+
+        $('.Act').append($('<option>', {
+            value: "Active",
+            text: "Active"
+        })).trigger("change");
+       
+
+        var NoAct = 0;
+        var InAct = 0;
+
+        $("table#tblItem tbody").find('tr').each(function () {
+            var tableItem = document.getElementById('tblItem');
+            var itemList = $(this).find("td");
+            var Act = $(this).find(".Act option:selected").val();
+
+            if (Act == "Active") {
+                NoAct++;
+            } else {
+                InAct++;
+            }
+        });
+
+        $("#Act").text(NoAct);
+        $("#InAct").text(InAct);
+    }
+
+    //document.getElementById("PageHeader").innerHTML = "Active Parties";
+
+    document.getElementById("PageTitle").innerHTML = "Active Parties";
+
+    $(function () {
+        $("#RegionCode").chosen();
+
+        $("#Page_Header").hide("true");
+
+        var canSee = $("#3dlogotext").is(":visible");
+
+        if (canSee === true) {
+            $("#Arrow-Left").click();
+        }
+
+    });
+
+    function loadPageData() {
+
+        $('#tblItem tbody tr').remove();
+
+        $('#tblItem tbody').append('<tr><td colspan="6" style="text-align:center"><img src="/Content/spinner.gif" height="50" width="50" /></td></tr>');
+
+        var RegionCode = $("#RegionCode").val();
+        var EmpCode = $("#EmpCode").val();
+
+
+        $.ajax({
+            url: "/Transaction/GetActivePartiesSalesmanData",
+            method: 'post',
+            dataType: "json",
+            data: { RegionCode: RegionCode, EmpCode: "000000001" },
+            //async: false,
+            success: function (data) {
+
+                if (data != null) {
+
+                    if (data.NewList.length > 0) {
+
+                        var i = 1;
+                        var Act = 0;
+                        var InAct = 0;
+
+                        $('#tblItem tbody tr').remove();
+                        var Color = "";
+
+                        $(data.NewList).each(function (index, obj) {
+
+                            if (obj.Status == "Active") {
+                                Color = "label label-success label-rounded";
+                                Act++;
+                            } else {
+                                InAct++;
+                                Color = "label label-danger label-rounded";
+                            }
+
+                            $("table#tblItem").append('<tr ><td style="text-align:center"><h5><b>' + i +
+                                '</td><td style="text-align:center"><h5><b>' + obj.RegionCode +
+                                '</td><td class="Elip"><h5><b>' + obj.RegionDescription +
+                                '</b></h5></td><td style="text-align:center" class="ThisRow"><h5><b>' + obj.PartyCode +
+                                '</b></h5></td><td><h5><b>' + obj.PartyName +
+                                '</b></h5></td><td style="text-align:center"><span class="' + Color + '">' + obj.Status +
+                                '</span></td><td style="text-align:center"><select class="Act"><option value="Active">Active</option><option value="In-Active">In-Active</option></select></td></tr>');
+
+                            $(".Act option[value=" + obj.Status + "]").attr('selected', true);
+
+                            i++;
+
+                        });
+
+                        $("#Act").text(Act);
+                        $("#InAct").text(InAct);
+
+                        $("#tblName").val("Active");
+                    }
+                }
+            },
+            error: function (err) {
+                alert(err);
+            }
+        });
+    }
+
+    function loadInActivePageData() {
+
+        $('#tblItem tbody tr').remove();
+
+        $('#tblItem tbody').append('<tr><td colspan="6" style="text-align:center"><img src="/Content/spinner.gif" height="50" width="50" /></td></tr>');
+
+        var RegionCode = $("#RegionCode").val();
+        var EmpCode = $("#EmpCode").val();
+
+
+        $.ajax({
+            url: "/Transaction/GetInActivePartiesSalesmanData",
+            method: 'post',
+            dataType: "json",
+            data: { RegionCode: RegionCode, EmpCode: EmpCode },
+            //async: false,
+            success: function (data) {
+
+                if (data != null) {
+
+                    if (data.NewList.length > 0) {
+
+                        var i = 1;
+                        var Act = 0;
+                        var InAct = 0;
+
+                        $('#tblItem tbody tr').remove();
+                        var Color = "";
+                        var Status = "";
+
+                        $(data.NewList).each(function (index, obj) {
+
+                            if (obj.Status == "Active") {
+                                Act++;
+                                Color = "label label-success label-rounded";
+                            } else {
+                                InAct++;
+                                Color = "label label-danger label-rounded";
+                            }
+
+
+                            $("table#tblItem").append('<tr ><td style="text-align:center"><h5><b>' + i +
+                                '</td><td style="text-align:center"><h5><b>' + obj.RegionCode +
+                                '</td><td class="b"><h5><b>' + obj.RegionDescription +
+                                '</b></h5></td><td style="text-align:center" class="ThisRow"><h5><b>' + obj.PartyCode +
+                                '</b></h5></td><td ><h5><b>' + obj.PartyName +
+                                '</b></h5></td><td style="text-align:center"><span class="' + Color + '">' + obj.Status +
+                                '</span></td><td style="text-align:center"><select class="Act"><option value="' + obj.Status + '">"' + obj.Status + '"</option></select></td></tr>');
+
+                            i++;
+                        });
+
+                        $("#Act").text(Act);
+                        $("#InAct").text(InAct);
+
+                        $("#tblName").val("In-Active");
+                    }
+                }
+            },
+            error: function (err) {
+                alert(err);
+            }
+        });
+    }
+
+
+    $("#tblItem").on('click', '.Act', function () {
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+
+        var NoAct = 0;
+        var InAct = 0;
+
+        rIndex.find('.Act').empty().trigger("change");
+
+        rIndex.find('.Act').append($('<option>', {
+            value: "Active",
+            text: "Active"
+        })).trigger("change");
+
+        rIndex.find('.Act').append($('<option>', {
+            value: "In-Active",
+            text: "In-Active"
+        })).trigger("change");
+
+        $("table#tblItem tbody").find('tr').each(function () {
+            var tableItem = document.getElementById('tblItem');
+            var itemList = $(this).find("td");
+            var Act = $(this).find(".Act option:selected").val();
+
+            if (Act == "Active") {
+                NoAct++;
+            } else {
+                InAct++;
+            }
+        });
+
+        $("#Act").text(NoAct);
+        $("#InAct").text(InAct);
+
+    });
+
+    $("#tblItem").on('change', '.Act', function () {
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+
+        var NoAct = 0;
+        var InAct = 0;
+
+        $("table#tblItem tbody").find('tr').each(function () {
+            var tableItem = document.getElementById('tblItem');
+            var itemList = $(this).find("td");
+            var Act = $(this).find(".Act option:selected").val();
+
+            if (Act == "Active") {
+                NoAct++;
+            } else {
+                InAct++;
+            }
+        });
+
+        $("#Act").text(NoAct);
+        $("#InAct").text(InAct);
+
+    });
+
+    
+
+
+
+    var ItemTable = [];
+
+
+    function ItemRows() {
+        ItemTable = [];
+
+        $("table#tblItem tbody").find('tr').each(function () {
+            var tableItem = document.getElementById('tblItem');
+            var itemList = $(this).find("td");
+            var Act = $(this).find(".Act option:selected").val();
+            //var EmpCode = $("#EmpCode").val();
+            var RegionCode = $(itemList[1]).text();
+            var Actual = $(itemList[5]).text();
+
+            if (RegionCode != null && Actual != Act) {
+
+                var vouch = {
+                    RegionCode: $(itemList[1]).text(), PartyCode: $(itemList[3]).text(), Status: Act, EmpCode: "00000001"
+                };
+                ItemTable.push(vouch);
+
+            }
+
+        })
+
+
+    }
+
+    $("#btnSave").click(function (e) {
+        e.preventDefault();
+
+        //var NoAct = 0;
+        //var InAct = 0;
+
+        //$("table#tblItem tbody").find('tr').each(function () {
+        //    var tableItem = document.getElementById('tblItem');
+        //    var itemList = $(this).find("td");
+        //    var Act = $(this).find(".Act option:selected").val();
+
+        //    if (Act == "Active") {
+        //        NoAct++;
+        //    } else {
+        //        InAct++;
+        //    }
+        //});
+
+        //if (NoAct <= 200) {
+            ItemRows();
+            $.ajax({
+                type: "POST",
+                url: "/Transaction/SaveActiveParties",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({ ItemTable: ItemTable }),
+                success: function (data) {
+
+                    var tblName = $("#tblName").val();
+                    if (tblName == "Active") {
+                        swal({
+                            title: "Parties Filtered Successfully . . . !",
+                            text: "All Parties Filtered For this Salesman.",
+                            type: "success"
+                        }, function () {
+                            isEmpty = true;
+                            loadInActivePageData();
+                        });
+                    } else {
+                        swal({
+                            title: "Parties Filtered Successfully . . . !",
+                            text: "All Parties Filtered For this Salesman.",
+                            type: "success"
+                        }, function () {
+                            isEmpty = true;
+                            loadInActivePageData();
+                        });
+                    }
+                }
+            });
+        //} else {
+        //    alert("Actve Parties must be less than or equal to 200 . . . !");
+        //}
+
+
+        
+
+    });
+
+
+
+
+
+    $("table#tblItem").on('click', '.PrintItem', function () {
+
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+
+        var VoucherNo = rIndex.find('td:eq(0)').text().replace(/\s+/g, "");
+
+         var baseurl = '@Url.Action("ExportPDCRec","Report")';
+        var url = baseurl + '?VoucherRefNo=' + VoucherNo ;
+        //window.location.href = url;
+        window.open(url, '_blank');
+    });
+
+
+
+    $("table#tblItem").on('click', '.ThisRow', function () {
+
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+
+        var RegionCode = rIndex.find('td:eq(1)').text().replace(/\s+/g, "");
+        var PartyCode = rIndex.find('td:eq(3)').text().replace(/\s+/g, "");
+        var PartyName = rIndex.find('td:eq(4)').text();
+
+        $.ajax({
+
+            type: "POST",
+            url: "/Transaction/GetRegionPartyRate",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode,PartyCode:PartyCode }),
+            contentType: "application/json;charset=utf-8",
+            success: function (result) {
+
+                if (result.NewList != null) {
+
+                    if (result.NewList.length > 0) {
+                        
+                        $("#tblRate tbody tr").remove();
+                        //$.each(result.NewList, function (index, obj) {
+                        //    $("table#tblRate").append('<tr><td><b>' +
+                        //        obj.ItemCode + '</b></td><td><b>' +
+                        //        obj.ItemDesc + '</b></td><td><b>' +
+                        //        obj.Discount.toFixed(2) + '</b></td><td><b>' +
+                        //        obj.SaleTax.toFixed(2) + '</b></td><td><b>' +
+                        //        obj.FurtherTax.toFixed(2) + '</b></td><td style="font-size:16px"><span class="label label-success label-rounded"><b>' +
+                        //        obj.Rate.toFixed(2) + '</b></span></td></tr>');
+
+                        //});
+
+
+                        $.each(result.NewList, function (index, obj) {
+                            $("table#tblRate").append('<tr><td><b>' +
+                                obj.ItemCode + '</b></td><td><b>' +
+                                obj.ItemDesc + '</b></td><td style="font-size:18px"><span class="label label-success label-rounded"><b>' +
+                                obj.Rate.toFixed(2) + '</b></span></td></tr>');
+                        });
+
+                        var canSee = $("#3dlogotext").is(":visible");
+
+                        if (canSee === true) {
+                            $("#Arrow-Left").click();
+                        }
+
+                        document.getElementById("PName").value = PartyName;
+                    }
+
+                }
+            }
+        });
+
+    });
+
+</script>
+

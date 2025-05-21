@@ -1,0 +1,419 @@
+﻿
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+<style>
+    @@media screen and (max-width: 600px) {
+        .Hide {
+            visibility: hidden;
+            clear: both;
+            float: left;
+            margin: 10px auto 5px 20px;
+            width: 28%;
+            display: none;
+        }
+    }
+
+
+    
+
+</style>
+
+<!-- .row -->
+@*<div class="row">
+        <div class="col-md-12">
+            <div class="white-box">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 m-b-15 text-center">
+                        <small>Total Sale (Current Year)</small>
+                        <h2><i class="ti-arrow-up text-success"></i> 1064</h2>
+                        <div id="sparklinedash"></div>;
+                    </div>
+                    <div class="col-lg-3 col-md-6 m-b-15 text-center">
+                        <small>Total Cash Parties</small>
+                        <h2><i class="ti-arrow-up text-warning"></i> 5064</h2>
+                        <div id="sparklinedash2"></div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 m-b-15 text-center">
+                        <small>Total Salesman</small>
+                        <h2><i class="ti-arrow-up text-info"></i> 664</h2>
+                        <div id="sparklinedash3"></div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 m-b-15 text-center">
+                        <small>Total Credit Parties</small>
+                        <h2><i class="ti-arrow-down text-danger"></i> 50%</h2>
+                        <div id="sparklinedash4"></div>
+                    </div>
+                </div>
+                <ul class="list-inline text-center m-t-40">
+                <li>
+                    <h5><i class="fa fa-circle m-r-5" style="color: #444b4c;"></i>Site A</h5>
+                </li>
+                <li>
+                    <h5><i class="fa fa-circle m-r-5" style="color: #fdc006;"></i>Site B</h5>
+                </li>
+                <li>
+                    <h5><i class="fa fa-circle m-r-5" style="color: #808f8f;"></i>Site C</h5>
+                </li>
+            </ul>
+
+            </div>
+        </div>
+    </div>*@
+<!-- /.row -->
+<!-- .row -->
+
+@if (ERP.Models.CommonDAL.UserRights("16", "001"))
+{
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="row">
+                <div class="col-lg-3 col-sm-6 col-xs-12">
+                    <div class="white-box">
+                        <a href="/Home/SaleParties">
+                            <h3 class="box-title">All Parties</h3>
+                            <ul class="list-inline two-part">
+                                <li><i class="icon-people text-info"></i></li>
+                                <li class="text-right"><span class="counter">@ViewBag.CountSaleParty</span></li>
+                            </ul>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-xs-12">
+                    <div class="white-box">
+                        <a href="/Home/GetAllPartyDiscount">
+                            <h3 class="box-title">Parties Discount</h3>
+                            <ul class="list-inline two-part">
+                                <li><i class="icon-credit-card text-purple"></i></li>
+                                <li class="text-right"><span class="counter">@ViewBag.CountDiscountParty</span></li>
+                            </ul>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-xs-12">
+                    <div class="white-box">
+                        <a href="/Home/GetAllItemDetail">
+                            <h3 class="box-title">All Item Detail</h3>
+                            <ul class="list-inline two-part">
+                                <li><i class="icon-bag text-danger"></i></li>
+                                <li class="text-right"><span class="">@ViewBag.CountSaleItem</span></li>
+                            </ul>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 col-xs-12">
+                    <div class="white-box">
+                        <a href="/Home/GetAllSalesmanDetail">
+                            <h3 class="box-title">Salesman List</h3>
+                            <ul class="list-inline two-part">
+                                <li><i class="ti-wallet text-success"></i></li>
+                                <li class="text-right"><span class="">@ViewBag.CountSalesman</span></li>
+                            </ul>
+                        </a>
+                    </div>
+                </div>
+
+
+
+                <div class="col-md-12 Hide">
+                        <div class="white-box">
+                            <div class="form-group row">
+                                <div class="col-md-3 offset-md-2">
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-info" type="button">From Date:</button>
+                                        </span>
+                                        <input type="text" class="form-control Datepicker-AutoClose" id="FromDate" placeholder="dd-mm-yyyy" data-mask="99/99/9999">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-info" type="button">To Date:</button>
+                                        </span>
+                                        <input type="text" class="form-control Datepicker-AutoClose" id="ToDate" placeholder="dd-mm-yyyy" data-mask="99/99/9999">
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <input class="btn-info btn btn-rounded col-md-12" type="button" id="Refresh" value="Refresh" onclick="drawChart()" />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                <div class="col-md-12 row">
+                    <div class="Hide" id="piechart_3d" style="width: 700px; height: 400px; margin-left:8px">
+                    </div>
+
+                    @*<div class="col-md-6" style="display:none">
+            <div class="white-box">
+                <!-- START carousel-->
+                <div id="carousel-example-captions-1" data-ride="carousel" class="carousel slide">
+                    <ol class="carousel-indicators">
+                        <li data-target="#carousel-example-captions-1" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-example-captions-1" data-slide-to="1"></li>
+                        <li data-target="#carousel-example-captions-1" data-slide-to="2"></li>
+                    </ol>
+                    <div role="listbox" class="carousel-inner">
+                        <div class="carousel-item active"> <img src="~/Content/LoginBG/0.jpg" height="370" width="700" alt="First slide image"> </div>
+                        <div class="carousel-item"> <img src="~/Content/LoginBG/8cf3e6ce-db01-4f63-8da5-5b314ba0abd8-original.jpeg" height="370" width="700" alt="Second slide image"> </div>
+                        <div class="carousel-item"> <img src="~/Content/LoginBG/background_02.png" height="370" width="700" alt="Third slide image"> </div>
+                    </div>
+
+                </div>
+                <!-- END carousel-->
+            </div>
+        </div>
+
+
+        <div class="col-md-6 col-sm-12 col-xs-12">
+
+            <!-- START carousel-->
+            <div id="carousel-example-captions-1" data-ride="carousel" class="carousel slide">
+                <ol class="carousel-indicators">
+                    <li data-target="#1" data-slide-to="0" class="active"></li>
+                    <li data-target="#2" data-slide-to="1"></li>
+                    <li data-target="#3" data-slide-to="2"></li>
+                    <li data-target="#4" data-slide-to="3"></li>
+                    <li data-target="#5" data-slide-to="4"></li>
+                    <li data-target="#6" data-slide-to="5"></li>
+                    <li data-target="#7" data-slide-to="6"></li>
+                    <li data-target="#8" data-slide-to="7"></li>
+                    <li data-target="#9" data-slide-to="8"></li>
+                    <li data-target="#10" data-slide-to="9"></li>
+                    <li data-target="#11" data-slide-to="10"></li>
+                    <li data-target="#12" data-slide-to="11"></li>
+                    <li data-target="#13" data-slide-to="12"></li>
+                    <li data-target="#14" data-slide-to="13"></li>
+                    <li data-target="#15" data-slide-to="14"></li>
+                    <li data-target="#16" data-slide-to="15"></li>
+                    <li data-target="#17" data-slide-to="16"></li>
+                    <li data-target="#18" data-slide-to="17"></li>
+                    <li data-target="#19" data-slide-to="18"></li>
+                    <li data-target="#20" data-slide-to="19"></li>
+                    <li data-target="#21" data-slide-to="20"></li>
+                </ol>
+                <div role="listbox" class="carousel-inner">
+                    <div class="carousel-item active"> <img class="img-responsive img-thumbnail" src="~/Content/Prema Pictures/Landscape (1) - Copy.jpg" alt="First slide image" id="1"> </div>
+                    <div class="carousel-item "><img class="img-responsive img-thumbnail" src="~/Content/Prema Pictures/Sep2016 (3).jpg" alt="Third slide image" id="2"> </div>
+                    <div class="carousel-item "><img class="img-responsive img-thumbnail" src="~/Content/Prema Pictures/Sep2016 (4).jpg" alt="Third slide image" id="3"> </div>
+
+                    <div class="carousel-item "><img class="img-responsive img-thumbnail" src="~/Content/Prema Pictures/jan2017 (1).jpg" alt="Second slide image" id="6"> </div>
+                    <div class="carousel-item "><img class="img-responsive img-thumbnail" src="~/Content/Prema Pictures/jan2017 (2).jpg" alt="Second slide image" id="6"> </div>
+                    <div class="carousel-item "><img class="img-responsive img-thumbnail" src="~/Content/Prema Pictures/jan2017 (3).jpg" alt="Third slide image" id="7"> </div>
+
+                    <div class="carousel-item "><img class="img-responsive img-thumbnail" src="~/Content/Prema Pictures/July2016 (1).jpg" alt="Third slide image" id="8"> </div>
+                    <div class="carousel-item "><img class="img-responsive img-thumbnail" src="~/Content/Prema Pictures/July2016 (3).jpg" alt="Third slide image" id="9"> </div>
+                    <div class="carousel-item "><img class="img-responsive img-thumbnail" src="~/Content/Prema Pictures/July2016 (4).jpg" alt="Third slide image" id="10"> </div>
+                    <div class="carousel-item "><img class="img-responsive img-thumbnail" src="~/Content/Prema Pictures/July2016 (5).jpg" alt="Third slide image" id="11"> </div>
+                    <div class="carousel-item "><img class="img-responsive img-thumbnail" src="~/Content/Prema Pictures/July2016 (6).jpg" alt="Second slide image" id="12"> </div>
+                    <div class="carousel-item "><img class="img-responsive img-thumbnail" src="~/Content/Prema Pictures/July2016 (7).jpg" alt="Third slide image" id="13"> </div>
+
+
+                    <div class="carousel-item "><img class="img-responsive img-thumbnail" src="~/Content/Prema Pictures/June2016 (4).jpg" alt="Third slide image" id="17"> </div>
+                    <div class="carousel-item "><img class="img-responsive img-thumbnail" src="~/Content/Prema Pictures/June2016 (7).jpg" alt="Third slide image" id="20"> </div>
+                    <div class="carousel-item "><img class="img-responsive img-thumbnail" src="~/Content/Prema Pictures/June2016 (8).jpg" alt="Third slide image" id="20"> </div>
+
+                    <div class="carousel-item "><img class="img-responsive img-thumbnail" src="~/Content/Prema Pictures/May2016 (1).jpg" alt="Third slide image" id="17"> </div>
+                    <div class="carousel-item "><img class="img-responsive img-thumbnail" src="~/Content/Prema Pictures/May2016 (2).jpg" alt="Third slide image" id="18"> </div>
+                    <div class="carousel-item "><img class="img-responsive img-thumbnail" src="~/Content/Prema Pictures/May2016 (3).jpg" alt="Third slide image" id="19"> </div>
+                    <div class="carousel-item "><img class="img-responsive img-thumbnail" src="~/Content/Prema Pictures/May2016 (4).jpg" alt="Third slide image" id="20"> </div>
+                    <div class="carousel-item "><img class="img-responsive img-thumbnail" src="~/Content/Prema Pictures/May2016 (5).jpg" alt="Third slide image" id="20"> </div>
+                    <div class="carousel-item "><img class="img-responsive img-thumbnail" src="~/Content/Prema Pictures/May2016 (6).jpg" alt="Third slide image" id="20"> </div>
+                </div>
+            </div>
+        </div>*@
+
+                    <div class="col-lg-6 col-md-12">
+                        <div class="white-box" style="height:400px">
+                            <h1 class="box-title"><small class="pull-right m-t-10 text-success"><i class="fa fa-sort-asc"></i></small><b>Party Analysis</b> </h1>
+                            <div class="stats-row">
+                                <div class="stat-item">
+                                    <h1><b>Overall</b></h1> <h1><span class="counter">@ViewBag.CountSaleParty</span></h1>
+                                </div>
+                                <div class="stat-item">
+                                    <h1><b class="text-success">Active</b></h1> <h1><span class="counter">@ViewBag.ActivePartiesCount</span></h1>
+                                </div>
+                                <div class="stat-item">
+                                    <h1><b class="text-danger">Inactive</b></h1><h1><span class="counter">@ViewBag.InactivePartiesCount</span></h1>
+                                </div>
+                                <div class="stat-item">
+                                    <h1><b class="text-info">View</b></h1>
+                                    @*<a href="/Home/PartyAnalysis">
+                                        <input type="button" class="btn btn-outline-info btn-rounded btn-lg" value="Detail" id="Detail" style="width:130px" />
+                                    </a>*@
+                                    <input type="button" class="btn btn-outline-info btn-rounded btn-lg" onclick="SimpleInNewWin()" value="Detail"  />
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+
+
+                                <h3><b>Active<span class="pull-right">@Convert.ToInt64(ViewBag.ActivePer)%</span></b></h3>
+                                <div class="progress progress-lg">
+                                    <div class="progress-bar progress-bar-success active progress-bar-striped" aria-valuenow="@Convert.ToInt64(ViewBag.ActivePer)" aria-valuemin="0" aria-valuemax="100" style="width: @Convert.ToInt64(ViewBag.ActivePer)%" role="progressbar"> <span class="sr-only">@Convert.ToInt64(ViewBag.ActivePer)% Complete (success)</span></div>
+                                </div>
+
+                                <h3><b>Inactive<span class="pull-right">@Convert.ToInt64(ViewBag.InactivePer)%</span></b></h3>
+                                <div class="progress progress-lg">
+                                    <div class="progress-bar progress-bar-danger active progress-bar-striped" aria-valuenow="@Convert.ToInt64(ViewBag.InactivePer)" aria-valuemin="0" aria-valuemax="100" style="width: @Convert.ToInt64(ViewBag.InactivePer)%" role="progressbar"> <span class="sr-only">@Convert.ToInt64(ViewBag.InactivePer)% Complete (success)</span></div>
+                                </div>
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+}
+else
+{
+
+    <div class="col-md-6" style="display:none">
+        <div class="white-box">
+            <!-- START carousel-->
+            <div id="carousel-example-captions-1" data-ride="carousel" class="carousel slide">
+                <ol class="carousel-indicators">
+                    <li data-target="#carousel-example-captions-1" data-slide-to="0" class="active"></li>
+                    <li data-target="#carousel-example-captions-1" data-slide-to="1"></li>
+                    <li data-target="#carousel-example-captions-1" data-slide-to="2"></li>
+                </ol>
+                <div role="listbox" class="carousel-inner">
+                    <div class="carousel-item active"> <img src="~/Content/LoginBG/0.jpg" height="370" width="700" alt="First slide image"> </div>
+                    <div class="carousel-item"> <img src="~/Content/LoginBG/8cf3e6ce-db01-4f63-8da5-5b314ba0abd8-original.jpeg" height="370" width="700" alt="Second slide image"> </div>
+                    <div class="carousel-item"> <img src="~/Content/LoginBG/background_02.png" height="370" width="700" alt="Third slide image"> </div>
+                </div>
+
+            </div>
+            <!-- END carousel-->
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            @*<div class="white-box">*@
+            <!-- START carousel-->
+            <div id="carousel-example-captions-1" data-ride="carousel" class="carousel slide">
+                <ol class="carousel-indicators">
+                    <li data-target="#carousel-example-captions-1" data-slide-to="0" class="active"></li>
+                    <li data-target="#carousel-example-captions-1" data-slide-to="1"></li>
+                    <li data-target="#carousel-example-captions-1" data-slide-to="2"></li>
+                </ol>
+                <div role="listbox" class="carousel-inner">
+                    <div class="carousel-item active"> <img class="img-responsive" src="~/Content/Prema Pictures/CodePen-404-Page.gif" alt="First slide image"> </div>
+                    <div class="carousel-item"> <img class="img-responsive" src="~/Content/Prema Pictures/Confused-Workers.gif" alt="Second slide image"> </div>
+                    <div class="carousel-item"> <img class="img-responsive" src="~/Content/Prema Pictures/f5340454c0da1eabb125df9efff4b504.gif" alt="Third slide image"> </div>
+                    <div class="carousel-item"> <img class="img-responsive" src="~/Content/Prema Pictures/file.gif" alt="Third slide image"> </div>
+                    <div class="carousel-item"> <img class="img-responsive" src="~/Content/Prema Pictures/project-management-with-crm1.gif" alt="Third slide image"> </div>
+                    <div class="carousel-item"> <img class="img-responsive" src="~/Content/Prema Pictures/ezgif.com-crop (2).gif" alt="Third slide image"> </div>
+                </div>
+            </div>
+            <!-- END carousel-->
+            @*</div>*@
+
+        </div>
+    </div>
+
+
+
+
+}
+
+
+<script src="~/Content/js/loader.js"></script>
+
+
+
+
+
+
+<script type="text/javascript">
+
+
+    document.getElementById("PageTitle").innerHTML = "Dashboard"
+
+    
+
+        
+
+   
+ 
+
+    google.charts.load("current", { packages: ["corechart"] });
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+
+
+        var FromDate = $("#FromDate").val();
+        var ToDate = $("#ToDate").val();
+
+        $.ajax({
+            url: '/Home/GetPicChartData',
+            data: JSON.stringify({ FromDate: FromDate, ToDate: ToDate }),
+            type: 'POST',
+            contentType: 'application/json;',
+            dataType: 'json',
+            complete: function (Result) {
+
+                var MilkQty = Result.responseJSON.MilkQty;
+
+                var YougartQty = Result.responseJSON.YogurtQty;
+                var RaitaQty = Result.responseJSON.RaitaQty;
+                var ButterQty = Result.responseJSON.ButterQty;
+
+                var data = google.visualization.arrayToDataTable([
+                    ['Task', 'Hours per Day'],
+                    ['Milk', MilkQty],
+                    ['Yogurt', YougartQty],
+                    ['Raita', RaitaQty],
+                    ['Butter', ButterQty]
+                ]);
+
+                var options = {
+                    title: 'Products Sale (Quantity Wise)',
+                    is3D: true,
+                };
+
+                var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+                chart.draw(data, options);
+
+            }
+        });
+
+    }
+
+    function SimpleInNewWin() {
+       
+        window.open("../ReportWebForms/DetailWebForms/PartyAnalysisWithDate.aspx", 'mywindow', 'fullscreen=yes, scrollbars=auto');
+
+    }
+
+
+
+
+</script>

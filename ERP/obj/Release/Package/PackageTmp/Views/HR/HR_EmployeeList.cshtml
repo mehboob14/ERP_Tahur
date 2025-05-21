@@ -1,0 +1,521 @@
+﻿@model ERP.Models.HR_EmployeeInfo
+
+@{
+    ViewBag.Title = "HR_EmployeeList";
+    Layout = "~/Views/Shared/_HR_Layout.cshtml";
+}
+
+@if (ERP.Models.CommonDAL.UserRights("1501", "002"))
+{
+
+    <div class="card mb-3">
+        <div class="card-body pt-0">
+            @*<form method="post" action="/HR/HR_CreateEdit_EmpList">*@
+
+            @using (Html.BeginForm("HR_CreateEdit_EmpList", "HR", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+
+                <div class="row">
+                    <div class="form-group col-md-9 row">
+                        <div class="form-group col-md-2" style="display:none">
+                            <label class="control-label col-md-12">Code</label>
+                            <div class="col-md-12">
+                                <input class="form-control form-control-sm" type="number" id="EmpCode" name="EmpCode" value="0" readonly />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label class="control-label col-md-12">Site</label>
+                            <div class="col-md-12">
+                                @Html.DropDownListFor(model => model.SiteCode, (IEnumerable<SelectListItem>)ViewBag.SiteDDL as SelectList, "Select Site", new { @class = "form-select form-select-sm", @name = "SiteCode", @id = "SiteCode", @Required = "Required", @onchange = "GetDepDDL()" })
+                                <input type="hidden" name="HSiteCode" id="HSiteCode" />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label class="control-label col-md-12">Department</label>
+                            <div class="col-md-12">
+                                <select class="form-select form-select-sm" name="DepCode" id="DepCode" onchange="GetSubDepDDL()" required></select>
+                                <input type="hidden" name="HDepCode" id="HDepCode" />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label class="control-label col-md-12">Sub Department</label>
+                            <div class="col-md-12">
+                                <select class="form-select form-select-sm" name="SubDepCode" id="SubDepCode" onchange="GetDesDDL()" required></select>
+                                <input type="hidden" name="HSubDepCode" id="HSubDepCode" />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label class="control-label col-md-12">Designation</label>
+                            <div class="col-md-12">
+                                <select class="form-select form-select-sm" name="DesCode" id="DesCode" required></select>
+                                <input type="hidden" name="HDesCode" id="HDesCode" />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-3" style="display:none">
+                            <label class="control-label col-md-12">Ref No</label>
+                            <div class="col-md-12">
+                                <input class="form-control form-control-sm" type="text" id="EmpRefNo" name="EmpRefNo" required readonly />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label col-md-12">Name</label>
+                            <div class="col-md-12">
+                                <input class="form-control form-control-sm" type="text" id="EmpName" name="EmpName" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label class="control-label col-md-12">Father's Name</label>
+                            <div class="col-md-12">
+                                <input class="form-control form-control-sm" type="text" id="EmpFatherName" name="EmpFatherName" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label class="control-label col-md-12">Address</label>
+                            <div class="col-md-12">
+                                <input class="form-control form-control-sm" type="text" id="Address" name="Address" required />
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="form-group col-md-3" style="margin-top:10px">
+
+
+                        <input type="file" name="NewImage" id="NewImage" class="dropify" data-default-file="/HR_Content/assets/img/team/avatar.png" />
+                       
+
+                    </div>
+
+
+                    <div class="form-group col-md-3">
+                        <label class="control-label col-md-12">CNIC</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-sm" type="text" id="CNIC" name="CNIC" required />
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label class="control-label col-md-12">Contact No</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-sm" type="text" id="ContactNo" name="ContactNo" required />
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-md-3">
+                        <label class="control-label col-md-12">Gender</label>
+                        <div class="col-md-12">
+                            <select class="form-select form-select-sm" name="Gender" id="Gender" required>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label class="control-label col-md-12">Date of Birth</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-sm" type="date" id="DOB" name="DOB" required />
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="control-label col-md-12">Qualification</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-sm" type="text" id="Qualification" name="Qualification" required />
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="form-group col-md-3">
+                        <label class="control-label col-md-12">Status</label>
+                        <div class="col-md-12">
+                            <select class="form-select form-select-sm" name="Status" id="Status" required>
+                                <option value="Permanent">Permanent</option>
+                                <option value="Contract">Contract</option>
+                                <option value="PartTime">Part Time</option>
+                                <option value="FullTime">Full Time</option>
+                                <option value="Internship">Internship</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label class="control-label col-md-12">Joining Date</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-sm" type="date" id="DOJ" name="DOJ" required />
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label class="control-label col-md-12">Joining Place</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-sm" type="text" id="PlaceOfJoining" name="PlaceOfJoining" required />
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="form-group col-md-2">
+                        <label class="control-label col-md-12">Active</label>
+                        <div class="col-md-12">
+                            <select class="form-select form-select-sm" name="Active" id="Active" onchange="Active_Inactive()" required>
+                                <option value="Y">Active</option>
+                                <option value="N">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label class="control-label col-md-12">Resigning Date</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-sm" type="date" id="DOR" name="DOR" readonly />
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label class="control-label col-md-12">Inactive Description</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-sm" type="text" id="InactiveDescription" name="InactiveDescription" readonly />
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4" style="margin-top:35px">
+                        <button class="btn btn-falcon-success btn-sm" type="submit">
+                            <span class="fas fa-download" data-fa-transform="shrink-3 down-2"></span>
+                            <span class="ms-1">Submit</span>
+                        </button>
+                    </div>
+
+                </div>
+                @*</form>*@
+
+            }
+
+        </div>
+    </div>
+
+}
+
+
+    <div class="card mb-3">
+        <div class="card-body p-0">
+            <div class="table-responsive scrollbar">
+                <table class="table table-sm table-striped fs--1 mb-0 overflow-hidden mt-3" id="tblEmployee">
+                    <thead class="bg-200 text-900">
+                        <tr>
+                            <th class="sort pe-1 align-middle white-space-nowrap">Name</th>
+                            <th class="sort pe-1 align-middle white-space-nowrap">Designation</th>
+                            <th class="sort pe-1 align-middle white-space-nowrap">Site</th>
+                            <th class="sort pe-1 align-middle white-space-nowrap ps-5">Department</th>
+                            <th class="sort pe-1 align-middle white-space-nowrap">Active</th>
+                            <th class="align-middle no-sort">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="list" id="table-customers-body">
+
+                        @if (ViewBag.EmpList != null)
+                        {
+                            foreach (var item in ViewBag.EmpList)
+                            {
+
+                                <tr class="btn-reveal-trigger">
+                                    <td style="display:none">@item.EmpCode</td>
+
+                                    <td class="align-middle white-space-nowrap py-2"  style="width:auto">
+                                        <a href="customer-details.html">
+                                            <div class="d-flex d-flex align-items-center">
+                                                <div class="avatar avatar-xl me-2">
+                                                    @if (item.ProfilePictureSource == "" || item.ProfilePictureSource == null)
+                                                    {
+                                                        <div class="avatar-name rounded-circle"><span>@item.FirstLetter</span></div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <img class="rounded-circle" src="@item.ProfilePictureSource" alt="" />
+                                                    }
+                                                </div>
+                                                <div class="flex-1">
+                                                    <h5 class="mb-0 fs--1">@item.EmpName</h5>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </td>
+                                    <td class="align-middle py-2"  style="width:auto">@item.HR_DesignationInfo.DesDescription</td>
+                                    <td class="align-middle white-space-nowrap py-2" style="width:150px">@item.SiteName</td>
+                                    <td class="align-middle white-space-nowrap ps-5 py-2"  style="width:150px">@item.DepName</td>
+                                    <td class="align-middle py-2"  style="width:80px">Active</td>
+
+                                    @if (ERP.Models.CommonDAL.UserRights("1504", "003"))
+                                    {
+                                        <td class="align-middle py-2"  style="width:80px">
+                                            <a class="selectItem" style="color:blue"><i class="fa fa-edit"></i></a>
+                                            &nbsp;&nbsp;|&nbsp;&nbsp;
+                                            <a class="deleteItem" style="color:red"><i class="fa fa-trash"></i></a>
+                                        </td>
+                                    }
+
+                                </tr>
+
+                            }
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <script>
+
+    function Active_Inactive() {
+        var Active = $("#Active").val();
+
+        if (Active == "Y") {
+            $("#DOR").attr("readonly", true);
+            $("#InactiveDescription").attr("readonly", true);
+        } else {
+            $("#DOR").attr("readonly", false);
+            $("#InactiveDescription").attr("readonly", false);
+        }
+
+
+    }
+
+    function GetDepDDL() {
+
+        var SiteCode = $("#SiteCode").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/HR/GetDepartmentDDL",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ SiteCode: SiteCode }),
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            success: function (data) {
+
+                $('#DepCode').empty();
+
+                if (data !== null) {
+
+                    if (data.length > 0) {
+                        $.each(data, function (index, obj) {
+
+                            $('#DepCode').append($('<option>', {
+                                value: obj.Code,
+                                text: obj.Name
+                            })).trigger("chosen:updated");
+
+                        });
+                    }
+                }
+            }
+        });
+
+        }
+
+        function GetSubDepDDL() {
+
+            var DepCode = $("#DepCode").val();
+
+            $.ajax({
+                type: "POST",
+                url: "/HR/GetSubDepartmentDDL",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({ DepCode: DepCode }),
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                success: function (data) {
+
+                    $('#SubDepCode').empty();
+
+                    if (data !== null) {
+
+                        if (data.length > 0) {
+                            $.each(data, function (index, obj) {
+
+                                $('#SubDepCode').append($('<option>', {
+                                    value: obj.Code,
+                                    text: obj.Name
+                                })).trigger("chosen:updated");
+
+                            });
+                        }
+                    }
+                }
+            });
+
+        }
+
+    function GetDesDDL() {
+
+        var SubDepCode = $("#SubDepCode").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/HR/GetDesignationDDL",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ SubDepCode: SubDepCode }),
+            contentType: "application/json; charset=utf-8",
+            async:false,
+            success: function (data) {
+
+                $('#DesCode').empty();
+
+                if (data !== null) {
+
+                    if (data.length > 0) {
+                        $.each(data, function (index, obj) {
+
+                            $('#DesCode').append($('<option>', {
+                                value: obj.Code,
+                                text: obj.Name
+                            })).trigger("chosen:updated");
+
+                        });
+                    }
+                }
+            }
+        });
+
+    }
+
+
+        $("table#tblEmployee").on('click', '.selectItem', function () {
+            rIndex = $(this).closest('tr');
+            index = $(this).closest('tr').rowIndex;
+            
+            var EmpCode = rIndex.find('td:eq(0)').text().replace(/\s+/g, "");
+
+            //var DepCode = rIndex.find('td:eq(2)').text().replace(/\s+/g, "");
+            //var DesCode = rIndex.find('td:eq(4)').text().replace(/\s+/g, "");
+            //var DesDescription = rIndex.find('td:eq(5)').text();
+            //var DesShortName = rIndex.find('td:eq(6)').text();
+
+            //document.getElementById('SiteCode').value = SiteCode;
+            //document.getElementById('HSiteCode').value = SiteCode;
+            //$('#SiteCode').attr("disabled", true);
+
+            $.ajax({
+                type: "POST",
+                url: "/HR/GetSingleEmployee",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({ EmpCode: EmpCode }),
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                success: function (data) {
+
+                    if (data.FoundData !== null) {
+
+                        document.getElementById('SiteCode').value = data.FoundData.SiteCode;
+                        document.getElementById('HSiteCode').value = data.FoundData.SiteCode;
+
+                        GetDepDDL();
+
+                        document.getElementById('DepCode').value = data.FoundData.DepCode;
+                        document.getElementById('HDepCode').value = data.FoundData.DepCode;
+
+                        GetSubDepDDL();
+
+                        document.getElementById('SubDepCode').value = data.FoundData.SubDepCode;
+                        document.getElementById('HSubDepCode').value = data.FoundData.SubDepCode;
+
+                        GetDesDDL();
+
+                        document.getElementById('DesCode').value = data.FoundData.DesCode;
+                        document.getElementById('HDesCode').value = data.FoundData.DesCode;
+                        document.getElementById('EmpCode').value = data.FoundData.EmpCode;
+                        document.getElementById('EmpRefNo').value = data.FoundData.EmpRefNo;
+                        document.getElementById('EmpName').value = data.FoundData.EmpName;
+                        document.getElementById('EmpFatherName').value = data.FoundData.EmpFatherName;
+                        document.getElementById('CNIC').value = data.FoundData.CNIC;
+                        document.getElementById('ContactNo').value = data.FoundData.ContactNo;
+                        document.getElementById('Address').value = data.FoundData.Address;
+                        document.getElementById('Gender').value = data.FoundData.Gender.trim();
+                        document.getElementById('DOB').value = data.FoundData.DOB;
+                        document.getElementById('DOJ').value = data.FoundData.DOJ;
+                        document.getElementById('DOR').value = data.FoundData.DOR;
+                        document.getElementById('PlaceOfJoining').value = data.FoundData.PlaceOfJoining;
+                        document.getElementById('Active').value = data.FoundData.Active;
+                        document.getElementById('Status').value = data.FoundData.Status.trim();
+                        document.getElementById('InactiveDescription').value = data.FoundData.InactiveDescription;
+                        document.getElementById('Qualification').value = data.FoundData.Qualification;
+
+                        if (data.FoundData.ProfilePictureSource != "") {
+
+                            resetPreview('NewImage', data.FoundData.ProfilePictureSource,
+                                'avatar.png');
+                        }
+
+                        window.scrollTo(0, 0);
+
+                    }
+                }
+            });
+        });
+     
+
+        function resetPreview(name, src, fname = '') {
+            let input = $('input[name="' + name + '"]');
+            let wrapper = input.closest('.dropify-wrapper');
+            let preview = wrapper.find('.dropify-preview');
+            let filename = wrapper.find('.dropify-filename-inner');
+            let render = wrapper.find('.dropify-render').html('');
+
+            input.val('').attr('title', fname);
+            wrapper.removeClass('has-error').addClass('has-preview');
+            filename.html(fname);
+
+            render.append($('<img />').attr('src', src).css('max-height', input.data('height') || ''));
+            preview.fadeIn();
+        }
+
+
+        $("table#tblEmployee").on('click', '.deleteItem', function () {
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr').rowIndex;
+
+        var EmpCode = rIndex.find('td:eq(0)').text().replace(/\s+/g, "");
+
+        if (confirm("Are you sure to want delete . . . ?") == true) {
+
+            $.ajax({
+                type: "POST",
+                url: "/HR/HR_Delete_EmpList",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({ EmpCode: EmpCode }),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    location.reload();
+
+                }
+            });
+        }
+
+    });
+
+</script>

@@ -1,0 +1,197 @@
+﻿
+@{
+    ViewBag.Title = "STRForFBR";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<style type="text/css">
+    /*label {
+        font-weight: 100;
+        font-size: 12px;
+    }*/
+
+    /*.btn {
+        line-height: 0.25;
+        font-size: 12px;
+    }*/
+
+    .checkbox {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-off,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-on,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-label {
+        line-height: 1.2;
+    }
+
+    /*.modal-header {
+        padding: 5px;
+    }*/
+
+
+
+    /*.input-group-addon {
+        padding: 3px 8px;
+        /*color: #0084BF;
+    }*/
+
+
+
+    .table-Scroll {
+        max-height: 540px;
+        max-width: 100%;
+        overflow: auto;
+    }
+
+    td {
+        font-size: 12px;
+    }
+
+    .width50 {
+        width: 500px;
+    }
+
+    .width40 {
+        width: 400px;
+    }
+
+    .width15 {
+        width: 150px;
+    }
+
+    .width30 {
+        width: 300px;
+    }
+
+    .width20 {
+        width: 200px;
+    }
+
+    .width10 {
+        width: 100px;
+    }
+
+
+    .width5 {
+        width: 50px;
+    }
+
+    .Ghaib {
+        display: none;
+    }
+</style>
+
+<div class="white-box col-md-12">
+    <div class="form-group row">
+        <div class="col-md-3 offset-md-2">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-info" type="button">From Date:</button>
+                </span>
+                <input type="text" class="form-control" id="FromDate" placeholder="dd-mm-yyyy" data-mask="99-99-9999">
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-info" type="button">To Date:</button>
+                </span>
+                <input type="text" class="form-control" id="ToDate" placeholder="dd-mm-yyyy" data-mask="99-99-9999">
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <input class="btn-info btn btn-rounded col-md-12" type="button" id="Refresh" value="Refresh" onclick="drawChart()" />
+        </div>
+    </div>
+</div>
+<div class="white-box" style="overflow:scroll">
+    <table id="STR" class="table table-striped DataTable ExportTable">
+        <thead>
+            <tr>
+                <th class="width20">Sr.</th>
+                <th class="width20">Buyer NTN</th>
+                <th class="width50">Buyer CNIC</th>
+                <th class="width20">Buyer Name</th>
+                <th class="width50">Buyer Type</th>
+                <th class="width50">Sale Origination Province of Supplier</th>
+                <th class="width50">Document Type</th>
+                <th class="width50">Document Number</th>
+                <th class="width50">Document Date</th>
+                <th class="width50">Sale Type</th>
+                <th class="width50">Rate</th>
+                <th class="width50">Description</th>
+                <th class="width50">Quantity</th>
+                <th class="width50">UOM</th>
+                <th class="width50">Value of Sales Excluding Sales Tax</th>
+                <th class="width50">Fixed/notified value or Retail Price</th>
+                <th class="width50">Sales Tax/FED in ST Mode</th>
+                <th class="width50">Extra Tax</th>
+                <th class="width50">ST Withheld at Source</th>
+                <th class="width50">SRO No./Schedule No.</th>
+                <th class="width50">Item Sr. No.</th>
+                <th class="width50">Further Tax</th>
+                <th class="width50">Total Value of Sales</th>
+
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+<script>
+    document.getElementById("PageHeader").innerHTML = "Sale Tax Register For FBR";
+
+
+    document.getElementById("PageLink").style.visibility = "hidden";
+    //var str = "Add New Unit";
+    //var result = str.link("/CompanySetup/UnitSetup");
+    //document.getElementById("PageLink").innerHTML = result;
+
+
+</script>
+
+<script type="text/javascript">
+
+    function drawChart() {
+
+
+        var FromDate = $("#FromDate").val();
+        var ToDate = $("#ToDate").val();
+
+        $.ajax({
+            url: '/Home/GetSTRForFBR',
+
+            data: JSON.stringify({ FromDate: FromDate, ToDate: ToDate }),
+            type: 'POST',
+            contentType: 'application/json;',
+            dataType: 'json',
+            complete: function (Result) {
+
+                if (Result.responseJSON.length > 0) {
+                    var i = 1;
+                    $("#STR tbody tr").remove();
+                    $.each(Result.responseJSON, function (index, obj) {
+                        $("table#STR").append('<tr><td>' + i + '</td><td class="width5">' + obj.NTN + '</td><td class="width30">' + obj.CNIC +
+                            '</td><td class="width5" >' + obj.PartyName + '</td><td class="width5" >' + obj.STaxReg + '</td><td class="width5">' + obj.Province +
+                            '</td><td class="width5">' + "SI" + '</td><td class="width5">' + obj.ManInvoiceNo + '</td><td class="width5">' + obj.InvoiceDate +
+                            '</td><td class="width5">' + obj.SaleType + '</td><td class="width5">' + obj.Rate + '</td><td class="width5">' + obj.Description +
+                            '</td><td class="width10">' + "" + '</td class="width10"><td>' + "" + '</td><td class="width10" >' + obj.ExcTaxAmt + '</td><td class="width10">' + obj.FixedNotifiedValueOrRetailPrice +
+                            '</td><td class="width10">' + obj.SaleTaxAmt + '</td><td class="width10">' + obj.FurtherTaxAmt + '</td><td class="width10">' + obj.STWithheldAtSource + '</td><td class="width10">' + obj.SRONo + '</td><td class="width10">' + obj.ItemSRNo +
+                            '</td><td style="text-align:center">' + obj.FurtherTaxFBR + '</td><td style="text-align:center">' + obj.TotalValueOfSales + '</td></tr>');
+
+                        i++;
+                    });
+                }
+            }
+        });
+
+
+
+    }
+
+</script>
+

@@ -1,0 +1,787 @@
+﻿@model ERP.Models.SaleInvoiceMaster
+
+@{
+    ViewBag.Title = "SalesmanOpeningStockTerminal";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+<style type="text/css">
+    /*label {
+        font-weight: 100;
+        font-size: 12px;
+    }*/
+
+    /*.btn {
+        line-height: 0.25;
+        font-size: 12px;
+    }*/
+
+    .checkbox {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-off,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-on,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-label {
+        line-height: 1.2;
+    }
+
+    /*.modal-header {
+        padding: 5px;
+    }*/
+
+
+
+    /*.input-group-addon {
+        padding: 3px 8px;
+        /*color: #0084BF;
+    }*/
+
+
+
+    .table-Scroll {
+        max-height: 540px;
+        max-width: 100%;
+        overflow: auto;
+    }
+
+    td {
+        font-size: 12px;
+    }
+
+    th {
+        font-size: 12px;
+        font: bold;
+    }
+
+    .width50 {
+        width: 500px;
+    }
+
+    .width40 {
+        width: 400px;
+    }
+
+    .width15 {
+        width: 150px;
+    }
+
+    .width30 {
+        width: 300px;
+    }
+
+    .width20 {
+        width: 200px;
+    }
+
+    .width10 {
+        width: 100px;
+    }
+
+    .White {
+        color: white;
+    }
+
+    .Black {
+        color: black;
+    }
+</style>
+
+<style>
+    .Top {
+        margin-top: 5px;
+    }
+
+    .Btn-width {
+        width: 80px;
+        font-family: Calibri;
+        font-size: large;
+        font-style: normal;
+    }
+
+    .table-head {
+        height: 10px;
+        line-height: 8px;
+    }
+
+    .btn-TopHeight {
+        margin-top: 23px;
+    }
+
+    .btn-ItemWidth {
+        width: 100px;
+        /*height: 32px;*/
+    }
+
+    fieldset {
+        margin-top: 20px
+    }
+
+    thead {
+        height: 32px
+    }
+</style>
+
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="white-box">
+            <form action="/Transaction/SalesmanOpeningStockTerminal" id="SalesmanOpeningStockTerminal" name="SalesmanOpeningStockTerminal" method="post">
+                @if (TempData["SuccessMsg"] != null)
+                {
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <b> @TempData["SuccessMsg"]</b>
+                    </div>
+                }
+                <div class="row">
+                    <label for="example-text-input" class="col-md-2 col-form-label">SOS No</label>
+                    <div class="col-md-2 input-group">
+                        <div class="input-group-addon"><a data-toggle="modal" data-target="#SOSModal" style="color:blue"><i class="fa fa-search"></i></a></div>
+                        <input class="form-control" type="text" placeholder="SOS No" id="SOSNo" name="SOSNo" readonly>
+                    </div>
+
+                    <label for="example-text-input" class="col-md-2 col-form-label">SOS Date</label>
+                    @if (ERP.Models.CommonDAL.UserRoleName() == "Admin")
+                    {
+                        <div class="col-md-2 input-group">
+                            <input class="form-control Datepicker-AutoCloseAdmin" type="datetime" placeholder="dd/mm/yyyy" value="@ViewBag.CurrentDate" id="SOSDate" name="SOSDate" required readonly>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-2 input-group">
+                            <input class="form-control Datepicker-AutoCloseDEO" type="datetime" placeholder="dd/mm/yyyy" value="@ViewBag.CurrentDate" id="SOSDate" name="SOSDate" required readonly>
+                        </div>
+                    }
+                </div>
+
+                <div class="row Top">
+                    <label for="example-text-input" class="col-md-2 col-form-label">Region Code</label>
+
+                    <div class="col-md-6 input-group">
+                        @Html.DropDownListFor(M => M.RegionCode, (IEnumerable<SelectListItem>)ViewBag.RegionDDL as SelectList, "Please Select Region", new { @class = "form-control p-0", @name = "RegionCode", @id = "RegionCode", @onchange = "GetRegionEmpDDL()" })
+                    </div>
+                    @*<div class="col-md-2 input-group">
+                <div class="input-group-addon"><a data-toggle="modal" data-target="#RegionModal" style="color:blue"><i class="fa fa-search"></i></a></div>
+                <input class="form-control" type="text" placeholder="Region Code" id="RegionCode" name="RegionCode" readonly>
+            </div>
+            <div class="col-md-6 input-group">
+                <input class="form-control" type="text" placeholder="Region Description" id="RegionDescription" readonly>
+            </div>*@
+                </div>
+
+                <div class="row Top">
+                    <label for="example-text-input" class="col-md-2 col-form-label">Salesman Code</label>
+                    <div class="col-md-6 input-group">
+                        @*@Html.DropDownListFor(M => M.EmpCode, (IEnumerable<SelectListItem>)ViewBag.SalesmanDDL as SelectList, new { @class = "form-control p-0", @name = "EmpCode", @id = "EmpCode" })*@
+                        <select class="form-control p-0" name="EmpCode" id="EmpCode"></select>
+                    </div>
+                    @*<div class="col-md-2 input-group">
+                <div class="input-group-addon"><a data-toggle="modal" data-target="#SalesmanModal" style="color:blue"><i class="fa fa-search"></i></a></div>
+                <input class="form-control" type="text" placeholder="Salesman Code" id="EmpCode" name="EmpCode" readonly>
+            </div>
+            <div class="col-md-6 input-group">
+                <input class="form-control" type="text" placeholder="Salesman Description" id="EmpName" readonly>
+            </div>*@
+                </div>
+
+                <div class="row Top">
+                    <label for="example-text-input" class="col-md-2 col-form-label">Vehicle No</label>
+                    <div class="col-md-2 input-group">
+                        <input class="form-control" type="number" placeholder="Vehicle No" id="VehicleNo" name="VehicleNo" required>
+                    </div>
+                </div>
+
+
+                    <fieldset>
+                        <legend>Add Item Quantity</legend>
+                        <div class="col-sm-12">
+                            <div class="white-box">
+                                <table id="ItemTable" data-toggle="table" data-height="250" data-mobile-responsive="true" class="table-striped">
+                                    <thead class="bg-info">
+                                        <tr>
+                                            <th class="White" data-width="100"> Item Code </th>
+                                            <th class="White"> Item Description </th>
+                                            <th class="White" data-width="200"> Quantity </th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (ViewBag.ItemList != null)
+                                        {
+                                            foreach (var item in ViewBag.ItemList)
+                                            {
+                                                <tr class="GetQty">
+                                                    <td class="Black">@item.ItemCode</td>
+                                                    <td class="Black">@item.ItemDesc</td>
+                                                    <td class="Black">
+                                                        <input value="0" name="DiscountAmt" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                               type="number"
+                                                               maxlength="5" />
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </fieldset>
+
+
+
+
+
+
+                    <fieldset>
+                        <legend></legend>
+                        <div class="form-group row">
+                            <div class="col-md-4 offset-md-9">
+
+                                @if (ERP.Models.CommonDAL.UserRights("22", "002"))
+                                {
+                                    <input class="btn btn-info Btn-width" type="button" id="btnSave" value="Save" />
+                                }
+                                else
+                                {
+                                    <input class="btn btn-info Btn-width" type="button" id="btnSave" value="Save" disabled />
+                                }
+
+
+                                @if (ERP.Models.CommonDAL.UserRights("22", "004"))
+                                {
+                                    <input class="btn btn-danger Btn-width" type="button" id="btnDelete" value="Delete" onclick="DeleteModal()" />
+                                }
+                                else
+                                {
+                                    <input class="btn btn-danger Btn-width" type="button" id="btnDelete" disabled value="Delete" />
+                                }
+
+                                <input class="btn btn-default Btn-width" type="reset" id="btnClear" value="Clear" />
+
+
+
+                                @if (ERP.Models.CommonDAL.UserRights("6", "006"))
+                                {
+                                    @*<input class="btn btn-success Btn-width" type="button" onclick="SimpleInNewWin()" id="btnPrint" value="Print" />*@
+                                }
+                                else
+                                {
+                                    @*<input class="btn btn-success Btn-width" type="button" onclick="SimpleInNewWin()" id="btnPrint" value="Print" disabled />*@
+                                }
+
+                            </div>
+                        </div>
+                    </fieldset>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--SOS Record-->
+<div class="modal fade" tabindex="-1" id="SOSModalOld" role="dialog" aria-labelledby="modal123Label" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="margin-top:50px; height:620px;width:800px">
+            <div class="modal-header">
+                <b>Salesman Opening Stock Detail</b>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="white-box table-Scroll">
+                        <table id="" class="table DataTable table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="width15">SOS Code</th>
+                                    <th class="width15">SOS Date</th>
+                                    <th class="width50">Region Description</th>
+                                    <th class="width30">Employee Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (ViewBag.GetAllSOS != null)
+                                {
+                                    foreach (var item in ViewBag.GetAllSOS)
+                                    {
+                                        <tr onclick="GetSOSDetail('@item.SOSNo','@item.SOSDate','@item.RegionCode','@item.RegionDescription','@item.EmpCode','@item.EmpName')">
+                                            <td>@item.SOSNo</td>
+                                            <td>@item.SOSDate</td>
+                                            <td>@item.RegionDescription</td>
+                                            <td>@item.EmpName</td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<!--Invoice Record-->
+<div class="modal fade" tabindex="-1" id="SOSModal" role="dialog" aria-labelledby="modal123Label" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="margin-top:50px; height:700px;width:800px">
+            <div class="modal-header">
+                <b>Salesman Stock Detail</b>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="col-md-9 input-group">
+                        <input class="form-control Datepicker-AutoClose" type="text" placeholder="dd/mm/yyyy" name="GetSOSDate" id="GetSOSDate" value="" data-mask="99/99/9999">
+
+                    </div>
+
+                    <div class="col-md-2 input-group">
+                        <input type="button" class="btn btn-info" value="Get Detail" onclick="GetDailySOSDetail()" />
+                    </div>
+                    <div class="white-box table-Scroll">
+                        <table id="tblInvoice" class="table table-striped table-bordered">
+                            <thead>
+                                <tr class="bg-info">
+                                    <th  style="Color:White">SOS Code</th>
+                                    <th class="width15" style="Color:White">SOS Date</th>
+                                    <th class="width50" style="Color:White">Region Code</th>
+                                    <th class="width50" style="Color:White">Region Description</th>
+                                    <th class="width50" style="Color:White">Emp Code</th>
+                                    <th class="width30" style="Color:White">Employee Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @*@if (ViewBag.GetDailyStockReceive != null)
+                                    {
+                                        foreach (var item in ViewBag.GetDailyStockReceive)
+                                        {
+                                            <tr onclick="GetDSR('@item.DSRNo','@item.DSRDate.ToString("dd/MM/yyyy")','@item.RegionCode','@item.RegionDescription')">
+                                                <td>@item.DSRNo</td>
+                                                <td>@item.DSRDate.ToString("dd/MM/yyyy")</td>
+                                                <td>@item.RegionDescription</td>
+                                            </tr>
+                                        }
+                                    }*@
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+
+<script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+<script>
+    document.getElementById("PageHeader").innerHTML = "Salesman Stock Terminal";
+
+
+    document.getElementById("PageLink").style.visibility = "hidden";
+    //var str = "Add New Unit";
+    //var result = str.link("/CompanySetup/UnitSetup");
+    //document.getElementById("PageLink").innerHTML = result;
+
+    document.getElementById("PageTitle").innerHTML = "Salesman Stock Terminal"
+</script>
+
+<script type="text/javascript">
+
+    $(function () {
+
+        $("#RegionCode").chosen();
+
+        $("#EmpCode").chosen();
+
+    });
+
+
+    function GetRegionEmpDDL() {
+        var RegionCode = $("#RegionCode").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetRegionParty",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode }),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $('#EmpCode').empty().trigger("chosen:updated");
+
+                $('#EmpCode').append($('<option>', {
+                    value: "Select Any Value",
+                    text: "Select Any Value"
+                })).trigger("chosen:updated");
+
+                if (data.GetRegionEmp.length > 0) {
+                    $.each(data.GetRegionEmp, function (index, obj) {
+
+                        $('#EmpCode').append($('<option>', {
+                            value: obj.EmpCode,
+                            text: obj.EmpCode + "  ==>  " + obj.EmpName
+                        })).trigger("chosen:updated");
+
+                    });
+                }
+            }
+        });
+
+    }
+
+    function SimpleInNewWin() {
+        var SOSCode = $("#SOSNo").val();
+        if (SOSCode == null || SOSCode == "") {
+            alert("Please, Select SOS No . . . !");
+        } else {
+            window.open("../ReportWebForms/Transaction/SalesmanOpeningStock.aspx?SOSCode=" + encodeURI(SOSCode), 'mywindow', 'fullscreen=yes, scrollbars=auto');
+        }
+
+    }
+
+
+    function GetRegion(RegionCode, RegionDescription) {
+        document.getElementById("RegionCode").value = RegionCode;
+        document.getElementById("RegionDescription").value = RegionDescription;
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetRegionEmp",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode }),
+            contentType: "application/json; charset=utf-8",
+            complete: function (RegionEmp) {
+                if (RegionEmp.responseJSON.length > 0) {
+                    $("#tblEmp tbody tr").remove();
+                    $.each(RegionEmp.responseJSON, function (index, obj) {
+                        var row = '<tr class="GetEmp"><td>' + obj.EmpCode + ' </td> <td> ' + obj.EmpName + ' </td> <td> ' + obj.RegionDesc + '</td></tr>';
+                        $("#tblEmp tbody").append(row);
+                    });
+                    $("#RegionModal").modal("hide");
+                }
+            }
+        });
+    }
+
+    $("#tblEmp").on("click", ".GetEmp", function () {
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+
+        var EmpCode = rIndex.find('td:eq(0)').text().replace(/\s+/g, "");
+        var EmpName = rIndex.find('td:eq(1)').text().replace(/\s+/g, "");
+
+        document.getElementById("EmpCode").value = EmpCode;
+        document.getElementById("EmpName").value = EmpName;
+
+        $("#SalesmanModal").modal("hide");
+
+    });
+
+    function GetRegionEmpDDL() {
+        var RegionCode = $("#RegionCode").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetRegionParty",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode }),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $('#EmpCode').empty().trigger("chosen:updated");
+
+                $('#EmpCode').append($('<option>', {
+                    value: "",
+                    text: "Select Any Value"
+                })).trigger("chosen:updated");
+
+                if (data.GetRegionEmp.length > 0) {
+                    $.each(data.GetRegionEmp, function (index, obj) {
+
+                        $('#EmpCode').append($('<option>', {
+                            value: obj.EmpCode,
+                            text: obj.EmpCode + "  ==>  " + obj.EmpName
+                        })).trigger("chosen:updated");
+
+                    });
+                }
+            }
+        });
+
+    }
+
+
+    function GetDailySOSDetail() {
+
+        var GetSOSDate = $("#GetSOSDate").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetSOSDetailTerminal",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ GetSOSDate: GetSOSDate }),
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            complete: function (data) {
+                if (data.responseJSON.SOSDetail.length > 0 && data.responseJSON.UpdTrue == "Update") {
+                    $("#tblInvoice tbody tr").remove();
+
+
+                    $.each(data.responseJSON.SOSDetail, function (index, obj) {
+
+                        var row = '<tr class="SOSClick" ><td style="font-size:large">' + obj.SOSNo + '</td><td style="font-size:large"> ' + obj.SOSDate + '</td><td style="text-align:center;font-size:large"> ' + obj.RegionCode +
+
+                            '</td><td style="text-align:center;font-size:large"> ' + obj.RegionDescription +
+
+                            '</td><td style="text-align:center;font-size:large"> ' + obj.EmpCode +
+
+                            '</td><td style="text-align:center;font-size:large"> ' + obj.EmpName + '</td></tr>';
+
+
+
+                        $("#tblInvoice tbody").append(row);
+
+                    });
+
+                } else if (data.responseJSON.SOSDetail.length == 0 && data.responseJSON.UpdTrue == "Update") {
+                    $("#tblInvoice tbody tr").remove();
+
+                    var row = '<tr><td colspan="6" style="font-size:large;text-align:center">' + "No Result Found . . . !" + '</td></tr>';
+
+                    $("#tblInvoice tbody").append(row);
+                }
+                else {
+                    $("#tblInvoice tbody tr").remove();
+
+                    var row = '<tr><td colspan="6" style="font-size:large;text-align:center">' + "Limited Rights Found. You have not update Rights . . . !" + '</td></tr>';
+
+                    $("#tblInvoice tbody").append(row);
+                }
+            }
+        });
+
+    }
+
+
+    $("table#tblInvoice").on('click', '.SOSClick', function () {
+
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+
+        var SOSNo = rIndex.find('td:eq(0)').text().replace(/\s+/g, "");
+        var SOSDate = rIndex.find('td:eq(1)').text().replace(/\s+/g, "");
+        var RegionCode = rIndex.find('td:eq(2)').text().replace(/\s+/g, "");
+        var RegionDescription = rIndex.find('td:eq(3)').text().replace(/\s+/g, "");
+        var EmpCode = rIndex.find('td:eq(4)').text().replace(/\s+/g, "");
+        var EmpName = rIndex.find('td:eq(5)').text().replace(/\s+/g, "");
+
+        document.getElementById("SOSNo").value = SOSNo;
+        document.getElementById("SOSDate").value = SOSDate;
+        //document.getElementById("RegionCode").value = RegionCode;
+        $('#RegionCode').val(RegionCode);
+        $('#RegionCode').trigger("chosen:updated");
+        //document.getElementById("RegionDescription").value = RegionDescription;
+
+
+        GetRegionEmpDDL();
+
+
+        //document.getElementById("EmpCode").value = EmpCode;
+        //document.getElementById("EmpName").value = EmpName;
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetSingleSOSNoTerminal",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ SOSDate: SOSDate, RegionCode: RegionCode, EmpCode: EmpCode }),
+            contentType: "application/json; charset=utf-8",
+            complete: function (ItemList) {
+                if (ItemList.responseJSON.length > 0) {
+                    $("#ItemTable tbody tr").remove();
+                    $.each(ItemList.responseJSON, function (index, obj) {
+                        var row = '<tr><td>' + obj.ItemCode + ' </td> <td> ' + obj.ItemDesc +
+                            '</td><td><input name="DiscountAmt" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type = "number" maxlength = "5" value="' + obj.Quantity + '"/></td></tr>';
+
+                        $("#ItemTable tbody").append(row);
+
+                        $('#VehicleNo').val(obj.VehicleNo);
+                    });
+
+                    $('#EmpCode').val(EmpCode);
+                    $('#EmpCode').trigger("chosen:updated");
+
+                    
+
+                    $("#SOSModal").modal("hide");
+                }
+            }
+        });
+    });
+
+</script>
+
+<script>
+    var ItemTable = []
+
+
+    function checkAllEmptyInputs() {
+        var isEmpty = false,
+            SOSDate = document.getElementById('SOSDate').value,
+            RegionCode = document.getElementById('RegionCode').value,
+            EmpCode = document.getElementById('EmpCode').value,
+            VehicleNo = document.getElementById('VehicleNo').value;
+
+
+        if (SOSDate == "") {
+            alert('SOS Date cannot be Empty');
+            isEmpty = true;
+        }
+        else if (RegionCode == "") {
+            alert('Region Code cannot be Empty');
+            isEmpty = true;
+        }
+        else if (EmpCode == "") {
+            alert('EmpCode cannot be Empty');
+            isEmpty = true;
+        }
+        else if (VehicleNo == "") {
+            alert('Vehicle No cannot be Empty');
+            isEmpty = true;
+        }
+
+        return isEmpty;
+    }
+
+
+    function ItemRows() {
+
+        itemCount = 0;
+        $("table#ItemTable").find('tr').each(function () {
+            var tableItem = document.getElementById('ItemTable');
+            var DiscountAmt = $(this).find("input[name='DiscountAmt']").val();
+
+            if (itemCount != 0) {
+                var itemList = $(this).find("td");
+                // check empty row
+
+                var vouch = {
+                    ItemCode: $(itemList[0]).html(), ItemDesc: $(itemList[1]).html(), DiscountAmt: parseFloat(DiscountAmt)
+                };
+                ItemTable.push(vouch);
+            }
+            itemCount++;
+        })
+
+        //var itemList = $(this).find("td");
+        //var DiscountAmt = $(this).find("input[name='DiscountAmt']").val();
+        //var vouch = {
+        //    ItemCode: $(itemList[1]).html(), ItemDesc: $(itemList[2]).html(), DiscountAmt: DiscountAmt
+        //};
+        //ItemTable.push(vouch);
+    }
+
+    $("#btnSave").click(function (e) {
+        e.preventDefault();
+        if (!(checkAllEmptyInputs())) {
+            ItemRows();
+
+            $.ajax({
+                type: "POST",
+                url: "/Transaction/ItemDiscountSOSTerminal",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({ ItemDiscountSOS: ItemTable }),
+                contentType: "application/json; charset=utf-8",
+                complete: function (data) {
+                    document.forms["SalesmanOpeningStockTerminal"].submit();
+                }
+            });
+
+        }
+    });
+
+
+
+    //Warning Message
+    function DeleteModal() {
+        var Id = $('#SOSNo').val();
+        var SOSDate = $('#SOSDate').val();
+        var RegionCode = $('#RegionCode').val();
+        var EmpCode = $('#EmpCode').val();
+
+        var Url = "/Transaction/DeleteSOSTerminal";
+
+        if (Id == null || Id == "") {
+            alert("Please, Select SOS No . . . !");
+        } else {
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this record . . . !",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it...!",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    type: "POST",
+                    url: Url,
+                    dataType: "json",
+                    contentType: 'application/json',
+                    data: JSON.stringify({ SOSDate: SOSDate, RegionCode: RegionCode, EmpCode: EmpCode }),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data == true) {
+                            swal({
+                                title: "Deleted!",
+                                text: "Your record has been deleted.",
+                                type: "success"
+                            }, function () {
+                                location.reload();
+                            });
+                        }
+                        else {
+                            swal({
+                                title: "Not Deleted!",
+                                text: "Something went wrong, Record not deleted . . . !",
+                                type: "warning"
+                            }, function () {
+                                location.reload();
+                            });
+                        }
+                    }
+                });
+            })
+        }
+
+    }
+
+</script>
+

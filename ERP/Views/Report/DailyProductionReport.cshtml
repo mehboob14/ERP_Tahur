@@ -1,0 +1,232 @@
+﻿
+@{
+    ViewBag.Title = "DailyProductionReport";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+
+<style type="text/css">
+    /*label {
+        font-weight: 100;
+        font-size: 12px;
+    }*/
+
+    /*.btn {
+        line-height: 0.25;
+        font-size: 12px;
+    }*/
+
+    .checkbox {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-off,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-on,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-label {
+        line-height: 1.2;
+    }
+
+    /*.modal-header {
+        padding: 5px;
+    }*/
+
+
+
+    /*.input-group-addon {
+        padding: 3px 8px;
+        /*color: #0084BF;
+    }*/
+
+
+
+    .table-Scroll {
+        max-height: 540px;
+        max-width: 100%;
+        overflow: auto;
+    }
+
+    td {
+        font-size: 12px;
+    }
+
+    th {
+        font-size: 12px;
+        font: bold;
+    }
+
+    .width50 {
+        width: 500px;
+    }
+
+    .width40 {
+        width: 400px;
+    }
+
+    .width15 {
+        width: 150px;
+    }
+
+    .width30 {
+        width: 300px;
+    }
+
+    .width20 {
+        width: 200px;
+    }
+
+    .width10 {
+        width: 100px;
+    }
+
+
+    .width5 {
+        width: 50px;
+    }
+
+    .Ghaib {
+        display: none;
+    }
+</style>
+
+<style>
+    .Top {
+        margin-top: 5px;
+    }
+
+    .Btn-width {
+        width: 110px;
+        font-family: Calibri;
+        font-size: large;
+        font-style: normal;
+    }
+
+    .table-head {
+        height: 10px;
+        line-height: 8px;
+    }
+
+    .btn-TopHeight {
+        margin-top: 23px;
+    }
+
+    .btn-ItemWidth {
+        width: 100px;
+        /*height: 32px;*/
+    }
+
+    fieldset {
+        margin-top: 20px
+    }
+
+    thead {
+        height: 32px
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <form name="EmployeeMaster" role="form" method="post">
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="form-group row">
+                            <label for="exampleInputuname" class="offset-md-2 col-md-1">From Date</label>
+                            <div class="input-group col-md-2">
+                                <input type="text" class="form-control Datepicker-AutoClose" data-mask="99/99/9999" id="FromDate" placeholder="dd/mm/yyyy">
+                            </div>
+
+                            <label for="exampleInputuname" class="col-md-1">To Date</label>
+                            <div class="input-group col-md-2">
+                                <input type="text" class="form-control Datepicker-AutoClose" data-mask="99/99/9999" id="ToDate" placeholder="dd/mm/yyyy">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!--Buttons For Actions-->
+                <div class="form-group row">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="input-group offset-md-3">
+                            @if (ERP.Models.CommonDAL.UserRights("507", "006"))
+                            {
+                                <input type="button" class="btn btn-info" value="Print" onclick="SimpleInNewWin()" style="width:70px;height:30px;background: #0067b8;padding:10px" />
+                            }
+                            else
+                            {
+                                <input type="button" class="btn btn-info" value="Print" onclick="CISReportInNewWin();" style="width:70px;height:30px;background: #0067b8;padding:10px" disabled />
+                            }
+
+                            &nbsp;&nbsp;
+                            <input type="reset" class="btn btn-info" value="Clear" style="width: 70px; height: 30px; background: #0067b8; padding: 10px; " />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<!--Scripts-->
+<script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+<script>
+    document.getElementById("PageHeader").innerHTML = "Daily Production Report";
+
+
+
+    document.getElementById("PageTitle").innerHTML = "Daily Production Report";
+
+</script>
+
+
+
+
+<script type="text/javascript">
+
+
+
+    // For Reporting
+    function SimpleInNewWin() {
+
+        var FromDate = document.getElementById("FromDate").value;
+
+        var ToDate = document.getElementById("ToDate").value;
+
+        window.open("../ReportWebForms/DetailWebForms/DailyProductionReport.aspx?FromDate=" + encodeURI(FromDate) + "&ToDate=" + encodeURI(ToDate), 'mywindow', 'fullscreen=yes, scrollbars=auto,height=900,width=1100');
+
+    }
+
+
+    function CISReportInNewWin() {
+
+        var FromDate = document.getElementById("FromDate").value;
+
+        var ToDate = document.getElementById("ToDate").value;
+
+
+        $.ajax({
+            url: '/Report/ShowCreditorAgeing',
+
+            data: JSON.stringify({ FromDate: FromDate, ToDate: ToDate }),
+            type: 'POST',
+            contentType: 'application/json;',
+            dataType: 'json',
+            complete: function (data) {
+
+                SimpleInNewWin();
+            }
+        });
+
+
+    }
+
+</script>
+

@@ -1,0 +1,718 @@
+﻿
+@{
+    ViewBag.Title = "PartyDiscount";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<style type="text/css">
+    /*label {
+        font-weight: 100;
+        font-size: 12px;
+    }*/
+
+    /*.btn {
+        line-height: 0.25;
+        font-size: 12px;
+    }*/
+
+    .checkbox {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-off,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-on,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-label {
+        line-height: 1.2;
+    }
+
+    /*.modal-header {
+        padding: 5px;
+    }*/
+
+
+
+    /*.input-group-addon {
+        padding: 3px 8px;
+        /*color: #0084BF;
+    }*/
+
+
+
+    .table-Scroll {
+        max-height: 540px;
+        max-width: 100%;
+        overflow: auto;
+    }
+
+    td {
+        font-size: 12px;
+    }
+
+    th {
+        font-size: 12px;
+        font: bold;
+    }
+
+    .width50 {
+        width: 500px;
+    }
+
+    .width40 {
+        width: 400px;
+    }
+
+    .width15 {
+        width: 150px;
+    }
+
+    .width30 {
+        width: 300px;
+    }
+
+    .width20 {
+        width: 200px;
+    }
+
+    .width10 {
+        width: 100px;
+    }
+</style>
+
+<style>
+    .Top {
+        margin-top: 5px;
+    }
+
+    .Btn-width {
+        width: 80px;
+        font-family: Calibri;
+        font-size: large;
+        font-style: normal;
+    }
+
+    .table-head {
+        height: 10px;
+        line-height: 8px;
+    }
+
+    .btn-TopHeight {
+        margin-top: 23px;
+    }
+
+    .btn-ItemWidth {
+        width: 100px;
+        /*height: 32px;*/
+    }
+
+    fieldset {
+        margin-top: 20px
+    }
+
+    thead {
+        height: 32px
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="white-box">
+            <form action="/Transaction/PartyDiscount" method="post">
+
+                @if (TempData["SuccessMsg"] != null)
+                {
+                <div class="alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <b> @TempData["SuccessMsg"]</b>
+                </div>
+                }
+
+                <div class="row">
+                    <label for="example-text-input" class="col-md-2 col-form-label">Party Discount Code</label>
+                    <div class="col-md-2 input-group">
+                        <div class="input-group-addon"><a data-toggle="modal" data-target="#PDModal" style="color:blue"><b><i class="fa fa-search"></i></b></a></div>
+                        <input class="form-control" type="text" placeholder="Region Code" id="PDCode" readonly>
+                    </div>
+                    <label for="example-text-input" class="col-md-1 col-form-label">Date</label>
+                    <div class="col-md-2 input-group">
+                        <input class="form-control" type="text" placeholder="dd/MM/yyyy" id="datepicker-autoclose" name="PDDate" readonly>
+                    </div>
+                </div>
+
+                <div class="row Top">
+                    <label for="example-text-input" class="col-md-2 col-form-label">Region Code</label>
+                    <div class="col-md-2 input-group">
+                        <div class="input-group-addon"><a data-toggle="modal" data-target="#RegionModal" style="color:blue"><b><i class="fa fa-search"></i></b></a></div>
+                        <input class="form-control" type="text" placeholder="Region Code" id="RegionCode" name="RegionCode" readonly>
+                    </div>
+                    <div class="col-md-6 input-group">
+                        <input class="form-control" type="text" placeholder="Region Description" id="RegionDescription" name="RegionDescription" readonly>
+                    </div>
+                </div>
+
+                <div class="row Top">
+                    <label for="example-text-input" class="col-md-2 col-form-label">Party Code</label>
+                    <div class="col-md-2 input-group">
+                        <div class="input-group-addon"><a data-toggle="modal" data-target="#PartyModal" style="color:blue"><b><i class="fa fa-search"></i></b></a></div>
+                        <input class="form-control" type="text" placeholder="Party Code" id="PartyCode" name="PartyCode" readonly>
+                    </div>
+                    <div class="col-md-6 input-group">
+                        <input class="form-control" type="text" placeholder="Party Description" id="PartyName" name="PartyName" readonly>
+                    </div>
+
+                </div>
+
+
+
+                <div class="form-group">
+                    <section class="m-t-10">
+                        <div class="sttabs tabs-style-linebox">
+                            <nav>
+                                <ul>
+                                    <li><a href="#section-linetriangle-1"><span><b>Milk</b></span></a></li>
+                                    <li><a href="#section-linetriangle-2"><span><b>Yogurt</b></span></a></li>
+                                    <li><a href="#section-linetriangle-3"><span><b>Others</b></span></a></li>
+                                </ul>
+                            </nav>
+                            <div class="content-wrap">
+                                <section id="section-linetriangle-1">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <label for="example-text-input" class="col-md-4 col-form-label Top">Milk Full Fat</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Milk Full Fat" value="0" id="MilkFF" name="MilkFF" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-4 col-form-label Top">Milk Low Fat</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Milk Low Fat" value="0" id="MilkLF" name="MilkLF" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-4 col-form-label Top">Milk Neutra</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Milk Neutra" value="0" id="MilkNeutra" name="MilkNeutra" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-4 col-form-label Top">Milk Neutra (1/2 Ltr)</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Milk Neutra (1/2 Ltr)" value="0" id="MilkNeutraHalf" name="MilkNeutraHalf" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-4 col-form-label Top">Choko Milk</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Choko Milk" value="0" id="ChokoMilk" name="ChokoMilk" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-4 col-form-label Top">Prema Rotation</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Prema Rotation" value="0" id="PremaRotation" name="PremaRotation" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-5 offset-md-2">
+                                            <label for="example-text-input" class="col-md-4 col-form-label ">Raw Milk</label>
+                                            <div class="col-md-6 input-group">
+                                                <input class="form-control" placeholder="Raw Milk" value="0" id="RawMilk" name="RawMilk" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-4 col-form-label Top">Milk Full Fat (450)</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Milk Full Fat (450)" value="0" id="MilkFF450" name="MilkFF450" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-4 col-form-label Top">Milk Full Fat (250)</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Milk Full Fat (250)" value="0" id="MilkFF250" name="MilkFF250" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-4 col-form-label Top">Low Fat Milk (250)</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Low Fat Milk" value="0" id="MilkLF250" name="MilkLF250" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-4 col-form-label Top">Strawberry Milk(200ml)</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Strawberry Milk(200 ml)" value="0" id="MilkStrawBerry200" name="MilkStrawBerry200" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-4 col-form-label Top">Ecolean</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Ecolean" value="0" id="Ecolean" name="Ecolean" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </section>
+                                <section id="section-linetriangle-2">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <label for="example-text-input" class="col-md-5 col-form-label">Ygrt Natural (400 gm)</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Ygrt Natural(400 gm)" value="0" id="YgrtNatural400" name="YgrtNatural400" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-5 col-form-label Top">Ygrt Natural (80 gm)</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Ygrt Natural(80 gm)" value="0" id="YgrtNatural80" name="YgrtNatural80" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-5 col-form-label Top">Ygrt Natural (1Kg)</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Ygrt Natural(1Kg)" value="0" id="YgrtNatural1Kg" name="YgrtNatural1Kg" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-5 col-form-label Top">Ygrt Strawberry (90 G)</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Ygrt Strawberry(80gm)" value="0" id="YgrtStrawBerry90" name="YgrtStrawBerry90" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-5 col-form-label Top">Ygrt StrawBerry (80 gm)</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Ygrt StrawBerry(80 gm)" value="0" id="YgrtStrawBerry80" name="YgrtStrawBerry80" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-5 col-form-label Top">LF Ygrt 400</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="LF Ygrt 400" value="0" id="YgrtLF400" name="YgrtLF400" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-5 offset-md-2">
+                                            <label for="example-text-input" class="col-md-4 col-form-label ">Ygrt BlueBerry (90 G)</label>
+                                            <div class="col-md-6 input-group">
+                                                <input class="form-control" placeholder="Ygrt BlueBerry(90G)" value="0" id="YgrtBlueBerry90" name="YgrtBlueBerry90" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-4 col-form-label Top">Ygrt Mango (80 G)</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Ygrt Mango(80 G)" value="0" id="YgrtMango80" name="YgrtMango80" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-4 col-form-label">Ygrt Vanilla (100 G)</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Ygrt Vanilla(100 G)" value="0" id="YgrtVanilla100" name="YgrtVanilla100" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-4 col-form-label">Ygrt Sweet (400 gm)</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Ygrt Sweet(400 gm)" value="0" id="YgrtSweet400" name="YgrtSweet400" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-4 col-form-label">Ygrt Pouch (500 G)</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Ygrt Pouch(500 G)" value="0" id="YgrtPouch500" name="YgrtPouch500" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </section>
+                                <section id="section-linetriangle-3">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <label for="example-text-input" class="col-md-4 col-form-label Top">Raita Zeera(250 gm)</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Raita Zeera(250 gm)" value="0" id="RaitaZeera250" name="RaitaZeera250" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-4 col-form-label Top">Raita Pudina (250 gm)</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Region Code" value="0" id="RaitaPodina250" name="RaitaPodina250" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-4 col-form-label Top">Raita Zeera (80 gm)</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Region Code" value="0" id="RaitaZeera80" name="RaitaZeera80" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-4 col-form-label Top">PineApple (90 gm)</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Region Code" value="0" id="PineApple90" name="PineApple90" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-4 col-form-label Top">Labban Strawberry</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Labban Strawberry" value="0" id="LabbanStrawberry" name="LabbanStrawberry" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+
+
+                                        </div>
+                                        <div class="col-md-5 offset-md-2">
+                                            <label for="example-text-input" class="col-md-4 col-form-label ">Smoothie Mango</label>
+                                            <div class="col-md-6 input-group">
+                                                <input class="form-control" placeholder="Smoothie Mango" value="0" id="SmoothieMango220" name="SmoothieMango220" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-4 col-form-label Top">Smoothie Strawberry</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Smoothie Strawberry" value="0" id="SmoothieStrawberry220" name="SmoothieStrawberry220" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+                                            <label for="example-text-input" class="col-md-4 col-form-label Top">Cream</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Cream" value="0" id="Cream" name="Cream" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+
+
+                                            <label for="example-text-input" class="col-md-4 col-form-label Top">Labban Plain</label>
+                                            <div class="col-md-6 input-group Top">
+                                                <input class="form-control" placeholder="Labban Plain" value="0" id="LabbanPlain" name="LabbanPlain" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                       type="number"
+                                                       maxlength="3">
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <!-- /content -->
+                        </div>
+                        <!-- /tabs -->
+                    </section>
+                </div>
+
+                <fieldset>
+                    <legend></legend>
+                    <div class="form-group row">
+                        <div class="col-md-4 offset-md-9">
+                            <input class="btn btn-info Btn-width" type="submit" id="btnSave" value="Save" />
+
+                            <input class="btn btn-default Btn-width" type="reset" id="btnClear" value="Clear" />
+
+                            <input class="btn btn-success Btn-width" type="button" id="btnPrint" value="Print" />
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--SOS Record-->
+<div class="modal fade" tabindex="-1" id="SOSModal" role="dialog" aria-labelledby="modal123Label" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="margin-top:50px; height:620px;width:800px">
+            <div class="modal-header">
+                <b>Party Discount Detail</b>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="white-box table-Scroll">
+                        <table id="" class="table DataTable table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="width15">Party Discount Code</th>
+                                    <th class="width15">Date</th>
+                                    <th class="width50">Region Description</th>
+                                    <th class="width30">Party Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (ViewBag.GetAllSOS != null)
+                                {
+                                    foreach (var item in ViewBag.GetAllSOS)
+                                    {
+                                        <tr onclick="GetSOSDetail('@item.SOSNo','@item.SOSDate.ToString("dd/MM/yyyy")','@item.RegionCode','@item.RegionDescription','@item.EmpCode','@item.EmpName','@item.MilkFF','@item.MilkLF','@item.MilkNeutraHalf','@item.MilkNeutra','@item.RawMilk','@item.MilkFF450','@item.MilkFF250','@item.MilkLF250','@item.ChokoMilk','@item.MilkStrawBerry200','@item.Ecolean','@item.PremaRotation','@item.YgrtNatural400','@item.YgrtNatural80','@item.YgrtNatural1kg','@item.YgrtStrawBerry90','@item.YgrtStrawBerry80','@item.YgrtLF400','@item.YgrtBlueBerry90','@item.YgrtMango80','@item.YgrtVanilla100','@item.YgrtSweet400','@item.YgrtPouch500','@item.Podina','@item.FreshCream','@item.RaitaZeera250','@item.RaitaPodina250','@item.RaitaZeera80','@item.PineApple90','@item.SmoothieMango220','@item.SmoothieStrawberry220','@item.Cream','@item.LabbanPlain','@item.LabbanStrawberry')">
+                                            <td>@item.SOSNo</td>
+                                            <td>@item.SOSDate.ToString("dd/MM/yyyy")</td>
+                                            <td>@item.RegionDescription</td>
+                                            <td>@item.EmpName</td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!--SOS Record-->
+<div class="modal fade" tabindex="-1" id="PDModal" role="dialog" aria-labelledby="modal123Label" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="margin-top:50px; height:620px;width:800px">
+            <div class="modal-header">
+                <b>Party Discount Detail</b>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="white-box table-Scroll">
+                        <table id="" class="table DataTable table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="width15">PD Code</th>
+                                    <th class="width15">Date</th>
+                                    <th class="width50">Region Description</th>
+                                    <th class="width30">Party Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (ViewBag.GetPDList != null)
+                                {
+                                    foreach (var item in ViewBag.GetPDList)
+                                    {
+                                        <tr onclick="GetPDDetail('@item.PDCode','@item.PDDate.ToString("dd/MM/yyyy")','@item.RegionCode','@item.RegionDescription','@item.PartyCode','@item.PartyName','@item.MilkFF','@item.MilkLF','@item.MilkNeutraHalf','@item.MilkNeutra','@item.RawMilk','@item.MilkFF450','@item.MilkFF250','@item.MilkLF250','@item.ChokoMilk','@item.MilkStrawBerry200','@item.Ecolean','@item.PremaRotation','@item.YgrtNatural400','@item.YgrtNatural80','@item.YgrtNatural1kg','@item.YgrtStrawBerry90','@item.YgrtStrawBerry80','@item.YgrtLF400','@item.YgrtBlueBerry90','@item.YgrtMango80','@item.YgrtVanilla100','@item.YgrtSweet400','@item.YgrtPouch500','@item.Podina','@item.FreshCream','@item.RaitaZeera250','@item.RaitaPodina250','@item.RaitaZeera80','@item.PineApple90','@item.SmoothieMango220','@item.SmoothieStrawberry220','@item.Cream','@item.LabbanPlain','@item.LabbanStrawberry')">
+                                            <td>@item.PDCode</td>
+                                            <td>@item.PDDate.ToString("dd/MM/yyyy")</td>
+                                            <td>@item.RegionDescription</td>
+                                            <td>@item.PartyName</td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!--Region Modal-->
+<div class="modal fade" tabindex="-1" id="RegionModal" role="dialog" aria-labelledby="modal123Label" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="margin-top:50px; height:620px;width:800px">
+            <div class="modal-header">
+                <b>Region Detail</b>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="white-box table-Scroll">
+                        <table id="" class="table DataTable table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="width20">Region Code</th>
+                                    <th class="width50">Region Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (ViewBag.RegionList != null)
+                                {
+                                    foreach (var item in ViewBag.RegionList)
+                                    {
+                                        <tr onclick="GetRegion('@item.RegionCode','@item.RegionDescription')">
+                                            <td>@item.RegionCode</td>
+                                            <td>@item.RegionDescription</td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!--Party Modal-->
+<div class="modal fade" tabindex="-1" id="PartyModal" role="dialog" aria-labelledby="modal123Label" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="margin-top:50px; height:620px;width:800px">
+            <div class="modal-header">
+                <b>Party Detail</b>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="white-box table-Scroll">
+                        <table id="" class="table DataTable table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="width20">Party Code</th>
+                                    <th class="width50">Party Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (ViewBag.PartyList != null)
+                                {
+                                    foreach (var item in ViewBag.PartyList)
+                                    {
+                                        <tr onclick="GetParty('@item.PartyCode','@item.PartyName')">
+                                            <td>@item.PartyCode</td>
+                                            <td>@item.PartyName</td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+
+<script>
+    document.getElementById("PageHeader").innerHTML = "Party Discount";
+
+
+    document.getElementById("PageLink").style.visibility = "hidden";
+    //var str = "Add New Unit";
+    //var result = str.link("/CompanySetup/UnitSetup");
+    //document.getElementById("PageLink").innerHTML = result;
+
+
+</script>
+
+<script type="text/javascript">
+
+
+    function GetRegion(RegionCode, RegionDescription) {
+        document.getElementById("RegionCode").value = RegionCode;
+        document.getElementById("RegionDescription").value = RegionDescription;
+
+        $("#RegionModal").modal("hide");
+    }
+
+    function GetParty(PartyCode, PartyName) {
+        document.getElementById("PartyCode").value = PartyCode;
+        document.getElementById("PartyName").value = PartyName;
+
+        $("#PartyModal").modal("hide");
+    }
+
+    function GetPDDetail(PDCode, PDDate, RegionCode, RegionDescription, PartyCode, PartyName, MilkFF, MilkLF, MilkNeutraHalf, MilkNeutra, RawMilk, MilkFF450, MilkFF250, MilkLF250, ChokoMilk, MilkStrawBerry200, Ecolean, PremaRotation, YgrtNatural400, YgrtNatural80, YgrtNatural1kg, YgrtStrawBerry90, YgrtStrawBerry80, YgrtLF400, YgrtBlueBerry90, YgrtMango80, YgrtVanilla100, YgrtSweet400, YgrtPouch500, Podina, FreshCream, RaitaZeera250, RaitaPodina250, RaitaZeera80, PineApple90, SmoothieMango220, SmoothieStrawberry220, Cream, LabbanPlain, LabbanStrawberry) {
+        document.getElementById("PDCode").value = PDCode;
+        document.getElementById("datepicker-autoclose").value = PDDate;
+        document.getElementById("RegionCode").value = RegionCode;
+        document.getElementById("RegionDescription").value = RegionDescription;
+        document.getElementById("PartyCode").value = PartyCode;
+        document.getElementById("PartyName").value = PartyName;
+        document.getElementById("MilkFF").value = MilkFF;
+        document.getElementById("MilkLF").value = MilkLF;
+        document.getElementById("MilkNeutraHalf").value = MilkNeutraHalf;
+        document.getElementById("MilkNeutra").value = MilkNeutra;
+        document.getElementById("RawMilk").value = RawMilk;
+        document.getElementById("MilkFF450").value = MilkFF450;
+        document.getElementById("MilkFF250").value = MilkFF250;
+        document.getElementById("MilkLF250").value = MilkLF250;
+        document.getElementById("ChokoMilk").value = ChokoMilk;
+        document.getElementById("MilkStrawBerry200").value = MilkStrawBerry200;
+        document.getElementById("Ecolean").value = Ecolean;
+        document.getElementById("PremaRotation").value = PremaRotation;
+
+        document.getElementById("YgrtNatural400").value = YgrtNatural400;
+        document.getElementById("YgrtNatural80").value = YgrtNatural80;
+        document.getElementById("YgrtNatural1Kg").value = YgrtNatural1Kg;
+        document.getElementById("YgrtStrawBerry90").value = YgrtStrawBerry90;
+        document.getElementById("YgrtStrawBerry80").value = YgrtStrawBerry80;
+        document.getElementById("YgrtLF400").value = YgrtLF400;
+        document.getElementById("YgrtBlueBerry90").value = YgrtBlueBerry90;
+        document.getElementById("YgrtMango80").value = YgrtMango80;
+        document.getElementById("YgrtVanilla100").value = YgrtVanilla100;
+        document.getElementById("YgrtSweet400").value = YgrtSweet400;
+        document.getElementById("YgrtPouch500").value = YgrtPouch500;
+
+        document.getElementById("RaitaZeera250").value = RaitaZeera250;
+        document.getElementById("RaitaPodina250").value = RaitaPodina250;
+        document.getElementById("RaitaZeera80").value = RaitaZeera80;
+        document.getElementById("PineApple90").value = PineApple90;
+        document.getElementById("LabbanStrawberry").value = LabbanStrawberry;
+        document.getElementById("SmoothieMango220").value = SmoothieMango220;
+        document.getElementById("LabbanPlain").value = LabbanPlain;
+        document.getElementById("SmoothieStrawberry220").value = SmoothieStrawberry220;
+        document.getElementById("Cream").value = Cream;
+
+
+        $("#PDModal").modal("hide");
+    }
+
+</script>

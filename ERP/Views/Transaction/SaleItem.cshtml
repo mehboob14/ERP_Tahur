@@ -1,0 +1,587 @@
+﻿
+@{
+    ViewBag.Title = "SaleItem";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<style>
+
+    [type="file"] {
+        height: 0;
+        overflow: hidden;
+        width: 0;
+    }
+
+        [type="file"] + label {
+            /*background: #f15d22;*/
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            display: inline-block;
+            font-family: 'Poppins', sans-serif;
+            font-size: inherit;
+            font-weight: 600;
+            outline: none;
+            position: relative;
+            transition: all 0.3s;
+            vertical-align: middle;
+        }
+</style>
+
+<style type="text/css">
+    /*label {
+        font-weight: 100;
+        font-size: 12px;
+    }*/
+
+    /*.btn {
+        line-height: 0.25;
+        font-size: 12px;
+    }*/
+
+    .checkbox {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-off,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-on,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-label {
+        line-height: 1.2;
+    }
+
+    /*.modal-header {
+        padding: 5px;
+    }*/
+
+
+
+    /*.input-group-addon {
+        padding: 3px 8px;
+        /*color: #0084BF;
+    }*/
+
+
+
+    .table-Scroll {
+        max-height: 540px;
+        max-width: 100%;
+        overflow: auto;
+    }
+
+    td {
+        font-size: 12px;
+    }
+
+    th {
+        font-size: 12px;
+        font: bold;
+    }
+
+    .width50 {
+        width: 500px;
+    }
+
+    .width40 {
+        width: 400px;
+    }
+
+    .width15 {
+        width: 150px;
+    }
+
+    .width30 {
+        width: 300px;
+    }
+
+    .width20 {
+        width: 200px;
+    }
+
+    .width10 {
+        width: 100px;
+    }
+</style>
+
+<style> 
+
+    .Top {
+        margin-top: 5px;
+    }
+
+    .Btn-width {
+        width: 80px;
+        font-family: Calibri;
+        font-size: large;
+        font-style: normal;
+    }
+
+    .table-head {
+        height: 10px;
+        line-height: 8px;
+    }
+
+    .btn-TopHeight {
+        margin-top: 23px;
+    }
+
+    .btn-ItemWidth {
+        width: 100px;
+        /*height: 32px;*/
+    }
+
+    fieldset {
+        margin-top: 20px
+    }
+
+    thead {
+        height: 32px
+    }
+
+</style>
+
+@using (Html.BeginForm("SaleItem", "Transaction", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="white-box" style=" margin-bottom:5px; margin-top:5px ">
+                <div class="row">
+                    <div class="form-horizontal col-sm-12 col-xs-12">
+                        @if (TempData["SuccessMsg"] != null)
+                        {
+                            <div class="alert alert-success">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <b> @TempData["SuccessMsg"]</b>
+                            </div>
+                        }
+                        <div class="col-md-12">
+                            <div class="col-md-9">
+                                <div class="row Top">
+                                    <label class="control-label col-md-2">Item Code</label>
+                                    <div class="col-md-4">
+                                        <div class="input-group date">
+                                            <div class="input-group-addon"><a data-toggle="modal" data-target="#ItemModal" style="color:blue"><b><i class="fa fa-search"></i></b></a></div>
+                                            <input type="text" class="form-control" placeholder="Item Code" name="ItemCode" required id="ItemCode" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row Top">
+                                    <label class=" control-label col-md-2">Item Description*</label>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control" placeholder="Item Description" style="text-transform: uppercase" maxlength="45" name="ItemDesc" required id="ItemDesc">
+                                    </div>
+                                </div>
+
+                                <!-- Nav tabs -->
+                                <ul class="nav customtab Top nav-tabs" role="tablist">
+                                    <li role="presentation" class="nav-item"><a href="#home1" class="nav-link active" aria-controls="home" role="tab" data-toggle="tab" aria-expanded="true"><span class="visible-xs"><i class="ti-home"></i></span><span class="hidden-xs"> General</span></a></li>
+                                    <li role="presentation" class="nav-item"><a href="#messages1" class="nav-link" aria-controls="messages" role="tab" data-toggle="tab" aria-expanded="false"><span class="visible-xs"><i class="ti-email"></i></span> <span class="hidden-xs">Sales</span></a></li>
+                                </ul>
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane fade active in" id="home1">
+                                        <div class="col-md-12">
+                                            <div class="row Top">
+                                                <label class="offset-md-1 control-label col-md-1">Brand*</label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group date">
+                                                        <select class="form-control" id="ddlBrand" name="Brand" required>
+                                                            <option value="Prema">Prema</option>
+                                                            <option value="Neutra">Neutra</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <label class="control-label col-md-2"> Standard weight</label>
+                                                <div class="col-md-2">
+                                                    <input class="form-control" placeholder="Standard Weight" name="stdWeight" value="0" id="stdWeight" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                           type="number"
+                                                            step=".0001"
+                                                           maxlength="6">
+                                                </div>
+                                            </div>
+                                            <div class="row Top">
+                                                <label class="control-label col-md-2">Category*</label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group date">
+                                                        <select class="form-control" id="ddlCategory" name="Category">
+                                                            <option value="Dairy">Dairy</option>
+                                                            <option value="Juice">Juice</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <label class="col-md-2 control-label">In</label>
+                                                <div class="col-md-4">
+                                                    <div class="radio-list radio-info">
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="WeightType" id="gmId" value="gm" checked>gm
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="WeightType" id="LtrId" value="ltr">Litre
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="WeightType" id="KgId" value="Kg">Kg
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="WeightType" id="mlId" value="ml">ml
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row Top">
+                                                <label class=" control-label col-md-2"> Sub Category*</label>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <select class="form-control" id="ddlSubCategory" name="SubCategory">
+                                                            <option value="Milk">Milk</option>
+                                                            <option value="Yogurt">Yogurt</option>
+                                                            <option value="Raita">Raita</option>
+                                                            <option value="Smoothie">Smoothie</option>
+                                                            <option value="RawMilk">RawMilk</option>
+                                                            <option value="Butter">Butter</option>
+                                                            <option value="Labban">Labban</option>
+                                                            <option value="Cream">Cream</option>
+                                                            <option value="Cheese">Cheese</option>
+                                                            <option value="Juice">Juice</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+
+                                                <label class=" control-label col-md-2">Packing Size</label>
+                                                <div class="col-md-2">
+                                                    <input class="form-control" placeholder="Item Description" style="text-transform: uppercase" value="0" name="PackSize" id="PackSize" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                           type="number"
+                                                           maxlength="3">
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="clearfix"></div>
+                                    </div>
+
+                                    <div role="tabpanel" class="tab-pane fade" id="messages1">
+                                        <div class="col-md-12">
+                                            <div class="row col-md-4">
+
+                                                <label class=" control-label col-md-7">Production Opening</label>
+                                                <div class="col-md-5">
+                                                    <input class="form-control" placeholder="Pro. Opening" value="0" name="ProductionOpening" id="ProductionOpening" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                           type="number"
+                                                           step=".0001"
+                                                           maxlength="10">
+                                                </div>
+
+                                                <label class=" control-label col-md-7" style="display:none">Sale Price for Register Party Rs.*</label>
+                                                <div class="col-md-5" style="display:none">
+                                                    <input class="form-control"  placeholder="Sale Price for Register Parties" value="0" name="SaleRateReg" required id="SaleRateReg" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                           type="number"
+                                                           step=".0001"
+                                                           maxlength="10">
+                                                </div>
+
+
+
+
+                                                <label class=" control-label col-md-7">G.S.T %</label>
+                                                <div class="col-md-5">
+                                                    <input class="form-control" placeholder="G.S.T" value="0" name="SaleGSTPer" id="SaleGSTPer" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                           type="number"
+                                                           step=".0001"
+                                                           maxlength="3">
+                                                </div>
+
+                                                <label class="control-label col-md-7" style="display:none">Sale Price for Un-Register Party Rs.*</label>
+                                                <div class="col-md-5" style="display:none">
+                                                    <input class="form-control" placeholder="Sale Price for Un-Register Parties" value="0" name="SaleRateUnReg" id="SaleRateUnReg" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                           type="number"
+                                                           step=".0001"
+                                                           maxlength="10">
+                                                </div>
+
+                                                <label class=" control-label col-md-7">Further Tax %</label>
+                                                <div class="col-md-5">
+                                                    <input class="form-control" placeholder="Further Tax" value="0" name="SaleFurtherTaxPer" id="SaleFurtherTaxPer" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                           type="number"
+                                                           step=".0001"
+                                                           maxlength="3">
+                                                </div>
+
+                                                <label class=" control-label col-md-7">Consumer Rate</label>
+                                                <div class="col-md-5">
+                                                    <input class="form-control" value="0" name="Consumer_Rate" id="Consumer_Rate" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                           type="number"
+                                                           step=".0001"
+                                                           maxlength="9">
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-4 row">
+                                                
+
+                                                <label class=" control-label col-md-7">Retailer_Active %</label>
+                                                <div class="col-md-5">
+                                                    <input class="form-control" value="0" name="RetTaxPer_Act" id="RetTaxPer_Act" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                           type="number"
+                                                           step=".0001"
+                                                           maxlength="3">
+                                                </div>
+
+                                                <label class=" control-label col-md-7">Retailer_InActive %</label>
+                                                <div class="col-md-5">
+                                                    <input class="form-control" value="0" name="RetTaxPer_InAct" id="RetTaxPer_InAct" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                           type="number"
+                                                           step=".0001"
+                                                           maxlength="3">
+                                                </div>
+
+                                                <label class=" control-label col-md-7">Distributer_Active %</label>
+                                                <div class="col-md-5">
+                                                    <input class="form-control" value="0" name="DistTaxPer_Act" id="DistTaxPer_Act" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                           type="number"
+                                                           step=".0001"
+                                                           maxlength="3">
+                                                </div>
+
+                                                <label class=" control-label col-md-7">Distributer_InActive %</label>
+                                                <div class="col-md-5">
+                                                    <input class="form-control" value="0" name="DistTaxPer_InAct" id="DistTaxPer_InAct" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                           type="number"
+                                                           step=".0001"
+                                                           maxlength="3">
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-md-4 row">
+                                                <label class=" control-label col-md-7">FED Tax %</label>
+                                                <div class="col-md-5">
+                                                    <input class="form-control" value="0" name="FEDTaxPer" id="FEDTaxPer" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                           type="number"
+                                                           step=".0001"
+                                                           maxlength="3">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="offset-1 col-md-10">
+                                    <div class="panel panel-default panel-body">
+                                        <img src="~/Content/plugins/images/noimage.png" id="Img-Item" class="img-thumbnail" style="height:155px;width:270px" />
+                                        <div class="col-md-8 offset-3" style="margin-top:15px">
+                                            <input type="file" name="Pic" id="ItemImg" onchange="readURL(this)" />
+                                            <label for="ItemImg" style="width:100px" class="btn btn-info">Upload</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row Top pull-right">
+                                    <div class="input-group" style="margin-right:60px;">
+                                        @if (ERP.Models.CommonDAL.UserRights("10", "002"))
+                                        {
+                                            <button type="submit" style="width:110px" class="btn btn-small btn-info waves-effect waves-light btn-group">Save</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="submit" style="width:110px" class="btn btn-small btn-info waves-effect waves-light btn-group" disabled>Save</button>
+                                        }
+                                        &nbsp;
+                                        <button type="reset" style="width:110px" class="btn btn-info waves-effect waves-light btn-group">Clear</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+<!--SaleItem Modal-->
+<div class="modal fade" tabindex="-1" id="ItemModal" role="dialog" aria-labelledby="modal123Label" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="margin-top:50px; height:620px;width:800px">
+            <div class="modal-header">
+                <b>Item Detail</b>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="white-box table-Scroll">
+                        <table id="myTable" class="table table-striped DataTable">
+                            <thead>
+                                <tr>
+                                    <th class="width20">Item Code</th>
+                                    <th class="width50">Item Desc</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (ViewBag.ItemList != null)
+                                {
+                                    foreach (var item in ViewBag.ItemList)
+                                    {
+                                        <tr onclick="GetItem('@item.ItemCode','@item.ItemDesc')">
+                                            <td>@item.ItemCode</td>
+                                            <td>@item.ItemDesc</td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<script>
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#Img-Item')
+                    .attr('src', e.target.result)
+            };
+
+            reader.readAsDataURL(input.files[0]);
+
+
+            var formdata = new FormData(); //FormData object
+            var fileInput = document.getElementById('ItemImg');
+            //Iterating through each files selected in fileInput
+            for (i = 0; i < fileInput.files.length; i++) {
+                //Appending each file to FormData object
+                formdata.append(fileInput.files[i].name, fileInput.files[i]);
+            }
+            //Creating an XMLHttpRequest and sending
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/Transaction/GetItemImg');
+            xhr.send(formdata);
+            //xhr.onreadystatechange = function () {
+            //    if (xhr.readyState == 4 && xhr.status == 200) {
+            //        alert(xhr.responseText);
+            //    }
+            //}
+
+
+        }
+    }
+
+
+
+
+</script>
+
+<script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+<script>
+    document.getElementById("PageHeader").innerHTML = "Item Master Data";
+
+
+    document.getElementById("PageLink").style.visibility = "hidden";
+        //var str = "Add New Unit";
+        //var result = str.link("/CompanySetup/UnitSetup");
+        //document.getElementById("PageLink").innerHTML = result;
+
+     document.getElementById("PageTitle").innerHTML = "Sale Items"
+
+    $(function () {
+        $("#ddlBrand").chosen();
+        $("#ddlCategory").chosen();
+        $("#ddlSubCategory").chosen();
+    });
+
+   
+
+</script>
+
+<script type="text/javascript">
+
+
+
+
+
+
+    function GetItem (ItemCode) {
+      
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetSingleItem",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ ItemCode: ItemCode }),
+            contentType: "application/json;charset=utf-8",
+            success: function (result) {
+                if (result.length > 0) {
+                    $.each(result, function (index, obj) {
+                        document.getElementById("ItemCode").value = obj.ItemCode;
+                        document.getElementById("ItemDesc").value = obj.ItemDesc;
+                        document.getElementById("ddlBrand").value = obj.Brand;
+                        document.getElementById("ddlCategory").value = obj.Category;
+                        document.getElementById("ddlSubCategory").value = obj.SubCategory;
+                        document.getElementById("stdWeight").value = obj.stdWeight;
+                        document.getElementById("PackSize").value = obj.PackSize;
+                        document.getElementById("SaleRateReg").value = obj.SaleRateReg;
+                        document.getElementById("SaleRateUnReg").value = obj.SaleRateUnReg;
+                        document.getElementById("SaleGSTPer").value = obj.SaleGSTPer;
+                        document.getElementById("SaleFurtherTaxPer").value = obj.SaleFurtherTaxPer;
+                        document.getElementById("ProductionOpening").value = obj.ProductionOpening;
+                        document.getElementById("Consumer_Rate").value = obj.Consumer_Rate;
+
+                        document.getElementById("RetTaxPer_Act").value = obj.RetTaxPer_Act;
+                        document.getElementById("RetTaxPer_InAct").value = obj.RetTaxPer_InAct;
+                        document.getElementById("DistTaxPer_Act").value = obj.DistTaxPer_Act;
+                        document.getElementById("DistTaxPer_InAct").value = obj.DistTaxPer_InAct;
+
+                        document.getElementById("FEDTaxPer").value = obj.FEDTaxPer;
+
+                        $('#Img-Item').attr('src', obj.ItemPic);
+                        var Type = obj.WeightType;
+                        if (Type === "gm") {
+                            var radiobtn = document.getElementById("gmId");
+                            radiobtn.checked = true;
+                        }
+                        if (Type === "ltr") {
+                            var radiobtn = document.getElementById("LtrId");
+                            radiobtn.checked = true;
+                        }
+                        if (Type === "Kg") {
+                            var radiobtn = document.getElementById("KgId");
+                            radiobtn.checked = true;
+                        }
+                        if (Type === "ml") {
+                            var radiobtn = document.getElementById("mlId");
+                            radiobtn.checked = true;
+                        }
+                     
+                    });
+                }
+               
+                $("#ItemModal").modal("hide");
+
+            }
+        });
+    }
+
+</script>

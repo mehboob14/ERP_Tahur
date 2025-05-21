@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SecurityDB_AtTahurModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="CompanyApplication">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CompanyCode" Type="String" MaxLength="5" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="ApplicationCode" Type="String" MaxLength="5" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Remarks" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="ActiveFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+  </EntityType>
+  <EntityType Name="SecurityUserAccess">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserCode" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="ApplicationCode" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="FormCode" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+    <Property Name="FormActionCode" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="ActionValue" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+  </EntityType>
+  <EntityType Name="SecurityUserApplication">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserCode" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="ApplicationCode" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="AllowFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+  </EntityType>
+  <EntityContainer Name="SecurityDB_AtTahurEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CompanyApplications" EntityType="Self.CompanyApplication" />
+    <EntitySet Name="SecurityUserAccesses" EntityType="Self.SecurityUserAccess" />
+    <EntitySet Name="SecurityUserApplications" EntityType="Self.SecurityUserApplication" />
+    <EntitySet Name="SecurityUserRoles" EntityType="SecurityDB_AtTahurModel.SecurityUserRole" />
+    <EntitySet Name="SecurityRoles" EntityType="SecurityDB_AtTahurModel.SecurityRole" />
+    <EntitySet Name="SecurityUsers" EntityType="SecurityDB_AtTahurModel.SecurityUser" />
+  </EntityContainer>
+  <EntityType Name="SecurityUserRole">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserCode" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="RoleCode" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="EnableFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+  </EntityType>
+  <EntityType Name="SecurityRole">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RoleCode" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="RoleName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Remarks" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ActiveFlag" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+  </EntityType>
+  <EntityType Name="SecurityUser">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserCode" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="CompCode" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+    <Property Name="LoginName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="EmployeeCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="EmployeeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Remarks" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ActiveFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="MacAddress" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="CreateBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="RegionCode" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+    <Property Name="EmpCode" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+  </EntityType>
+</Schema>

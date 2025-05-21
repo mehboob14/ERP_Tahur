@@ -1,0 +1,2876 @@
+﻿@model ERP.Models.SaleInvoiceMaster
+@{
+    ViewBag.Title = "SaleInvoiceResponsive";
+    //Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<html>
+
+<head>
+
+
+
+    <link href="../Content/plugins/bower_components/toast-master/css/jquery.toast.css" rel="stylesheet">
+
+    <link href="../Content/plugins/bower_components/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/plugins/bower_components/bootstrap-switch/bootstrap-switch.min.css" rel="stylesheet">
+    <link href="~/Content/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/plugins/bower_components/bootstrap-extension/css/bootstrap-extension.css" rel="stylesheet">
+    <link href="~/Content/plugins/bower_components/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="~/Content/plugins/bower_components/icheck/skins/all.css" rel="stylesheet">
+    <link href="~/Content/plugins/bower_components/bootstrap-table/dist/bootstrap-table.min.css" rel="stylesheet" type="text/css" />
+    <!-- Chosen CSS -->
+    <link href="~/Content/Chosen/chosen.min.css" rel="stylesheet" />
+    <!-- Menu CSS -->
+    <link href="~/Content/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet" />
+    <!-- morris CSS -->
+    <link href="~/Content/plugins/bower_components/morrisjs/morris.css" rel="stylesheet" />
+    <!-- animation CSS -->
+    <link href="~/Content/css/animate.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+    <!-- color CSS -->
+    <link href="~/Content/css/colors/purple.css" id="theme" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/plugins/bower_components/dropify/dist/css/dropify.min.css" />
+    <!-- Date picker plugins css -->
+    @*<link href="../Content/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" / > *@
+    <link href="~/Content/css/buttons.datatables.min.css" rel="stylesheet" />
+    <!-- carousal css -->
+    <link href="~/Content/plugins/bower_components/owl.carousel/owl.carousel.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/plugins/bower_components/owl.carousel/owl.theme.default.css" rel="stylesheet" type="text/css" />
+
+    <link href="~/Content/plugins/bower_components/css-chart/css-chart.css" rel="stylesheet" />
+    <link href="~/Content/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css" rel="stylesheet" />
+
+    <link href="~/Content/plugins/bower_components/custom-select/custom-select.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/plugins/bower_components/switchery/dist/switchery.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/bower_components/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" rel="stylesheet" />
+    <link href="~/Content/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css" rel="stylesheet" />
+    <link href="~/Content/plugins/bower_components/multiselect/css/multi-select.css" rel="stylesheet" type="text/css" />
+
+    <link href="~/Content/jquery-ui-1.12.1.custom/jquery-ui.min.css" rel="stylesheet" />
+
+    <link href="~/Content/JQueryDP/jquery-ui.min.css" rel="stylesheet" />
+
+
+    <style>
+        table {
+            border: 1px solid black;
+            table-layout: fixed;
+            width: 1500px;
+        }
+
+        thead tr th {
+            color: white
+        }
+
+        td {
+            white-space: nowrap;
+            border: 1px solid black;
+            width: 100px;
+            overflow: hidden;
+        }
+
+        h4 b input {
+            width: 150px;
+        }
+
+        .modal-open .modal {
+            overflow-x: auto;
+            overflow-y: auto;
+            margin-right: 50px
+        }
+
+        select option {
+            font-size: 80px
+        }
+
+        
+        
+    </style>
+</head>
+
+<body>
+
+
+    <div class="bg-faded container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+
+                @if (TempData["SuccessMsg"] != null)
+                {
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <b> @TempData["SuccessMsg"]</b>
+                    </div>
+                }
+
+                @if (TempData["ErrorMsg"] != null)
+                {
+                    <div class="alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <b> @TempData["ErrorMsg"]</b>
+                    </div>
+                }
+
+                @if (TempData["DeadLockMsg"] != null)
+                {
+                    <div class="alert alert-warning">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <b> @TempData["DeadLockMsg"]</b>
+                    </div>
+                }
+
+                <form action="/Transaction/SaleInvoiceResponsive" id="SaleInvoiceResponsive" name="SaleInvoiceResponsive" method="post">
+
+                    <div class="card card-outline-info text-center text-dark mt-3">
+                        <div class="white-box">
+                            <div class="row mt-3">
+                                <label for="example-text-input" class="col-md-1 col-form-label">Inv. No</label>
+                                <div class="col-md-2 input-group">
+                                    <div class="input-group-addon"><a data-toggle="modal" data-target="#InvoiceModal" style="color:blue"><i class="fa fa-search"></i></a></div>
+                                    <input class="form-control" type="text" placeholder="SI No" id="InvoiceNo" name="InvoiceNo" readonly>
+                                </div>
+                                <label for="example-text-input" class="col-md-1 col-form-label">M.I.No</label>
+                                <div class="col-md-3 input-group">
+                                    <input class="form-control RemoveTab" type="text" placeholder="Manual Invoice No" id="ManInvoiceNo" tabindex="1" name="ManInvoiceNo" value="@ViewBag.UniqNo" readonly>
+                                </div>
+
+                                <input type="hidden" name="RepInvoiceNo" id="RepInvoiceNo" value="0000" />
+
+                                <label for="example-text-input" class="col-md-1 col-form-label">Date</label>
+                                @if (ERP.Models.CommonDAL.UserRoleName() == "Admin")
+                                {
+                                    <div class="col-md-2 input-group">
+                                        <input class="form-control" type="text" placeholder="dd/mm/yyyy" name="InvoiceDate" id="InvoiceDate" value="">
+                                        <input type="hidden" id="SessionInvoiceDate" value="@ViewBag.CurrentDate" />
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-2 input-group">
+                                        <input class="form-control" type="text" placeholder="dd/mm/yyyy" name="InvoiceDate" id="InvoiceDate" value="" readonly>
+                                        <input type="hidden" id="SessionInvoiceDate" value="@ViewBag.CurrentDate" />
+                                    </div>
+                                }
+
+
+
+                                <div class="col-md-2 input-group">
+
+                                    <a class="btn btn-info pull-right" href="/Home/Index">Dashboard</a>
+
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-12 row">
+                                    <label for="example-text-input" class="col-md-1 col-form-label">Region</label>
+                                    <div class="col-md-11 input-group">
+                                        @Html.DropDownListFor(M => M.RegionCode, (IEnumerable<SelectListItem>)ViewBag.RegionDDL as SelectList, "Please Select Region", new { @class = "form-control p-0 select2", @name = "RegionCode", @id = "RegionCode", @onchange = "GetRegion(),GetRegionPartyDDL()" })
+                                        <input type="hidden" id="SessionRegionCode" value="@Session["RegionCode"]" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 row mt-2">
+                                    <label for="example-text-input" class="col-md-1 col-form-label">Party</label>
+                                    <div class="col-md-3 input-group">
+                                        <input type="text" id="ManualMPartyCode" name="ManualMPartyCode" class="form-control col-md-2 RemoveTab" tabindex="2" />
+                                        <input type="hidden" id="MainPartyCode" name="MainPartyCode" />
+                                    </div>
+
+                                    <div class="col-md-8 input-group">
+                                        <select class="form-control p-0 RemoveTab select2" name="PartyCode" id="PartyCode" onchange="GetPartyDetail()" tabindex="3"></select>
+                                    </div>
+
+                                    <input class="form-control" type="hidden" placeholder="Party Type" id="PartyType" name="TransType" readonly>
+                                    <input class="form-control" type="hidden" placeholder="SaleTaxReg" id="STaxReg" name="PartyStatus" readonly>
+                                    <input class="form-control" type="hidden" placeholder="Category" id="Category" name="Category" readonly>
+                                    <input class="form-control" type="hidden" placeholder="Taxable" id="Taxable" name="Taxable" readonly>
+                                    <input class="form-control" type="hidden" placeholder="Taxable" id="ThirdSch_Category" name="ThirdSch_Category" readonly>
+
+                                </div>
+
+                                <div class="col-md-12 row mt-2">
+                                    <label for="example-text-input" class="col-md-1 col-form-label">Saleman</label>
+                                    <div class="col-md-11 input-group">
+                                        <select class="form-control p-0 select2" id="EmpCode" name="EmpCode"></select>
+                                        <input type="hidden" id="SessionEmpCode" value="@Session["EmpCode"]" />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 mt-3">
+                            <div class="card card-outline-info text-center text-dark">
+                                <div class="white-box">
+                                    <div class="row" id="AllItem" style="height:300px;overflow-y:scroll">
+
+                                        @if (ViewBag.ItemDDL != null)
+                                        {
+                                            foreach (var item in ViewBag.ItemDDL)
+                                            {
+                                                <div class="col-md-4 mt-3">
+                                                    <div class="card card-outline-info text-center text-dark btn-outline-info" style="height:60px">
+
+                                                        <h4 class="Items">
+                                                            <b class="ItemCode" style="display:none">@item.ItemCode</b>
+                                                            <b class="ItemDesc">@item.ItemDesc</b>
+                                                        </h4>
+
+                                                    </div>
+                                                </div>
+                                            }
+                                         }
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 col-sm-12 mt-3">
+                            <div class="card card-outline-info text-center text-dark">
+                                <div class="white-box">
+                                    <table id="ItemTable" class="table table-responsive table-bordered" style="height:500px;overflow:scroll">
+                                        <thead>
+                                            <tr class="bg-info">
+                                                <th>Sr.</th>
+                                                <th>Code</th>
+                                                <th>Item Desc</th>
+                                                <th>Quantity</th>
+                                                <th>Rate</th>
+                                                <th>Damage</th>
+                                                <th>Replace</th>
+                                                <th>FOC</th>
+                                                <th>Sampling</th>
+                                                <th>Scheme</th>
+                                                <th>Return</th>
+                                                <th>WHT</th>
+                                                <th>STax</th>
+                                                <th>FTax</th>
+                                                <th>ITax</th>
+                                                <th>FEDTax</th>
+                                                <th>Disc</th>
+                                                <th>Total</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @*<tr>
+                                                    <td>1</td>
+                                                    <td>001</td>
+                                                    <td>Milk</td>
+                                                    <td>
+                                                        <input id=demoInput type=number min=0 max=5000 value="0"> &nbsp;<input class="btn btn-success" type="button" onclick="increment()" value="+" /> <input class="btn btn-danger" type="button" onclick="decrement()" value="-" />
+
+
+                                                    </td>
+
+                                                    <td>150</td>
+
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <input id="tch3_22" type="text" value="1" name="tch3_22" data-bts-button-down-class="btn btn-default btn-outline" data-bts-button-up-class="btn btn-default btn-outline" style="width:50px">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <input id="tch3_22" type="text" value="1" name="tch3_22" data-bts-button-down-class="btn btn-default btn-outline" data-bts-button-up-class="btn btn-default btn-outline" style="width:50px">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <input id="tch3_22" type="text" value="1" name="tch3_22" data-bts-button-down-class="btn btn-default btn-outline" data-bts-button-up-class="btn btn-default btn-outline" style="width:50px">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <input id="tch3_22" type="text" value="1" name="tch3_22" data-bts-button-down-class="btn btn-default btn-outline" data-bts-button-up-class="btn btn-default btn-outline" style="width:50px">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <input id="tch3_22" type="text" value="1" name="tch3_22" data-bts-button-down-class="btn btn-default btn-outline" data-bts-button-up-class="btn btn-default btn-outline" style="width:50px">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <input id="tch3_22" type="text" value="1" name="tch3_22" data-bts-button-down-class="btn btn-default btn-outline" data-bts-button-up-class="btn btn-default btn-outline" style="width:50px">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <input id="tch3_22" type="text" value="1" name="tch3_22" data-bts-button-down-class="btn btn-default btn-outline" data-bts-button-up-class="btn btn-default btn-outline" style="width:50px">
+                                                        </div>
+                                                    </td>
+
+                                                    <td>10</td>
+                                                    <td>2990</td>
+                                                    <td>001</td>
+                                                    <td>001</td>
+                                                    <td>001</td>
+
+                                                </tr>*@
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+
+                                <div class="col-md-12 row">
+
+                                    <div class="col-md-6">
+                                        <div class="col-md-6">
+                                            <h4>
+                                                <b>
+                                                    Total Item: <span id="ItemCount">0</span>
+                                                </b>
+                                            </h4>
+                                        </div>
+
+
+                                        <div class="row col-md-12 mt-5">
+
+                                            @if (ERP.Models.CommonDAL.UserRights("7", "002"))
+                                            {
+                                                <input class="btn btn-info Btn-width btn-lg" type="button" id="btnSave" value="Save" />
+                                            }
+                                            else
+                                            {
+                                                <input class="btn btn-info Btn-width btn-lg" type="button" id="btnSave" value="Save" disabled />
+                                            }
+
+                                            &nbsp;&nbsp;
+
+                                            @if (ERP.Models.CommonDAL.UserRights("7", "004"))
+                                            {
+                                                <input class="btn btn-danger Btn-width btn-lg" type="button" id="btnDelete" value="Delete" onclick="DeleteModal()" />
+                                            }
+                                            else
+                                            {
+                                                <input class="btn btn-danger Btn-width btn-lg" type="button" id="btnDelete" disabled value="Delete" />
+                                            }
+
+                                            &nbsp;&nbsp;
+
+                                            <input class="btn btn-default Btn-width btn-lg" type="reset" id="btnClear" value="Clear" onclick="Reset()" />
+
+                                            &nbsp;&nbsp;
+
+                                            @if (ERP.Models.CommonDAL.UserRights("7", "006"))
+                                            {
+                                                <input class="btn btn-success Btn-width btn-lg" type="button" id="btnPrint" onclick="SimpleInNewWin()" value="Print" />
+                                            }
+                                            else
+                                            {
+                                                <input class="btn btn-success Btn-width btn-lg" type="button" id="btnPrint" disabled value="Print" />
+                                            }
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="col-md-6">
+                                        <h4>
+                                            <b>
+                                                Exc.T. Amt: <input class="pull-right" id="TotalETAmt" name="ExcTaxAmt" style="height:30px;font-size:24px" value="0" readonly />
+                                            </b>
+
+                                        </h4>
+                                        <h4>
+                                            <b>
+                                                Sale T. Amt: <input class="pull-right" id="TotalSTAmt" name="SaleTaxAmt" style="height:30px;font-size:24px" value="0" readonly />
+                                            </b>
+                                        </h4>
+                                        <h4>
+                                            <b>
+                                                Further Tax Amt: <input class="pull-right" id="TotalFTAmt" name="FurtherTaxAmt" style="height:30px;font-size:24px" value="0" readonly />
+                                            </b>
+
+                                        </h4>
+                                        <h4>
+                                            <b>
+                                                Inc.Tax Amt: <input class="pull-right" id="TotalITAmt" value="0" name="IncTaxAmt" style="height:30px;font-size:24px" readonly />
+                                            </b>
+                                        </h4>
+                                        <h4>
+                                            <b>
+                                                FED Tax Amt: <input class="pull-right" id="TotalFEDTAmt" value="0" style="height:30px;font-size:24px" readonly />
+                                            </b>
+                                        </h4>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+
+    <!--Invoice Record-->
+    <div class="modal fade" tabindex="-1" id="InvoiceModal" role="dialog" aria-labelledby="modal123Label" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="margin-top:50px; height:900px; width:800px">
+                <div class="modal-header">
+                    <b>Invoice Detail For Current Date</b>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <div class="white-box table-Scroll">
+                            <table id="tblInvoice" class="table table-striped table-bordered" style="overflow-y:scroll">
+                                <thead>
+                                    <tr class="bg-info">
+                                        <th style="color:white; text-align:center;width:75px">Inv. No</th>
+                                        <th style="color:white; text-align:center;width:110px">Date</th>
+                                        @*<th style="color:white; text-align:center;">M.I.No</th>*@
+                                        <th style="color:white;width:auto">Region</th>
+                                        <th style="color:white;width:auto">Party</th>
+                                        <th style="color:white;width:auto">Saleman</th>
+                                        <th style="color:white; text-align:center;width:75px">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @if (ViewBag.SaleInvoice != null)
+                                    {
+                                        foreach (var item in ViewBag.SaleInvoice)
+                                        {
+                                            <tr @*onclick="GetInvoice('@item.InvoiceNo')"*@>
+                                                <td>@item.InvoiceNo</td>
+                                                <td>@item.InvoiceDate</td>
+                                                @*<td style="text-overflow:ellipsis">@item.ManInvoiceNo</td>*@
+                                                <td style="text-overflow:ellipsis">@item.RegionDesc</td>
+                                                <td style="text-overflow:ellipsis">@item.PartyDesc</td>
+                                                <td style="text-overflow:ellipsis">@item.EmpName</td>
+
+                                                <td style="text-align:center">
+                                                    <a class="EditInvoice"><i class="fa fa-edit" style="color:blue;"></i></a>
+                                                    &nbsp;|&nbsp;
+                                                    <a class="PrintInvoice" style="color:limegreen"><i class="fa fa-print"></i></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+</body>
+</html>
+
+
+<script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+<script>
+
+    jQuery(document).ready(function () {
+        // Switchery
+        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+        $('.js-switch').each(function () {
+            new Switchery($(this)[0], $(this).data());
+        });
+        // For select 2
+        $(".select2").select2();
+        $('.selectpicker').selectpicker();
+         
+        //$("#RegionCode").select2();
+        //$("#PartyCode").select2();
+        //$("#EmpCode").select2();
+
+    });
+
+    $("table#tblInvoice").on('click', '.PrintInvoice', function () {
+        //var s = $(this).closest('tr').find('td:eq(3)').text();
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+        var InvoiceNo = rIndex.find('td:eq(0)').text().replace(/\s+/g, "");
+
+
+        var baseurl = '@Url.Action("ExportSaleTaxInvoiceA5", "Report")';
+        var url = baseurl + '?InvoiceNo=' + InvoiceNo;
+        //window.location.href = url;
+        window.open(url, '_blank');
+
+
+
+        //$.ajax({
+        //    url: '/Report/ExportSaleTaxInvoiceA5',
+
+        //    data: JSON.stringify({ InvoiceNo: InvoiceNo }),
+        //    type: 'POST',
+        //    contentType: 'application/json;',
+        //    dataType: 'json',
+        //    complete: function (data) {
+        //        //location.reload();
+        //    }
+        //});
+
+    })
+
+</script>
+
+
+
+<!-- DDL Working -->
+<script type="text/javascript">
+
+    function increment() {
+        document.getElementById('demoInput').stepUp();
+    }
+    function decrement() {
+        document.getElementById('demoInput').stepDown();
+    }
+
+
+
+
+
+    $(document).ready(function () {
+        document.getElementById("ManInvoiceNo").focus();
+    })
+
+    function Reset() {
+        $('#ItemTable tbody').remove();
+
+        $('#RegionCode').val("");
+        $('#RegionCode').trigger("chosen:updated");
+
+        $('#PartyCode').val("");
+        $('#PartyCode').trigger("chosen:updated");
+
+        $('#EmpCode').val("");
+        $('#EmpCode').trigger("chosen:updated");
+    }
+
+    //function ChangeTabIndex() {
+
+    //    $(".RemoveTab").removeAttr("tabindex");
+
+    //    document.getElementById("ItemCode").tabIndex = 1;
+    //    document.getElementById("Quantity").tabIndex = 2;
+    //    document.getElementById("Damage").tabIndex = 3;
+    //    document.getElementById("Replace").tabIndex = 4;
+    //    document.getElementById("FOC").tabIndex = 5;
+    //    document.getElementById("Sampling").tabIndex = 6;
+    //    document.getElementById("Scheme").tabIndex = 7;
+    //    document.getElementById("Return").tabIndex = 8;
+    //    document.getElementById("addItem").tabIndex = 9;
+    //    document.getElementById("ClearItem").tabIndex = 10;
+
+    //}
+
+    $(document).keydown(function (e) {
+        if (e.ctrlKey && (e.which == 9 || e.altKey)) {
+            $("#ItemCode").trigger("chosen:activate");
+            //$('#ItemCode').css("left", "0");
+
+        }
+
+        if (event.keyCode == 9 && $(event.target).is('#addItem')) {
+            event.preventDefault();
+            if (!(checkAllEmptyItem())) {
+                AddItem();
+            }
+            $('#ItemCode').trigger("chosen:activate");
+
+        }
+
+    })
+
+    $(document).keydown(function (e) {
+        if (e.ctrlKey && (e.which == 77 || e.altKey)) {
+            e.preventDefault();
+            $("#ManInvoiceNo").focus();
+        }
+    })
+
+    $(document).keydown(function (e) {
+        if (e.ctrlKey && (e.which == 85 || e.altKey)) {
+            e.preventDefault();
+
+            var ManInvoiceNo = $("#ManInvoiceNo").val();
+            GetManInvoice(ManInvoiceNo);
+        }
+    })
+
+    function SetCaretPos() {
+        $('#ManInvoiceNo').setSelectionRange(0, 0);
+    }
+
+
+    $(document).keydown(function (e) {
+
+        $("#ManualMPartyCode").focusout(function () {
+            var ManualPartyCode = $("#ManualMPartyCode").val();
+
+            if (ManualPartyCode !== "" || ManualPartyCode !== null) {
+                GeSinglePartyDDL();
+            }
+        });
+
+    })
+
+
+    function GeSinglePartyDDL() {
+        var RegionCode = $("#RegionCode").val();
+        var ManualPartyCode = $("#ManualMPartyCode").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Company/SinglePartyDDL",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode, PartyCode: ManualPartyCode }),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $('#PartyCode').empty().trigger("chosen:updated");
+
+                if (data !== null) {
+
+
+                    $('#PartyCode').append($('<option>', {
+                        value: data.PartyCode,
+                        text: data.PartyCode + "  ==>  " + data.PartyName
+                    })).trigger("chosen:updated");
+
+                    GetPartyDetail();
+                }
+            }
+        });
+
+    }
+
+
+
+
+    $(document).ready(function () {
+
+        var EmpCode = $("#SessionEmpCode").val();
+        var RegionCode = $("#SessionRegionCode").val();
+        var InvoiceDate = $("#SessionInvoiceDate").val();
+
+        $('#RegionCode').val(RegionCode);
+        $('#RegionCode').trigger("chosen:updated");
+
+        $('#InvoiceDate').val(InvoiceDate);
+
+        if (RegionCode !== "001") {
+
+
+
+            $.ajax({
+                type: "POST",
+                url: "/Transaction/GetRegionPartyDDL",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({ RegionCode: RegionCode }),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    $('#PartyCode').empty().trigger("chosen:updated");
+
+                    $('#PartyCode').append($('<option>', {
+                        value: "",
+                        text: "Select Any Value"
+                    })).trigger("chosen:updated");
+
+                    if (data.length > 0) {
+                        $.each(data, function (index, obj) {
+
+                            $('#PartyCode').append($('<option>', {
+                                value: obj.PartyCode,
+                                text: obj.PartyCode + "  ==>  " + obj.PartyName
+                            })).trigger("chosen:updated");
+
+                        });
+                    }
+
+
+                }
+            });
+        }
+        else {
+            $('#PartyCode').empty().trigger("chosen:updated");
+        }
+
+
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetRegionParty",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode }),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $('#EmpCode').empty().trigger("chosen:updated");
+
+                $('#EmpCode').append($('<option>', {
+                    value: "",
+                    text: "Select Any Value"
+                })).trigger("chosen:updated");
+
+                if (data.length > 0) {
+                    $.each(data, function (index, obj) {
+
+                        $('#EmpCode').append($('<option>', {
+                            value: obj.EmpCode,
+                            text: obj.EmpName
+                        })).trigger("chosen:updated");
+
+                    });
+
+                    $('#EmpCode').val(EmpCode);
+                    $('#EmpCode').trigger("chosen:updated");
+                }
+            }
+        });
+
+
+
+    })
+
+
+    function GetRegion() {
+
+        var RegionCode = $("#RegionCode").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetRegionParty",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode }),
+            contentType: "application/json; charset=utf-8",
+            async:false,
+            success: function (data) {
+
+                var mySelect = $('#EmpCode');
+                $.each(data.GetRegionEmp, function (index, obj) {
+                    mySelect.append(
+                        //$('<option></option>').val(obj.EmpCode).html(obj.EmpName)
+                        ("<option value = '" + obj.EmpCode + " '>" + obj.EmpName + " </option>")
+                    );
+                });
+
+
+
+                
+            }
+        });
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetRegionPartyDDL",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode }),
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            success: function (data) {
+
+                if (data.length > 0) {
+                    var mySelect = $('#PartyCode');
+                    $.each(data, function (index, obj) {
+                        mySelect.append(
+                            $('<option></option>').val(obj.PartyCode).html(obj.PartyName)
+                        );
+                    });
+                }
+            }
+        });
+
+        
+    }
+
+    function GetEmp(EmpCode, EmpName) {
+        document.getElementById("EmpCode").value = EmpCode;
+        document.getElementById("EmpName").value = EmpName;
+
+        $("#EmpModal").modal("hide");
+    }
+
+
+    function checkAllEmptyItem() {
+        var isEmpty = false,
+            Rate = document.getElementById('Rate').value;
+        //Qty = $("#Quantity").val();
+        //DiscAmt = $("#HDDiscAmt").val();
+        //TotalDisAmt = $("#DiscAmt").val();
+        //IncTaxAmt = $("#IncTaxAmt").val();
+        //TotalAmt = Qty * Rate;
+        //CalTotalDisc = Qty * DiscAmt;
+
+        if (Rate === "0") {
+            alert('Item Rate Cannot be equal to 0 ...!');
+            isEmpty = true;
+        }
+        //else if (parseInt(Qty) !== 0)
+        //{
+        //    if (parseInt(TotalDisAmt) !== parseInt(CalTotalDisc)) {
+        //    alert('Discount Calculation is wrong, Type the Quantity again...!');
+        //    isEmpty = true;
+        //    }
+        //    if (parseInt(TotalAmt) > parseInt(IncTaxAmt) && parseInt(CalTotalDisc) == 0) {
+        //        alert('Total Amount Calculation is wrong, Type the Quantity again...!');
+        //        isEmpty = true;
+        //    }
+        //}
+
+
+        return isEmpty;
+    }
+
+    $('#ClearItem').on('focus', function () {
+        // "last" focus guard got focus: set focus to the first field
+        $('#ManInvoiceNo').focus();
+        if (!(checkAllEmptyItem())) {
+            AddItem();
+        }
+    });
+
+    $(document).on('keydown', function (e) {
+        if (e.ctrlKey && (e.which == 32)) {
+            AddItem();
+        }
+    });
+
+
+
+    $(document).on('keypress', function (e) {
+        if (e.ctrlKey && (e.which == 13 || e.which == 10)) {
+            $("#btnSave").click();
+        }
+    });
+
+
+
+    function GetPartyDetail() {
+        var PartyCode = $("#PartyCode").val();
+        var RegionCode = $("#RegionCode").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/DDLPartyDetail",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode, PartyCode: PartyCode }),
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            success: function (data) {
+                if (data != null) {
+
+                    document.getElementById("PartyType").value = data.PartyType;
+                    var RegStatus = "";
+                    if (data.STaxReg == "N") {
+                        RegStatus = "Un-Reg";
+                    } else {
+                        RegStatus = "Reg";
+                    }
+
+                    document.getElementById("STaxReg").value = RegStatus;
+                    document.getElementById("Category").value = data.Category;
+                    document.getElementById("MainPartyCode").value = data.MainPartyCode;
+                    document.getElementById("Taxable").value = data.Taxable;
+                    if (data.ThirdSch_Category == null || data.ThirdSch_Category == "null" || data.ThirdSch_Category == "") {
+                        document.getElementById("ThirdSch_Category").value = "Retailer_InActive";
+                    } else {
+                        document.getElementById("ThirdSch_Category").value = data.ThirdSch_Category;
+                    }
+                    
+
+                }
+
+            }
+        })
+
+    }
+
+
+
+
+
+
+
+
+
+    function GetItemRate(ItemCode) {
+        var C_Rate = 0;
+        var Rate = 0;
+        var Discount = 0;
+        var STaxAmt = 0;
+        var FTaxAmt = 0;
+        var ITaxPer = 0;
+        var STaxPer = 0;
+        var FTaxPer = 0;
+        var FEDTaxPer = 0;
+        var FEDTaxAmt = 0;
+        var PartyCode = $("#PartyCode").val();
+        var RegionCode = $("#RegionCode").val();
+        //var ItemCode = $("#ItemCode").val();
+        var PartyType = $("#PartyType").val();
+        var STaxReg = $("#STaxReg").val();
+        var Category = $("#Category").val();
+        var Taxable = $("#Taxable").val();
+        var ThirdSch_Category = $("#ThirdSch_Category").val();
+        var PartyName = $('#PartyCode').find(":selected").text();
+        var PreCurr = "Curr";
+        if (PartyCode == "" || PartyCode == null) {
+            alert("You Can't Add Item ,Select Party First . . . !");
+        }
+        else {
+
+            $.ajax({
+                type: "POST",
+                url: "/Transaction/CheckPartyDiscount",
+                dataType: "json",
+                async: false,
+                contentType: 'application/json',
+                data: JSON.stringify({ RegionCode: RegionCode.trim(), PartyCode: PartyCode.trim(), ItemCode: ItemCode.trim(), PreCurr: PreCurr }),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    var str = PartyName;
+                    var res = str.split("> ");
+                    var Rem = res[1];
+                    var AfterRem = res[1].split("-");
+
+                    if (AfterRem[0] === " MAF HYPERSTAR") {
+                        if (ItemCode.trim() === "001") {
+                            Rate = 223.10;
+                        }
+                        else if (ItemCode.trim() === "002") {
+                            Rate = 252.20;
+                        }
+                        else if (ItemCode.trim() === "003") {
+                            Rate = 77.6;
+                        }
+                        else if (ItemCode.trim() === "004") {
+                            Rate = 121.25;
+                        }
+                        else if (ItemCode.trim() === "005") {
+                            Rate = 72.75;
+                        }
+                        else if (ItemCode.trim() === "007") {
+                            Rate = 168.517;
+                        }
+                        else if (ItemCode.trim() === "008") {
+                            Rate = 168.517;
+                        }
+                        else if (ItemCode.trim() === "009") {
+                            Rate = 172.627;
+                        }
+                        else if (ItemCode.trim() === "010") {
+                            Rate = 135.636;
+                        }
+                        else if (ItemCode.trim() === "013") {
+                            Rate = 98.644;
+                        }
+                        else if (ItemCode.trim() === "014") {
+                            Rate = 98.644;
+                        }
+                        else if (ItemCode.trim() === "016") {
+                            Rate = 57.542;
+                        }
+                        else if (ItemCode.trim() === "017") {
+                            Rate = 57.542;
+                        }
+                        else if (ItemCode.trim() === "018") {
+                            Rate = 73.983;
+                        }
+                        else if (ItemCode.trim() === "019") {
+                            Rate = 73.983;
+                        }
+                        else if (ItemCode.trim() === "020") {
+                            Rate = 69.873;
+                        }
+                        else if (ItemCode.trim() === "021") {
+                            Rate = 57.542;
+                        }
+                        else if (ItemCode.trim() === "022") {
+                            Rate = 348.205;
+                        }
+                        else if (ItemCode.trim() === "025") {
+                            Rate = 348.205;
+                        }
+                        else if (ItemCode.trim() === "027") {
+                            Rate = 69.873;
+                        }
+                        else if (ItemCode.trim() === "031") {
+                            Rate = 121.25;
+                        }
+                        else if (ItemCode.trim() === "032") {
+                            Rate = 435.256;
+                        }
+                        else if (ItemCode.trim() === "033") {
+                            Rate = 82.203;
+                        }
+                        else if (ItemCode.trim() === "034") {
+                            Rate = 82.203;
+                        }
+                        else if (ItemCode.trim() === "037") {
+                            Rate = 327.27;
+                        }
+                        else if (ItemCode.trim() === "040") {
+                            Rate = 70.470;
+                        }
+                        else if (ItemCode.trim() === "041") {
+                            Rate = 69.873;
+                        }
+                        else if (ItemCode.trim() === "042") {
+                            Rate = 82.203;
+                        }
+                        else if (ItemCode.trim() === "043") {
+                            Rate = 82.203;
+                        }
+                        else if (ItemCode.trim() === "044") {
+                            Rate = 73.983;
+                        }
+                        else if (ItemCode.trim() === "045") {
+                            Rate = 43.65;
+                        }
+                        else if (ItemCode.trim() === "048") {
+                            Rate = 82.203;
+                        }
+                        else if (ItemCode.trim() === "052") {
+                            Rate = 82.203;
+                        }
+
+                    }
+
+                    else if (RegionCode === "001" && PartyCode === "03173") {
+                        if (ItemCode.trim() === "001") {
+                            Rate = 150;
+                        }
+                        else if (ItemCode.trim() === "004") {
+                            Rate = 75;
+                        }
+                        else if (ItemCode.trim() === "005") {
+                            Rate = 45;
+                        }
+                        else if (ItemCode.trim() === "006") {
+                            Rate = 110;
+                        }
+                        else if (ItemCode.trim() === "007") {
+                            Rate = 125;
+                        }
+                        else if (ItemCode.trim() === "008") {
+                            Rate = 125;
+                        }
+                        else if (ItemCode.trim() === "009") {
+                            Rate = 125;
+                        }
+                        else if (ItemCode.trim() === "010") {
+                            Rate = 90;
+                        }
+                        else if (ItemCode.trim() === "016") {
+                            Rate = 50;
+                        }
+                        else if (ItemCode.trim() === "017") {
+                            Rate = 50;
+                        }
+                        else if (ItemCode.trim() === "018") {
+                            Rate = 65;
+                        }
+                        else if (ItemCode.trim() === "019") {
+                            Rate = 65;
+                        }
+                        else if (ItemCode.trim() === "020") {
+                            Rate = 50;
+                        }
+                        else if (ItemCode.trim() === "021") {
+                            Rate = 50;
+                        }
+                        else if (ItemCode.trim() === "022") {
+                            Rate = 280;
+                        }
+                        else if (ItemCode.trim() === "025") {
+                            Rate = 280;
+                        }
+                        else if (ItemCode.trim() === "027") {
+                            Rate = 50;
+                        }
+
+                    }
+
+                    // Rate Revised for Prema C-Collection by Ibrar Exclusive of Tax (26-02-2020)
+                    else if (RegionCode === "001" && PartyCode === "02431") {
+                        if (ItemCode.trim() === "001") {
+                            Rate = 145;
+                        }
+                        else if (ItemCode.trim() === "002") {
+                            Rate = 140;
+                        }
+                        else if (ItemCode.trim() === "003") {
+                            Rate = 45;
+                        }
+                        else if (ItemCode.trim() === "004") {
+                            Rate = 75;
+                        }
+                        else if (ItemCode.trim() === "005") {
+                            Rate = 45;
+                        }
+                        else if (ItemCode.trim() === "006") {
+                            Rate = 101.769;
+                        }
+                        else if (ItemCode.trim() === "007") {
+                            Rate = 110.619;
+                        }
+                        else if (ItemCode.trim() === "008") {
+                            Rate = 110.619;
+                        }
+                        else if (ItemCode.trim() === "009") {
+                            Rate = 110.619;
+                        }
+                        else if (ItemCode.trim() === "010") {
+                            Rate = 79.646;
+                        }
+                        else if (ItemCode.trim() === "013") {
+                            Rate = 66.371;
+                        }
+                        else if (ItemCode.trim() === "014") {
+                            Rate = 66.371;
+                        }
+                        else if (ItemCode.trim() === "016") {
+                            Rate = 39.823;
+                        }
+                        else if (ItemCode.trim() === "017") {
+                            Rate = 39.823;
+                        }
+                        else if (ItemCode.trim() === "018") {
+                            Rate = 57.522;
+                        }
+                        else if (ItemCode.trim() === "019") {
+                            Rate = 57.522;
+                        }
+                        else if (ItemCode.trim() === "020") {
+                            Rate = 44.247;
+                        }
+                        else if (ItemCode.trim() === "021") {
+                            Rate = 0;
+                        }
+                        else if (ItemCode.trim() === "022") {
+                            Rate = 247.787;
+                        }
+                        else if (ItemCode.trim() === "025") {
+                            Rate = 247.787;
+                        }
+                        else if (ItemCode.trim() === "026") {
+                            Rate = 57.522;
+                        }
+                        else if (ItemCode.trim() === "027") {
+                            Rate = 44.247;
+                        }
+                    }
+
+                    else if (RegionCode === "010" && PartyCode === "00126") {
+                        Rate = 16;
+                    }
+
+                    else {
+
+                        if (data.ItemRate != null) {
+
+                            var RegStatus = $("#STaxReg").val();
+                            var Category = $("#Category").val();
+
+                            if (RegStatus == "Reg" && Category == "CORPORATE") {
+                                Rate = data.ItemRate.RegCorporateRate;
+                            }
+
+                            else if (RegStatus == "Un-Reg" && Category == "CORPORATE") {
+                                Rate = data.ItemRate.UnRegCorporateRate;
+                            }
+
+                            else if (RegStatus == "Reg" && Category == "Retailer") {
+                                Rate = data.ItemRate.RegRetailerRate;
+                            }
+
+                            else if (RegStatus == "Un-Reg" && Category == "Retailer") {
+                                Rate = data.ItemRate.UnRegRetailerRate;
+                            }
+
+                        }
+                    }
+
+                    //if (data.Data != null) {
+                    //    document.getElementById("DiscPer").value = data.Data;
+                    //    document.getElementById("HDDiscPer").value = data.Data;
+                    //}
+                    //var Rate = $("#Rate").val();
+                    //var DiscountPer = $("#DiscPer").val();
+
+                    //var STaxReg = $("#STaxReg").val();
+                    //var DiscountAmt = Rate / 100 * DiscountPer;
+                    Discount = data.Data;
+                    var NewRate = Rate;
+
+                    if (Taxable === "Y") {
+
+                        if (data.Item != null) {
+
+                            if (STaxReg == "Reg")
+                            {
+
+                                if (data.ItemRate.Category.trim() != "Juice") {
+
+                                    Discount = Discount / ((100 + parseFloat(data.Item.SaleGSTPer)) / 100);
+                                    NewRate = Rate - Discount;
+                                    STaxAmt = NewRate / 100 * data.Item.SaleGSTPer;
+                                    STaxPer = data.Item.SaleGSTPer;
+                                    FEDTaxAmt = 0;
+                                    FEDTaxPer = 0;
+                                }
+                                else {
+                                    NewRate = Rate - Discount;
+                                    STaxAmt = data.ItemRate.Consumer_Rate / 100 * data.Item.SaleGSTPer;
+                                    STaxPer = data.Item.SaleGSTPer;
+                                    FEDTaxAmt = data.ItemRate.Consumer_Rate / 100 * data.ItemRate.FEDTaxPer;
+                                    FEDTaxPer = data.ItemRate.FEDTaxPer;
+
+                                    if (ThirdSch_Category == "Retailer_Active") {
+                                        ITaxPer = data.ItemRate.RetTaxPer_Act;
+                                    }
+                                    else if (ThirdSch_Category == "Retailer_InActive") {
+                                        ITaxPer = data.ItemRate.RetTaxPer_InAct;
+                                    }
+                                    else if (ThirdSch_Category == "Distributer_Active") {
+                                        ITaxPer = data.ItemRate.DistTaxPer_Act;
+                                    }
+                                    else {
+                                        ITaxPer = data.ItemRate.DistTaxPer_InAct;
+                                    }
+
+
+                                }
+                            }
+                            else {
+
+                                if (data.ItemRate.Category.trim() != "Juice") {
+
+                                    Discount = Discount / ((100 + parseFloat(parseFloat(data.Item.SaleGSTPer)) + parseFloat(parseFloat(data.Item.SaleFurtherTaxPer))) / 100);
+                                    NewRate = Rate - Discount;
+                                    FTaxAmt = NewRate / 100 * data.Item.SaleFurtherTaxPer;
+                                    STaxAmt = NewRate / 100 * data.Item.SaleGSTPer;
+                                    FTaxPer = data.Item.SaleFurtherTaxPer;
+                                    STaxPer = data.Item.SaleGSTPer;
+                                    FEDTaxPer = 0;
+                                    FEDTaxAmt = 0;
+
+                                    //document.getElementById("FTaxPer").value = data.Item.SaleFurtherTaxPer + " % |  " + parseFloat(FTaxAmt.toFixed(4));
+                                    //document.getElementById("HDFTaxPer").value = data.Item.SaleFurtherTaxPer;
+                                    //document.getElementById("HDFTaxAmt").value = parseFloat(FTaxAmt.toFixed(4));
+
+                                    //document.getElementById("SaleTaxPer").value = data.Item.SaleGSTPer + " % |  " + parseFloat(GSTTaxAmt.toFixed(4));
+                                    //document.getElementById("HDSTaxPer").value = data.Item.SaleGSTPer;
+                                    //document.getElementById("HDSTaxAmt").value = parseFloat(GSTTaxAmt.toFixed(4));
+                                }
+                                else {
+                                    
+                                    NewRate = Rate - Discount;
+                                    FTaxAmt = data.ItemRate.Consumer_Rate / 100 * data.Item.SaleFurtherTaxPer;
+                                    STaxAmt = data.ItemRate.Consumer_Rate / 100 * data.Item.SaleGSTPer;
+                                    FTaxPer = data.Item.SaleFurtherTaxPer;
+                                    STaxPer = data.Item.SaleGSTPer;
+                                    FEDTaxAmt = data.ItemRate.Consumer_Rate / 100 * data.ItemRate.FEDTaxPer;
+                                    FEDTaxPer = 0;
+
+                                    if (ThirdSch_Category == "Retailer_Active") {
+                                        ITaxPer = data.ItemRate.RetTaxPer_Act;
+                                    }
+                                    else if (ThirdSch_Category == "Retailer_InActive") {
+                                        ITaxPer = data.ItemRate.RetTaxPer_InAct;
+                                    }
+                                    else if (ThirdSch_Category == "Distributer_Active") {
+                                        ITaxPer = data.ItemRate.DistTaxPer_Act;
+                                    }
+                                    else {
+                                        ITaxPer = data.ItemRate.DistTaxPer_InAct;
+                                    }
+
+                                }
+                            }
+
+                        }
+
+                    }
+
+
+                    C_Rate = data.ItemRate.Consumer_Rate;
+                    //document.getElementById("DiscAmt").value = parseFloat(DiscountAmt.toFixed(4));
+                    //document.getElementById("HDDiscAmt").value = parseFloat(DiscountAmt.toFixed(4));
+
+                }
+            });
+
+
+
+        }
+
+
+        return ({
+            Rate: Rate,
+            Discount: Discount.toFixed(2),
+            FTaxAmt: FTaxAmt.toFixed(2),
+            STaxAmt: STaxAmt.toFixed(2),
+            FTaxPer: FTaxPer,
+            STaxPer: STaxPer,
+            ITaxPer: ITaxPer,
+            C_Rate: C_Rate,
+            FEDTaxAmt: FEDTaxAmt,
+            FEDTaxPer: FEDTaxPer
+        });
+
+        //$("#ItemModal").modal("hide");
+    }
+
+</script>
+
+<script type="text/javascript">
+
+    $(function () {
+        $("#PartyCode").chosen();
+        $("#RegionCode").chosen();
+
+        $("#EmpCode").chosen();
+        $("#ItemCode").chosen();
+
+    });
+
+    function GetRegionPartyDDL() {
+        var RegionCode = $("#RegionCode").val();
+        GetRegionEmpDDL();
+        if (RegionCode !== "001") {
+
+
+            $.ajax({
+                type: "POST",
+                url: "/Transaction/GetRegionPartyDDL",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({ RegionCode: RegionCode }),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    $('#PartyCode').empty().trigger("chosen:updated");
+
+                    $('#PartyCode').append($('<option>', {
+                        value: "",
+                        text: "Select Any Value"
+                    })).trigger("chosen:updated");
+
+                    if (data.length > 0) {
+                        $.each(data, function (index, obj) {
+
+                            $('#PartyCode').append($('<option>', {
+                                value: obj.PartyCode,
+                                text: obj.PartyCode + "  ==>  " + obj.PartyName
+                            })).trigger("chosen:updated");
+
+                        });
+                    }
+
+
+                }
+            });
+        }
+        else {
+            $('#PartyCode').empty().trigger("chosen:updated");
+
+        }
+
+
+    }
+
+    function GetRegionEmpDDL() {
+        var RegionCode = $("#RegionCode").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetRegionParty",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode }),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $('#EmpCode').empty().trigger("chosen:updated");
+
+                $('#EmpCode').append($('<option>', {
+                    value: "",
+                    text: "Select Any Value"
+                })).trigger("chosen:updated");
+
+                if (data.length > 0) {
+                    $.each(data, function (index, obj) {
+
+                        $('#EmpCode').append($('<option>', {
+                            value: obj.EmpCode,
+                            text: obj.EmpName
+                        })).trigger("chosen:updated");
+
+                    });
+                }
+            }
+        });
+
+    }
+
+
+    function afterWHT() {
+        var WHT = $("#WHT").val();
+        var IncTaxAmt = $("#HDIncTaxAmt").val();
+        if (WHT === " " || WHT === "") {
+            WHT = 0;
+        }
+        IncTaxAmt = parseFloat(IncTaxAmt) - parseFloat(WHT);
+        document.getElementById("IncTaxAmt").value = IncTaxAmt;
+    }
+
+    function getNum(val) {
+        if (isNaN(val)) {
+            return 0;
+        }
+        return val;
+    }
+
+    function CalTotalAmt() {
+
+        var Rate = $("#Rate").val();
+        var IncTaxAmt = $("#HDIncTaxAmt").val();
+        var ExcTaxAmt = $("#HDExcTaxAmt").val();
+        var Qty = $("#Quantity").val();
+        var DiscAmt = $("#HDDiscAmt").val();
+        var DiscPer = $("#HDDiscPer").val();
+        var STaxReg = $("#STaxReg").val();
+        var STaxPer = $("#HDSTaxPer").val();
+        var STaxAmt = $("#HDSTaxAmt").val();
+        var FTaxPer = $("#HDFTaxPer").val();
+        var FTaxAmt = $("#HDFTaxAmt").val();
+        //var field1 = Input1.split('|');
+        //var field2 = Input2.split('|');
+        //var STaxPer = field1[0];
+        //var FTaxPer = field2[0];
+        DiscAmt = getNum(DiscAmt);
+        DiscPer = getNum(DiscPer);
+        STaxReg = getNum(STaxReg);
+        STaxPer = getNum(STaxPer);
+        STaxAmt = getNum(STaxAmt);
+        FTaxPer = getNum(FTaxPer);
+        FTaxAmt = getNum(FTaxAmt);
+        if (Rate == 0) {
+            alert("Rate Cannot be equal to zero,Please wait for a second...! ");
+        }
+        else {
+            var TotalTaxPer = parseFloat(STaxPer) + parseFloat(FTaxPer);
+            var TotalTaxAmt = (parseFloat(STaxAmt) + parseFloat(FTaxAmt)) * Qty;
+            var NetAmount = Rate * Qty;
+            var TotalDiscount = Qty * DiscAmt;
+            var AmtAfterDisc = NetAmount - TotalDiscount;
+            var TaxAmt = parseFloat(AmtAfterDisc) / 100 * parseFloat(TotalTaxPer);
+
+            var FinalAmt = parseFloat(AmtAfterDisc) + parseFloat(TotalTaxAmt);
+
+
+            // Calculat Total
+            var Inc = FinalAmt;
+            var Exc = parseFloat(AmtAfterDisc);
+            var STax1 = STaxPer;
+            var STax2 = Qty * STaxAmt;
+            var FTax1 = FTaxPer;
+            var FTax2 = Qty * FTaxAmt;
+            var Disc1 = DiscPer;
+            var Disc2 = Qty * DiscAmt;
+
+            document.getElementById("IncTaxAmt").value = Inc;
+            document.getElementById("HDIncTaxAmt").value = Inc;
+            document.getElementById("ExcTaxAmt").value = Exc;
+            document.getElementById("HDExcTaxAmt").value = Exc;
+            document.getElementById("SaleTaxPer").value = parseFloat(STax1) + " % | " + parseFloat(STax2.toFixed(4));
+            document.getElementById("FTaxPer").value = parseFloat(FTax1) + " % | " + parseFloat(FTax2.toFixed(4));
+            document.getElementById("DiscPer").value = Disc1;
+            document.getElementById("DiscAmt").value = Disc2.toFixed(4);
+
+
+            //----------------
+
+            //var TotalAmt = IncTaxAmt * Qty;
+            //var DiscountedAmt = parseFloat(TotalAmt.toFixed(4)) - parseFloat(TotalDiscount.toFixed(4));
+            //var ExcTaxAmt = Rate * Qty;
+            document.getElementById("TotalAmount").value = parseFloat(FinalAmt.toFixed(4));
+            //document.getElementById("ExcTaxAmt").value = parseFloat(ExcTaxAmt.toFixed(4));
+            //document.getElementById("HDNetAmount").value = parseFloat(NetAmount.toFixed(4));
+        }
+
+    }
+
+
+    $("#tblParty").on('click', '.GetParty', function () {
+
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+
+        var MainPartyCode = rIndex.find('td:eq(0)').text().replace(/\s+/g, "");
+        var PartyCode = rIndex.find('td:eq(1)').text().replace(/\s+/g, "");
+        var PartyName = rIndex.find('td:eq(2)').text().replace(/\s+/g, "");
+        var PartyType = rIndex.find('td:eq(3)').text().replace(/\s+/g, "");
+        var STaxReg = rIndex.find('td:eq(4)').text().replace(/\s+/g, "");
+
+
+
+        document.getElementById("PartyCode").value = PartyCode;
+        document.getElementById("PartyDesc").value = PartyName;
+        document.getElementById("PartyType").value = PartyType;
+        if (STaxReg == "Un-Reg") {
+            document.getElementById("STaxReg").value = "UnRegister";
+        } else {
+            document.getElementById("STaxReg").value = "Registered";
+        }
+        document.getElementById("MainPartyCode").value = MainPartyCode;
+
+        $("#PartyModal").modal("hide");
+
+    });
+
+    $("#tblSalesman").on('click', '.GetSalesman', function () {
+
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+
+        var EmpCode = rIndex.find('td:eq(0)').text().replace(/\s+/g, "");
+        var EmpName = rIndex.find('td:eq(1)').text().replace(/\s+/g, "");
+        var RegionDesc = rIndex.find('td:eq(2)').text().replace(/\s+/g, "");
+
+        document.getElementById("EmpCode").value = EmpCode;
+        document.getElementById("EmpName").value = EmpName;
+        document.getElementById("RegionDesc").value = RegionDesc;
+
+        $("#EmpModal").modal("hide");
+    });
+
+
+
+    function GetItem(ItemCode, ItemDesc, SaleRateReg, SaleRateUnReg, WeightType, SubCategory) {
+
+        var PartyCode = $("#PartyCode").val();
+        var PartyType = $("#PartyType").val();
+        var PartyRate = $("#STaxReg").val();
+
+        if (PartyCode == "" || PartyCode == null) {
+            alert("You Can't Add Item ,Select Party First . . . !");
+        }
+        else {
+            document.getElementById("ItemCode").value = ItemCode;
+
+            document.getElementById("ItemDesc").value = ItemDesc;
+
+            if (PartyRate == "Registered") {
+                document.getElementById("Rate").value = SaleRateReg;
+            } else {
+                document.getElementById("Rate").value = SaleRateUnReg;
+            }
+
+            //document.getElementById("Unit").value = WeightType;
+
+            $.ajax({
+                type: "POST",
+                url: "/Transaction/CheckPartyDiscount",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({ PartyCode: PartyCode, ItemCode: ItemCode }),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    if (data.Data != null) {
+                        document.getElementById("DiscPer").value = data.Data;
+                        document.getElementById("HDDiscPer").value = data.Data;
+                    }
+                    var Rate = $("#Rate").val();
+                    var DiscountPer = $("#DiscPer").val();
+
+                    var STaxReg = $("#STaxReg").val();
+                    var DiscountAmt = Rate / 100 * DiscountPer;
+
+
+                    if (data.Item != null) {
+
+                        if (STaxReg == "Registered") {
+
+                            DiscountAmt = DiscountAmt / ((100 + parseFloat(data.Item.SaleGSTPer)) / 100);
+                            Rate = Rate - DiscountAmt;
+                            var FTaxAmt = 0;
+                            var GSTTaxAmt = Rate / 100 * data.Item.SaleGSTPer;
+
+
+
+
+
+
+                            document.getElementById("FTaxPer").value = 0 + " % |  " + 0;
+                            document.getElementById("HDFTaxPer").value = 0;
+                            document.getElementById("HDFTaxAmt").value = 0;
+
+
+                            document.getElementById("SaleTaxPer").value = data.Item.SaleGSTPer + " % |  " + parseFloat(GSTTaxAmt.toFixed(4));
+                            document.getElementById("HDSTaxPer").value = data.Item.SaleGSTPer;
+                            document.getElementById("HDSTaxAmt").value = parseFloat(GSTTaxAmt.toFixed(4));
+                        }
+                        else {
+
+                            DiscountAmt = DiscountAmt / ((100 + parseFloat(parseFloat(data.Item.SaleGSTPer)) + parseFloat(parseFloat(data.Item.SaleFurtherTaxPer))) / 100);
+                            Rate = Rate - DiscountAmt;
+                            var FTaxAmt = Rate / 100 * data.Item.SaleFurtherTaxPer;
+                            var GSTTaxAmt = Rate / 100 * data.Item.SaleGSTPer;
+
+                            document.getElementById("FTaxPer").value = data.Item.SaleFurtherTaxPer + " % |  " + parseFloat(FTaxAmt.toFixed(4));
+                            document.getElementById("HDFTaxPer").value = data.Item.SaleFurtherTaxPer;
+                            document.getElementById("HDFTaxAmt").value = parseFloat(FTaxAmt.toFixed(4));
+
+                            document.getElementById("SaleTaxPer").value = data.Item.SaleGSTPer + " % |  " + parseFloat(GSTTaxAmt.toFixed(4));
+                            document.getElementById("HDSTaxPer").value = data.Item.SaleGSTPer;
+                            document.getElementById("HDSTaxAmt").value = parseFloat(GSTTaxAmt.toFixed(4));
+                        }
+
+                    }
+
+
+                    document.getElementById("DiscAmt").value = parseFloat(DiscountAmt.toFixed(4));
+                    document.getElementById("HDDiscAmt").value = parseFloat(DiscountAmt.toFixed(4));
+
+                }
+            });
+
+
+
+        }
+
+
+
+
+        $("#ItemModal").modal("hide");
+    }
+
+    //const start = async function (ItemCode) {
+    //    const result = await GetItemRate(ItemCode);
+
+    //    return result;
+    //}
+
+</script>
+
+<script>
+
+
+
+
+    var tableItem = document.getElementById('ItemTable');
+    var i = 0;
+    var Duplicate = "";
+
+
+    $("#AllItem").on('click', '.Items', function () {
+        console.log("Clicked");
+        rIndex = $(this).closest('h4');
+        Duplicate = "";
+
+        var Data = GetItemRate(rIndex.find('b:eq(0)').text().trim());
+
+        if (Data.Rate !== "" || Data.Rate !== 0) {
+
+            var ItemCode = rIndex.find('b:eq(0)').text().trim();
+            if (ItemCode === null || ItemCode === "") {
+                alert("Item Code cannot be empty . . . !");
+            }
+            else {
+                var countRows = $('table#ItemTable tbody tr').length;
+
+                if (countRows == 0) {
+                    var tableItem = document.getElementById('ItemTable');
+                    var rows = tableItem.rows;
+                    var firstRow = rows[1];
+                    if (typeof firstRow !== "undefined") {
+                        var firstRowvalue = firstRow.innerText;
+                    }
+
+                    if (firstRowvalue == "No matching records found") {
+                        $("table#ItemTable tbody").remove();
+                    }
+
+                    i++;
+
+
+                    $("table#ItemTable").append('<tr><td>' + i + '</td><td  class="width5">' +
+                        rIndex.find('b:eq(0)').text() + '</td><td class="width30">' +
+                        rIndex.find('b:eq(1)').text() +
+                        '</td><td class="width5"><div class="form-group"><input id="Quantity" name="Quantity" type=number min=0 max=5000 value="0" readonly> &nbsp;<input class="btn btn-info plus" type="button" value="+" /> <input class="btn btn-info minus" type="button" onclick="decrement()" value="-" /></div></td><td class="width5">' +
+
+                        Data.Rate + '</td><td class="width5"><div class="form-group"><input type="number" value="0" name="Damage" style="width:70px" Value="' + 0 +
+                        '" /></div></td><td class="width5"><div class="form-group"><input id="Replace" type="number" name="Replace" style="width:70px" value="' + 0 +
+                        '" /></div></td><td class="width5"><div class="form-group"><input id="FOC" type="number" name="FOC" style="width:70px" value="' + 0 +
+                        '" /></div></td><td class="width5"><div class="form-group"><input id="Sampling" type="number" name="Sampling" style="width:70px" value="' + 0 +
+                        '" /></div></td><td class="width5"><div class="form-group"><input id="Scheme" type="number" name="Scheme" style="width:70px" value="' + 0 +
+                        '" /></div></td><td class="width5"><div class="form-group"><input id="Retrn" type="number" name="Retrn" style="width:70px" value="' + 0 +
+                        '" /></div></td><td class="width5"><div class="form-group"><input id="WHT" type="number" name="WHT" style="width:70px" value="' + 0 +
+                        '" /></div></td><td class="width5">' +
+                        0 + '</td class="width10"><td>' +
+                        0 + '</td class="width10"><td>' +
+                        0 + '</td><td class="width10" >' +
+                        0 + '</td><td class="width10" >' +
+                        0 + '</td><td class="width10" style="display:none">' +
+                        Data.STaxAmt + '</td class="width10"><td style="display:none">' +
+                        Data.FTaxAmt + '</td><td class="width10" style="display:none">' +
+                        Data.ITaxPer + '</td><td class="width10" style="display:none">' +
+                        Data.FEDTaxAmt + '</td><td class="width10" style="display:none">' +
+                        Data.Discount + '</td><td class="width10" style="display:none">' +
+                        Data.C_Rate + '</td><td class="width10">' +
+                        0 + '</td><td style="text-align:center"><a class= "deleteTerm" style="color:red"><i class="fa fa-trash"></i></a></td></tr>');
+
+                    document.getElementById('ItemCount').innerHTML = $('#ItemTable tbody').find('tr').length;
+                }
+                else {
+
+                    $("table#ItemTable tbody").find('tr').each(function () {
+                        var tableItem = document.getElementById('ItemTable');
+                        //if (itemCount != 0) {
+                        var itemList = $(this).find("td");
+                        // check empty row
+                        var rows = tableItem.rows;
+                        var firstRow = rows[1];
+                        var tbodyItem = $(itemList[1]).html();
+
+                        if (tbodyItem.trim() == ItemCode) {
+                            Duplicate = "Found";
+                        }
+
+                    });
+
+
+                    if (Duplicate == "") {
+                        var tableItem = document.getElementById('ItemTable');
+                        var rows = tableItem.rows;
+                        var firstRow = rows[1];
+                        if (typeof firstRow !== "undefined") {
+                            var firstRowvalue = firstRow.innerText;
+                        }
+
+                        if (firstRowvalue == "No matching records found") {
+                            $("table#ItemTable tbody").remove();
+                        }
+
+                        i++;
+
+
+                        $("table#ItemTable").append('<tr><td>' + i + '</td><td  class="width5">' +
+                            rIndex.find('b:eq(0)').text() + '</td><td class="width30">' +
+                            rIndex.find('b:eq(1)').text() +
+                            '</td><td class="width5"><div class="form-group"><input id="Quantity" name="Quantity" type=number min=0 max=5000 value="0" readonly /> &nbsp;<input class="btn btn-info plus" type="button" value="+" /> <input class="btn btn-info minus" type="button" onclick="decrement()" value="-" /></div></td><td class="width5">' +
+                            Data.Rate + '</td><td class="width5"><div class="form-group"><input class="tch3_22"  id="Damage" type="number"  name="Damage" style="width:70px" value="' + 0 +
+                            '" /></div></td><td class="width5"><div class="form-group"><input class="tch3_22" id="Replace" type="number"  name="Replace" style="width:70px" value="' + 0 +
+                            '" /></div></td><td class="width5"><div class="form-group"><input class="tch3_22" id="FOC" type="number"  name="FOC" style="width:70px" value="' + 0 +
+                            '" /></div></td><td class="width5"><div class="form-group"><input class="tch3_22" id="Sampling" type="number"  name="Sampling" style="width:70px" value="' + 0 +
+                            '" /></div></td><td class="width5"><div class="form-group"><input class="tch3_22" id="Scheme" type="number"  name="Scheme" style="width:70px" value="' + 0 +
+                            '" /></div></td><td class="width5"><div class="form-group"><input class="tch3_22" id="Retrn" type="number"  name="Retrn" style="width:70px" value="' + 0 +
+                            '" /></div></td><td class="width5"><div class="form-group"><input class="tch3_22" id="WHT" type="number"  name="WHT" style="width:70px" value="' + 0 +
+                            '" /></div></td><td class="width5">' +
+                            0 + '</td class="width10"><td>' +
+                            0 + '</td><td class="width10" >' +
+                            0 + '</td><td class="width10" >' +
+                            0 + '</td><td class="width10" >' +
+                            0 + '</td><td class="width10" style="display:none">' +
+                            Data.STaxAmt + '</td class="width10"><td style="display:none">' +
+                            Data.FTaxAmt + '</td><td class="width10" style="display:none">' +
+                            Data.ITaxPer + '</td><td class="width10" style="display:none">' +
+                            Data.FEDTaxAmt + '</td><td class="width10" style="display:none">' +
+                            Data.Discount + '</td><td class="width10" style="display:none">' +
+                            Data.C_Rate + '</td><td class="width10" >' +
+                            0 + '</td><td style="text-align:center"><a class= "deleteTerm" style="color:red" ><i class="fa fa-trash"></i></a></td></tr>');
+
+                        document.getElementById('ItemCount').innerHTML = $('#ItemTable tbody').find('tr').length;
+                    }
+                    else {
+                        alert("This Item is already added...!");
+                    }
+
+                }
+
+
+
+            }
+
+        }
+
+    })
+
+
+    $("table#ItemTable").on('click', '.plus', function () {
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+        var Rate = rIndex.find('td:eq(4)').text();
+        var STaxAmt = rIndex.find('td:eq(17)').text();
+        var FTaxAmt = rIndex.find('td:eq(18)').text();
+        var ITaxPer = rIndex.find('td:eq(19)').text();
+        var FEDTaxAmt = rIndex.find('td:eq(20)').text();
+        var DiscAmt = rIndex.find('td:eq(21)').text();
+        var C_Rate = rIndex.find('td:eq(22)').text();
+        var Qty = rIndex.find("input[name='Quantity']").val();
+
+
+
+        var QtyInt = parseInt(Qty);
+        QtyInt = QtyInt + 5;
+
+        if (Qty == 0 || Qty == "0") {
+            Qty = 1;
+        }
+
+        //var SingSTaxAmt = STaxAmt / Qty;
+        //var SingFTaxAmt = FTaxAmt / Qty;
+        //var SingDiscAmt = DiscAmt / Qty;
+
+        var SingSTaxAmt = STaxAmt;
+        var SingFTaxAmt = FTaxAmt;
+        var SingFEDTaxAmt = FEDTaxAmt;
+        var SingDiscAmt = DiscAmt;
+
+
+        var NetAmt = Rate * QtyInt;
+        var TotalDisc = SingDiscAmt * QtyInt;
+        var TtlSTaxAmt = SingSTaxAmt * QtyInt;
+        var TtlFTaxAmt = SingFTaxAmt * QtyInt;
+        var TtlFEDTaxAmt = SingFEDTaxAmt * QtyInt;
+
+        var AfterDiscAmt = NetAmt - TotalDisc;
+        var TotalTax = TtlSTaxAmt + TtlFTaxAmt + TtlFEDTaxAmt;
+        var TotalAmt = AfterDiscAmt + TotalTax;
+        var ITaxAmt = parseFloat(TotalAmt / 100 * ITaxPer);
+        var FinalTotalAmt = parseFloat(TotalAmt + ITaxAmt);
+
+        rIndex.find('td:eq(12)').text(TtlSTaxAmt.toFixed(2));
+        rIndex.find('td:eq(13)').text(TtlFTaxAmt.toFixed(2));
+        rIndex.find('td:eq(14)').text(ITaxAmt.toFixed(2));
+        rIndex.find('td:eq(15)').text(TtlFEDTaxAmt.toFixed(2));
+        rIndex.find('td:eq(16)').text(TotalDisc.toFixed(2));
+        rIndex.find('td:eq(23)').text(FinalTotalAmt.toFixed(2));
+
+        rIndex.find("input[name='Quantity']").val(QtyInt);
+
+        CalTotalAll();
+
+    });
+
+
+
+    $("table#ItemTable").on('click', '.minus', function () {
+        //var s = $(this).closest('tr').find('td:eq(3)').text();
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+        var Rate = rIndex.find('td:eq(4)').text();
+        var STaxAmt = rIndex.find('td:eq(17)').text();
+        var FTaxAmt = rIndex.find('td:eq(18)').text();
+        var ITaxPer = rIndex.find('td:eq(19)').text();
+        var FEDTaxAmt = rIndex.find('td:eq(20)').text();
+        var DiscAmt = rIndex.find('td:eq(21)').text();
+        var C_Rate = rIndex.find('td:eq(22)').text();
+        var Qty = rIndex.find("input[name='Quantity']").val();
+
+        var QtyInt = parseInt(Qty);
+        QtyInt--;
+
+        if (Qty == 0 || Qty == "0") {
+            Qty = 1;
+        }
+
+        //var SingSTaxAmt = STaxAmt / Qty;
+        //var SingFTaxAmt = FTaxAmt / Qty;
+        //var SingDiscAmt = DiscAmt / Qty;
+
+        var SingSTaxAmt = STaxAmt;
+        var SingFTaxAmt = FTaxAmt;
+        var SingFEDTaxAmt = FEDTaxAmt;
+        var SingDiscAmt = DiscAmt;
+
+        var NetAmt = Rate * QtyInt;
+        var TotalDisc = SingDiscAmt * QtyInt;
+        var TtlSTaxAmt = SingSTaxAmt * QtyInt;
+        var TtlFTaxAmt = SingFTaxAmt * QtyInt;
+        var TtlFEDTaxAmt = SingFEDTaxAmt * QtyInt;
+
+        var AfterDiscAmt = NetAmt - TotalDisc;
+        var TotalTax = TtlSTaxAmt + TtlFTaxAmt + TtlFEDTaxAmt;
+        var TotalAmt = AfterDiscAmt + TotalTax;
+        var ITaxAmt = TotalAmt / 100 * ITaxPer;
+        var FinalTotalAmt = TotalAmt + ITaxAmt;
+
+        rIndex.find('td:eq(12)').text(TtlSTaxAmt.toFixed(2));
+        rIndex.find('td:eq(13)').text(TtlFTaxAmt.toFixed(2));
+        rIndex.find('td:eq(14)').text(ITaxAmt.toFixed(2));
+        rIndex.find('td:eq(15)').text(TtlFEDTaxAmt.toFixed(2));
+        rIndex.find('td:eq(16)').text(TotalDisc.toFixed(2));
+        rIndex.find('td:eq(23)').text(FinalTotalAmt.toFixed(2));
+
+        rIndex.find("input[name='Quantity']").val(QtyInt);
+
+        CalTotalAll();
+        //}
+
+
+    });
+
+
+
+
+    $("table#ItemTable").on('click', '.deleteTerm', function () {
+        //var s = $(this).closest('tr').find('td:eq(3)').text();
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+
+        $(this).closest('tr').remove();
+
+        CalTotalAll();
+
+
+    });
+
+    function CalTotalAll() {
+
+        var TotalSTAmt = 0;
+        var TotalFTAmt = 0;
+        var TotalITaxAmt = 0;
+        var TotalITAmt = 0;
+        var TotalFEDTAmt = 0;
+
+        var CountRows = $('#ItemTable tbody').find('tr').length;
+
+        if (CountRows !== 0) {
+            $("table#ItemTable tbody").find('tr').each(function () {
+                var tableItem = document.getElementById('ItemTable');
+
+                //if (itemCount != 0) {
+                var itemList = $(this).find("td");
+                // check empty row
+                var rows = tableItem.rows;
+                var firstRow = rows[1];
+
+                var TtlSTaxAmt = $(itemList[12]).html();
+                var TtlFTaxAmt = $(itemList[13]).html();
+                var TtlITaxAmt = $(itemList[14]).html();
+                var TtlFEDTaxAmt = $(itemList[15]).html();
+                var TtlAmt = $(itemList[23]).html();
+
+                TotalSTAmt = TotalSTAmt + parseFloat(TtlSTaxAmt);
+                TotalFTAmt = TotalFTAmt + parseFloat(TtlFTaxAmt);
+                TotalITaxAmt = TotalITaxAmt + parseFloat(TtlITaxAmt);
+                TotalITAmt = TotalITAmt + parseFloat(TtlAmt);
+                TotalFEDTAmt = TotalFEDTAmt + parseFloat(TtlFEDTaxAmt);
+            });
+
+            document.getElementById("TotalETAmt").value = (TotalITAmt - (TotalSTAmt + TotalFTAmt + TotalITaxAmt + TotalFEDTAmt)).toFixed(2);
+            document.getElementById("TotalSTAmt").value = TotalSTAmt.toFixed(2);
+            document.getElementById("TotalFTAmt").value = TotalFTAmt.toFixed(2);
+            document.getElementById("TotalITAmt").value = TotalITAmt.toFixed(2);
+            document.getElementById("TotalFEDTAmt").value = TotalFEDTAmt.toFixed(2);
+
+        } else {
+
+            document.getElementById("TotalETAmt").value = 0;
+            document.getElementById("TotalSTAmt").value = 0;
+            document.getElementById("TotalFTAmt").value = 0;
+            document.getElementById("TotalITAmt").value = 0;
+            document.getElementById("TotalFEDTAmt").value = 0;
+        }
+
+        document.getElementById('ItemCount').innerHTML = CountRows;
+    }
+
+</script>
+
+
+<!--Save Item Data-->
+<script>
+
+    //Check for empty inputs before submit
+    function checkAllEmptyInputs() {
+        var isEmpty = false,
+            InvoiceDate = document.getElementById('InvoiceDate').value,
+            ManInvoice = document.getElementById('ManInvoiceNo').value,
+
+            PartyCode = document.getElementById('PartyCode').value,
+            EmpCode = document.getElementById('EmpCode').value,
+            PartyName = $("#PartyCode option:selected").text()
+
+        if (ManInvoice === "") {
+            if (!(PartyName === "00300  ==>  DAMAGES RWP" || PartyName === "00374  ==>  DAMAGES ISB" || PartyName === "00066  ==>  DAMAGES KPK" || PartyName === "00470  ==>  DAMAGES AJK" || PartyName === "00002  ==>  LOSS" || PartyName === "00003  ==>  LOSS" || PartyName === "00039  ==>  LOSS" || PartyName === "LOSS")) {
+                alert('Manual Invoice No cannot be Empty');
+                isEmpty = true;
+            }
+
+        }
+        //else if (ManInvoice === "" &&  PartyName !== "00300  ==>  DAMAGES" ) {
+        //    alert('Manual Invoice No cannot be Empty');
+        //    isEmpty = true;
+        //}
+        //else if (ManInvoice === "" &&  PartyName !== "00066  ==>  DAMAGES") {
+        //    alert('Manual Invoice No cannot be Empty');
+        //    isEmpty = true;
+        //}
+        //else if (ManInvoice === "" &&  PartyName !== "00470  ==>  DAMAGES") {
+        //    alert('Manual Invoice No cannot be Empty');
+        //    isEmpty = true;
+        //}
+        //else if (ManInvoice === "" && PartyName !== "00374  ==>  DAMAGES") {
+        //    alert('Manual Invoice No cannot be Empty');
+        //    isEmpty = true;
+        //}
+
+
+
+
+
+        //else if (ManInvoice === "" && PartyName !== "00002  ==>  LOSS") {
+        //    alert('Manual Invoice No cannot be Empty');
+        //    isEmpty = true;
+        //}
+        //else if (ManInvoice === "" && PartyName !== "00003  ==>  LOSS") {
+        //    alert('Manual Invoice No cannot be Empty');
+        //    isEmpty = true;
+        //}
+        //else if (ManInvoice === "" && PartyName !== "00039  ==>  LOSS") {
+        //    alert('Manual Invoice No cannot be Empty');
+        //    isEmpty = true;
+        //}
+        //else if (ManInvoice === "" && PartyName !== "LOSS") {
+        //    alert('Manual Invoice No cannot be Empty');
+        //    isEmpty = true;
+        //}
+
+        else if (InvoiceDate === '') {
+            alert('Invoice Date cannot be Empty');
+            isEmpty = true;
+        }
+        else if (PartyCode === '') {
+            alert('PartyCode cannot be Empty');
+            isEmpty = true;
+        }
+        else if (EmpCode === '') {
+            alert('EmpCode cannot be Empty');
+            isEmpty = true;
+        }
+        return isEmpty;
+    }
+    // Save all rows into Array and send to Controller
+    var ItemTable = []
+
+    function ItemRows() {
+        itemCount = 0;
+        $("table#ItemTable tbody").find('tr').each(function () {
+            var tableItem = document.getElementById('ItemTable');
+            var CountRows = $('#ItemTable tbody').find('tr').length;
+            //if (itemCount != 0) {
+            var itemList = $(this).find("td");
+            // check empty row
+            var rows = tableItem.rows;
+            var firstRow = rows[1];
+
+            var SaleQty = $(this).find("input[name='Quantity']").val();
+            var Damage = $(this).find("input[name='Damage']").val();
+            var Replace = $(this).find("input[name='Replace']").val();
+            var FOC = $(this).find("input[name='FOC']").val();
+            var Sampling = $(this).find("input[name='Sampling']").val();
+            var Scheme = $(this).find("input[name='Scheme']").val();
+            var Retrn = $(this).find("input[name='Retrn']").val();
+            var WHT = $(this).find("input[name='WHT']").val();
+            var TotalAmt = parseFloat($(itemList[23]).html());
+            var TotalTax = parseFloat($(itemList[12]).html()) + parseFloat($(itemList[13]).html()) + parseFloat($(itemList[14]).html() + parseFloat($(itemList[15]).html());
+            var C_Rate = $(itemList[22]).html();
+            if (C_Rate == null || C_Rate == "null")
+            {
+                C_Rate = 0;
+            }
+
+            NFound = '';
+            NFound = NFound;
+            if (NFound.substring(0, 2) != 'NO') {
+                var vouch = {
+                    ItemCode: $(itemList[1]).html(), SaleQty: SaleQty, Rate: $(itemList[4]).html(),
+                    Damage: Damage, Replace: Replace, FOC: FOC,
+                    Sampling: Sampling, Scheme: Scheme, Retrn: Retrn,
+                    WHT: WHT, SaleTaxAmt: $(itemList[12]).html(), FurtherTaxAmt: $(itemList[13]).html(),
+                    IncomeTaxAmt: $(itemList[14]).html(), FEDTaxAmt: $(itemList[15]).html(),
+                    IncomeTaxPer: $(itemList[18]).html(), FEDTaxPer: $(itemList[19]).html(),
+                    DiscAmt: $(itemList[16]).html(), Amount: $(itemList[23]).html(), IncTaxAmt: $(itemList[23]).html(),
+                    ExcTaxAmt: TotalAmt - TotalTax, SaleTaxPer: 18, FurtherTaxPer: 3, DiscPer: 0, ConsumerRate: C_Rate
+
+                };
+                ItemTable.push(vouch);
+
+            }
+            itemCount++;
+        })
+    }
+
+    $("#btnSave").click(function (e) {
+        e.preventDefault();
+
+        ManInvoice = document.getElementById('ManInvoiceNo').value;
+        InvoiceNo = document.getElementById('InvoiceNo').value;
+
+        if (InvoiceNo === '' && ManInvoice !== '') {
+
+            $.ajax({
+                type: "POST",
+                url: "/Transaction/CheckManInvoice",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({ ManInvoiceNo: ManInvoice }),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data == true) {
+                        swal({
+                            title: "Same Invoice Found!",
+                            text: "Manual Invoice No Already Exist,Please Choose Another Manual Invoice No.",
+                            type: "warning"
+                        }, function () {
+                            isEmpty = true;
+                        });
+                        isEmpty = true;
+                    }
+                    else {
+
+                        if (!(checkAllEmptyInputs())) {
+                            ItemRows();
+                            var InvoiceDate = $("#InvoiceDate").val();
+
+                            $.ajax({
+                                type: "POST",
+                                url: "/Transaction/SaleInvoiceDetail",
+                                dataType: "json",
+                                contentType: 'application/json',
+                                data: JSON.stringify({ ItemTable: ItemTable }),
+                                contentType: "application/json; charset=utf-8",
+                                complete: function (data) {
+
+                                    document.forms["SaleInvoiceResponsive"].submit();
+
+
+                                }
+                            });
+                        }
+                    }
+
+                }
+            });
+        }
+        else {
+            if (!(checkAllEmptyInputs())) {
+                ItemRows();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Transaction/SaleInvoiceDetail",
+                    dataType: "json",
+                    contentType: 'application/json',
+                    data: JSON.stringify({ ItemTable: ItemTable, InvoiceDate: InvoiceDate }),
+                    contentType: "application/json; charset=utf-8",
+                    complete: function (data) {
+                        document.forms["SaleInvoiceResponsive"].submit();
+
+                    }
+                });
+            }
+        }
+
+    });
+
+
+
+
+</script>
+
+
+<script type="text/javascript">
+
+
+
+
+    function ChosenPE(PartyCode, EmpCode) {
+        $('#PartyCode').val(PartyCode);
+        $('#PartyCode').trigger("chosen:updated");
+
+        $('#EmpCode').val(EmpCode);
+        $('#EmpCode').trigger("chosen:updated");
+    }
+
+
+    $("table#tblInvoice").on('click', '.EditInvoice', function () {
+
+        //var s = $(this).closest('tr').find('td:eq(3)').text();
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+        var InvoiceNo = rIndex.find('td:eq(0)').text().replace(/\s+/g, "");
+
+
+        document.getElementById("InvoiceNo").value = InvoiceNo;
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetSingleInvoice",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ InvoiceNo: InvoiceNo }),
+            contentType: "application/json;charset=utf-8",
+            async: false,
+            success: function (result) {
+
+                $('#btnSave').attr('disabled', false);
+
+                if (result.Input != null) {
+
+
+                    document.getElementById("InvoiceDate").value = result.Input.InvoiceDate;
+                    document.getElementById("ManInvoiceNo").value = result.Input.ManInvoiceNo;
+                    document.getElementById("RepInvoiceNo").value = result.Input.RepInvoiceNo;
+
+                    $('#RegionCode').val(result.Input.RegionCode);
+                    $('#RegionCode').trigger("chosen:updated");
+
+                    $('#PartyCode').empty().trigger("chosen:updated");
+                    $('#EmpCode').empty().trigger("chosen:updated");
+
+                    $('#PartyCode').append($('<option>', {
+                        value: result.Input.PartyCode,
+                        text: result.Input.PartyCode + "  ==>  " + result.Input.PartyDesc
+                    })).trigger("chosen:updated");
+
+
+
+                    $('#EmpCode').append($('<option>', {
+                        value: result.Input.EmpCode,
+                        text: result.Input.EmpName
+                    })).trigger("chosen:updated");
+
+                    var RegionCode = result.Input.RegionCode;
+                    var PartyCode = result.Input.PartyCode;
+                    //var EmpCode = result.Input.EmpCode;
+
+
+
+                    document.getElementById("MainPartyCode").value = result.Input.MainPartyCode;
+
+
+                    //document.getElementById("PartyType").value = result.Input.TransType;
+                    //document.getElementById("STaxReg").value = result.Input.PartyStatus;
+                    //document.getElementById("Category").value = result.Input.Category;
+
+
+                    //document.getElementById("ttlDiscount").value = result.Input.Discount;
+                    document.getElementById("TotalITAmt").value = result.Input.IncTaxAmt;
+                    document.getElementById("TotalETAmt").value = result.Input.ExcTaxAmt;
+                    document.getElementById("TotalSTAmt").value = result.Input.SaleTaxAmt;
+                    document.getElementById("TotalFTAmt").value = result.Input.FurtherTaxAmt;
+                   
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Transaction/DDLPartyDetail",
+                        dataType: "json",
+                        contentType: 'application/json',
+                        data: JSON.stringify({ RegionCode: RegionCode, PartyCode: PartyCode }),
+                        contentType: "application/json; charset=utf-8",
+                        async: false,
+                        success: function (data) {
+                            if (data != null) {
+
+                                document.getElementById("PartyType").value = data.PartyType;
+                                var RegStatus = "";
+                                if (data.STaxReg == "N") {
+                                    RegStatus = "Un-Reg";
+                                } else {
+                                    RegStatus = "Reg";
+                                }
+
+                                document.getElementById("STaxReg").value = RegStatus;
+                                document.getElementById("Category").value = data.Category;
+                                document.getElementById("Taxable").value = data.Taxable;
+
+                                //$("#PartyCode").val(PartyCode).trigger("chosen:updated");
+                                //$("#PartyCode").trigger("chosen:updated");
+
+                                //$('#EmpCode').val(EmpCode).trigger("chosen:updated");
+                                //$('#EmpCode').trigger("chosen:updated");
+
+
+
+                            }
+                        }
+                    })
+
+
+
+                    if (result.ItemDetail.length > 0) {
+                        var i = 1;
+                        $("#ItemTable tbody tr").remove();
+                        $.each(result.ItemDetail, function (index, obj) {
+                            var Data = GetItemRate(obj.ItemCode.trim());
+                            $("table#ItemTable").append('<tr><td>' + i + '</td><td  class="width5">' +
+                                obj.ItemCode + '</td><td class="width30">' +
+                                obj.ItemDesc +
+                                '</td><td class="width5"><div class="form-group"><input id="Quantity" name="Quantity" type=number min=0 max=5000 value="' + obj.SaleQty + '" readonly> &nbsp;<input class="btn btn-info plus" type="button" value="+" /> <input class="btn btn-info minus" type="button" onclick="decrement()" value="-" /></div></td><td class="width5">' +
+
+                                obj.Rate + '</td><td class="width5"><div class="form-group"><input class="tch3_22"  id="Damage" type="number"  name="Damage" style="width:70px" value="' + obj.Damage +
+                                '" /></div></td><td class="width5"><div class="form-group"><input class="tch3_22" id="Replace" type="number"  name="Replace" style="width:70px" value="' + obj.Replace +
+                                '" /></div></td><td class="width5"><div class="form-group"><input class="tch3_22" id="FOC" type="number"  name="FOC" style="width:70px" value="' + obj.FOC +
+                                '" /></div></td><td class="width5"><div class="form-group"><input class="tch3_22" id="Sampling" type="number"  name="Sampling" style="width:70px" value="' + obj.Sampling +
+                                '" /></div></td><td class="width5"><div class="form-group"><input class="tch3_22" id="Scheme" type="number"  name="Scheme" style="width:70px" value="' + obj.Scheme +
+                                '" /></div></td><td class="width5"><div class="form-group"><input class="tch3_22" id="Retrn" type="number"  name="Retrn" style="width:70px" value="' + obj.Retrn +
+                                '" /></div></td><td class="width5"><div class="form-group"><input class="tch3_22" id="WHT" type="number"  name="WHT" style="width:70px" value="' + obj.WHT +
+                                '" /></div></td><td class="width5">' +
+                                obj.SaleTaxAmt + '</td class="width10"><td>' +
+                                obj.FurtherTaxAmt + '</td><td class="width10" >' +
+                                obj.IncomeTaxPer + '</td><td class="width10" >' +
+                                obj.FEDTaxAmt + '</td><td class="width10" >' +
+                                obj.DiscAmt + '</td><td class="width10" style="display:none">' +
+                                Data.STaxAmt + '</td class="width10"><td style="display:none">' +
+                                Data.FTaxAmt + '</td><td class="width10" style="display:none">' +
+                                Data.FEDTaxAmt + '</td><td class="width10" style="display:none">' +
+                                Data.Discount + '</td><td class="width10">' +
+                                obj.IncTaxAmt + '</td><td style="text-align:center"><a class= "deleteTerm" style="color:red" ><i class="fa fa-trash"></i></a></td></tr>');
+
+                            document.getElementById('ItemCount').innerHTML = $('#ItemTable tbody').find('tr').length;
+                            i++;
+                        });
+                    }
+
+
+                    $("#InvoiceModal").modal("hide");
+                }
+            }
+        });
+    })
+
+    GetManInvoice = function (ManInvoiceNo) {
+
+        document.getElementById("ManInvoiceNo").value = ManInvoiceNo.trim();
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetSingleManInvoice",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ ManInvoiceNo: ManInvoiceNo }),
+            contentType: "application/json;charset=utf-8",
+            async: false,
+            success: function (result) {
+
+
+
+                $('#btnSave').attr('disabled', false);
+
+                if (result.Input != "NoData") {
+
+                    if (result.Input.InvoiceNo != null) {
+
+                        document.getElementById("InvoiceNo").value = result.Input.InvoiceNo;
+                        document.getElementById("InvoiceDate").value = result.Input.InvoiceDate;
+
+                        document.getElementById("RepInvoiceNo").value = result.Input.RepInvoiceNo;
+
+                        $('#RegionCode').val(result.Input.RegionCode);
+                        $('#RegionCode').trigger("chosen:updated");
+
+                        $('#PartyCode').empty().trigger("chosen:updated");
+                        $('#EmpCode').empty().trigger("chosen:updated");
+
+                        $('#PartyCode').append($('<option>', {
+                            value: result.Input.PartyCode,
+                            text: result.Input.PartyCode + "  ==>  " + result.Input.PartyDesc
+                        })).trigger("chosen:updated");
+
+
+
+                        $('#EmpCode').append($('<option>', {
+                            value: result.Input.EmpCode,
+                            text: result.Input.EmpName
+                        })).trigger("chosen:updated");
+
+                        var RegionCode = result.Input.RegionCode;
+                        var PartyCode = result.Input.PartyCode;
+                        //var EmpCode = result.Input.EmpCode;
+
+
+
+                        document.getElementById("MainPartyCode").value = result.Input.MainPartyCode;
+
+
+                        //document.getElementById("PartyType").value = result.Input.TransType;
+                        //document.getElementById("STaxReg").value = result.Input.PartyStatus;
+                        //document.getElementById("Category").value = result.Input.Category;
+
+
+                        document.getElementById("ttlDiscount").value = result.Input.Discount;
+                        document.getElementById("ttlIncTaxAmt").value = result.Input.IncTaxAmt;
+                        document.getElementById("ttlExcTaxAmt").value = result.Input.ExcTaxAmt;
+
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/Transaction/DDLPartyDetail",
+                            dataType: "json",
+                            contentType: 'application/json',
+                            data: JSON.stringify({ RegionCode: RegionCode, PartyCode: PartyCode }),
+                            contentType: "application/json; charset=utf-8",
+                            async: false,
+                            success: function (data) {
+                                if (data != null) {
+
+                                    document.getElementById("PartyType").value = data.PartyType;
+                                    var RegStatus = "";
+                                    if (data.STaxReg == "N") {
+                                        RegStatus = "Un-Reg";
+                                    } else {
+                                        RegStatus = "Reg";
+                                    }
+
+                                    document.getElementById("STaxReg").value = RegStatus;
+                                    document.getElementById("Category").value = data.Category;
+                                    document.getElementById("Taxable").value = data.Taxable;
+
+                                    //$("#PartyCode").val(PartyCode).trigger("chosen:updated");
+                                    //$("#PartyCode").trigger("chosen:updated");
+
+                                    //$('#EmpCode').val(EmpCode).trigger("chosen:updated");
+                                    //$('#EmpCode').trigger("chosen:updated");
+
+
+
+                                }
+                            }
+
+                        })
+
+
+
+                        if (result.ItemDetail.length > 0) {
+                            var i = 0;
+                            $("#ItemTable tbody tr").remove();
+                            $.each(result.ItemDetail, function (index, obj) {
+                                $("table#ItemTable").append('<tr><td>' + i + '</td><td class="width5">' + obj.ItemCode + '</td><td class="width30">' + obj.ItemDesc +
+                                    '</td><td class="width5" >' + obj.SaleQty + '</td><td class="width5" >' + obj.Rate + '</td><td class="width5">' + obj.Damage +
+                                    '</td><td class="width5">' + obj.Replace + '</td><td class="width5">' + obj.FOC + '</td><td class="width5">' + obj.Sampling +
+                                    '</td><td class="width5">' + obj.Scheme + '</td><td class="width5">' + obj.Retrn + '</td><td class="width5">' + obj.WHT +
+                                    '</td><td class="width10">' + obj.SaleTaxAmt + '</td class="width10"><td>' + obj.FurtherTaxAmt + '</td><td class="width10" >' + obj.DiscAmt + '</td><td class="width10">' + obj.Amount +
+                                    '</td><td class="Ghaib width10">' + obj.IncTaxAmt + '</td><td class="Ghaib width10">' + obj.ExcTaxAmt + '</td><td class="width10 Ghaib">' + obj.SaleTaxPer + '</td><td class="width10 Ghaib">' + obj.FurtherTaxPer + '</td><td class="width10 Ghaib">' + obj.DiscPer +
+                                    '</td><td style="text-align:center"><a class="selectItem"><i class="fa fa-edit" style="color:blue"></i></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class= "deleteTerm" style="color:blue" ><i class="fa fa-trash"></i></a></td>');
+
+                                i++;
+                            });
+                        }
+
+                        //$("#InvoiceModal").modal("hide");
+                    }
+
+                    else {
+                        swal("Invoice Not Found", "There is no Invoice Against this Invoice No . . . !", "error");
+                    }
+                } else {
+                    swal("Limited Right", "You can't update Invoice.Contact to Administrator . . . !", "warning");
+                }
+            }
+        });
+    }
+
+
+
+    //--------------------------For Delete Record-----------------------------
+
+    //Warning Message
+    function DeleteModal() {
+        var Id = $('#InvoiceNo').val();
+        var Url = "/Transaction/DeleteInvoice";
+
+        if (Id == null || Id == "") {
+            alert("Please, Select Invoice No . . . !");
+        } else {
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this record . . . !",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it...!",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    type: "POST",
+                    url: Url,
+                    dataType: "json",
+                    contentType: 'application/json',
+                    data: JSON.stringify({ InvoiceNo: Id }),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data == true) {
+                            swal({
+                                title: "Deleted!",
+                                text: "Your record has been deleted.",
+                                type: "success"
+                            }, function () {
+                                location.reload();
+                            });
+                        }
+                        else {
+                            swal({
+                                title: "Not Deleted!",
+                                text: "Something went wrong, Record not deleted . . . !",
+                                type: "warning"
+                            }, function () {
+                                location.reload();
+                            });
+                        }
+                    }
+                });
+            })
+        }
+
+    }
+
+    function checkAllEmptyInputsRpt() {
+        var isEmpty = false,
+            InvoiceNo = document.getElementById('InvoiceNo').value
+
+        if (InvoiceNo == "") {
+            alert('Invoice No cannot be Empty');
+            isEmpty = true;
+        }
+
+
+        return isEmpty;
+    }
+
+
+    function SimpleInNewWin() {
+        var InvoiceNo = document.getElementById('InvoiceNo').value;
+        var PartyDesc = $("#PartyCode option:selected").text();
+
+        if (!(checkAllEmptyInputsRpt())) {
+
+            window.open("../ReportWebForms/Transaction/SaleInvoice.aspx?InvoiceNo=" + encodeURI(InvoiceNo) + "&PartyDesc=" + encodeURI(PartyDesc), 'mywindow', 'fullscreen=yes, scrollbars=auto');
+
+        }
+    }
+
+
+    function GetDamageInvoices() {
+        var DamageDate = $("#DamageDate").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetDamagerInvoices",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ DamageDate: DamageDate }),
+            contentType: "application/json; charset=utf-8",
+            complete: function (DamageInvoice) {
+                if (DamageInvoice.responseJSON.length > 0) {
+                    $("#tblInvoice tbody tr").remove();
+
+
+                    $.each(DamageInvoice.responseJSON, function (index, obj) {
+
+                        var row = '<tr class="DamageFunction" ><td style="font-size:large">' + obj.InvoiceNo + '</td><td style="font-size:large"> ' + obj.InvoiceDate + '</td><td style="text-align:center;font-size:large"> ' + obj.ManInvoiceNo +
+
+                            '</td><td style="text-align:center;font-size:large"> ' + obj.RepInvoiceNo + '</td><td style="text-align:center;font-size:large"> ' + obj.RegionDesc +
+
+                            '</td><td style="text-align:center;font-size:large">' + obj.PartyDesc + '</td><td style="text-align:center;font-size:large"> ' + obj.EmpName + '</td></tr>';
+
+
+
+                        $("#tblInvoice tbody").append(row);
+
+                    });
+
+                }
+                else {
+                    $("#tblInvoice tbody tr").remove();
+
+                    var row = '<tr class="DamageFunction" ><td colspan="7" style="font-size:large;text-align:center">' + "You Have No Update Rights.Contact to Administrator . . . !" + '</td></tr>';
+
+                    $("#tblInvoice tbody").append(row);
+                }
+            }
+        });
+
+    }
+
+
+    $("table#tblInvoice").on('click', '.DamageFunction', function () {
+
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+
+        var InvoiceNo = rIndex.find('td:eq(0)').text().replace(/\s+/g, "");
+
+
+        document.getElementById("InvoiceNo").value = InvoiceNo;
+
+        $.ajax({
+
+            type: "POST",
+            url: "/Transaction/GetSingleInvoice",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ InvoiceNo: InvoiceNo }),
+            contentType: "application/json;charset=utf-8",
+            async: false,
+            success: function (result) {
+
+                $('#btnSave').attr('disabled', false);
+
+                if (result.Input != null) {
+
+
+                    document.getElementById("InvoiceDate").value = result.Input.InvoiceDate;
+                    document.getElementById("ManInvoiceNo").value = parseInt(result.Input.ManInvoiceNo);
+                    document.getElementById("RepInvoiceNo").value = result.Input.RepInvoiceNo;
+
+                    $('#RegionCode').val(result.Input.RegionCode);
+                    $('#RegionCode').trigger("chosen:updated");
+
+                    $('#PartyCode').empty().trigger("chosen:updated");
+                    $('#EmpCode').empty().trigger("chosen:updated");
+
+                    $('#PartyCode').append($('<option>', {
+                        value: result.Input.PartyCode,
+                        text: result.Input.PartyCode + "  ==>  " + result.Input.PartyDesc
+                    })).trigger("chosen:updated");
+
+
+
+                    $('#EmpCode').append($('<option>', {
+                        value: result.Input.EmpCode,
+                        text: result.Input.EmpName
+                    })).trigger("chosen:updated");
+
+                    var RegionCode = result.Input.RegionCode;
+                    var PartyCode = result.Input.PartyCode;
+                    //var EmpCode = result.Input.EmpCode;
+
+
+
+                    document.getElementById("MainPartyCode").value = result.Input.MainPartyCode;
+
+
+                    //document.getElementById("PartyType").value = result.Input.TransType;
+                    //document.getElementById("STaxReg").value = result.Input.PartyStatus;
+                    //document.getElementById("Category").value = result.Input.Category;
+
+
+                    document.getElementById("ttlDiscount").value = result.Input.Discount;
+                    document.getElementById("ttlIncTaxAmt").value = result.Input.IncTaxAmt;
+                    document.getElementById("ttlExcTaxAmt").value = result.Input.ExcTaxAmt;
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Transaction/DDLPartyDetail",
+                        dataType: "json",
+                        contentType: 'application/json',
+                        data: JSON.stringify({ RegionCode: RegionCode, PartyCode: PartyCode }),
+                        contentType: "application/json; charset=utf-8",
+                        async: false,
+                        success: function (data) {
+                            if (data != null) {
+
+                                document.getElementById("PartyType").value = data.PartyType;
+                                var RegStatus = "";
+                                if (data.STaxReg == "N") {
+                                    RegStatus = "Un-Reg";
+                                } else {
+                                    RegStatus = "Reg";
+                                }
+
+                                document.getElementById("STaxReg").value = RegStatus;
+                                document.getElementById("Category").value = data.Category;
+
+
+                                //$("#PartyCode").val(PartyCode).trigger("chosen:updated");
+                                //$("#PartyCode").trigger("chosen:updated");
+
+                                //$('#EmpCode').val(EmpCode).trigger("chosen:updated");
+                                //$('#EmpCode').trigger("chosen:updated");
+
+
+
+                            }
+                        }
+                    })
+
+
+
+                    if (result.ItemDetail.length > 0) {
+                        var i = 0;
+                        $("#ItemTable tbody tr").remove();
+                        $.each(result.ItemDetail, function (index, obj) {
+                            $("table#ItemTable").append('<tr><td>' + i + '</td><td class="width5">' + obj.ItemCode + '</td><td class="width30">' + obj.ItemDesc +
+                                '</td><td class="width5" >' + obj.SaleQty + '</td><td class="width5" >' + obj.Rate + '</td><td class="width5">' + obj.Damage +
+                                '</td><td class="width5">' + obj.Replace + '</td><td class="width5">' + obj.FOC + '</td><td class="width5">' + obj.Sampling +
+                                '</td><td class="width5">' + obj.Scheme + '</td><td class="width5">' + obj.Retrn + '</td><td class="width5">' + obj.WHT +
+                                '</td><td class="width10">' + obj.SaleTaxAmt + '</td class="width10"><td>' + obj.FurtherTaxAmt + '</td><td class="width10" >' + obj.DiscAmt + '</td><td class="width10">' + obj.Amount +
+                                '</td><td class="Ghaib width10">' + obj.IncTaxAmt + '</td><td class="Ghaib width10">' + obj.ExcTaxAmt + '</td><td class="width10 Ghaib">' + obj.SaleTaxPer + '</td><td class="width10 Ghaib">' + obj.FurtherTaxPer + '</td><td class="width10 Ghaib">' + obj.DiscPer +
+                                '</td><td style="text-align:center"><a class="selectItem"><i class="fa fa-edit" style="color:blue"></i></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class= "deleteTerm" style="color:blue" ><i class="fa fa-trash"></i></a></td>');
+
+                            i++;
+                        });
+                    }
+
+
+
+
+
+                    $("#InvoiceModal").modal("hide");
+                }
+            }
+        });
+
+    });
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+@*-------------------------------------------All Scripts-----------------------------------------------*@
+
+
+
+<script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="~/Content/bootstrap/dist/js/tether.min.js"></script>
+<script src="~/Content/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/Content/plugins/bower_components/bootstrap-extension/js/bootstrap-extension.min.js"></script>
+<!-- Menu Plugin JavaScript -->
+<script src="~/Content/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
+<!--Counter js -->
+<script src="~/Content/plugins/bower_components/waypoints/lib/jquery.waypoints.js"></script>
+<script src="~/Content/plugins/bower_components/counterup/jquery.counterup.min.js"></script>
+<!--slimscroll JavaScript -->
+<script src="~/Content/js/jquery.slimscroll.js"></script>
+<!--Wave Effects -->
+<script src="~/Content/js/waves.js"></script>
+<!--Morris JavaScript -->
+<script src="~/Content/plugins/bower_components/raphael/raphael-min.js"></script>
+<script src="~/Content/plugins/bower_components/morrisjs/morris.js"></script>
+
+<!--Chosen -->
+<script src="~/Content/Chosen/chosen.jquery.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="~/Content/js/cbpFWTabs.js"></script>
+<script src="~/Content/js/validator.js"></script>
+<script src="~/Content/js/custom.min.js"></script>
+<script src="~/Content/js/dashboard3.js"></script>
+<!--Style Switcher -->
+<script src="~/Content/plugins/bower_components/styleswitcher/jQuery.style.switcher.js"></script>
+<script src="~/Content/plugins/bower_components/dropify/dist/js/dropify.min.js"></script>
+<script src="~/Content/plugins/bower_components/datatables/jquery.dataTables.min.js"></script>
+<!-- start - This is for export functionality only -->
+<script src=""></script>
+<!-- Date Picker Plugin JavaScript -->
+@*<script src="../Content/plugins/bower_components/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>*@
+<!-- bt-switch -->
+<script src="~/Content/plugins/bower_components/bootstrap-switch/bootstrap-switch.min.js"></script>
+<!-- Sweet-Alert  -->
+<script src="../Content/plugins/bower_components/sweetalert/sweetalert.min.js"></script>
+<script src="../Content/plugins/bower_components/sweetalert/jquery.sweet-alert.custom.js"></script>
+<script src="../Content/js/mask.js"></script>
+<!-- icheck -->
+<script src="../Content/plugins/bower_components/icheck/icheck.min.js"></script>
+<script src="../Content/plugins/bower_components/icheck/icheck.init.js"></script>
+<script src="../Content/plugins/bower_components/bootstrap-table/dist/bootstrap-table.min.js"></script>
+<script src="../Content/plugins/bower_components/bootstrap-table/dist/bootstrap-table.ints.js"></script>
+<script src="../Content/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js" type="text/javascript"></script>
+<!-- start - This is for export functionality only -->
+
+<script src="~/Content/js/buttons.print.min.js"></script>
+<script src="~/Content/js/buttons.html5.min.js"></script>
+<script src="~/Content/js/vfs_fonts.js"></script>
+<script src="~/Content/js/pdfmake.mis.js"></script>
+<script src="~/Content/js/jszip.min.js"></script>
+<script src="~/Content/js/buttons.flash.min.js"></script>
+<script src="~/Content/js/dataTables.buttons.min.js"></script>
+
+<!-- jQuery for carousel -->
+<script src="~/Content/plugins/bower_components/owl.carousel/owl.carousel.min.js"></script>
+<script src="~/Content/plugins/bower_components/owl.carousel/owl.custom.js"></script>
+
+<!-- Sparkline chart JavaScript -->
+<script src="~/Content/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
+<script src="~/Content/plugins/bower_components/jquery-sparkline/jquery.charts-sparkline.js"></script>
+
+<script src="~/Content/plugins/bower_components/toast-master/js/jquery.toast.js"></script>
+
+<!--Counter js -->
+<script src="~/Content/plugins/bower_components/waypoints/lib/jquery.waypoints.js"></script>
+<script src="~/Content/plugins/bower_components/counterup/jquery.counterup.min.js"></script>
+
+<!--weather icon -->
+<script src="~/Content/plugins/bower_components/skycons/skycons.js"></script>
+
+
+<!-- Calendar JavaScript -->
+<!-- Custom Theme JavaScript -->
+
+<script src="~/Content/plugins/bower_components/switchery/dist/switchery.min.js"></script>
+<script src="~/Content/plugins/bower_components/custom-select/custom-select.min.js" type="text/javascript"></script>
+<script src="~/Content/plugins/bower_components/bootstrap-select/bootstrap-select.min.js" type="text/javascript"></script>
+<script src="~/Content/plugins/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+<script src="~/Content/plugins/bower_components/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="~/Content/plugins/bower_components/multiselect/js/jquery.multi-select.js"></script>
+
+@*<script src="~/Content/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>*@
+
+<script src="~/Content/JQueryDP/jquery-ui.min.js"></script>
+
+
+
+

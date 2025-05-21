@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FAS_BlazorModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AccountType">
+    <Key>
+      <PropertyRef Name="ATypeCode" />
+    </Key>
+    <Property Name="ATypeCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ATypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ATypeDetail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ActiveFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UpdDate" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="UpdBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="SubAccountTypes" Relationship="Self.FK_SubAccountTypes_AccountTypes_ATypeCode" FromRole="AccountTypes" ToRole="SubAccountTypes" />
+  </EntityType>
+  <EntityType Name="chartOfAccount">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ParentCode" Type="Int32" Nullable="false" />
+    <Property Name="ChildCode" Type="Int32" Nullable="false" />
+    <Property Name="IsChild" Type="Boolean" Nullable="false" />
+    <Property Name="AccountName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="AccountDescription" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="OpeningBalance" Type="Double" />
+    <Property Name="ATypeCode" Type="Int32" />
+    <Property Name="SATypeCode" Type="Int32" />
+    <Property Name="ActiveFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UpdDate" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="UpdBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="AllParentCode" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="SubAccountType" Relationship="Self.FK_chartOfAccounts_SubAccountTypes_SATypeCode" FromRole="chartOfAccounts" ToRole="SubAccountTypes" />
+  </EntityType>
+  <EntityType Name="SubAccountType">
+    <Key>
+      <PropertyRef Name="SATypeCode" />
+    </Key>
+    <Property Name="SATypeCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SATypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="SATypeDetail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="ActiveFlag" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdDate" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="UpdBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ATypeCode" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="AccountType" Relationship="Self.FK_SubAccountTypes_AccountTypes_ATypeCode" FromRole="SubAccountTypes" ToRole="AccountTypes" />
+    <NavigationProperty Name="chartOfAccounts" Relationship="Self.FK_chartOfAccounts_SubAccountTypes_SATypeCode" FromRole="SubAccountTypes" ToRole="chartOfAccounts" />
+  </EntityType>
+  <Association Name="FK_SubAccountTypes_AccountTypes_ATypeCode">
+    <End Role="AccountTypes" Type="Self.AccountType" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="SubAccountTypes" Type="Self.SubAccountType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccountTypes">
+        <PropertyRef Name="ATypeCode" />
+      </Principal>
+      <Dependent Role="SubAccountTypes">
+        <PropertyRef Name="ATypeCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_chartOfAccounts_SubAccountTypes_SATypeCode">
+    <End Role="SubAccountTypes" Type="Self.SubAccountType" Multiplicity="0..1" />
+    <End Role="chartOfAccounts" Type="Self.chartOfAccount" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SubAccountTypes">
+        <PropertyRef Name="SATypeCode" />
+      </Principal>
+      <Dependent Role="chartOfAccounts">
+        <PropertyRef Name="SATypeCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="FAS_BlazorEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AccountTypes" EntityType="Self.AccountType" />
+    <EntitySet Name="chartOfAccounts" EntityType="Self.chartOfAccount" />
+    <EntitySet Name="SubAccountTypes" EntityType="Self.SubAccountType" />
+    <AssociationSet Name="FK_SubAccountTypes_AccountTypes_ATypeCode" Association="Self.FK_SubAccountTypes_AccountTypes_ATypeCode">
+      <End Role="AccountTypes" EntitySet="AccountTypes" />
+      <End Role="SubAccountTypes" EntitySet="SubAccountTypes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_chartOfAccounts_SubAccountTypes_SATypeCode" Association="Self.FK_chartOfAccounts_SubAccountTypes_SATypeCode">
+      <End Role="SubAccountTypes" EntitySet="SubAccountTypes" />
+      <End Role="chartOfAccounts" EntitySet="chartOfAccounts" />
+    </AssociationSet>
+    <EntitySet Name="BRV_Details" EntityType="FAS_BlazorModel.BRV_Details" />
+    <EntitySet Name="BRV_Masters" EntityType="FAS_BlazorModel.BRV_Masters" />
+    <AssociationSet Name="FK_BRV_Details_BRV_Masters_BRV_No" Association="FAS_BlazorModel.FK_BRV_Details_BRV_Masters_BRV_No">
+      <End Role="BRV_Masters" EntitySet="BRV_Masters" />
+      <End Role="BRV_Details" EntitySet="BRV_Details" />
+    </AssociationSet>
+    <EntitySet Name="CRV_Details" EntityType="FAS_BlazorModel.CRV_Details" />
+    <EntitySet Name="CRV_Masters" EntityType="FAS_BlazorModel.CRV_Masters" />
+    <AssociationSet Name="FK_CRV_Details_CRV_Masters_CRV_No" Association="FAS_BlazorModel.FK_CRV_Details_CRV_Masters_CRV_No">
+      <End Role="CRV_Masters" EntitySet="CRV_Masters" />
+      <End Role="CRV_Details" EntitySet="CRV_Details" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="BRV_Details">
+    <Key>
+      <PropertyRef Name="Detail_Acc_ChildCode" />
+      <PropertyRef Name="BRV_No" />
+    </Key>
+    <Property Name="Detail_Acc_ChildCode" Type="Int32" Nullable="false" />
+    <Property Name="BRV_No" Type="Int32" Nullable="false" />
+    <Property Name="Voucher_Ref_No" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Credit" Type="Double" Nullable="false" />
+    <Property Name="Debit" Type="Double" Nullable="false" />
+    <NavigationProperty Name="BRV_Masters" Relationship="FAS_BlazorModel.FK_BRV_Details_BRV_Masters_BRV_No" FromRole="BRV_Details" ToRole="BRV_Masters" />
+  </EntityType>
+  <EntityType Name="BRV_Masters">
+    <Key>
+      <PropertyRef Name="BRV_No" />
+    </Key>
+    <Property Name="BRV_No" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Voucher_Ref_No" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="BRV_Date" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="MainDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdDate" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="UpdBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BRV_TotalCredit" Type="Double" Nullable="false" />
+    <Property Name="BRV_TotalDebit" Type="Double" Nullable="false" />
+    <NavigationProperty Name="BRV_Details" Relationship="FAS_BlazorModel.FK_BRV_Details_BRV_Masters_BRV_No" FromRole="BRV_Masters" ToRole="BRV_Details" />
+  </EntityType>
+  <Association Name="FK_BRV_Details_BRV_Masters_BRV_No">
+    <End Type="FAS_BlazorModel.BRV_Masters" Role="BRV_Masters" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="FAS_BlazorModel.BRV_Details" Role="BRV_Details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="BRV_Masters">
+        <PropertyRef Name="BRV_No" />
+      </Principal>
+      <Dependent Role="BRV_Details">
+        <PropertyRef Name="BRV_No" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="CRV_Details">
+    <Key>
+      <PropertyRef Name="Detail_Acc_ChildCode" />
+      <PropertyRef Name="CRV_No" />
+    </Key>
+    <Property Name="Detail_Acc_ChildCode" Type="Int32" Nullable="false" />
+    <Property Name="CRV_No" Type="Int32" Nullable="false" />
+    <Property Name="Voucher_Ref_No" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Debit" Type="Double" Nullable="false" />
+    <Property Name="Credit" Type="Double" Nullable="false" />
+    <NavigationProperty Name="CRV_Masters" Relationship="FAS_BlazorModel.FK_CRV_Details_CRV_Masters_CRV_No" FromRole="CRV_Details" ToRole="CRV_Masters" />
+  </EntityType>
+  <EntityType Name="CRV_Masters">
+    <Key>
+      <PropertyRef Name="CRV_No" />
+    </Key>
+    <Property Name="CRV_No" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Voucher_Ref_No" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="CRV_Date" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="MainDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="CRV_TotalDebit" Type="Double" Nullable="false" />
+    <Property Name="CRV_TotalCredit" Type="Double" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UpdDate" Type="DateTime" Nullable="false" Precision="7" />
+    <Property Name="UpdBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="CRV_Details" Relationship="FAS_BlazorModel.FK_CRV_Details_CRV_Masters_CRV_No" FromRole="CRV_Masters" ToRole="CRV_Details" />
+  </EntityType>
+  <Association Name="FK_CRV_Details_CRV_Masters_CRV_No">
+    <End Type="FAS_BlazorModel.CRV_Masters" Role="CRV_Masters" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="FAS_BlazorModel.CRV_Details" Role="CRV_Details" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CRV_Masters">
+        <PropertyRef Name="CRV_No" />
+      </Principal>
+      <Dependent Role="CRV_Details">
+        <PropertyRef Name="CRV_No" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

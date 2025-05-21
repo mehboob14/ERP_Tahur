@@ -1,0 +1,159 @@
+﻿@model ERP.Models.CompanySetup
+@{
+    ViewBag.Title = "CompanySetup";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+<style>
+    .FontCSS {
+        font-size: 2em !important;
+        color: #000 !important;
+        font-family: Arial !important;
+    }
+</style>
+
+@using (Html.BeginForm("CompanySetup", "Company", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <!-- /.row -->
+    <div class="row FontCSS">
+        <div class="col-lg-12">
+            <div class="white-box">
+                <div class="">
+                    <div class="row">
+                        <div class="floating-labels has-feedback">
+                            <div class="col-lg-3 col-md-3 col-sm-6">
+                                @*<h2 class="m-b-0 m-t-0" style="text-transform:uppercase">@Model.CompanyDesc</h2> <small class="text-muted db" style="margin-left:5px;text-transform:uppercase">@Model.Address1</small>*@
+                                @*@{
+                                    if (Model.Logo == null)
+                                    {
+
+                                    }
+                                    var base64 = Convert.ToBase64String(Model.Logo);
+                                    var img = string.Format("data:image/png;base64," + base64);
+
+
+                                    }*@
+
+
+                                <div class="col-sm-12 col-md-12 col-xs-12" style="margin-top:60px;">
+                                    <input type="file" name="NewImage" class="dropify" data-default-file="/Content/plugins/images/At-Tahur-Logo.jpg" />
+                                    <input type="hidden" name="ModelImage" value="@Convert.ToBase64String(Model.Picture)" />
+                                    <img src="" class="img-preview img-responsive" />
+                                </div>
+
+                            </div>
+
+                            <div class="col-lg-9 col-md-9 col-sm-6" style="margin-top:30px">
+
+                                <input type="hidden" name="CompanyCode" value="" />
+
+                                <div class="form-group col-md-12 info m-b-20">
+                                    <input type="text" class="form-control  input-sm" id="CompName" name="CompName" maxlength="40" value="@Model.CompName" style="text-transform:uppercase;font-size:12px" value="" required><span class="highlight"></span> <span class="bar"></span><span class="bar"></span>
+                                    <label for="input9">Company Name</label>
+                                </div>
+
+                                <div class="form-group col-md-12 m-b-20">
+                                    <input type="text" class="form-control input-sm" id="Address1" maxlength="100" name="Address1" value="@Model.Address1" style="text-transform:uppercase;font-size:12px" value="" required><span class="highlight"></span> <span class="bar"></span><span class="bar"></span>
+                                    <label for="input9">Address 1</label>
+                                </div>
+
+                                <div class="form-group col-md-12 m-b-20">
+                                    <input type="text" class="form-control input-sm" id="Address2" maxlength="100" name="Address2" value="@Model.Address2" style="text-transform:uppercase;font-size:12px" value="" required><span class="highlight"></span> <span class="bar"></span><span class="bar"></span>
+                                    <label for="input9">Address 2</label>
+                                </div>
+
+                                <div class="form-group col-md-4 m-b-20">
+                                    <input type="number" class="form-control input-sm" id="Length_Level1" name="Length_Level1" maxlength="12" value="@Model.Length_Level1" style="font-size: 12px" value="" required><span class="highlight"></span> <span class="bar"></span><span class="bar"></span>
+                                    <label for="input9">Length_Level1</label>
+                                </div>
+
+                                <div class="form-group col-md-4 m-b-20">
+                                    <input type="number" class="form-control input-sm" id="Length_Level2" name="Length_Level2" maxlength="12" value="@Model.Length_Level2" style="font-size: 12px" value="" required><span class="highlight"></span> <span class="bar"></span><span class="bar"></span>
+                                    <label for="input9">Length_Level2</label>
+                                </div>
+
+                                <div class="form-group col-md-4 m-b-20">
+                                    <input type="number" class="form-control input-sm" id="Length_Level3" name="Length_Level3" maxlength="12" value="@Model.Length_Level3" style="text-transform:uppercase;font-size: 12px" value="" required><span class="highlight"></span> <span class="bar"></span><span class="bar"></span>
+                                    <label for="input9">Length_Level3</label>
+                                </div>
+
+                                <div class="form-group col-md-4 m-b-20">
+                                    <input type="number" class="form-control input-sm" id="Length_LevelDetail" name="Length_LevelDetail" value=" @Model.Length_LevelDetail" maxlength="12" style="text-transform:uppercase;font-size: 12px" value="" required><span class="highlight"></span> <span class="bar"></span><span class="bar"></span>
+                                    <label for="input9">Length_LevelDetail</label>
+                                </div>
+
+                                <div class="form-group col-md-4 m-b-20">
+                                    <input type="number" class="form-control input-sm" id="GI_MaxLevel" name="GI_MaxLevel" maxlength="12" value="@Model.GI_MaxLevel" style="text-transform:uppercase;font-size: 12px" value="" required><span class="highlight"></span> <span class="bar"></span><span class="bar"></span>
+                                    <label for="input9">GI_MaxLevel</label>
+                                </div>
+
+                                <div class="form-group col-md-4 m-b-20">
+                                    <input type="text" class="form-control input-sm" id="Phone1" name="Phone1" data-mask="0399-9999999" maxlength="15" value="@Model.Phone1" style="text-transform:uppercase;font-size: 12px" required><span class="highlight"></span> <span class="bar"></span><span class="bar"></span>
+                                    <label for="input9">Phone 1</label>
+                                </div>
+
+                                <div class="form-group col-md-4 m-b-20">
+                                    <input type="text" class="form-control input-sm" id="Phone2" name="Phone2" maxlength="20" data-mask="042-999-999-999" value="@Model.Phone2" style="text-transform:uppercase;font-size: 12px" required><span class="highlight"></span> <span class="bar"></span><span class="bar"></span>
+                                    <label for="input9">Phone 2</label>
+                                </div>
+
+                                <div class="form-group col-md-4 m-b-20">
+                                    <input type="text" class="form-control input-sm" id="Email" name="Email" maxlength="25" value="@Model.Email" style="text-transform:uppercase;font-size: 12px" required><span class="highlight"></span> <span class="bar"></span><span class="bar"></span>
+                                    <label for="input9">E-mail</label>
+                                </div>
+
+                                <div class="form-group col-md-4 m-b-20">
+                                    <input type="text" class="form-control input-sm" id="Fax" name="Fax" maxlength="25" value="@Model.Fax" data-mask="042-999-999-99" style="text-transform:uppercase;font-size: 12px" required><span class="highlight"></span> <span class="bar"></span><span class="bar"></span>
+                                    <label for="input9">Fax</label>
+                                </div>
+
+                                <div class="form-group col-md-4 m-b-20">
+                                    <input type="text" class="form-control input-sm" id="NTN" name="NTN" maxlength="40" value="@Model.NTN" style="text-transform:uppercase;font-size: 12px" required><span class="highlight"></span> <span class="bar"></span><span class="bar"></span>
+                                    <label for="input9">NTN</label>
+                                </div>
+
+                                <div class="form-group col-md-4 m-b-20">
+                                    <input type="text" class="form-control input-sm" id="SalesTaxRegNo" name="SalesTaxRegNo" value="@Model.SalesTaxRegNo" maxlength="40" style="text-transform:uppercase;font-size: 12px" required><span class="highlight"></span> <span class="bar"></span><span class="bar"></span>
+                                    <label for="input9">Sale Tax No</label>
+                                </div>
+
+                                <div class="form-group row col-md-9">
+                                    <div class="offset-md-2 col-md-5" style="margin-top:10px">
+                                        @if (ERP.Models.CommonDAL.UserRights("1", "003"))
+                                        {
+                                            <button type="submit" class="btn btn-info btn-rounded" style="width:600px"> Update </button>
+                                        }
+                                        else
+                                        {
+                                            <button type="submit" class="btn btn-info btn-rounded" style="width:600px" disabled> Update </button>
+                                        }
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<script>
+
+    document.getElementById("PageHeader").innerHTML = "Company Setup";
+
+
+        document.getElementById("PageLink").style.visibility = "hidden";
+    //var str = "Add New Gents Measurement";
+    //var result = str.link("/Product/Promotion");
+    //document.getElementById("linkaddNew").innerHTML = result;
+
+     document.getElementById("PageTitle").innerHTML = "Company Setup"
+
+</script>
+
+

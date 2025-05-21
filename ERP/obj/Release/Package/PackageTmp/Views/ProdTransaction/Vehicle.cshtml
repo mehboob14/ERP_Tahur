@@ -1,0 +1,156 @@
+﻿
+@{
+    ViewBag.Title = "Vehicle";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+
+
+
+<style>
+    thead tr {
+        font-weight: bold;
+    }
+</style>
+
+@if (TempData["SuccessMsg"] != null)
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <b> @TempData["SuccessMsg"]</b>
+    </div>
+}
+@if (TempData["DeleteMsg"] != null)
+{
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <b> @TempData["DeleteMsg"]</b>
+    </div>
+}
+<!-- .row -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="white-box">
+
+            <table id="farm" class="table table-bordered">
+                <thead class="bg-info" style="color:white">
+                    <tr>
+                        <td width="150">Vehcile Code</td>
+                        <td width="150">Registration No  </td>
+                        <td >Description   <strong> <a class="pull-right" data-toggle="modal" data-target="#InvoiceModal" style="color:white">[Add New]</a></strong> </td>
+                        <td width="100">Action</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewBag.VehicleList != null)
+                    {
+                        foreach (var item in ViewBag.VehicleList)
+                        {
+                    <tr>
+                        <td>@item.VehicleCode</td>
+                        <td>@item.VehicleRegNo</td>
+                        <td>@item.VehicleDescription</td>
+                        <td style="text-align:center"><a class="selectItem"><i class="fa fa-edit" style="color:blue"></i></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class="deleteTerm" style="color:blue"><i class="fa fa-trash"></i></a></td>
+                    </tr>
+                        }
+                    }
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+</div>
+<!-- /.row -->
+<!--Invoice Record-->
+<div class="modal fade" tabindex="-1" id="InvoiceModal" role="dialog" aria-labelledby="modal123Label" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="margin-top:50px;width:800px">
+            <form action="/ProdTransaction/Vehicle" method="post">
+                <div class="modal-header">
+                    <b>Add New Vehicle</b>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="example-text-input" class="col-md-2 col-form-label">Vehicle Code</label>
+                        <div class="col-md-10 input-group">
+                            <input class="form-control" type="text" placeholder="Vehicle Code . . . " id="VehicleCode" name="VehicleCode" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-text-input" class="col-md-2 col-form-label">Registration No</label>
+                        <div class="col-md-10 input-group">
+                            <input class="form-control" type="text" placeholder="Vehicle Registration No . . . " id="VehicleRegNo" name="VehicleRegNo">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="example-text-input" class="col-md-2 col-form-label">Description</label>
+                        <div class="col-md-10 input-group">
+                            <input class="form-control" type="text" placeholder="Description . . . " id="VehicleDescription" name="VehicleDescription">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-info" id="btnSave" name="BtnSave" type="submit">Save</button>
+                </div>
+            </form>
+        </div>
+
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+<script>
+    document.getElementById("PageHeader").innerHTML = "Vehicle Detail";
+
+
+    document.getElementById("PageLink").style.visibility = "hidden";
+    //var str = "Add New Unit";
+    //var result = str.link("/CompanySetup/UnitSetup");
+    //document.getElementById("PageLink").innerHTML = result;
+
+    document.getElementById("PageTitle").innerHTML = "Vehicle Detail"
+</script>
+
+<script>
+    // For Selection
+    $("table#farm").on('click', '.selectItem', function () {
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr').rowIndex;
+        //rIndex = this.rowIndex;
+        console.log(index);
+        var VehicleCode = rIndex.find('td:eq(0)').text();
+        var VehicleRegNo = rIndex.find('td:eq(1)').text();
+        var VehicleDescription = rIndex.find('td:eq(2)').text();
+
+        document.getElementById("VehicleCode").value = VehicleCode;
+        document.getElementById("VehicleRegNo").value = VehicleRegNo;
+        document.getElementById("VehicleDescription").value = VehicleDescription;
+
+        $(this).closest('tr').remove();
+        $("#InvoiceModal").modal("show");
+    });
+</script>
+
+<script>
+    // For Selection
+    $("table#farm").on('click', '.deleteTerm', function () {
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr').rowIndex;
+        //rIndex = this.rowIndex;
+        console.log(index);
+        var VehicleCode = rIndex.find('td:eq(0)').text();
+
+        if (confirm("Are you sure to want delete . . . !")) {
+            window.location.href = "@Url.Action("DeleteVehicle", "ProdTransaction")?VehicleCode=" + VehicleCode;
+        } else {
+
+        }
+
+    });
+</script>
+

@@ -1,0 +1,392 @@
+﻿@model ERP.Models.SaleInvoiceMaster
+@{
+    ViewBag.Title = "SalesmanSummaryForEmployees";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+<style type="text/css">
+    /*label {
+        font-weight: 100;
+        font-size: 12px;
+    }*/
+
+    /*.btn {
+        line-height: 0.25;
+        font-size: 12px;
+    }*/
+
+    .checkbox {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-off,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-on,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-label {
+        line-height: 1.2;
+    }
+
+    /*.modal-header {
+        padding: 5px;
+    }*/
+
+
+
+    /*.input-group-addon {
+        padding: 3px 8px;
+        /*color: #0084BF;
+    }*/
+
+
+
+    .table-Scroll {
+        max-height: 540px;
+        max-width: 100%;
+        overflow: auto;
+    }
+
+    td {
+        font-size: 12px;
+    }
+
+    th {
+        font-size: 12px;
+        font: bold;
+    }
+
+    .width50 {
+        width: 500px;
+    }
+
+    .width40 {
+        width: 400px;
+    }
+
+    .width15 {
+        width: 150px;
+    }
+
+    .width30 {
+        width: 300px;
+    }
+
+    .width20 {
+        width: 200px;
+    }
+
+    .width10 {
+        width: 100px;
+    }
+
+
+    .width5 {
+        width: 50px;
+    }
+
+    .Ghaib {
+        display: none;
+    }
+</style>
+
+<style>
+    .Top {
+        margin-top: 5px;
+    }
+
+    .Btn-width {
+        width: 110px;
+        font-family: Calibri;
+        font-size: large;
+        font-style: normal;
+    }
+
+    .table-head {
+        height: 10px;
+        line-height: 8px;
+    }
+
+    .btn-TopHeight {
+        margin-top: 23px;
+    }
+
+    .btn-ItemWidth {
+        width: 100px;
+        /*height: 32px;*/
+    }
+
+    fieldset {
+        margin-top: 20px
+    }
+
+    thead {
+        height: 32px
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <form name="EmployeeMaster" role="form" method="post">
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="form-group row Category">
+                            <label for="example-text-input" class="col-md-1 offset-2 col-form-label">Region</label>
+                            <div class="col-md-5 form-group row">
+                                @Html.DropDownListFor(M => M.RegionCode, (IEnumerable<SelectListItem>)ViewBag.RegionDDL as SelectList, "Please Select Region", new { @class = "form-control p-0 select2 m-b-10 select2-multiple", @placeholder = "choose", @multiple = "multiple", @name = "RegionCode", @id = "RegionCode", @onchange = "GetRegionEmpDDL()" })
+                                @*@Html.DropDownListFor(M => M.RegionCode, (IEnumerable<SelectListItem>)ViewBag.RegionDDL as SelectList, "Please Select Region", new { @class = "form-control p-0", @name = "RegionCode", @id = "RegionCode", @onchange = "GetRegionPartyDDL()" })*@
+                            </div>
+                            <div class="input-group col-md-1">
+                                <div class="checkbox checkbox-info">
+                                    <input type="checkbox" id="SelectRegion" name="SelectRegion" value="RegionAll" />
+                                    <label for="SelectRegion" style="padding-left:10px">All </label>
+                                </div>
+                            </div>
+
+                            <div class="input-group col-md-1">
+                                <div class="checkbox checkbox-info">
+                                    <input type="checkbox" id="CheckAll" name="CheckAll" value="CheckAll" onclick="AllCheck()" />
+                                    <label for="CheckAll" style="padding-left:10px">Check All</label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group col-md-12 row Category">
+                            <label for="example-text-input" class="col-md-1 offset-2 col-form-label">Saleman</label>
+                            <div class="col-md-5 form-group row">
+                                @*@Html.DropDownListFor(M => M.EmpCode, (IEnumerable<SelectListItem>)ViewBag.SalesmanDDL as SelectList, "Please Select Salesman", new { @class = "form-control p-0", @name = "EmpCode", @id = "EmpCode" })*@
+                                <select class="col-md-12" name="EmpCode" id="EmpCode"></select>
+                            </div>
+                            <div class="input-group col-md-2">
+                                <div class="checkbox checkbox-info">
+                                    <input type="checkbox" id="SelectEmp" name="SelectEmp" value="EmpAll" />
+                                    <label for="SelectEmp">Select All Salesman</label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <div class="form-group row">
+                            <label for="exampleInputuname" class="offset-md-2 col-md-1">From Date</label>
+                            <div class="input-group col-md-2">
+                                <input type="text" class="form-control Datepicker-AutoClose" id="FromDate" placeholder="dd/mm/yyyy" autocomplete="off">
+                            </div>
+                            <label for="exampleInputuname" class="col-md-1">To Date</label>
+                            <div class="input-group col-md-2">
+                                <input type="text" class="form-control Datepicker-AutoClose" id="ToDate" placeholder="dd/mm/yyyy" autocomplete="off">
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+                <!--Buttons For Actions-->
+                <div class="form-group row Top">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="input-group offset-md-3">
+                            @if (ERP.Models.CommonDAL.UserRights("11", "006"))
+                            {
+                                <input type="button" class="btn btn-success col-md-2" value="Print" onclick="CISReportInNewWin();" />
+                            }
+                            else
+                            {
+                                <input type="button" class="btn btn-success" value="Print" onclick="CISReportInNewWin();" disabled />
+                            }
+
+                            @*&nbsp;&nbsp;
+
+                            <input type="reset" class="btn btn-info" value="Clear" />
+                            &nbsp;&nbsp;
+                           
+                            <div class="input-group-addon"><a style="color:green" onclick="PrintSaleSummary();"><i class="fa fa-print"> Salesman Summary</i></a></div>*@
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--Modals-->
+<!--Scripts-->
+<script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+<script>
+    document.getElementById("PageHeader").innerHTML = "Salesman Summary";
+
+    document.getElementById("PageTitle").innerHTML = "Salesman Summary"
+
+   
+
+    //var str = "Add New Unit";
+    //var result = str.link("/CompanySetup/UnitSetup");
+    //document.getElementById("PageLink").innerHTML = result;
+
+    $(function () {
+        $("#RegionCode").chosen();
+        $("#EmpCode").chosen();
+    });
+
+    function GetRegionEmpDDL() {
+        var RegionCode = $("#RegionCode").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetMultiRegionEmp",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode }),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $('#EmpCode').empty().trigger("chosen:updated");
+
+                $('#EmpCode').append($('<option>', {
+                    value: "Select Any Value",
+                    text: "Select Any Value"
+                })).trigger("chosen:updated");
+
+                if (data.GetRegionEmp.length > 0) {
+                    $.each(data.GetRegionEmp, function (index, obj) {
+
+                        $('#EmpCode').append($('<option>', {
+                            value: obj.EmpCode,
+                            text: obj.EmpName
+                        })).trigger("chosen:updated");
+
+                    });
+                }
+            }
+        });
+
+    }
+
+
+
+</script>
+
+<script type="text/javascript">
+
+    function AllCheck() {
+
+        if ($('#CheckAll').is(":checked")) {
+
+            $("#SelectEmp").attr("checked", true);
+
+            $("#SelectRegion").attr("checked", true);
+          
+        }
+        else {
+
+            if ($('#SelectEmp').is(":checked")) {
+                $("#SelectEmp").removeAttr("checked", true);
+            }
+
+            if ($('#SelectRegion').is(":checked")) {
+                $("#SelectRegion").removeAttr("checked", true);
+            }
+
+        }
+
+
+    }
+
+    function UnCheckAll() {
+
+        if ($('#SelectEmp').is(":checked")) {
+            $("#SelectEmp").removeAttr("checked", true);
+        }
+
+        if ($('#SelectRegion').is(":checked")) {
+            $("#SelectRegion").removeAttr("checked", true);
+        }
+
+    }
+
+
+    // For Reporting
+    function SimpleInNewWin() {
+
+        window.open("../ReportWebForms/DetailWebForms/SalesmanSummary.aspx" , 'mywindow', 'fullscreen=yes, scrollbars=auto');
+    }
+    function CISReportInNewWin() {
+
+        var EmpCode = document.getElementById("EmpCode").value;
+        var fromdate = document.getElementById("FromDate").value;
+        var todate = document.getElementById("ToDate").value;
+
+        var RegionCode = $("#RegionCode").val();
+
+        if ($('#SelectEmp').is(":checked")) {
+            var EmpType = "AllEmp";
+        }
+        else {
+            var EmpType = null;
+        }
+
+        if ($('#SelectRegion').is(":checked")) {
+            var RegionType = "AllRegion";
+        }
+        else {
+            var RegionType = null;
+        }
+      
+        $.ajax({
+            url: '/Report/ShowSaleInvoiceDetail',
+
+            data: JSON.stringify({ FromDate: fromdate, ToDate: todate, EmpType: EmpType, EmpCode: EmpCode, RegionCode: RegionCode, RegionType: RegionType }),
+            type: 'POST',
+            contentType: 'application/json;',
+            dataType: 'json',
+            complete: function (data) {
+                SimpleInNewWin();
+            }
+        });
+
+
+    }
+
+
+     function PrintSaleSummary() {
+
+       
+        var EmpCode = document.getElementById("EmpCode").value;
+        var fromdate = document.getElementById("FromDate").value;
+        var todate = document.getElementById("ToDate").value;
+
+        var RegionCode = $("#RegionCode").val();
+
+        if ($('#SelectEmp').is(":checked")) {
+            var EmpType = "AllEmp";
+        }
+        else {
+            var EmpType = null;
+        }
+
+        if ($('#SelectRegion').is(":checked")) {
+            var RegionType = "AllRegion";
+        }
+        else {
+            var RegionType = null;
+        }
+
+
+         $.ajax({
+             url: '/Report/ShowSaleInvoiceDetail',
+
+             data: JSON.stringify({ FromDate: fromdate, ToDate: todate, EmpType: EmpType, EmpCode: EmpCode, RegionCode: RegionCode, RegionType: RegionType }),
+             type: 'POST',
+             contentType: 'application/json;',
+             dataType: 'json',
+             complete: function (data) {
+                 var baseurl = '@Url.Action("/PrintSaleSummary")';
+                 window.open(baseurl, '_blank');
+             }
+         });
+
+    }
+
+</script>
+

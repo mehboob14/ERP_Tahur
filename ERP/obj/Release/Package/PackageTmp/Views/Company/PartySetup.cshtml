@@ -1,0 +1,957 @@
+﻿@model ERP.Models.SaleParty
+
+@{
+    ViewBag.Title = "PartySetup";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<style type="text/css">
+    /*label {
+        font-weight: 100;
+        font-size: 12px;
+    }*/
+
+    /*.btn {
+        line-height: 0.25;
+        font-size: 12px;
+    }*/
+
+    .checkbox {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    
+    .Upper{
+        text-transform:uppercase;
+    }
+
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-off,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-on,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-label {
+        line-height: 1.2;
+    }
+
+    /*.modal-header {
+        padding: 5px;
+    }*/
+
+
+
+    /*.input-group-addon {
+        padding: 3px 8px;
+        /*color: #0084BF;
+    }*/
+
+
+
+    .table-Scroll {
+        max-height: 540px;
+        max-width: 100%;
+        overflow: auto;
+    }
+
+    td {
+        font-size: 12px;
+    }
+
+    th {
+        font-size: 12px;
+        font-style:normal;
+    }
+
+    .width50 {
+        width: 500px;
+    }
+
+    .width40 {
+        width: 400px;
+    }
+
+    .width15 {
+        width: 150px;
+    }
+
+    .width30 {
+        width: 300px;
+    }
+
+    .width20 {
+        width: 200px;
+    }
+
+    .width10 {
+        width: 100px;
+    }
+
+    .btnQuarter{
+        width:225px;
+    }
+</style>
+
+<style>
+    .Top {
+        margin-top: 5px;
+    }
+
+    .Btn-width {
+        width: 80px;
+    }
+
+    .table-head {
+        height: 10px;
+        line-height: 8px;
+    }
+
+    .btn-TopHeight {
+        margin-top: 23px;
+    }
+
+    .btn-ItemWidth {
+        width: 100px;
+        /*height: 32px;*/
+    }
+
+    fieldset {
+        margin-top: 20px
+    }
+
+    thead {
+        height: 32px
+    }
+</style>
+
+<div class="form-group">
+    <div class="col-md-12">
+        <div class="white-box">
+            <form role="form" action="/Company/PartySetup" method="post" name="PartySetup">
+                <div class="row">
+                    <div class="col-md-12">
+                        @if (TempData["SuccessMsg"] != null)
+                        {
+                            <div class="alert alert-success">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <b> @TempData["SuccessMsg"]</b>
+                            </div>
+                        }
+                        <div class="row col-md-12">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Party Code</label>
+                            <div class="col-md-1 input-group">
+                                @*<div class="input-group-addon"><a data-toggle="modal" data-target="#PartyModal" style="color:blue"><i class="fa fa-search"></i></a></div>*@
+                                <input class="form-control col-md-2" type="text" placeholder="Party Code" id="PartyCode" name="PartyCode" readonly>
+
+                                @*@Html.DropDownListFor(M => M.RegionCode, (IEnumerable<SelectListItem>)ViewBag.RegionDDL as SelectList, "Select Any Value", new { @class = "form-control p-0 col-md-4", @id = "UpdRegionCode", @onchange = "RemoveRO()" })*@
+                            </div>
+                            <div class="col-md-4 input-group">
+                                <select class="form-control col-md-8" id="UpdRegionCode" onchange="RemoveRO()">
+                                    <option>Select Region for update Party</option>
+                                    <option value="001">Lahore</option>
+                                    <option value="002">Islamabad</option>
+                                    <option value="003">Rawalpindi</option>
+                                    <option value="004">KPK</option>
+                                    <option value="005">AJA</option>
+                                    <option value="006">Multan</option>
+                                    <option value="007">GT-Road</option>
+                                    <option value="008">Faisalabad</option>
+                                    <option value="009">Sargodha</option>
+                                    <option value="010">Karachi</option>
+                                </select>
+                                <input type="hidden" value="@Session["UpdRegionCode"]" id="txtRegionCode" />
+                            </div>
+                            <div class="col-md-1 input-group">
+                                <input class="form-control" type="text" placeholder="dd/MM/yyyy" id="TransDate" value="@ViewBag.CurrentDate" readonly>
+                            </div>
+                            <a href="https://e.fbr.gov.pk/esbn/Verification#" class="btn btn-info" id="FBR" name="FBR">Verify NTN</a>
+
+                        </div>
+
+                        <div class="row Top col-md-12">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Region Code</label>
+                            <div class="col-md-6 input-group">
+                                @Html.DropDownListFor(M => M.RegionCode, (IEnumerable<SelectListItem>)ViewBag.RegionDDL as SelectList, "Select Any Value", new { @class = "form-control p-0", @name = "RegionCode", @id = "RegionCode", @onchange = "GetRegionPartyDDL()", @tabindex = "1" })
+                                <input type="hidden" id="HideRegionCode" value="@Session["RegionCode"]" />
+                            </div>
+
+                        </div>
+
+                        <div class="row Top col-md-12">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Main Party</label>
+                            <div class="col-md-1 input-group">
+                                <input type="text" id="ManualMPartyCode" name="ManualMPartyCode" class="form-control col-md-2" />
+                            </div>
+
+                            <div class="col-md-5 input-group">
+                                <select class="form-control col-md-4" name="MainPartyCode" id="MainPartyCode" onchange="GetPartyDetail()" tabindex="2"></select>
+                            </div>
+                            <div>
+                                <input type="button" class="btn btn-info" id="Merge" onclick="MergePartyModal()" value="Merge Party" />
+                            </div>
+                        </div>
+
+                        <div class="row Top col-md-12">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Brand Name</label>
+                            <div class="col-md-6 input-group">
+                                <input class="form-control" type="text" placeholder="Brand Name" id="PartyName" name="PartyName" data-error="Fill out this feild with maximum 30 char." maxlength="30" tabindex="3" required>
+                            </div>
+                        </div>
+
+                        <div class="row Top col-md-12">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Registered Name</label>
+                            <div class="col-md-6 input-group">
+                                <input class="form-control" type="text" placeholder="Registered Name" id="RegisteredName" name="PartyRegisterName" data-error="Fill out this feild with maximum 180 char." tabindex="4" maxlength="180" disabled>
+                            </div>
+                        </div>
+
+                        <div class="row Top col-md-12">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Address</label>
+                            <div class="col-md-6 input-group">
+                                <input class="form-control Upper" type="text" placeholder="Address" id="PartyAddress" name="PartyAddress" data-error="Fill out this feild with maximum 280 char." maxlength="280" tabindex="5" required>
+                            </div>
+                        </div>
+
+                        <div class="row Top col-md-12">
+                            <label for="example-text-input" class="col-md-2 col-form-label">CNIC #</label>
+                            <div class="col-md-6 input-group">
+                                <input class="form-control" type="text" data-mask="99999-9999999-9" placeholder="CNIC #" id="CNIC" name="CNIC" tabindex="6">
+                            </div>
+                        </div>
+
+                        <div class="row Top col-md-12">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Sales Tax Reg #</label>
+                            <div class="col-md-6 input-group">
+                                <input class="form-control" type="text" @*data-mask="99-99-9999-999-99"*@ placeholder="Sales Tax Reg #" id="SalesTaxNumber" name="SalesTaxNumber" tabindex="7" disabled>
+                            </div>
+                        </div>
+
+                        <div class="row Top col-md-12">
+                            <label for="example-text-input" class="col-md-2 col-form-label">NTN #</label>
+                            <div class="col-md-6 input-group">
+                                <input class="form-control" type="text" @*data-mask="9999999-9"*@ data-error="Fill out this feild" placeholder="NTN #" id="NTN" name="NTN" tabindex="8" disabled>
+                            </div>
+                        </div>
+
+                        <div class="row Top col-md-12">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Contact #</label>
+                            <div class="col-md-6 input-group">
+                                <input class="form-control" type="text" placeholder="Contact #" data-mask="0399-9999999" data-error="Fill out this feild" id="ContactNumber" name="ContactNumber" tabindex="9" required>
+                            </div>
+                        </div>
+
+                        <div class="row Top col-md-12">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Opening Balance</label>
+                            <div class="col-md-6 input-group">
+                                <input class="form-control" type="number" max="9999999999" placeholder="Opening Balance" id="Opening" name="Opening" tabindex="10" required>
+                            </div>
+                        </div>
+
+                        <div class="row col-md-12 Top">
+                            <div class="offset-md-2 col-md-4">
+                                <div class="form-group card card-outline-info">
+                                    <div class="row card-block">
+                                        <div class="checkbox checkbox-info input-group">
+                                            <div class="col-md-12 ">
+                                                <input id="Taxable" name="Taxable" type="checkbox" tabindex="11" checked>
+                                                <label for="Taxable"> Taxable </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="radio radio-info input-group">
+                                            <div class="col-md-6">
+                                                <input type="radio" name="radio" id="radioSTR" onclick="UnCheck()" value="Y" tabindex="12" required>
+                                                <label for="radioSTR"> S-Tax Registered </label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="radio" name="radio" id="radioSTNR" onclick="Check()" value="N" tabindex="13" required>
+                                                <label for="radioSTNR"> S-Tax Non-Registered </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="radio radio-info input-group">
+                                            <div class="col-md-6">
+                                                <input type="radio" name="Category" id="Corporate" value="CORPORATE" tabindex="14" required>
+                                                <label for="Corporate"> Corporate </label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="radio" name="Category" id="Retailer" value="Retailer" tabindex="15" required>
+                                                <label for="Retailer"> Retailer </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="radio radio-info input-group">
+                                            <div class="col-md-6">
+                                                <input type="radio" name="CashCredit" id="CashRadio" value="Cash" tabindex="16" required>
+                                                <label for="CashRadio"> Cash </label>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <input type="radio" name="CashCredit" id="CreditRadio" value="Credit" tabindex="17" required>
+                                                <label for="CreditRadio"> Credit </label>
+                                            </div>
+                                        </div>
+
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group card card-outline-success">
+                                    <div class="radio radio-info input-group">
+                                        <div class="col-md-12 mt-1">
+                                            <input type="radio" name="ThirdSch_Category" id="RA" value="Retailer_Active" tabindex="18" required>
+                                            <label for="RA"> Retailer Active </label>
+                                        </div>
+
+                                        <div class="col-md-12 mt-3">
+                                            <input type="radio" name="ThirdSch_Category" id="RI" value="Retailer_InActive" tabindex="19" required>
+                                            <label for="RI"> Retailer In-Active </label>
+                                        </div>
+
+                                        <div class="col-md-12 mt-3">
+                                            <input type="radio" name="ThirdSch_Category" id="DA" value="Distributer_Active" tabindex="20" required>
+                                            <label for="DA"> Distributer Active </label>
+                                        </div>
+
+                                        <div class="col-md-12 mt-3">
+                                            <input type="radio" name="ThirdSch_Category" id="DI" value="Distributer_InActive" tabindex="21" required>
+                                            <label for="DI"> Distributer In-Active </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="row col-md-12 Top">
+                            <div class="input-group offset-md-2">
+
+                                @if (ERP.Models.CommonDAL.UserRights("3", "002"))
+                                {
+                                    <input class="btn btn-info btnQuarter" type="submit" id="btnSave" value="Save" style="margin-left:10px" />
+                                }
+                                else
+                                {
+                                    <input class="btn btn-info btnQuarter" type="submit" id="btnSave" value="Save" style="margin-left:10px" disabled />
+                                }
+
+
+                                &nbsp;
+
+                                @if (ERP.Models.CommonDAL.UserRights("3", "004"))
+                                {
+                                    <input class="btn btn-danger btnQuarter" type="button" onclick="DeleteModal()" id="btnDelete" value="Delete" />
+                                }
+                                else
+                                {
+                                    <input class="btn btn-danger btnQuarter" type="button" onclick="DeleteModal()" id="btnDelete" value="Delete" disabled />
+                                }
+                                &nbsp;
+                                <input class="btn btn-default btnQuarter" type="reset" id="btnClear" value="Clear" />
+
+                            </div>
+                        </div>
+                    </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<!--PartyCode Modal-->
+<div class="modal fade" tabindex="-1" id="PartyModal" role="dialog" aria-labelledby="modal123Label" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <b>Party Detail</b>
+            </div>
+            <div class="col-md-12" style="margin-top:10px">
+                @Html.DropDownListFor(M => M.RegionCode, (IEnumerable<SelectListItem>)ViewBag.RegionDDL as SelectList, "Select Any Value", new { @class = "form-control p-0", @name = "RegionCode", @id = "RegionCode", @onchange = "", @tabindex = "1" })
+            </div>
+                <div class="modal-body">
+                <div class="form-group row">
+                    <div class="white-box table-Scroll">
+                        <table id="tblMainParty" class="table table-striped DataTable table-info">
+                            <thead>
+                                <tr>
+                                    <th class="width20">Party Code</th>
+                                    <th class="width50">Party Description</th>
+                                    <th class="width10">Trans Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (ViewBag.GetPartyList1 != null)
+                                {
+                                    foreach (var item in ViewBag.GetPartyList1)
+                                    {
+                                        <tr onclick="GetParty('@item.PartyCode','@item.PartyName','@item.PartyRegisterName','@item.MainPartyCode','@item.MainPartyDescription','@item.RegionCode','@item.RegionDescription','@item.PartyAddress','@item.SalesTaxNumber','@item.NTN','@item.ContactNumber','@item.Opening','@item.STaxReg','@item.Taxable','@item.PartyType','@item.UpdDate.ToString("dd/MM/yyyy")','@item.Category','@item.CNIC')">
+                                            <td>@item.PartyCode</td>
+                                            <td>@item.PartyName</td>
+                                            <td>@item.UpdDate.ToString("dd/MM/yyyy")</td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+
+
+
+<script>
+    document.getElementById("PageHeader").innerHTML = "Party Information";
+
+    $("#SearchAutoComplete").show("true");
+
+    //document.getElementById("PageLink").style.visibility = "hidden";
+    //var str = "Add New Unit";
+    //var result = str.link("/CompanySetup/UnitSetup");
+    //document.getElementById("PageLink").innerHTML = result;
+
+    $(document).ready(function () {
+        var HideRegionCode = $("#HideRegionCode").val();
+        $("#RegionCode").val(HideRegionCode);
+        GetRegionPartyDDL();
+
+        var txtRegionCode = $("#txtRegionCode").val();
+
+        $('#UpdRegionCode').val(txtRegionCode);
+        $('#UpdRegionCode').trigger("chosen:updated");
+        if (txtRegionCode !== "" || txtRegionCode !== null) {
+            RemoveRO();
+            $("#PartyCode").focus();
+
+        }
+
+    })
+
+    document.getElementById("PageTitle").innerHTML = "Party Setup";
+</script>
+
+<script type="text/javascript">
+
+
+    function RemoveRO() {
+        $("#PartyCode").removeAttr("readonly", true);
+        $("#PartyCode").focus();
+    }
+
+
+      function GetRegionPartyDDL() {
+        var RegionCode = $("#RegionCode").val();
+
+          if (RegionCode !== "001") {
+
+
+
+              $.ajax({
+                  type: "POST",
+                  url: "/Transaction/GetRegionPartyDDL",
+                  dataType: "json",
+                  contentType: 'application/json',
+                  data: JSON.stringify({ RegionCode: RegionCode }),
+                  contentType: "application/json; charset=utf-8",
+                  success: function (data) {
+
+                      $('#MainPartyCode').empty().trigger("chosen:updated");
+
+                      $('#MainPartyCode').append($('<option>', {
+                          value: "00000",
+                          text: "Select Any Value"
+                      })).trigger("chosen:updated");
+
+                      if (data.length > 0) {
+                          $.each(data, function (index, obj) {
+
+                              $('#MainPartyCode').append($('<option>', {
+                                  value: obj.PartyCode,
+                                  text: obj.PartyCode + "  ==>  " + obj.PartyName
+                              })).trigger("chosen:updated");
+
+                          });
+                      }
+                  }
+              });
+          }
+          else {
+              $('#MainPartyCode').empty().trigger("chosen:updated");
+          }
+    }
+
+
+
+    function GetPartyDetail() {
+        var PartyCode = $("#MainPartyCode").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/DDLPartyDetail",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ PartyCode: PartyCode }),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data != null) {
+
+                    document.getElementById("RegisteredName").value = data.PartyRegisterName;
+                    document.getElementById("SalesTaxNumber").value = data.SalesTaxNumber;
+                    document.getElementById("NTN").value = data.NTN;
+                    document.getElementById("Opening").value = data.Opening;
+                   
+                    if (data.STaxReg == "N") {
+                        $("#radioSTNR").attr('checked', true);
+                    } else {
+                        $("#radioSTR").attr('checked', true);
+                    }
+
+                    $("#SalesTaxNumber").attr('disabled', false);
+                    $("#NTN").attr('disabled', false);
+                    $("#RegisteredName").attr('disabled', false);
+
+                    if (data.Taxable == "Y") {
+                        $("#Taxable").attr('checked', true);
+                    }
+
+                    if (data.PartyType.trim() == "Cash") {
+                        $("#CashRadio").attr('checked', true);
+                    } else {
+                        $("#CreditRadio").attr('checked', true);
+
+                    }
+
+                    if (data.Category.trim() == "CORPORATE") {
+                        $("#Corporate").attr('checked', true);
+                    } else {
+                        $("#Retailer").attr('checked', true);
+
+                    }
+
+                }
+
+            }
+        })
+
+    }
+
+
+    function UnCheck() {
+        $("#NTN").removeAttr("disabled", true);
+        $("#SalesTaxNumber").removeAttr("disabled", true);
+        $("#RegisteredName").removeAttr("disabled", true);
+
+        $("#NTN").prop("required", true);
+        $("#SalesTaxNumber").prop("required", true);
+        $("#RegisteredName").prop("required", true);
+    }
+
+    $(document).on('keypress', function (e) {
+        if (e.which == 13) {
+            $("#btnSave").click();
+        }
+    });
+
+
+
+
+    $(function () {
+        $("#RegionCode").chosen();
+        $("#MainPartyCode").chosen();
+        $("#UpdRegionCode").chosen();
+    });
+
+
+     function Check(){
+    $("#NTN").attr("disabled",true);
+         $("#SalesTaxNumber").attr("disabled", true);
+         $("#RegisteredName").attr("disabled", true);
+
+         $("#NTN").prop("required", false);
+         $("#SalesTaxNumber").prop("required", false);
+         $("#RegisteredName").prop("required", false);
+
+    }
+
+    function GetRegion(RegionCode, RegionDescription) {
+        document.getElementById('RegionCode').value = RegionCode;
+        document.getElementById('RegionDescription').value = RegionDescription;
+
+        $('#RegionModal').modal('hide');
+    }
+
+    function GetMainParty(MainPartyCode, PartyName,SalesTaxNumber,NTN,Opening) {
+        document.getElementById("MainPartyCode").value = MainPartyCode;
+        document.getElementById("MainPartyDescription").value = PartyName;
+        document.getElementById("SalesTaxNumber").value = SalesTaxNumber;
+        document.getElementById("NTN").value = NTN;
+        document.getElementById("Opening").value = Opening;
+
+        $("#NTN").prop("disabled", true);
+        $("#SalesTaxNumber").prop("disabled", true);
+        $("#RegisteredName").prop("disabled", true);
+        $("#Opening").prop("disabled", true);
+
+        $("#MainPartyModal").modal('hide');
+    }
+
+    function GetParty(PartyCode, PartyName,PartyRegisterName, MainPartyCode,MainPartyDescription,RegionCode,RegionDescription,PartyAddress,SalesTaxNumber,NTN,ContactNumber,Opening,STaxReg,Taxable,PartyType,UpdDate , Category,CNIC) {
+
+        document.getElementById('PartyCode').value = PartyCode;
+        document.getElementById('PartyName').value = PartyName;
+        document.getElementById('RegisteredName').value = PartyRegisterName;
+        //document.getElementById('MainPartyCode').value = MainPartyCode;
+
+        $('#MainPartyCode').val(MainPartyCode);
+        $('#MainPartyCode').trigger("chosen:updated");
+
+        //document.getElementById('MainPartyDescription').value = MainPartyDescription;
+        //document.getElementById('RegionCode').value = RegionCode;
+
+        $('#RegionCode').val(RegionCode);
+        $('#RegionCode').trigger("chosen:updated");
+
+        //document.getElementById('RegionDescription').value = RegionDescription;
+        document.getElementById('PartyAddress').value = PartyAddress;
+        document.getElementById('SalesTaxNumber').value = SalesTaxNumber;
+        document.getElementById('NTN').value = NTN;
+        document.getElementById('ContactNumber').value = ContactNumber;
+        document.getElementById('Opening').value = Opening;
+        document.getElementById('TransDate').value = UpdDate;
+        document.getElementById('CNIC').value = CNIC;
+
+        if (STaxReg == "N") {
+            $("#radioSTNR").attr('checked', true);
+            $("#SalesTaxNumber").attr('disabled', true);
+            $("#NTN").attr('disabled', true);
+            $("#RegisteredName").attr('disabled', true);
+            //document.getElementById('radioSTNR').checked = true;
+        } else {
+            //document.getElementById('radioSTR').checked = true;
+            $("#SalesTaxNumber").attr('disabled', false);
+            $("#NTN").attr('disabled', false);
+            $("#RegisteredName").attr('disabled', false);
+            $("#radioSTR").attr('checked',true);
+        }
+
+        if (Taxable == "Y") {
+            $("#Taxable").attr('checked',true);
+        } 
+
+        if (PartyType.trim() == "Cash") {
+            $("#CashRadio").attr('checked', true);
+        } else {
+            $("#CreditRadio").attr('checked', true);
+           
+        }
+
+        if (Category.trim() == "CORPORATE") {
+            $("#Corporate").attr('checked', true);
+        } else {
+            $("#Retailer").attr('checked', true);
+
+        }
+        
+
+        $('#PartyModal').modal('hide');
+    }
+
+    $(document).keydown(function (e) {
+        if (e.ctrlKey && (e.which == 85 )) {
+            e.preventDefault();
+
+            var RegionCode = $("#UpdRegionCode").val();
+            var PartyCode = $("#PartyCode").val();
+            
+            UpdParty(RegionCode, PartyCode);
+        }
+    })
+
+
+    $(document).keydown(function (e) {
+        if (e.ctrlKey && (e.which == 80)) {
+            e.preventDefault();
+
+            GeSinglePartyDDL();
+        }
+    })
+
+
+    function GeSinglePartyDDL() {
+        var RegionCode = $("#RegionCode").val();
+        var ManualPartyCode = $("#ManualMPartyCode").val();
+         
+        $.ajax({
+            type: "POST",
+            url: "/Company/SinglePartyDDL",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode , PartyCode: ManualPartyCode}),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $('#MainPartyCode').empty().trigger("chosen:updated");
+
+                if (data !== null) {
+                   
+
+                        $('#MainPartyCode').append($('<option>', {
+                            value: data.PartyCode,
+                            text: data.PartyName
+                        })).trigger("chosen:updated");
+
+                  
+                }
+            }
+        });
+       
+    }
+
+
+
+    function UpdParty(RegionCode,PartyCode) {
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Company/UpdParty",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode, PartyCode: PartyCode }),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                if (data.Party.PartyCode !== null) {
+
+
+                    document.getElementById('PartyCode').value = data.Party.PartyCode;
+                    document.getElementById('PartyName').value = data.Party.PartyName;
+                    document.getElementById('RegisteredName').value = data.Party.PartyRegisterName;
+                    //document.getElementById('MainPartyCode').value = MainPartyCode;
+
+                    $('#RegionCode').val(data.Party.RegionCode);
+                    $('#RegionCode').trigger("chosen:updated");
+
+                   
+
+                   
+
+                    //document.getElementById('MainPartyDescription').value = MainPartyDescription;
+                    //document.getElementById('RegionCode').value = RegionCode;
+
+                   
+
+                    //document.getElementById('RegionDescription').value = RegionDescription;
+                    document.getElementById('PartyAddress').value = data.Party.PartyAddress;
+                    document.getElementById('SalesTaxNumber').value = data.Party.SalesTaxNumber;
+                    document.getElementById('NTN').value = data.Party.NTN;
+                    document.getElementById('ContactNumber').value = data.Party.ContactNumber;
+                    document.getElementById('Opening').value = data.Party.Opening;
+                    //document.getElementById('TransDate').value = data.UpdDate;
+                    document.getElementById('CNIC').value = data.Party.CNIC;
+
+                    if (data.Party.STaxReg == "N") {
+                        $("#radioSTNR").attr('checked', true);
+                        $("#SalesTaxNumber").attr('disabled', true);
+                        $("#NTN").attr('disabled', true);
+                        $("#RegisteredName").attr('disabled', true);
+                        //document.getElementById('radioSTNR').checked = true;
+                    } else {
+                        //document.getElementById('radioSTR').checked = true;
+                        $("#SalesTaxNumber").attr('disabled', false);
+                        $("#NTN").attr('disabled', false);
+                        $("#RegisteredName").attr('disabled', false);
+                        $("#radioSTR").attr('checked', true);
+                    }
+
+                    if (data.Party.Taxable == "Y") {
+                        $("#Taxable").attr('checked', true);
+                    }
+                    else
+                    {
+                        $("#Taxable").removeAttr('checked', true);
+                    }
+                    if (data.Party.PartyType.trim() == "Cash") {
+                        $("#CashRadio").attr('checked', true);
+                    } else {
+                        $("#CreditRadio").attr('checked', true);
+
+                    }
+
+                    if (data.Party.Category.trim() == "CORPORATE") {
+                        $("#Corporate").attr('checked', true);
+                    } else {
+                        $("#Retailer").attr('checked', true);
+
+                    }
+
+
+                    if (data.Party.ThirdSch_Category == "Retailer_Active")
+                    {
+                        $("#RA").attr('checked', true);
+                    }
+                    else if (data.Party.ThirdSch_Category == "Retailer_InActive")
+                    {
+                        $("#RI").attr('checked', true);
+                    } else if (data.Party.ThirdSch_Category == "Distributer_Active") {
+                        $("#DA").attr('checked', true);
+                    } else if (data.Party.ThirdSch_Category == "Distributer_InActive") {
+                        $("#DI").attr('checked', true);
+                    } else {
+                        $("#RI").attr('checked', true);
+                    }
+
+                    $('#MainPartyCode').empty().trigger("chosen:updated");
+
+                    $('#MainPartyCode').append($('<option>', {
+                        value: data.Party.MainPartyCode,
+                        text: data.Party.MainPartyDescription
+                    })).trigger("chosen:updated");
+
+                }
+                else if (data.Party.PartyCode == null && data.NotFound == "NotFound") {
+                    swal("Party Not Found", "There is no Party Against this PartyCode . . . !", "error");
+                }
+                else {
+                    swal("Limited Rights", "You have no rights to update party, Contact to Admin . . . !", "error");
+                }
+                
+                
+
+
+            }
+        });
+
+    }
+
+    //Warning Message
+    function DeleteModal() {
+        var RegionCode = $('#RegionCode').val();
+        var PartyCode = $('#PartyCode').val();
+        var Url = "/Company/DeleteParty";
+
+        if (PartyCode == null || PartyCode == "") {
+            alert("Party Code Cannot be empty . . . !");
+        } else {
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this record . . . !",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it...!",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    type: "POST",
+                    url: Url,
+                    dataType: "json",
+                    contentType: 'application/json',
+                    data: JSON.stringify({RegionCode:RegionCode, PartyCode: PartyCode }),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                       if (data == true) {
+                            swal({
+                                title: "Deleted!",
+                                text: "Your record has been deleted.",
+                                type: "success"
+                            }, function () {
+                                location.reload();
+                            });
+                        }
+                        else {
+                            swal({
+                                title: "Not Deleted!",
+                                text: "Something went wrong, Record not deleted . . . !",
+                                type: "warning"
+                            }, function () {
+                                location.reload();
+                            });
+                        }
+
+
+                    }
+                });
+            })
+        }
+
+    }
+
+
+
+    function MergePartyModal() {
+        var PartyCode = $('#PartyCode').val();
+        var RegionCode = $('#RegionCode').val();
+        var MainPartyCode = $('#ManualMPartyCode').val();
+        var PartyName = $('#PartyName').val();
+        var MainPartyName = $('#MainPartyCode').text();
+        var Url = "/Company/MergeParty";
+
+        if (RegionCode == null || RegionCode == "") {
+            alert("Region Code Cannot be empty . . . !");
+        } else if (PartyCode == null || PartyCode == "") {
+            alert("Party Code Cannot be empty . . . !");
+        } else if (MainPartyCode == null || MainPartyCode == "") {
+            alert("Main Party Code Cannot be empty . . . !");
+        }
+        else {
+            swal({
+                title: PartyCode + " Going to Merge in " + MainPartyCode,
+                text: "Are you sure to Merge... !", 
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, Merge it...!",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    type: "POST",
+                    url: Url,
+                    dataType: "json",
+                    contentType: 'application/json',
+                    data: JSON.stringify({ RegionCode: RegionCode, PartyCode: PartyCode, MainPartyCode: MainPartyCode }),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data == true) {
+                            swal({
+                                title: "Merged Successfully!",
+                                text: "Your record has been Merged Successfully.",
+                                type: "success"
+                            }, function () {
+                                //location.reload();
+                            });
+                        }
+                        else {
+                            swal({
+                                title: "Not Merge!",
+                                text: "Something went wrong, Record not Merge . . . !",
+                                type: "warning"
+                            }, function () {
+                                //location.reload();
+                            });
+                        }
+
+
+                    }
+                });
+            })
+        }
+
+    }
+
+
+</script>

@@ -1,0 +1,473 @@
+﻿@model ERP.Models.Recovery
+@{
+    ViewBag.Title = "PDC";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<style>
+
+    tr.duplicate td {
+        color: red;
+    }
+
+    .White {
+        color: white;
+    }
+
+    .Black {
+        color: black;
+    }
+
+    .width50 {
+        width: 500px;
+    }
+
+    .width40 {
+        width: 400px;
+    }
+
+    .width15 {
+        width: 150px;
+    }
+
+    .width30 {
+        width: 300px;
+    }
+
+    .width20 {
+        width: 200px;
+    }
+
+    .width10 {
+        width: 100px;
+    }
+
+    .width5 {
+        width: 50px;
+    }
+
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <form action="/Transaction/RecoveryAgainstSale" method="post" id="RecoveryAgainstSale" name="RecoveryAgainstSale">
+            <div class="white-box">
+                @if (TempData["SuccessMsg"] != null)
+                {
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <b> @TempData["SuccessMsg"]</b>
+                    </div>
+                }
+
+
+
+                    <div class="row">
+                        @*<label for="example-text-input" class="col-md-1 col-form-label">Region Code</label>
+        <div class="col-md-3 input-group">
+            @Html.DropDownListFor(M => M.RegionCode, (IEnumerable<SelectListItem>)ViewBag.RegionDDL as SelectList, "Please Select Region", new { @class = "form-control p-0", @name = "RegionCode", @id = "RegionCode" })
+        </div>*@
+
+                        <label for="example-text-input" class="col-md-2 col-form-label" style="margin-left:30px">Recovery Date</label>
+                        <div class="col-md-2 input-group">
+                            <input class="form-control Datepicker-AutoCloseAdmin" type="text" placeholder="dd/mm/yyyy" id="CheqDate" autocomplete="off" data-mask="99/99/9999" name="CheqDate" value="@Session["PDCFDate"]" readonly>
+                        </div>
+                        <input class="btn btn-info Btn-width" type="button" value="Get Data" onclick="loadPageData()" style="margin-left:5px" />
+                        <input class="btn btn-info Btn-width" type="button" value="Get Pending" onclick="loadPendingPageData()" style="margin-left:5px" />
+                        <p id="demo" style="display:none"></p>
+                    </div>
+
+                <div class="col-sm-12">
+                    <div class="white-box">
+                        <input type="hidden" id="XPos" value="0" />
+                        <div style="height:600px;overflow-y:scroll" onscroll="MyFunc()" id="myDIV">
+                            <table id="tblItem" class="table-striped table-bordered" style="overflow-x:scroll">
+                                <thead class="bg-info">
+                                    <tr>
+                                        <th class="White width20">Vouch No</th>
+                                        <th class="White width10">Cheq No</th>
+                                        <th class="White width10">Rec/Cheq</th>
+                                        @*<th class="White width10">Rec No</th>
+        <th class="White width10">Rec Date</th>*@
+                                        <th class="White width50">Party</th>
+                                        <th class="White width10">Amount</th>
+                                        <th class="White width20">Bank/Other/Date</th>
+                                        @*<th class="White width20">Clear/Bounce</th>
+        <th class="White width20">Clear Date</th>*@
+                                        <th class="White width10">Action</th>
+                                        <th class="White width10">Print</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+<script>
+
+    function MyFunc() {
+        const element = document.getElementById("myDIV");
+        let x = element.scrollLeft;
+        let y = element.scrollTop;
+        document.getElementById("demo").innerHTML = "Horizontally: " + x.toFixed() + "<br>Vertically: " + y.toFixed();
+        $("#XPos").val(y);
+    }
+
+    document.getElementById("PageHeader").innerHTML = "PDC";
+
+    document.getElementById("PageTitle").innerHTML = "PDC";
+
+    $(function () {
+        $("#RegionCode").chosen();
+        var Cheq = $("#CheqDate").val();
+        $("#CheqDate").val(formatDate(Cheq));
+    });
+
+    function loadPageData() {
+
+        $('#tblItem tbody tr').remove();
+        
+        $('#tblItem tbody').append('<tr><td colspan="6" style="text-align:center"><img src="/Content/spinner.gif" height="50" width="50" /></td></tr>');
+
+        var RegionCode = $("#RegionCode").val();
+        var CheqDate = $("#CheqDate").val();
+
+        $.ajax({
+            url: "/Transaction/GetRecoveryPDCData",
+            method: 'post',
+            dataType: "json",
+            data: { RegionCode: RegionCode, CheqDate: CheqDate },
+            async: false,
+            success: function (data) {
+
+                $('#tblItem tbody tr').remove();
+
+                if (data != null) {
+
+                    if (data.NewList.length > 0) {
+
+                        $('#tblItem tbody tr').remove();
+
+                        $(data.NewList).each(function (index, obj) {
+
+                            if (obj.PartyDesc != null && obj.RecAmount != null) {
+
+                                if (obj.AccountCode != null) {
+                                    var Dt = obj.ClearanceDate.split(" ");
+                                    var ODate = Dt[0];
+                                    $("table#tblItem").append('<tr><td>' + obj.VoucherNo +
+                                        '</td><td><h5><b>' + obj.CheqNo +
+                                        '</b></h5></td><td><h5><b>' + obj.RecoveryDate + '  ' + obj.CheqDate +
+                                        '</b></h5></td><td style="display:none">' + obj.RecoveryNo +
+                                        '</td><td style="display:none">' + obj.RecoveryDate +
+                                        '</td><td><h5><b>' + obj.RegionCode + " -- " + obj.PartyDesc + " --- " + obj.Remarks +
+                                        '</b></h5></td><td><h4><b>' + numberWithCommas(obj.RecAmount.toFixed(2)) +
+                                        //'</td><td><div><select class="BL form-control"><option value="' + obj.AccountCode + '">' + obj.AccountName + '</option></select></div><div><select class="BC form-control"><option value="' + obj.ClearOrBounce + '">' + obj.ClearOrBounce + '</option></div><input type="text" id="CleareDate" name="CleareDate" Value="' + ODate + '" readonly /></td><td class="DeleteItem"><input class="btn btn-warning" type="button" value="Refresh"/></td><td><a class="nav-link" target="_blank" href="http://103.217.179.20:2021/Report/ExpRecoveryAllReport?Rec_RefNo=' + obj.VoucherNo + '"><span class="btn btn-success" aria-hidden="true">Print</span></a></td>');
+
+                                        //'</td><td><div><select class="BL form-control"><option value="' + obj.AccountCode + '">' + obj.AccountName + '</option></select></div><div><select class="BC form-control"><option value="' + obj.ClearOrBounce + '">' + obj.ClearOrBounce + '</option></div><input type="text" id="CleareDate" name="CleareDate" Value="' + ODate + '" readonly /></td><td class="DeleteItem"><input class="btn btn-warning" type="button" value="Refresh"/></td><td><a class="nav-link" target="_blank" href="http://localhost:49341/Report/ExpRecoveryAllReport?Rec_RefNo=' + obj.VoucherNo + '"><span class="btn btn-success" aria-hidden="true">Print</span></a></td>');
+
+                                        '</b></h4></td><td><div><select class="BL form-control"><option value="' + obj.AccountCode + '">' + obj.AccountName + '</option></select></div><div><select class="BC form-control"><option value="' + obj.ClearOrBounce + '">' + obj.ClearOrBounce + '</option></div><input type="text" id="CleareDate" name="CleareDate" Value="' + ODate + '" readonly /></td><td class="DeleteItem"><input class="btn btn-warning" type="button" value="Refresh"/></td><td class="PrintItem"><span class="btn btn-success" aria-hidden="true">Print</span></td>');
+
+                                    //'</td><td><div><select class="BL form-control"><option value="' + obj.AccountCode + '">' + obj.AccountName + '</option></select></div></td><td><div><select class="BC form-control"><option value="' + obj.ClearOrBounce + '">' + obj.ClearOrBounce + '</option></div></td><td><input type="text" id="CleareDate" name="CleareDate" Value="' + ODate + '" readonly /></td><td class="DeleteItem"><input class="btn btn-warning" type="button" value="Refresh"/></td><td><a class="nav-link" target="_blank" href="http://localhost:49341/Report/ExpRecoveryAllReport?Rec_RefNo=' + obj.VoucherNo + '"><span class="oi oi-print btn-success" aria-hidden="true"></span></a></td>');
+
+
+                                } else {
+
+                                    $("table#tblItem").append('<tr class="roww"><td>' + obj.VoucherNo +
+                                        '</td><td><h5><b>' + obj.CheqNo +
+                                        '</b></h5></td><td><h5><b>' + obj.RecoveryDate + '  ' + obj.CheqDate +
+                                        '</b></h5></td><td style="display:none">' + obj.RecoveryNo +
+                                        '</td><td style="display:none">' + obj.RecoveryDate +
+                                        '</td><td><h5><b>' + obj.RegionCode + " -- " + obj.PartyDesc + " --- " + obj.Remarks +
+                                        '</b></h5></td><td><h4><b>' + numberWithCommas(obj.RecAmount.toFixed(2)) +
+                                        '</b></h4></td><td><div><select class="BL form-control"><option>select any value</option></select></div><div><select class="BC form-control"><option value="Pending">Pending</option><option value="Clear">Clear</option><option value="Bounce">Bounce</option></select></div><input type="date" id="CleareDate" name="CleareDate" /></td><td class="SaveItem"><input class="btn btn-info" type="button" value="Save"/></td>');
+
+                                    //'</td><td><div><select class="BL form-control"></select></div></td><td><div><select class="BC form-control"><option value="Pending">Pending</option><option value="Clear">Clear</option><option value="Bounce">Bounce</option></select></div></td><td><input type="date" id="CleareDate" name="CleareDate" /></td><td class="SaveItem"><input class="btn btn-info" type="button" value="Save"/></td>');
+
+                                    //$.ajax({
+                                    //    type: "POST",
+                                    //    url: "/Transaction/GetBankListDDL",
+                                    //    dataType: "json",
+                                    //    contentType: 'application/json',
+                                    //    data: JSON.stringify({}),
+                                    //    contentType: "application/json; charset=utf-8",
+                                    //    async: false,
+                                    //    success: function (data) {
+
+                                    //        if (data.BDDL.length > 0) {
+                                    //            $('.BL').empty().trigger('change');
+
+                                    //            $('.BL').append($('<option>', {
+                                    //                value: '',
+                                    //                text: "Select Any Value"
+                                    //            }));
+
+                                    //            $.each(data.BDDL, function (index, obj) {
+                                    //                $('.BL').append($('<option>', {
+                                    //                    value: obj.Code,
+                                    //                    text: obj.Name
+                                    //                }));
+                                    //            });
+                                    //        }
+                                    //    }
+                                    //});
+                                }
+
+                                //$(".BL").chosen();
+                                $(".BC").chosen();
+
+                            }
+                        });
+                        //setTimeout(1000);
+                        //let XPos = $("#XPos").val();
+                        //$("#myDIV").scrollTop(parseInt(XPos));
+                    }
+                }
+            },
+            error: function (err) {
+                alert(err);
+            }
+        });
+    }
+
+    function loadPendingPageData() {
+
+        $('#tblItem tbody tr').remove();
+
+        $('#tblItem tbody').append('<tr><td colspan="6" style="text-align:center"><img src="/Content/spinner.gif" height="50" width="50" /></td></tr>');
+
+        $.ajax({
+            url: "/Transaction/GetPendingPDCData",
+            method: 'post',
+            dataType: "json",
+            data: {},
+            async: false,
+            success: function (data) {
+
+                $('#tblItem tbody tr').remove();
+
+                if (data != null) {
+
+                    if (data.NewList.length > 0) {
+
+                        $('#tblItem tbody tr').remove();
+
+                        $(data.NewList).each(function (index, obj) {
+
+                            if (obj.AccountCode != null) {
+                                var Dt = obj.ClearanceDate.split(" ");
+                                var ODate = Dt[0];
+                                $("table#tblItem").append('<tr><td>' + obj.VoucherNo +
+                                    '</td><td><h5><b>' + obj.CheqNo +
+                                    '</b></h5></td><td><h5><b>' + obj.RecoveryDate + '  ' + obj.CheqDate +
+                                    '</b></h5></td><td style="display:none">' + obj.RecoveryNo +
+                                    '</td><td style="display:none">' + obj.RecoveryDate +
+                                    '</td><td><h5><b>' + obj.RegionCode + " -- "  + obj.PartyDesc + " --- " + obj.Remarks +
+                                    '</b></h5></td><td><h4><b>' + numberWithCommas(obj.RecAmount.toFixed()) +
+                                    //'</td><td><div><select class="BL form-control"><option value="' + obj.AccountCode + '">' + obj.AccountName + '</option></select></div><div><select class="BC form-control"><option value="' + obj.ClearOrBounce + '">' + obj.ClearOrBounce + '</option></div><input type="text" id="CleareDate" name="CleareDate" Value="' + ODate + '" readonly /></td><td class="DeleteItem"><input class="btn btn-warning" type="button" value="Refresh"/></td><td><a class="nav-link" target="_blank" href="http://103.217.179.20:2021/Report/ExpRecoveryAllReport?Rec_RefNo=' + obj.VoucherNo + '"><span class="btn btn-success" aria-hidden="true">Print</span></a></td>');
+
+                                    //'</td><td><div><select class="BL form-control"><option value="' + obj.AccountCode + '">' + obj.AccountName + '</option></select></div><div><select class="BC form-control"><option value="' + obj.ClearOrBounce + '">' + obj.ClearOrBounce + '</option></div><input type="text" id="CleareDate" name="CleareDate" Value="' + ODate + '" readonly /></td><td class="DeleteItem"><input class="btn btn-warning" type="button" value="Refresh"/></td><td><a class="nav-link" target="_blank" href="http://localhost:49341/Report/ExpRecoveryAllReport?Rec_RefNo=' + obj.VoucherNo + '"><span class="btn btn-success" aria-hidden="true">Print</span></a></td>');
+
+                                    '</b></h4></td><td><div><select class="BL form-control"><option value="' + obj.AccountCode + '">' + obj.AccountName + '</option></select></div><div><select class="BC form-control"><option value="' + obj.ClearOrBounce + '">' + obj.ClearOrBounce + '</option></div><input type="text" id="CleareDate" name="CleareDate" Value="' + ODate + '" readonly /></td><td class="DeleteItem"><input class="btn btn-warning" type="button" value="Refresh"/></td><td class="PrintItem"><span class="btn btn-success" aria-hidden="true">Print</span></td>');
+
+                                //'</td><td><div><select class="BL form-control"><option value="' + obj.AccountCode + '">' + obj.AccountName + '</option></select></div></td><td><div><select class="BC form-control"><option value="' + obj.ClearOrBounce + '">' + obj.ClearOrBounce + '</option></div></td><td><input type="text" id="CleareDate" name="CleareDate" Value="' + ODate + '" readonly /></td><td class="DeleteItem"><input class="btn btn-warning" type="button" value="Refresh"/></td><td><a class="nav-link" target="_blank" href="http://localhost:49341/Report/ExpRecoveryAllReport?Rec_RefNo=' + obj.VoucherNo + '"><span class="oi oi-print btn-success" aria-hidden="true"></span></a></td>');
+
+
+                            } else {
+
+                                $("table#tblItem").append('<tr class="roww"><td>' + obj.VoucherNo +
+                                    '</td><td><h5><b>' + obj.CheqNo +
+                                    '</b></h5></td><td><h5><b>' + obj.RecoveryDate + '  ' + obj.CheqDate +
+                                    '</b></h5></td><td style="display:none">' + obj.RecoveryNo +
+                                    '</td><td style="display:none">' + obj.RecoveryDate +
+                                    '</td><td><h5><b>' + obj.RegionCode + " -- " + obj.PartyDesc + " --- " + obj.Remarks +
+                                    '</b></h5></td><td><h4><b>' + numberWithCommas(obj.RecAmount.toFixed()) +
+                                    '</b></h4></td><td><div><select class="BL form-control"><option>select any value</option></select></div><div><select class="BC form-control"><option value="Pending">Pending</option><option value="Clear">Clear</option><option value="Bounce">Bounce</option></select></div><input type="date" id="CleareDate" name="CleareDate" /></td><td class="SaveItem"><input class="btn btn-info" type="button" value="Save"/></td>');
+
+                                //'</td><td><div><select class="BL form-control"></select></div></td><td><div><select class="BC form-control"><option value="Pending">Pending</option><option value="Clear">Clear</option><option value="Bounce">Bounce</option></select></div></td><td><input type="date" id="CleareDate" name="CleareDate" /></td><td class="SaveItem"><input class="btn btn-info" type="button" value="Save"/></td>');
+
+                                //$.ajax({
+                                //    type: "POST",
+                                //    url: "/Transaction/GetBankListDDL",
+                                //    dataType: "json",
+                                //    contentType: 'application/json',
+                                //    data: JSON.stringify({}),
+                                //    contentType: "application/json; charset=utf-8",
+                                //    async: false,
+                                //    success: function (data) {
+
+                                //        if (data.BDDL.length > 0) {
+                                //            $('.BL').empty().trigger('change');
+
+                                //            $('.BL').append($('<option>', {
+                                //                value: '',
+                                //                text: "Select Any Value"
+                                //            }));
+
+                                //            $.each(data.BDDL, function (index, obj) {
+                                //                $('.BL').append($('<option>', {
+                                //                    value: obj.Code,
+                                //                    text: obj.Name
+                                //                }));
+                                //            });
+                                //        }
+                                //    }
+                                //});
+                            }
+
+                            //$(".BL").chosen();
+                            $(".BC").chosen();
+
+                        });
+                    }
+                }
+            },
+            error: function (err) {
+                alert(err);
+            }
+        });
+    }
+
+    $("table#tblItem").on('click', '.SaveItem', function () {
+
+        $('#tblItem tbody tr').remove();
+
+        $('#tblItem tbody').append('<tr><td colspan="6" style="text-align:center"><img src="/Content/spinner.gif" height="50" width="50" /></td></tr>');
+
+        
+        
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+
+        let XPos = $("#XPos").val();
+        var AccountCode = rIndex.find(".BL option:selected").val();
+        var ClearOrBounce = rIndex.find(".BC option:selected").val();
+
+        var CheqNo = rIndex.find('td:eq(1)').text().replace(/\s+/g, "");
+        var RecoveryNo = rIndex.find('td:eq(2)').text().replace(/\s+/g, "");
+        var RecoveryDate = rIndex.find('td:eq(3)').text().replace(/\s+/g, "");
+        var ClearanceDate = rIndex.find("input[name='CleareDate']").val();
+
+        if (AccountCode === "") {
+            alert('Bank cannot be Empty');
+            rIndex.addClass('duplicate')
+        }
+        else if (ClearOrBounce === "Pending") {
+            alert('Clear or Bounce cannot be Empty');
+            rIndex.addClass('duplicate')
+        }
+        else if (ClearanceDate === '') {
+            alert('Clearance Date cannot be Empty');
+            rIndex.addClass('duplicate')
+        }
+        else {
+
+            rIndex.removeClass('duplicate');
+
+            $.ajax({
+                type: "POST",
+                url: "/Transaction/GetPDCDetail",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({ CheqNo: CheqNo, RecoveryNo: RecoveryNo, RecoveryDate: RecoveryDate, AccountCode: AccountCode, ClearOrBounce: ClearOrBounce, ClearanceDate: ClearanceDate }),
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                success: function (data) {
+                    loadPageData();
+
+                }
+            });
+            setTimeout(1000);
+            var YPos = parseInt(XPos);
+            $("#myDIV").scrollTop(YPos);
+        }
+
+    });
+
+    $("table#tblItem").on('click', '.DeleteItem', function () {
+
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+
+        var VoucherNo = rIndex.find('td:eq(0)').text().replace(/\s+/g, "");
+        var RecoveryNo = rIndex.find('td:eq(2)').text().replace(/\s+/g, "");
+        var RecoveryDate = rIndex.find('td:eq(3)').text().replace(/\s+/g, "");
+        var DeleteItem = "Y";
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetPDCDetail",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ VoucherNo: VoucherNo, RecoveryNo: RecoveryNo, RecoveryDate: RecoveryDate, DeleteItem: DeleteItem }),
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            success: function (data) {
+                loadPageData();
+            }
+        });
+
+    });
+
+
+    $("table#tblItem").on('click', '.BL', function () {
+
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+       
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetBankListDDL",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({}),
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            success: function (data) {
+
+                rIndex.find('.BL').empty().trigger('change');
+
+                if (data.BDDL.length > 0) {
+
+                    //rIndex.find('.BL').append($('<option>', {
+                    //    value: '',
+                    //    text: "Select Any Value"
+                    //}));
+
+                    $.each(data.BDDL, function (index, obj) {
+                        rIndex.find('.BL').append($('<option>', {
+                            value: obj.Code,
+                            text: obj.Name
+                        })).trigger("change");
+                    });
+                }
+            }
+        });
+    });
+
+    $("table#tblItem").on('click', '.PrintItem', function () {
+
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+
+        var VoucherNo = rIndex.find('td:eq(0)').text().replace(/\s+/g, "");
+       
+         var baseurl = '@Url.Action("ExportPDCRec","Report")';
+        var url = baseurl + '?VoucherRefNo=' + VoucherNo ;
+        //window.location.href = url;
+        window.open(url, '_blank');
+    });
+
+</script>
+

@@ -1,0 +1,877 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AT_Tahur_SUITEModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="ActivePartiesSalesman">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RegionCode" Type="char" MaxLength="3" />
+    <Property Name="PartyCode" Type="char" MaxLength="5" />
+    <Property Name="MainPartyCode" Type="char" MaxLength="5" />
+    <Property Name="EmpCode" Type="char" MaxLength="8" />
+  </EntityType>
+  <EntityType Name="CompanyEmp">
+    <Key>
+      <PropertyRef Name="CompCode" />
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="EmpCode" />
+    </Key>
+    <Property Name="CompCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="RegionCode" Type="char" MaxLength="3" Nullable="false" />
+    <Property Name="EmpCode" Type="char" MaxLength="8" Nullable="false" />
+    <Property Name="EmpName" Type="varchar" MaxLength="100" />
+    <Property Name="EmpRemarks" Type="varchar" MaxLength="100" />
+    <Property Name="EmpAddress" Type="varchar" MaxLength="100" />
+    <Property Name="EmpDOB" Type="varchar" MaxLength="50" />
+    <Property Name="EmpJoiningDate" Type="varchar" MaxLength="50" />
+    <Property Name="EmpLeavingDate" Type="varchar" MaxLength="50" />
+    <Property Name="EmpDesignation" Type="varchar" MaxLength="20" />
+    <Property Name="EmpDepartment" Type="varchar" MaxLength="20" />
+    <Property Name="EmpBasicSalary" Type="float" />
+    <Property Name="EmpEperiance" Type="float" />
+    <Property Name="EmpContactNo" Type="varchar" MaxLength="15" />
+    <Property Name="EmpStatus" Type="varchar" MaxLength="20" />
+    <Property Name="OpeningShortCash" Type="float" />
+    <Property Name="EmpQualification" Type="varchar" MaxLength="20" />
+    <Property Name="DelFlag" Type="char" MaxLength="1" />
+    <Property Name="UpdDate" Type="datetime" />
+    <Property Name="UpdTerm" Type="varchar" MaxLength="50" />
+    <Property Name="UpdUser" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="CompanySetup">
+    <Key>
+      <PropertyRef Name="CompCode" />
+    </Key>
+    <Property Name="CompCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="CompName" Type="varchar" MaxLength="100" />
+    <Property Name="Address1" Type="varchar" MaxLength="100" />
+    <Property Name="Address2" Type="varchar" MaxLength="100" />
+    <Property Name="City" Type="varchar" MaxLength="20" />
+    <Property Name="Phone1" Type="nvarchar" MaxLength="20" />
+    <Property Name="Phone2" Type="nvarchar" MaxLength="20" />
+    <Property Name="Email" Type="varchar" MaxLength="30" />
+    <Property Name="Fax" Type="nvarchar" MaxLength="30" />
+    <Property Name="Length_Level1" Type="numeric" Precision="9" Scale="0" />
+    <Property Name="Length_Level2" Type="numeric" Precision="9" Scale="0" />
+    <Property Name="Length_Level3" Type="numeric" Precision="9" Scale="0" />
+    <Property Name="Length_LevelDetail" Type="numeric" Precision="9" Scale="0" />
+    <Property Name="GI_MaxLevel" Type="numeric" Precision="9" Scale="0" />
+    <Property Name="Picture" Type="image" />
+    <Property Name="PicSize" Type="numeric" Precision="9" Scale="0" />
+    <Property Name="NTN" Type="varchar" MaxLength="9" />
+    <Property Name="SalesTaxRegNo" Type="varchar" MaxLength="120" />
+    <Property Name="UpdDate" Type="datetime" />
+    <Property Name="UpdUser" Type="varchar" MaxLength="50" />
+    <Property Name="UpdTerm" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="DailyDemand">
+    <Key>
+      <PropertyRef Name="DDate" />
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="DCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DDate" Type="datetime" Nullable="false" />
+    <Property Name="RegionCode" Type="char" MaxLength="15" Nullable="false" />
+    <Property Name="ItemCode" Type="char" MaxLength="3" Nullable="false" />
+    <Property Name="DemandQty" Type="float" />
+    <Property Name="UpdDate" Type="datetime" />
+    <Property Name="UpdTerm" Type="varchar" MaxLength="50" />
+    <Property Name="UpdUser" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="DailyDispatch">
+    <Key>
+      <PropertyRef Name="DispatchCode" />
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="VehicleCode" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="DispatchCode" Type="char" MaxLength="8" Nullable="false" />
+    <Property Name="DispatchDate" Type="datetime" />
+    <Property Name="RegionCode" Type="char" MaxLength="3" Nullable="false" />
+    <Property Name="VehicleCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="ItemCode" Type="char" MaxLength="3" Nullable="false" />
+    <Property Name="DispatchQty" Type="float" />
+    <Property Name="UpdDate" Type="datetime" />
+    <Property Name="UpdTerm" Type="varchar" MaxLength="50" />
+    <Property Name="UpdUser" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="DailyIntake">
+    <Key>
+      <PropertyRef Name="DICode" />
+      <PropertyRef Name="DIDate" />
+      <PropertyRef Name="FarmCode" />
+    </Key>
+    <Property Name="DICode" Type="char" MaxLength="8" Nullable="false" />
+    <Property Name="DIDate" Type="datetime" Nullable="false" />
+    <Property Name="FarmCode" Type="char" MaxLength="4" Nullable="false" />
+    <Property Name="RawMilkQty" Type="float" />
+    <Property Name="UpdTerm" Type="varchar" MaxLength="50" />
+    <Property Name="UpdDate" Type="datetime" />
+    <Property Name="UpdUser" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="DailyProduction">
+    <Key>
+      <PropertyRef Name="DPCode" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="DPCode" Type="char" MaxLength="8" Nullable="false" />
+    <Property Name="DPDate" Type="datetime" />
+    <Property Name="ItemCode" Type="char" MaxLength="3" Nullable="false" />
+    <Property Name="Quantity" Type="float" />
+    <Property Name="UpdDate" Type="datetime" />
+    <Property Name="UpdTerm" Type="varchar" MaxLength="50" />
+    <Property Name="UpdUser" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="DailyStockReceive">
+    <Key>
+      <PropertyRef Name="CompCode" />
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="DSRNo" />
+      <PropertyRef Name="DSRDate" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="CompCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="RegionCode" Type="char" MaxLength="3" Nullable="false" />
+    <Property Name="DSRNo" Type="char" MaxLength="8" Nullable="false" />
+    <Property Name="DSRDate" Type="datetime" Nullable="false" />
+    <Property Name="ItemCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="Quantity" Type="float" />
+    <Property Name="ItemComment" Type="varchar" MaxLength="200" />
+    <Property Name="MainComment" Type="varchar" MaxLength="250" />
+    <Property Name="UpdDate" Type="datetime" />
+    <Property Name="UpdUser" Type="varchar" MaxLength="50" />
+    <Property Name="UpdTerm" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="DailyStockReceiveTerminal">
+    <Key>
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="DSRNo" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="CompCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="RegionCode" Type="char" MaxLength="3" Nullable="false" />
+    <Property Name="DSRNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DSRDate" Type="datetime" Nullable="false" />
+    <Property Name="ItemCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="Quantity" Type="float" />
+    <Property Name="UpdDate" Type="datetime" />
+    <Property Name="UpdUser" Type="varchar" MaxLength="50" />
+    <Property Name="UpdTerm" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Discount">
+    <Key>
+      <PropertyRef Name="CompCode" />
+      <PropertyRef Name="PdCode" />
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="PartyCode" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="CompCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="PdCode" Type="char" MaxLength="8" Nullable="false" />
+    <Property Name="PdDate" Type="datetime" />
+    <Property Name="RegionCode" Type="char" MaxLength="3" Nullable="false" />
+    <Property Name="PartyCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="ItemCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="Amount" Type="float" />
+    <Property Name="UpdDate" Type="datetime" />
+    <Property Name="UpdTerm" Type="varchar" MaxLength="50" />
+    <Property Name="UpdUser" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Farm">
+    <Key>
+      <PropertyRef Name="FarmCode" />
+    </Key>
+    <Property Name="FarmCode" Type="char" MaxLength="4" Nullable="false" />
+    <Property Name="FarmName" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="HR_DepartmentInfo">
+    <Key>
+      <PropertyRef Name="SiteCode" />
+      <PropertyRef Name="DepCode" />
+    </Key>
+    <Property Name="SiteCode" Type="int" Nullable="false" />
+    <Property Name="DepCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DepDescription" Type="varchar" MaxLength="200" />
+    <Property Name="DepShortName" Type="varchar" MaxLength="15" />
+  </EntityType>
+  <EntityType Name="HR_DesignationInfo">
+    <Key>
+      <PropertyRef Name="SiteCode" />
+      <PropertyRef Name="DepCode" />
+      <PropertyRef Name="SubDepCode" />
+      <PropertyRef Name="DesCode" />
+    </Key>
+    <Property Name="SiteCode" Type="int" Nullable="false" />
+    <Property Name="DepCode" Type="int" Nullable="false" />
+    <Property Name="SubDepCode" Type="int" Nullable="false" />
+    <Property Name="DesCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DesDescription" Type="varchar" MaxLength="200" />
+    <Property Name="DesShortName" Type="varchar" MaxLength="15" />
+  </EntityType>
+  <EntityType Name="HR_EmployeeInfo">
+    <Key>
+      <PropertyRef Name="SiteCode" />
+      <PropertyRef Name="DepCode" />
+      <PropertyRef Name="SubDepCode" />
+      <PropertyRef Name="DesCode" />
+      <PropertyRef Name="EmpCode" />
+    </Key>
+    <Property Name="SiteCode" Type="int" Nullable="false" />
+    <Property Name="DepCode" Type="int" Nullable="false" />
+    <Property Name="SubDepCode" Type="int" Nullable="false" />
+    <Property Name="DesCode" Type="int" Nullable="false" />
+    <Property Name="EmpCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpRefNo" Type="varchar" MaxLength="20" />
+    <Property Name="EmpName" Type="varchar" MaxLength="150" />
+    <Property Name="EmpFatherName" Type="varchar" MaxLength="150" />
+    <Property Name="CNIC" Type="varchar" MaxLength="20" />
+    <Property Name="ContactNo" Type="varchar" MaxLength="20" />
+    <Property Name="Address" Type="varchar" MaxLength="200" />
+    <Property Name="Gender" Type="char" MaxLength="10" />
+    <Property Name="DOB" Type="datetime" />
+    <Property Name="DOJ" Type="datetime" />
+    <Property Name="DOR" Type="datetime" />
+    <Property Name="PlaceOfJoining" Type="varchar" MaxLength="50" />
+    <Property Name="Active" Type="char" MaxLength="1" />
+    <Property Name="Status" Type="varchar" MaxLength="20" />
+    <Property Name="InactiveDescription" Type="varchar" MaxLength="150" />
+    <Property Name="Qualification" Type="varchar" MaxLength="50" />
+    <Property Name="ProfilePicture" Type="image" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="UpdBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdDate" Type="datetime" />
+    <Property Name="DelFlag" Type="char" MaxLength="1" />
+  </EntityType>
+  <EntityType Name="HR_SiteInfo">
+    <Key>
+      <PropertyRef Name="SiteCode" />
+    </Key>
+    <Property Name="SiteCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SiteName" Type="varchar" MaxLength="150" />
+  </EntityType>
+  <EntityType Name="HR_SubDepartmentInfo">
+    <Key>
+      <PropertyRef Name="SiteCode" />
+      <PropertyRef Name="DepCode" />
+      <PropertyRef Name="SubDepCode" />
+    </Key>
+    <Property Name="SiteCode" Type="int" Nullable="false" />
+    <Property Name="DepCode" Type="int" Nullable="false" />
+    <Property Name="SubDepCode" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SubDepDescription" Type="varchar" MaxLength="200" />
+    <Property Name="SubDepShortName" Type="varchar" MaxLength="15" />
+  </EntityType>
+  <EntityType Name="PartyDiscount">
+    <Key>
+      <PropertyRef Name="CompCode" />
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="PartyCode" />
+      <PropertyRef Name="PDCode" />
+    </Key>
+    <Property Name="CompCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="RegionCode" Type="char" MaxLength="3" Nullable="false" />
+    <Property Name="PartyCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="PDCode" Type="char" MaxLength="8" Nullable="false" />
+    <Property Name="PDDate" Type="datetime" />
+    <Property Name="MilkFF" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="MilkLF" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="MilkNeutraHalf" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="MilkNeutra" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="RawMilk" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="MilkFF450" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="MilkFF250" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="MilkLF250" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="ChokoMilk" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="MilkStrawBerry200" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="Ecolean" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="PremaRotation" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="YgrtNatural400" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="YgrtNatural80" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="YgrtNatural1kg" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="YgrtStrawBerry90" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="YgrtStrawBerry80" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="YgrtLF400" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="YgrtBlueBerry90" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="YgrtMango80" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="YgrtVanilla100" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="YgrtSweet400" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="YgrtPouch500" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="Podina" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="FreshCream" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="RaitaZeera250" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="RaitaPodina250" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="RaitaZeera80" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="PineApple90" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="SmoothieMango220" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="SmoothieStrawberry220" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="Cream" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="LabbanPlain" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="LabbanStrawberry" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="UpdDate" Type="datetime" />
+    <Property Name="UpdUser" Type="varchar" MaxLength="50" />
+    <Property Name="UpdTerm" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="PreRegionSetup">
+    <Key>
+      <PropertyRef Name="CompCode" />
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="CompCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="RegionCode" Type="char" MaxLength="3" Nullable="false" />
+    <Property Name="RegionDescription" Type="varchar" MaxLength="100" />
+    <Property Name="NameAbbreviate" Type="char" MaxLength="50" />
+    <Property Name="Address" Type="varchar" MaxLength="150" />
+    <Property Name="City" Type="varchar" MaxLength="30" />
+    <Property Name="Phone" Type="varchar" MaxLength="15" />
+    <Property Name="ItemCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="RegCorporateRate" Type="float" />
+    <Property Name="UnRegCorporateRate" Type="float" />
+    <Property Name="RegRetailerRate" Type="float" />
+    <Property Name="UnRegRetailerRate" Type="float" />
+    <Property Name="DelFlag" Type="char" MaxLength="1" />
+    <Property Name="UpdDate" Type="datetime" />
+    <Property Name="UpdUser" Type="varchar" MaxLength="50" />
+    <Property Name="UpdTerm" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Recovery">
+    <Key>
+      <PropertyRef Name="CompanyCode" />
+      <PropertyRef Name="RecoveryNo" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="CompanyCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="RecoveryNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RecoveryDate" Type="datetime" />
+    <Property Name="InvoiceNo" Type="char" MaxLength="10" />
+    <Property Name="ManInvoiceNo" Type="char" MaxLength="8" />
+    <Property Name="RepInvoiceNo" Type="char" MaxLength="8" />
+    <Property Name="Type" Type="varchar" MaxLength="20" />
+    <Property Name="Remarks" Type="varchar" MaxLength="150" />
+    <Property Name="CheqDate" Type="datetime" />
+    <Property Name="CheqNo" Type="char" MaxLength="15" />
+    <Property Name="AccountCode" Type="int" />
+    <Property Name="ClearOrBounce" Type="char" MaxLength="10" />
+    <Property Name="ClearanceDate" Type="datetime" />
+    <Property Name="VoucherNo" Type="varchar" MaxLength="50" />
+    <Property Name="RegionCode" Type="char" MaxLength="3" />
+    <Property Name="MainPartyCode" Type="char" MaxLength="5" />
+    <Property Name="PartyCode" Type="char" MaxLength="5" />
+    <Property Name="EmpCode" Type="char" MaxLength="8" />
+    <Property Name="ItemCode" Type="char" MaxLength="8" Nullable="false" />
+    <Property Name="RecAmount" Type="float" />
+    <Property Name="RecWHT" Type="float" />
+    <Property Name="RecDiscount" Type="float" />
+    <Property Name="DelFlag" Type="char" MaxLength="1" />
+    <Property Name="PostFlag" Type="char" MaxLength="1" />
+    <Property Name="UpdDate" Type="datetime" />
+    <Property Name="UpdTerm" Type="varchar" MaxLength="50" />
+    <Property Name="UpdUser" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="RegionSetup">
+    <Key>
+      <PropertyRef Name="CompCode" />
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="CompCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="RegionCode" Type="char" MaxLength="3" Nullable="false" />
+    <Property Name="RegionDescription" Type="varchar" MaxLength="100" />
+    <Property Name="NameAbbreviate" Type="char" MaxLength="50" />
+    <Property Name="Address" Type="varchar" MaxLength="150" />
+    <Property Name="City" Type="varchar" MaxLength="30" />
+    <Property Name="Phone" Type="varchar" MaxLength="15" />
+    <Property Name="ItemCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="RegCorporateRate" Type="float" />
+    <Property Name="UnRegCorporateRate" Type="float" />
+    <Property Name="RegRetailerRate" Type="float" />
+    <Property Name="UnRegRetailerRate" Type="float" />
+    <Property Name="DelFlag" Type="char" MaxLength="1" />
+    <Property Name="UpdDate" Type="datetime" />
+    <Property Name="UpdUser" Type="varchar" MaxLength="50" />
+    <Property Name="UpdTerm" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="SaleDemandRights">
+    <Key>
+      <PropertyRef Name="RegionCode" />
+    </Key>
+    <Property Name="UserName" Type="varchar" MaxLength="50" />
+    <Property Name="RegionCode" Type="char" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SaleInvoiceDetail">
+    <Key>
+      <PropertyRef Name="InvoiceNo" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="CompanyCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="InvoiceNo" Type="int" Nullable="false" />
+    <Property Name="InvoiceDate" Type="datetime" Nullable="false" />
+    <Property Name="ManInvoiceNo" Type="char" MaxLength="20" Nullable="false" />
+    <Property Name="RepInvoiceNo" Type="char" MaxLength="8" Nullable="false" />
+    <Property Name="PartyCode" Type="char" MaxLength="5" />
+    <Property Name="MainPartyCode" Type="char" MaxLength="5" />
+    <Property Name="TransType" Type="varchar" MaxLength="50" />
+    <Property Name="ItemCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="SaleQty" Type="float" />
+    <Property Name="Rate" Type="float" />
+    <Property Name="Damage" Type="float" />
+    <Property Name="Replace" Type="float" />
+    <Property Name="FOC" Type="float" />
+    <Property Name="Sampling" Type="float" />
+    <Property Name="Scheme" Type="float" />
+    <Property Name="Retrn" Type="float" />
+    <Property Name="WHT" Type="float" />
+    <Property Name="DiscPer" Type="float" />
+    <Property Name="DiscAmt" Type="float" />
+    <Property Name="Amount" Type="float" />
+    <Property Name="FurtherTaxPer" Type="float" />
+    <Property Name="FurtherTaxAmt" Type="float" />
+    <Property Name="IncTaxAmt" Type="float" />
+    <Property Name="ExcTaxAmt" Type="float" />
+    <Property Name="SaleTaxPer" Type="float" />
+    <Property Name="SaleTaxAmt" Type="float" />
+    <Property Name="ConsumerRate" Type="float" />
+    <Property Name="IncomeTaxAmt" Type="float" />
+    <Property Name="IncomeTaxPer" Type="float" />
+    <Property Name="FEDTaxAmt" Type="float" />
+    <Property Name="FEDTaxPer" Type="float" />
+  </EntityType>
+  <EntityType Name="SaleInvoiceMaster">
+    <Key>
+      <PropertyRef Name="InvoiceNo" />
+    </Key>
+    <Property Name="CompanyCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="InvoiceNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ManInvoiceNo" Type="char" MaxLength="20" Nullable="false" />
+    <Property Name="RepInvoiceNo" Type="char" MaxLength="8" Nullable="false" />
+    <Property Name="VoucherNo" Type="varchar" MaxLength="50" />
+    <Property Name="InvoiceDate" Type="datetime" Nullable="false" />
+    <Property Name="RegionCode" Type="char" MaxLength="3" Nullable="false" />
+    <Property Name="PartyCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="MainPartyCode" Type="char" MaxLength="5" />
+    <Property Name="EmpCode" Type="char" MaxLength="8" Nullable="false" />
+    <Property Name="ExemptTax" Type="char" MaxLength="1" />
+    <Property Name="PartyStatus" Type="char" MaxLength="15" />
+    <Property Name="Discount" Type="float" />
+    <Property Name="TotalAmt" Type="float" />
+    <Property Name="SaleTaxAmt" Type="float" />
+    <Property Name="FurtherTaxAmt" Type="float" />
+    <Property Name="IncomeTaxAmt" Type="float" />
+    <Property Name="NetTotal" Type="float" />
+    <Property Name="CashReceived" Type="float" />
+    <Property Name="DelFlag" Type="char" MaxLength="1" />
+    <Property Name="PostFlag" Type="char" MaxLength="1" />
+    <Property Name="TransType" Type="char" MaxLength="6" />
+    <Property Name="UpdUser" Type="varchar" MaxLength="50" />
+    <Property Name="UpdDate" Type="datetime" />
+    <Property Name="UpdTerm" Type="varchar" MaxLength="50" />
+    <Property Name="IncTaxAmt" Type="float" />
+    <Property Name="ExcTaxAmt" Type="float" />
+    <Property Name="Latitude" Type="float" />
+    <Property Name="Longitude" Type="float" />
+  </EntityType>
+  <EntityType Name="SaleItem">
+    <Key>
+      <PropertyRef Name="CompanyCode" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="CompanyCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="ItemCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="ItemDesc" Type="varchar" MaxLength="50" />
+    <Property Name="Brand" Type="char" MaxLength="20" />
+    <Property Name="Category" Type="char" MaxLength="20" />
+    <Property Name="SubCategory" Type="char" MaxLength="20" />
+    <Property Name="SaleRateReg" Type="float" />
+    <Property Name="SaleRateUnReg" Type="float" />
+    <Property Name="SaleGSTPer" Type="float" />
+    <Property Name="SaleFurtherTaxPer" Type="float" />
+    <Property Name="Consumer_Rate" Type="float" />
+    <Property Name="DistTaxPer_Act" Type="float" />
+    <Property Name="DistTaxPer_InAct" Type="float" />
+    <Property Name="RetTaxPer_Act" Type="float" />
+    <Property Name="RetTaxPer_InAct" Type="float" />
+    <Property Name="FEDTaxPer" Type="float" />
+    <Property Name="UpdUser" Type="varchar" MaxLength="50" />
+    <Property Name="UpdDate" Type="datetime" />
+    <Property Name="UpdTerm" Type="varchar" MaxLength="50" />
+    <Property Name="ItemPic" Type="image" />
+    <Property Name="stdWeight" Type="float" />
+    <Property Name="WeightType" Type="char" MaxLength="5" />
+    <Property Name="ActiveFlag" Type="char" MaxLength="1" />
+    <Property Name="PackSize" Type="float" />
+    <Property Name="ProductionOpening" Type="int" />
+  </EntityType>
+  <EntityType Name="SaleParties">
+    <Key>
+      <PropertyRef Name="CompCode" />
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="PartyCode" />
+    </Key>
+    <Property Name="CompCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="RegionCode" Type="char" MaxLength="3" Nullable="false" />
+    <Property Name="PartyCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="PartyName" Type="varchar" MaxLength="200" />
+    <Property Name="PartyRegisterName" Type="varchar" MaxLength="200" />
+    <Property Name="PartyAddress" Type="varchar" MaxLength="300" />
+    <Property Name="CNIC" Type="varchar" MaxLength="20" />
+    <Property Name="PartyType" Type="char" MaxLength="6" />
+    <Property Name="NTN" Type="varchar" MaxLength="20" />
+    <Property Name="SalesTaxNumber" Type="varchar" MaxLength="100" />
+    <Property Name="Opening" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="ContactNumber" Type="varchar" MaxLength="50" />
+    <Property Name="MainPartyCode" Type="char" MaxLength="5" />
+    <Property Name="Category" Type="varchar" MaxLength="20" />
+    <Property Name="STaxReg" Type="char" MaxLength="1" />
+    <Property Name="ThirdSch_Category" Type="varchar" MaxLength="20" />
+    <Property Name="DelFlag" Type="char" MaxLength="1" />
+    <Property Name="Taxable" Type="char" MaxLength="1" />
+    <Property Name="UpdDate" Type="datetime" />
+    <Property Name="UpdUser" Type="varchar" MaxLength="50" />
+    <Property Name="UpdTerm" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="SalesmanOpeningStock">
+    <Key>
+      <PropertyRef Name="CompCode" />
+      <PropertyRef Name="SOSNo" />
+      <PropertyRef Name="SOSDate" />
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="EmpCode" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="CompCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="SOSNo" Type="char" MaxLength="8" Nullable="false" />
+    <Property Name="SOSDate" Type="datetime" Nullable="false" />
+    <Property Name="RegionCode" Type="char" MaxLength="3" Nullable="false" />
+    <Property Name="EmpCode" Type="char" MaxLength="8" Nullable="false" />
+    <Property Name="ItemCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="Quantity" Type="float" />
+    <Property Name="VehicleCode" Type="varchar" MaxLength="10" />
+    <Property Name="ItemComment" Type="varchar" MaxLength="200" />
+    <Property Name="MainComment" Type="varchar" MaxLength="250" />
+    <Property Name="UpdDate" Type="datetime" />
+    <Property Name="UpdUser" Type="varchar" MaxLength="50" />
+    <Property Name="UpdTerm" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="SalesmanOpeningStockTerminal">
+    <Key>
+      <PropertyRef Name="SOSNo" />
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="EmpCode" />
+      <PropertyRef Name="ItemCode" />
+    </Key>
+    <Property Name="CompCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="SOSNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SOSDate" Type="datetime" Nullable="false" />
+    <Property Name="RegionCode" Type="char" MaxLength="3" Nullable="false" />
+    <Property Name="EmpCode" Type="char" MaxLength="8" Nullable="false" />
+    <Property Name="VehicleNo" Type="int" Nullable="false" />
+    <Property Name="ItemCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="Quantity" Type="float" />
+    <Property Name="UpdDate" Type="datetime" />
+    <Property Name="UpdUser" Type="varchar" MaxLength="50" />
+    <Property Name="UpdTerm" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="ShortCash">
+    <Key>
+      <PropertyRef Name="CSCode" />
+      <PropertyRef Name="RegionCode" />
+      <PropertyRef Name="EmpCode" />
+    </Key>
+    <Property Name="CSCode" Type="char" MaxLength="8" Nullable="false" />
+    <Property Name="CSDate" Type="datetime" />
+    <Property Name="RegionCode" Type="char" MaxLength="3" Nullable="false" />
+    <Property Name="EmpCode" Type="char" MaxLength="8" Nullable="false" />
+    <Property Name="CashSubmited" Type="float" />
+    <Property Name="cheqPaidBack" Type="float" />
+    <Property Name="CashPaidBack" Type="float" />
+    <Property Name="BouncedCheque" Type="float" />
+    <Property Name="Adjustment" Type="float" />
+    <Property Name="UpdUser" Type="varchar" MaxLength="50" />
+    <Property Name="UpdTerm" Type="varchar" MaxLength="50" />
+    <Property Name="UpdDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="ShortCashOpening">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RegionCode" Type="char" MaxLength="3" />
+    <Property Name="EmpCode" Type="char" MaxLength="8" />
+    <Property Name="Opening" Type="float" />
+  </EntityType>
+  <EntityType Name="ShortCashRecovery">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RecDate" Type="datetime" Nullable="false" />
+    <Property Name="CheqNo" Type="varchar" MaxLength="50" />
+    <Property Name="CheqDate" Type="datetime" />
+    <Property Name="RegionCode" Type="char" MaxLength="3" />
+    <Property Name="PartyCode" Type="char" MaxLength="5" />
+    <Property Name="EmpCode" Type="char" MaxLength="8" />
+    <Property Name="Type" Type="varchar" MaxLength="15" />
+    <Property Name="RecoveryAmount" Type="float" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+    <Property Name="CreateBy" Type="varchar" MaxLength="50" />
+    <Property Name="UpdDate" Type="datetime" Nullable="false" />
+    <Property Name="UpdBy" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Vehicle">
+    <Key>
+      <PropertyRef Name="VehicleCode" />
+    </Key>
+    <Property Name="VehicleCode" Type="char" MaxLength="5" Nullable="false" />
+    <Property Name="VehicleRegNo" Type="varchar" MaxLength="50" />
+    <Property Name="VehicleDescription" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'AT_Tahur_SUITE_Auto.dbo.InvoiceTableSrNo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="InvoiceTableSrNo">
+    <Key>
+      <PropertyRef Name="InvoiceNo" />
+      <PropertyRef Name="ManInvoiceNo" />
+      <PropertyRef Name="InvoiceDate" />
+      <PropertyRef Name="RegionCode" />
+    </Key>
+    <Property Name="SrNo" Type="bigint" />
+    <Property Name="InvoiceNo" Type="char" MaxLength="10" Nullable="false" />
+    <Property Name="ManInvoiceNo" Type="char" MaxLength="8" Nullable="false" />
+    <Property Name="InvoiceDate" Type="datetime" Nullable="false" />
+    <Property Name="RegionCode" Type="char" MaxLength="3" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_HR_DepartmentInfo_HR_SiteInfo">
+    <End Role="HR_SiteInfo" Type="Self.HR_SiteInfo" Multiplicity="1" />
+    <End Role="HR_DepartmentInfo" Type="Self.HR_DepartmentInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HR_SiteInfo">
+        <PropertyRef Name="SiteCode" />
+      </Principal>
+      <Dependent Role="HR_DepartmentInfo">
+        <PropertyRef Name="SiteCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HR_DesignationInfo_HR_SubDepartmentInfo">
+    <End Role="HR_SubDepartmentInfo" Type="Self.HR_SubDepartmentInfo" Multiplicity="1" />
+    <End Role="HR_DesignationInfo" Type="Self.HR_DesignationInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HR_SubDepartmentInfo">
+        <PropertyRef Name="SiteCode" />
+        <PropertyRef Name="DepCode" />
+        <PropertyRef Name="SubDepCode" />
+      </Principal>
+      <Dependent Role="HR_DesignationInfo">
+        <PropertyRef Name="SiteCode" />
+        <PropertyRef Name="DepCode" />
+        <PropertyRef Name="SubDepCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HR_EmployeeInfo_HR_DesignationInfo">
+    <End Role="HR_DesignationInfo" Type="Self.HR_DesignationInfo" Multiplicity="1" />
+    <End Role="HR_EmployeeInfo" Type="Self.HR_EmployeeInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HR_DesignationInfo">
+        <PropertyRef Name="SiteCode" />
+        <PropertyRef Name="DepCode" />
+        <PropertyRef Name="SubDepCode" />
+        <PropertyRef Name="DesCode" />
+      </Principal>
+      <Dependent Role="HR_EmployeeInfo">
+        <PropertyRef Name="SiteCode" />
+        <PropertyRef Name="DepCode" />
+        <PropertyRef Name="SubDepCode" />
+        <PropertyRef Name="DesCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HR_SubDepartmentInfo_HR_DepartmentInfo">
+    <End Role="HR_DepartmentInfo" Type="Self.HR_DepartmentInfo" Multiplicity="1" />
+    <End Role="HR_SubDepartmentInfo" Type="Self.HR_SubDepartmentInfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HR_DepartmentInfo">
+        <PropertyRef Name="SiteCode" />
+        <PropertyRef Name="DepCode" />
+      </Principal>
+      <Dependent Role="HR_SubDepartmentInfo">
+        <PropertyRef Name="SiteCode" />
+        <PropertyRef Name="DepCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SaleInvoiceDetail_SaleInvoiceMaster">
+    <End Role="SaleInvoiceMaster" Type="Self.SaleInvoiceMaster" Multiplicity="1" />
+    <End Role="SaleInvoiceDetail" Type="Self.SaleInvoiceDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SaleInvoiceMaster">
+        <PropertyRef Name="InvoiceNo" />
+      </Principal>
+      <Dependent Role="SaleInvoiceDetail">
+        <PropertyRef Name="InvoiceNo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="AgingReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FromDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="ButterAllQty" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FromDate" Type="datetime" Mode="In" />
+    <Parameter Name="ToDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="CountAllParties" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="CountPartyDis" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CompanyCode" Type="char" Mode="In" />
+  </Function>
+  <Function Name="DistinctDPCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="FindItemRate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="RegionCode" Type="char" Mode="In" />
+    <Parameter Name="ItemCode" Type="char" Mode="In" />
+  </Function>
+  <Function Name="FindItemTax" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ItemCode" Type="char" Mode="In" />
+  </Function>
+  <Function Name="FindPreItemRate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="RegionCode" Type="char" Mode="In" />
+    <Parameter Name="ItemCode" Type="char" Mode="In" />
+  </Function>
+  <Function Name="GetDEOPerfomance" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="fromDate" Type="datetime" Mode="In" />
+    <Parameter Name="toDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="GetDinstinctDSRNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CompanyCode" Type="char" Mode="In" />
+  </Function>
+  <Function Name="GetDinstinctDSRNoTerminal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CompanyCode" Type="char" Mode="In" />
+  </Function>
+  <Function Name="GetDinstinctDSRNoTerminals" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CompanyCode" Type="char" Mode="In" />
+  </Function>
+  <Function Name="GetDinstinctParty" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CompanyCode" Type="char" Mode="In" />
+  </Function>
+  <Function Name="GetDinstinctPartyDiscount" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CompanyCode" Type="char" Mode="In" />
+  </Function>
+  <Function Name="GetDinstinctSOSNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CompanyCode" Type="char" Mode="In" />
+  </Function>
+  <Function Name="GetDinstinctSOSNoTerminal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CompanyCode" Type="char" Mode="In" />
+  </Function>
+  <Function Name="GetDistinctDispatchList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="GetDistinctPreRegion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="GetDistinctRecovery" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="CompanyCode" Type="char" Mode="In" />
+  </Function>
+  <Function Name="GetDistinctRegion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="GetDistinctShortCash" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="GetSalePartiesFast" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="MilkAllQty" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FromDate" Type="datetime" Mode="In" />
+    <Parameter Name="ToDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="RaitaAllQty" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FromDate" Type="datetime" Mode="In" />
+    <Parameter Name="ToDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="SaleTaxRegisterFBR" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FromDate" Type="datetime" Mode="In" />
+    <Parameter Name="ToDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="Sp_FAS_ChartOfAccounts_Banks" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="Sp_Get_FAS_ChartOfAccounts_Banks" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ChildCode" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Sp_GetDistinctActiveParties" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="RegionCode" Type="char" Mode="In" />
+    <Parameter Name="EmpCode" Type="char" Mode="In" />
+  </Function>
+  <Function Name="Sp_GetDistinctDemandList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="Sp_GetInActiveParteisSalesman" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="RegionCode" Type="char" Mode="In" />
+  </Function>
+  <Function Name="Sp_GetMissingCalculationInvoices" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="Sp_GetPDCData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="RegionCode" Type="char" Mode="In" />
+    <Parameter Name="CheqDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="Sp_GetPendingPDCData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="Sp_GetRegionPartiesFast" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="RegionCode" Type="char" Mode="In" />
+  </Function>
+  <Function Name="Sp_LastSaleParties" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="SP_NewAgingReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FromDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="Sp_PartyAnalysis" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="YougartAllQty" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="FromDate" Type="datetime" Mode="In" />
+    <Parameter Name="ToDate" Type="datetime" Mode="In" />
+  </Function>
+  <EntityContainer Name="AT_Tahur_SUITEModelStoreContainer">
+    <EntitySet Name="ActivePartiesSalesman" EntityType="Self.ActivePartiesSalesman" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CompanyEmp" EntityType="Self.CompanyEmp" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CompanySetup" EntityType="Self.CompanySetup" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DailyDemand" EntityType="Self.DailyDemand" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DailyDispatch" EntityType="Self.DailyDispatch" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DailyIntake" EntityType="Self.DailyIntake" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DailyProduction" EntityType="Self.DailyProduction" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DailyStockReceive" EntityType="Self.DailyStockReceive" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DailyStockReceiveTerminal" EntityType="Self.DailyStockReceiveTerminal" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Discount" EntityType="Self.Discount" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Farm" EntityType="Self.Farm" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HR_DepartmentInfo" EntityType="Self.HR_DepartmentInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HR_DesignationInfo" EntityType="Self.HR_DesignationInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HR_EmployeeInfo" EntityType="Self.HR_EmployeeInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HR_SiteInfo" EntityType="Self.HR_SiteInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HR_SubDepartmentInfo" EntityType="Self.HR_SubDepartmentInfo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PartyDiscount" EntityType="Self.PartyDiscount" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PreRegionSetup" EntityType="Self.PreRegionSetup" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Recovery" EntityType="Self.Recovery" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RegionSetup" EntityType="Self.RegionSetup" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SaleDemandRights" EntityType="Self.SaleDemandRights" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SaleInvoiceDetail" EntityType="Self.SaleInvoiceDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SaleInvoiceMaster" EntityType="Self.SaleInvoiceMaster" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SaleItem" EntityType="Self.SaleItem" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SaleParties" EntityType="Self.SaleParties" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SalesmanOpeningStock" EntityType="Self.SalesmanOpeningStock" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SalesmanOpeningStockTerminal" EntityType="Self.SalesmanOpeningStockTerminal" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ShortCash" EntityType="Self.ShortCash" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ShortCashOpening" EntityType="Self.ShortCashOpening" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ShortCashRecovery" EntityType="Self.ShortCashRecovery" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="InvoiceTableSrNo" EntityType="Self.InvoiceTableSrNo" store:Type="Views" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [InvoiceTableSrNo].[SrNo] AS [SrNo], 
+    [InvoiceTableSrNo].[InvoiceNo] AS [InvoiceNo], 
+    [InvoiceTableSrNo].[ManInvoiceNo] AS [ManInvoiceNo], 
+    [InvoiceTableSrNo].[InvoiceDate] AS [InvoiceDate], 
+    [InvoiceTableSrNo].[RegionCode] AS [RegionCode]
+    FROM [dbo].[InvoiceTableSrNo] AS [InvoiceTableSrNo]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_HR_DepartmentInfo_HR_SiteInfo" Association="Self.FK_HR_DepartmentInfo_HR_SiteInfo">
+      <End Role="HR_SiteInfo" EntitySet="HR_SiteInfo" />
+      <End Role="HR_DepartmentInfo" EntitySet="HR_DepartmentInfo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HR_DesignationInfo_HR_SubDepartmentInfo" Association="Self.FK_HR_DesignationInfo_HR_SubDepartmentInfo">
+      <End Role="HR_SubDepartmentInfo" EntitySet="HR_SubDepartmentInfo" />
+      <End Role="HR_DesignationInfo" EntitySet="HR_DesignationInfo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HR_EmployeeInfo_HR_DesignationInfo" Association="Self.FK_HR_EmployeeInfo_HR_DesignationInfo">
+      <End Role="HR_DesignationInfo" EntitySet="HR_DesignationInfo" />
+      <End Role="HR_EmployeeInfo" EntitySet="HR_EmployeeInfo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HR_SubDepartmentInfo_HR_DepartmentInfo" Association="Self.FK_HR_SubDepartmentInfo_HR_DepartmentInfo">
+      <End Role="HR_DepartmentInfo" EntitySet="HR_DepartmentInfo" />
+      <End Role="HR_SubDepartmentInfo" EntitySet="HR_SubDepartmentInfo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SaleInvoiceDetail_SaleInvoiceMaster" Association="Self.FK_SaleInvoiceDetail_SaleInvoiceMaster">
+      <End Role="SaleInvoiceMaster" EntitySet="SaleInvoiceMaster" />
+      <End Role="SaleInvoiceDetail" EntitySet="SaleInvoiceDetail" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

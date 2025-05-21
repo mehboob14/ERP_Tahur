@@ -1,0 +1,183 @@
+﻿@model ERP.Models.SaleInvoiceMaster
+@{
+    ViewBag.Title = "ShortCash_Report";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<style>
+    .Top {
+        margin-top: 15px
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <h2><b>Short Cash Ledger</b></h2>
+            <form name="EmployeeMaster" role="form" method="post" style="margin-top:20px">
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+
+                        <div class="row Top">
+                            <label for="example-text-input" class="col-md-1 col-form-label">Region Code</label>
+                            <div class="col-md-6 input-group">
+                                @Html.DropDownListFor(M => M.RegionCode, (IEnumerable<SelectListItem>)ViewBag.RegionDDL as SelectList, "Please Select Region", new { @class = "form-control p-0", @name = "RegionCode", @id = "RegionCode", @onchange = "GetEmployees()" })
+                            </div>
+                        </div>
+
+                        <div class="row Top">
+                            <label for="example-text-input" class="col-md-1 col-form-label">Saleman Cd</label>
+
+                            <div class="col-md-6 input-group">
+                                <select class="form-control p-0" id="EmpCode" name="EmpCode"></select>
+                            </div>
+                        </div>
+
+                        <div class="form-group row Top">
+
+                            <label for="exampleInputuname" class="col-md-1">From Date</label>
+                            <div class="input-group col-md-2">
+                                <input type="text" class="form-control Datepicker-AutoClose" autocomplete="off" id="FromDate" placeholder="dd/mm/yyyy">
+                            </div>
+
+                            <label for="exampleInputuname" class="col-md-1">To Date</label>
+                            <div class="input-group col-md-2">
+                                <input type="text" class="form-control Datepicker-AutoClose" autocomplete="off" id="ToDate" placeholder="dd/mm/yyyy">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!--Buttons For Actions-->
+                <div class="form-group row">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="input-group offset-md-1">
+                            <div class="input-group-addon"><a style="color:green" onclick="ExportPrint();">Print<i class="fa fa-print"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+        @*Short Cash Summary*@
+
+
+        <div class="white-box Top">
+            <h2><b>Short Cash Summary</b></h2>
+            <form name="EmployeeMaster" role="form" method="post" style="margin-top:20px">
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+
+                        <div class="form-group row Top">
+
+                            <label for="exampleInputuname" class="col-md-1">From Date</label>
+                            <div class="input-group col-md-2">
+                                <input type="text" class="form-control Datepicker-AutoClose" autocomplete="off" id="SFromDate" placeholder="dd/mm/yyyy">
+                            </div>
+
+                            <label for="exampleInputuname" class="col-md-1">To Date</label>
+                            <div class="input-group col-md-2">
+                                <input type="text" class="form-control Datepicker-AutoClose" autocomplete="off" id="SToDate" placeholder="dd/mm/yyyy">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!--Buttons For Actions-->
+                <div class="form-group row">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="input-group offset-md-1">
+                            <div class="input-group-addon"><a style="color:green" onclick="ExportPrintSummary();">Print<i class="fa fa-print"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+
+
+
+
+<script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+<script>
+
+    $(function () {
+        
+        $("#RegionCode").chosen();
+
+        $("#EmpCode").chosen();
+
+    });
+
+    function GetEmployees() {
+
+        var RegionCode = document.getElementById("RegionCode").value;
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetRegionParty",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode }),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $('#EmpCode').empty().trigger("chosen:updated");
+
+                $('#EmpCode').append($('<option>', {
+                    value: "",
+                    text: "Select Any Value"
+                })).trigger("chosen:updated");
+
+                if (data.length > 0) {
+                    $.each(data, function (index, obj) {
+
+                        $('#EmpCode').append($('<option>', {
+                            value: obj.EmpCode,
+                            text: obj.EmpName
+                        })).trigger("chosen:updated");
+
+                    });
+
+                    $('#EmpCode').val(EmpCode);
+                    $('#EmpCode').trigger("chosen:updated");
+                }
+            }
+        });
+
+    }
+
+    function ExportPrint() {
+        
+        var RegionCode = document.getElementById("RegionCode").value;
+        var EmpCode = document.getElementById("EmpCode").value;
+        var fromdate = document.getElementById("FromDate").value;
+        var todate = document.getElementById("ToDate").value;
+       
+         var baseurl = '@Url.Action("/ExportShortCashLedger")';
+        var url = baseurl + '?FromDate=' + fromdate + '&ToDate=' + todate + '&RegionCode=' + RegionCode + '&EmpCode=' + EmpCode;
+        //window.location.href = url;
+        window.open(url, '_blank');
+    }
+
+
+     function ExportPrintSummary() {
+        
+        var fromdate = document.getElementById("SFromDate").value;
+        var todate = document.getElementById("SToDate").value;
+       
+         var baseurl = '@Url.Action("/ExportShortCashSummary")';
+        var url = baseurl + '?FromDate=' + fromdate + '&ToDate=' + todate;
+        //window.location.href = url;
+        window.open(url, '_blank');
+    }
+    
+</script>

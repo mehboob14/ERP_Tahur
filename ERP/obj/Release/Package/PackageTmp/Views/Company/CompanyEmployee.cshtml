@@ -1,0 +1,675 @@
+﻿@model ERP.Models.SaleInvoiceMaster
+@{
+    ViewBag.Title = "CompanySalesman";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+
+
+<style>
+
+    [type="file"] {
+        height: 0;
+        overflow: hidden;
+        width: 0;
+    }
+
+        [type="file"] + label {
+            /*background: #f15d22;*/
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            display: inline-block;
+            font-family: 'Poppins', sans-serif;
+            font-size: inherit;
+            font-weight: 600;
+            outline: none;
+            position: relative;
+            transition: all 0.3s;
+            vertical-align: middle;
+        }
+</style>
+
+
+<style type="text/css">
+    /*label {
+        font-weight: 100;
+        font-size: 12px;
+    }*/
+
+    /*.btn {
+        line-height: 0.25;
+        font-size: 12px;
+    }*/
+
+    .checkbox {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-off,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-on,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-label {
+        line-height: 1.2;
+    }
+
+    /*.modal-header {
+        padding: 5px;
+    }*/
+
+
+
+    /*.input-group-addon {
+        padding: 3px 8px;
+        /*color: #0084BF;
+    }*/
+
+
+
+    .table-Scroll {
+        max-height: 540px;
+        max-width: 100%;
+        overflow: auto;
+    }
+
+    td {
+        font-size: 12px;
+    }
+
+    th {
+        font-size: 12px;
+        font: bold;
+    }
+
+    .width50 {
+        width: 500px;
+    }
+
+    .width40 {
+        width: 400px;
+    }
+
+    .width15 {
+        width: 150px;
+    }
+
+    .width30 {
+        width: 300px;
+    }
+
+    .width20 {
+        width: 200px;
+    }
+
+    .width10 {
+        width: 100px;
+    }
+
+    .UpperCase {
+        text-transform: uppercase;
+    }
+</style>
+
+<style>
+    .Top {
+        margin-top: 5px;
+    }
+
+    .Btn-width {
+        width: 80px;
+        font-family: Calibri;
+        font-size: large;
+        font-style: normal;
+    }
+
+    .table-head {
+        height: 10px;
+        line-height: 8px;
+    }
+
+    .btn-TopHeight {
+        margin-top: 23px;
+    }
+
+    .btn-ItemWidth {
+        width: 100px;
+        /*height: 32px;*/
+    }
+
+    fieldset {
+        margin-top: 20px
+    }
+
+    thead {
+        height: 32px
+    }
+</style>
+
+@using (Html.BeginForm("CompanyEmployee", "Company", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="white-box">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12">
+
+                                @if (TempData["SuccessMsg"] != null)
+                                {
+                                    <div class="alert alert-success">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                        <b> @TempData["SuccessMsg"]</b>
+                                    </div>
+                                }
+
+                                <div class="row">
+                                    <label for="exampleInputuname" class="col-md-2 offset-md-1">Emp Code</label>
+                                    <div class="input-group col-md-3">
+                                        <div class="input-group-addon"><a data-toggle="modal" data-target="#EmployeeModal" style="color:blue"><i class="fa fa-search"></i></a></div>
+                                        <input type="text" class="form-control" id="EmpCode" readonly value="" name="EmpCode" placeholder="Employee Code">
+                                    </div>
+                                </div>
+                                <div class="Top row">
+                                    <label for="exampleInputuname" class="col-md-2 offset-md-1">Region Code</label>
+                                    <div class="col-md-9 input-group">
+                                        @Html.DropDownListFor(M => M.RegionCode, (IEnumerable<SelectListItem>)ViewBag.RegionDDL as SelectList, "Please Select Region", new { @class = "form-control p-0", @name = "RegionCode", @id = "RegionCode" })
+                                    </div>
+                                    @*<div class="input-group col-md-3">
+                <div class="input-group-addon"><a data-toggle="modal" data-target="#RegionModal" style="color:blue"><i class="fa fa-search"></i></a></div>
+                <input type="text" class="form-control readonly" id="RegionCode" onkeypress="return false;" name="RegionCode" placeholder="Region Code" required readonly>
+            </div>
+            <div class="input-group col-md-6">
+                <input type="text" class="form-control UpperCase readonly" id="RegionDescription" onkeypress="return false;" value="" name="RegionDescription" placeholder="Region Description" required readonly>
+            </div>*@
+                                </div>
+                                <div class=" row Top">
+                                    <label for="exampleInputuname" class="col-md-2 offset-md-1">Emp Name</label>
+                                    <div class="input-group col-md-9">
+                                        <input type="text" class="form-control UpperCase" id="EmpName" name="EmpName" maxlength="90" placeholder="Employee Name" required>
+                                    </div>
+                                </div>
+                                <div class=" row Top">
+                                    <label for="exampleInputuname" class="col-md-2 offset-md-1">Remarks</label>
+                                    <div class="input-group col-md-9">
+                                        <input type="text" class="form-control UpperCase" id="EmpRemarks" name="EmpRemarks" maxlength="90" placeholder="Employee Remarks" required>
+                                    </div>
+                                </div>
+                                <div class=" row Top">
+                                    <label for="exampleInputuname" class="col-md-2 offset-md-1">Address</label>
+                                    <div class="input-group col-md-9">
+                                        <input type="text" class="form-control UpperCase" id="EmpAddress" name="EmpAddress" maxlength="90" placeholder="Employee Address" required>
+                                    </div>
+                                </div>
+                                <div class=" row Top">
+
+                                    @*<label for="exampleInputuname" class="col-md-1 offset-md-1">Qualification*</label>
+            <div class="input-group col-md-3">
+                <select class="form-control">
+                    <option value="volvo">Under Matric</option>
+                    <option value="saab">Intermediate</option>
+                    <option value="saab">UnderGraduation</option>
+                 </select>
+            </div>*@
+                                    <label for="exampleInputuname" class="col-md-2 offset-md-1">Department</label>
+                                    <div class="input-group col-md-3">
+                                        <select id="EmpDepartment" name="EmpDepartment" class="form-control">
+                                            @*<option>Select Department</option>*@
+                                            <option>Sales</option>
+                                            
+                                        </select>
+                                        @*<span class="input-group-addon">
+                    <a @*href="@Url.Action("Department", "Definitions")" data-toggle="modal" data-target="#DepartmentModal">
+                        <i class="fa fa-plus" style="color:blue"></i>
+                    </a>
+                </span>*@
+                                    </div>
+
+                                    <label for="exampleInputuname" class="col-md-2 offset-md-1">Qualification</label>
+                                    <div class="input-group col-md-3">
+                                        <select id="EmpQualification" name="EmpQualification" class="form-control">
+                                            @*<option>Select Qualification</option>*@
+                                            <option>Primary</option>
+                                            <option>Middle</option>
+                                            <option>Matric</option>
+                                            <option>Intermediate</option>
+                                            <option>Bachelor</option>
+                                        </select>
+                                        @*<span class="input-group-addon">
+                    <a data-toggle="modal" data-target="#QualificationModal">
+                        <i class="fa fa-plus" style="color:blue"></i>
+                    </a>
+                </span>*@
+                                    </div>
+                                </div>
+                                <div class=" row Top">
+                                    @*<label for="exampleInputuname" class="col-md-1 offset-md-1">Designations*</label>
+            <div class="input-group col-md-3">
+                <select class="form-control">
+                    <option value="volvo">Software Engineer</option>
+                    <option value="saab">Accountant</option>
+                    <option value="mercedes">IT Manager</option>
+                </select>
+            </div>*@
+                                    <label for="exampleInputuname" class="col-md-2 offset-md-1">Designations</label>
+                                    <div class="input-group col-md-3">
+                                        <select id="EmpDesignation" class="form-control" name="EmpDesignation">
+                                            @*<option>Select Designation</option>*@
+                                            <option>Salesman</option>
+                                          
+                                        </select>
+
+                                        @*<span class="input-group-addon">
+                    <a data-toggle="modal" data-target="#DesignationModal">
+                        <i class="fa fa-plus" style="color:blue"></i>
+                    </a>
+                </span>*@
+                                    </div>
+                                    @*<label for="exampleInputuname" class="col-md-1 offset-md-1">Status*</label>
+            <div class="input-group col-md-3">
+                <select class="form-control">
+                    <option value="volvo">Active</option>
+                    <option value="saab">No Active</option>
+                </select>
+            </div>*@
+                                    <label for="exampleInputuname" class="col-md-2 offset-md-1">Status</label>
+                                    <div class="input-group col-md-3">
+                                        @*@Html.TextBox("EmpBasicSalary", TempData["EmpBasicSalary"], new { @class = "form-control", @placeholder = "Status", @id = "EmpBasicSalary" })*@
+                                        <select id="EmpStatus" class="form-control" name="EmpStatus">
+                                            @*<option>Select Status</option>*@
+                                            <option>Peremanent</option>
+                                            <option>Part Time</option>
+                                            <option>Daily Wages</option>
+                                        </select>
+                                        @*<span class="input-group-addon">
+                    <a @*href="@Url.Action("Status", "Definitions")" data-toggle="modal" data-target="#StatusModal">
+                        <i class="fa fa-plus" style="color:blue"></i>
+                    </a>
+                </span>*@
+                                    </div>
+                                </div>
+                                <div class=" row Top">
+                                    <label for="exampleInputuname" class="col-md-2 offset-md-1">Contact No</label>
+                                    <div class="input-group col-md-3">
+                                        <input type="text" class="form-control" id="EmpContactNo" value="" name="EmpContactNo" maxlength="14" data-mask="0399-9999999" placeholder="03__-_______" required>
+                                    </div>
+                                    <label for="exampleInputuname" class="col-md-2 offset-md-1">Experience</label>
+                                    <div class="input-group col-md-3">
+                                        <input type="number" class="form-control" id="EmpEperiance" data-mask="99" name="EmpEperiance" placeholder="__">
+                                    </div>
+                                </div>
+                                <div class=" row Top">
+                                    <label for="exampleInputuname" class="col-md-2 offset-md-1">Basic Salary</label>
+                                    <div class="input-group col-md-3">
+                                        <input type="text" class="form-control" id="EmpBasicSalary" data-mask="99999" name="EmpBasicSalary" placeholder="_____">
+                                    </div>
+                                    <label for="exampleInputuname" class="col-md-2 offset-md-1">Joining Date</label>
+                                    <div class="input-group col-md-3" autocomplete="off">
+                                        <input type="text" class="form-control mydatepicker" autocomplete="off" id="EmpJoiningDate" data-mask="99/99/9999" name="EmpJoiningDate" placeholder=" dd/mm/yyyy" required>
+                                    </div>
+                                </div>
+                                <div class=" row Top">
+                                    <label for="exampleInputuname " class="col-md-2 offset-md-1">D.O.B</label>
+                                    <div class="input-group col-md-3" autocomplete="off">
+                                        <input type="text" class="form-control mydatepicker" autocomplete="off" id="EmpDOB" name="EmpDOB" data-mask="99/99/9999" placeholder=" dd/mm/yyyy" required>
+                                    </div>
+                                    <label for="exampleInputuname " class="col-md-2 offset-md-1">Leaving Date</label>
+                                    <div class="input-group col-md-3">
+                                        <input type="text" class="form-control mydatepicker" autocomplete="off" id="EmpLeavingDate" name="EmpLeavingDate" data-mask="99/99/9999" placeholder=" dd/mm/yyyy" >
+                                    </div>
+                                </div>
+                                <div class=" row Top">
+                                    <label for="exampleInputuname" class="col-md-2 offset-md-1">Opening ShortCash</label>
+                                    <div class="input-group col-md-3">
+                                        <input type="text" class="form-control" id="OpeningShortCash" name="OpeningShortCash" value="0" >
+                                    </div>
+                                   </div>
+                                @* <hr style="color: #e0e0e0" />*@
+                            </div>
+                        </div>
+
+                        <!--Buttons For Actions-->
+                        <div class=" row Top">
+                            <div class="col-sm-12 col-xs-12">
+                                <div class="input-group col-md-10 offset-md-3">
+                                    <div class="input-group">
+
+                                        @if (ERP.Models.CommonDAL.UserRights("4", "002"))
+                                        {
+                                            <input class="btn btn-info Btn-width" type="submit" id="btnSave" value="Save" />
+                                        }
+                                        else
+                                        {
+                                            <input class="btn btn-info Btn-width" type="submit" id="btnSave" value="Save" disabled />
+                                        }
+
+                                        &nbsp;
+
+                                        @if (ERP.Models.CommonDAL.UserRights("4", "004"))
+                                        {
+                                            <input class="btn btn-danger Btn-width" type="button" onclick="DeleteModal()" id="btnDelete" value="Delete" />
+                                        }
+                                        else
+                                        {
+                                            <input class="btn btn-danger Btn-width" type="button" onclick="DeleteModal()" id="btnDelete" value="Delete" disabled />
+                                        }
+
+                                        &nbsp;
+
+                                        <input class="btn btn-default Btn-width" type="reset" id="btnClear" value="Clear" />
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-3">
+                        @*<div class="row">
+                                <div class="panel panel-default panel-body">
+                                    <img src="~/Content/plugins/images/img_avatar.png" id="Img-Item" class="img-thumbnail img-circle" style="height:250px;width:300px;margin-left:10px" />
+                                    <div class="col-md-10" style="margin-top:15px">
+                                        <input type="file" name="Pic" id="ItemImg" onchange="readURL(this)" />
+                                        <label for="ItemImg" style="width:100px" class="btn btn-info offset-md-5">Upload</label>
+                                    </div>
+                                </div>
+
+                            </div>*@
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+<!--Region Modal-->
+<div class="modal fade" tabindex="-1" id="RegionModal" role="dialog" aria-labelledby="modal123Label" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <b>Region Detail</b>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="white-box table-Scroll">
+                        <table id="myTable" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="width20">Region Code</th>
+                                    <th class="width50">Region Description</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (ViewBag.RegionDetail != null)
+                                {
+                                    foreach (var item in ViewBag.RegionDetail)
+                                    {
+                                        <tr onclick="GetRegion('@item.RegionCode','@item.RegionDescription')">
+                                            <td>@item.RegionCode</td>
+                                            <td>@item.RegionDescription</td>
+
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!--Employee Modal-->
+<div class="modal fade" tabindex="-1" id="EmployeeModal" role="dialog" aria-labelledby="modal123Label" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <b>Employee Detail</b>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="white-box table-Scroll">
+                        <table id="myTable" class="table table-striped DataTable">
+                            <thead>
+                                <tr>
+                                    <th class="width20">Employee Code</th>
+                                    <th class="width50">Employee Description</th>
+                                    <th class="width50">Region Descrioption</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (ERP.Models.CommonDAL.UserRights("4", "003"))
+                                {
+                                    if (ViewBag.CompanyEmpDetail != null)
+                                    {
+                                        foreach (var item in ViewBag.CompanyEmpDetail)
+                                        {
+                                            <tr onclick="GetEmployee('@item.EmpCode','@item.EmpName','@item.RegionCode','@item.RegionDescription','@item.EmpRemarks','@item.EmpAddress','@item.EmpDepartment','@item.EmpQualification','@item.EmpDesignation','@item.EmpStatus','@item.EmpContactNo','@item.EmpEperiance','@item.EmpBasicSalary','@item.EmpJoiningDate','@item.EmpLeavingDate','@item.EmpDOB','@item.OpeningShortCash')">
+                                                <td>@item.EmpCode</td>
+                                                <td>@item.EmpName</td>
+                                                <td>@item.RegionDescription</td>
+                                            </tr>
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="3" style="text-align:center;font-size:larger">You have not update rights . . . !</td>
+                                        <td style="display:none"></td>
+                                        <td style="display:none"></td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<script>
+
+
+   
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#Img-Item')
+                    .attr('src', e.target.result)
+            };
+
+            reader.readAsDataURL(input.files[0]);
+
+
+            var formdata = new FormData(); //FormData object
+            var fileInput = document.getElementById('ItemImg');
+            //Iterating through each files selected in fileInput
+            for (i = 0; i < fileInput.files.length; i++) {
+                //Appending each file to FormData object
+                formdata.append(fileInput.files[i].name, fileInput.files[i]);
+            }
+            //Creating an XMLHttpRequest and sending
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/Company/GetItemImg');
+            xhr.send(formdata);
+            //xhr.onreadystatechange = function () {
+            //    if (xhr.readyState == 4 && xhr.status == 200) {
+            //        alert(xhr.responseText);
+            //    }
+            //}
+
+
+        }
+    }
+
+
+
+
+</script>
+
+<script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+<script>
+
+    $(".readonly").keydown(function (e) {
+        e.preventDefault();
+    });
+
+
+    document.getElementById("PageHeader").innerHTML = "Company Employee";
+
+
+    document.getElementById("PageLink").style.visibility = "hidden";
+    //var str = "Add New Unit";
+    //var result = str.link("/CompanySetup/UnitSetup");
+    //document.getElementById("PageLink").innerHTML = result;
+
+     document.getElementById("PageTitle").innerHTML = "Company Employee"
+</script>
+
+<script type="text/javascript">
+
+
+    $(function () {
+        $("#RegionCode").chosen();
+        $("#EmpQualification").chosen();
+        $("#EmpDepartment").chosen();
+        $("#EmpDesignation").chosen();
+        $("#EmpStatus").chosen();
+        
+    })
+
+    function GetRegion(RegionCode, RegionDescription) {
+        document.getElementById('RegionCode').value = RegionCode;
+        document.getElementById('RegionDescription').value = RegionDescription;
+        $('#RegionModal').modal('hide');
+    }
+
+    function GetEmployee(EmpCode,EmpName,RegionCode,RegionDescription,EmpRemarks,EmpAddress,EmpDepartment,EmpQualification,EmpDesignation,EmpStatus,EmpContactNo,EmpEperiance,EmpBasicSalary,EmpJoiningDate,EmpLeavingDate,EmpDOB,OpeningShortCash) {
+        //document.getElementById('RegionCode').value = RegionCode;
+        $('#RegionCode').val(RegionCode);
+        $('#RegionCode').trigger("chosen:updated");
+        //document.getElementById('RegionDescription').value = RegionDescription;
+        document.getElementById('EmpCode').value = EmpCode;
+        document.getElementById('EmpName').value = EmpName;
+        document.getElementById('EmpRemarks').value = EmpRemarks;
+        document.getElementById('EmpAddress').value = EmpAddress;
+
+        //document.getElementById('EmpDepartment').value = EmpDepartment;
+        $('#EmpDepartment').val(EmpDepartment);
+        $('#EmpDepartment').trigger("chosen:updated");
+
+
+        //document.getElementById('EmpQualification').value = EmpQualification;
+        $('#EmpQualification').val(EmpQualification);
+        $('#EmpQualification').trigger("chosen:updated");
+
+        //document.getElementById('EmpDesignation').value = EmpDesignation;
+        $('#EmpDesignation').val(EmpDesignation);
+        $('#EmpDesignation').trigger("chosen:updated");
+
+        document.getElementById('EmpStatus').value = EmpStatus;
+        $('#EmpStatus').val(EmpStatus);
+        $('#EmpStatus').trigger("chosen:updated");
+
+        document.getElementById('EmpContactNo').value = EmpContactNo;
+        document.getElementById('EmpEperiance').value = EmpEperiance;
+        document.getElementById('EmpBasicSalary').value = EmpBasicSalary;
+        document.getElementById('EmpJoiningDate').value = EmpJoiningDate;
+        document.getElementById('EmpLeavingDate').value = EmpLeavingDate;
+        document.getElementById('EmpDOB').value = EmpDOB;
+
+        document.getElementById('OpeningShortCash').value = OpeningShortCash;
+
+
+        $('#EmployeeModal').modal('hide');
+    } //Warning Message
+    function DeleteModal() {
+        var Id = $('#EmpCode').val();
+        var Url = "/Company/DeleteEmployee";
+
+        if (Id == null || Id == "") {
+            alert("Employee Code Cannot be empty . . . !");
+        } else {
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this record . . . !",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it...!",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    type: "POST",
+                    url: Url,
+                    dataType: "json",
+                    contentType: 'application/json',
+                    data: JSON.stringify({ EmpCode: Id }),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data == true) {
+                            swal({
+                                title: "Deleted!",
+                                text: "Your record has been deleted.",
+                                type: "success"
+                            }, function () {
+                                location.reload();
+                            });
+                        }
+                        else {
+                            swal({
+                                title: "Not Deleted!",
+                                text: "Something went wrong, Record not deleted . . . !",
+                                type: "warning"
+                            }, function () {
+                                location.reload();
+                            });
+                           
+                        }
+                        
+                    }
+                });
+            })
+        }
+
+    }
+
+   
+
+
+
+
+</script>

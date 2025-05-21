@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "GetAllPartyDiscount";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div class="white-box">
+    <table id="" class="table table-striped DataTable ExportTable">
+        <thead>
+            <tr>
+                <th class="width20">Discount Date</th>
+                <th class="width20">Region Code</th>
+                <th class="width50">Region Description</th>
+                <th class="width20">Party Code</th>
+                <th class="width50">Party Description</th>
+                <th class="width50">Category</th>
+                <th class="width20">Item Code</th>
+                <th class="width50">Item Description</th>
+                <th class="width20">Discount Amount</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (ViewBag.DiscountParties != null)
+            {
+                foreach (var item in ViewBag.DiscountParties)
+                {
+            <tr>
+                <td>@item.PdDate.ToString("dd/MM/yyyy")</td>
+                <td>@item.RegionCode</td>
+                <td>@item.RegionDesc</td>
+                <td>@item.PartyCode</td>
+                <td>@item.PartyDesc</td>
+                <td>@item.Category</td>
+                <td>@item.ItemCode</td>
+                <td>@item.ItemDesc</td>
+                <td>@item.Amount</td>
+
+            </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>
+<script>
+    document.getElementById("PageHeader").innerHTML = "Party Discount Detail";
+
+
+    document.getElementById("PageLink").style.visibility = "hidden";
+    //var str = "Add New Unit";
+    //var result = str.link("/CompanySetup/UnitSetup");
+    //document.getElementById("PageLink").innerHTML = result;
+
+
+</script>
+

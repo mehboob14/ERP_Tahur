@@ -1,0 +1,150 @@
+﻿@model IEnumerable<ERP.Models.HR_SiteInfo>
+
+@{
+    ViewBag.Title = "HR_SiteList";
+    Layout = "~/Views/Shared/_HR_Layout.cshtml";
+}
+
+@if (ERP.Models.CommonDAL.UserRights("1501", "002"))
+{
+
+    <div class="card mb-3">
+        <div class="card-body pt-0">
+
+            <form action="/HR/HR_CreateEdit_SiteList" method="post">
+                <div class="row">
+
+                    <div class="form-group mt-1 col-md-2">
+                        <label class="control-label col-md-12">Site Code</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-sm" type="number" id="SiteCode" name="SiteCode" value="0" readonly />
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-1 col-md-8">
+                        <label class="control-label col-md-12">Site Name</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-sm" type="text" id="SiteName" name="SiteName" required />
+                        </div>
+                    </div>
+
+                    <div class="col-md-2" style="margin-top:35px">
+                        <button class="btn btn-falcon-success btn-sm" type="submit">
+                            <span class="fas fa-download" data-fa-transform="shrink-3 down-2"></span>
+                            <span class="ms-1">Submit</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+}
+
+
+<div class="card mb-3">
+    <div class="card-body pt-0">
+        <div class="table-responsive scrollbar">
+            <table class="table table-sm table-hover table-striped overflow-hidden" id="tblSite">
+                <thead>
+                    <tr>
+                        <td width="100">
+                            <b>
+                                @Html.DisplayNameFor(model => model.SiteCode)
+                            </b>
+                        </td>
+                        <td>
+                            <b>
+                                @Html.DisplayNameFor(model => model.SiteName)
+                            </b>
+                        </td>
+                        <td width="100">
+                            <b>
+                                Actions
+                            </b>
+                        </td>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @if (Model != null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SiteCode)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SiteName)
+                                </td>
+
+                                @if (ERP.Models.CommonDAL.UserRights("1501", "003"))
+                                {
+                                    <td>
+                                        <a class="selectItem" style="color:blue"><i class="fa fa-edit"></i></a>
+                                        &nbsp;&nbsp;|&nbsp;&nbsp;
+                                        <a class="deleteItem" style="color:red"><i class="fa fa-trash"></i></a>
+                                    </td>
+                                }
+
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+<script>
+    $("table#tblSite").on('click', '.selectItem', function () {
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr').rowIndex;
+        //rIndex = this.rowIndex;
+        //console.log(index);
+        var SiteCode = rIndex.find('td:eq(0)').text().replace(/\s+/g, "");
+        var SiteName = rIndex.find('td:eq(1)').text();
+
+        document.getElementById('SiteCode').value = SiteCode;
+        document.getElementById('SiteName').value = SiteName.trim();
+
+    });
+
+    $("table#tblSite").on('click', '.deleteItem', function () {
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr').rowIndex;
+
+        var SiteCode = rIndex.find('td:eq(0)').text().replace(/\s+/g, "");;
+
+        if (confirm("Are you sure to want delete . . . ?") == true) {
+
+            $.ajax({
+                type: "POST",
+                url: "/HR/HR_Delete_SiteList",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({ SiteCode: SiteCode }),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    location.reload();
+
+                }
+            });
+        }
+
+    });
+
+</script>
+
+
+
+

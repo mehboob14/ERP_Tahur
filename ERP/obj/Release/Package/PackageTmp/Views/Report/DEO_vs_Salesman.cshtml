@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "DEO_vs_Salesman";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div class="white-box">
+    <div class="form-group row">
+        <label for="exampleInputuname" class="offset-md-2 col-md-1">From Date</label>
+        <div class="input-group col-md-2">
+            <input type="text" class="form-control Datepicker-AutoClose" data-mask="99/99/9999" id="FromDate" placeholder="dd/mm/yyyy">
+        </div>
+        <label for="exampleInputuname" class="col-md-1">To Date</label>
+        <div class="input-group col-md-2">
+            <input type="text" class="form-control Datepicker-AutoClose" data-mask="99/99/9999" id="ToDate" placeholder="dd/mm/yyyy">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-12 col-xs-12">
+            <div class="input-group offset-md-3">
+                <input type="button" class="btn btn-info" value="Print" onclick="ExportPrint();" style="width:70px;height:30px;background: #0067b8;padding:10px" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    function ExportPrint() {
+        
+        var fromdate = document.getElementById("FromDate").value;
+        var todate = document.getElementById("ToDate").value;
+       
+         var baseurl = '@Url.Action("/ExportDEOSalesmanAnalysis")';
+        var url = baseurl + '?FDate=' + fromdate + '&TDate=' + todate;
+        //window.location.href = url;
+        window.open(url, '_blank');
+    }
+</script>
+

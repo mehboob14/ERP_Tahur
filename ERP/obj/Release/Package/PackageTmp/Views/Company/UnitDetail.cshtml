@@ -1,0 +1,79 @@
+﻿
+@{
+    ViewBag.Title = "UnitDetail";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<!-- /row -->
+<div class="row">
+    <div class="col-sm-12">
+        <div class="white-box">
+            <div class="table-responsive">
+                <table id="myTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th width="10%">Unit Code</th>
+                            <th width="30%">Unit Description</th>
+                            <th width="30%">Address</th>
+                            <th width="10%">City</th>
+                            <th width="10%">Phone</th>
+                            <th width="10%">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>001</td>
+                            <td>At-Tahur 1</td>
+                            <td>Abu-Bakar Block Lahore</td>
+                            <td>Lahore</td>
+                            <td>03211212321</td>
+                            <td class="text-nowrap">
+                                <a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                <a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>002</td>
+                            <td>At-Tahur 2</td>
+                            <td>Abu-Bakar Block Lahore</td>
+                            <td>Lahore</td>
+                            <td>03211212321</td>
+                            <td class="text-nowrap">
+                                <a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                <a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>003</td>
+                            <td>At-Tahur 3</td>
+                            <td>Abu-Bakar Block Lahore</td>
+                            <td>Lahore</td>
+                            <td>03211212321</td>
+                            <td class="text-nowrap">
+                                <a href="#" data-toggle="tooltip" data-original-title="Edit"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a>
+                                <a href="#" data-toggle="tooltip" data-original-title="Close"> <i class="fa fa-close text-danger"></i> </a>
+                            </td>
+
+                        </tr>
+                       
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+    document.getElementById("PageHeader").innerHTML = "Unit Detail";
+
+
+        //document.getElementById("PageLink").style.visibility = "hidden";
+    var str = "Add New Unit";
+    var result = str.link("/Company/UnitSetup");
+    document.getElementById("PageLink").innerHTML = result;
+
+
+    </script>
+

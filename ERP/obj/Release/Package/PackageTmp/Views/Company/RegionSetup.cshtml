@@ -1,0 +1,613 @@
+﻿@model ERP.Models.RegionSetup
+
+
+@{
+    ViewBag.Title = "BranchSetup";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+<style>
+    .FontCSS {
+        font-size: 1.2em !important;
+        color: #000 !important;
+        font-family: Arial !important;
+    }
+
+    input, text {
+        border: 1px solid;
+        border-color: black;
+    }
+
+    table, th, td {
+        font-size: 0.9em !important;
+        color: #000 !important;
+        font-family: Arial !important;
+    }
+
+    table, th {
+        font-weight: bold;
+    }
+
+    .BlackBorder {
+        border-color: black;
+    }
+</style>
+
+<style type="text/css">
+    /*label {
+        font-weight: 100;
+        font-size: 12px;
+    }*/
+
+    /*.btn {
+        line-height: 0.25;
+        font-size: 12px;
+    }*/
+
+    .checkbox {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-off,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-on,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-label {
+        line-height: 1.2;
+    }
+
+    /*.modal-header {
+        padding: 5px;
+    }*/
+
+
+
+    /*.input-group-addon {
+        padding: 3px 8px;
+        /*color: #0084BF;
+    }*/
+
+
+
+    .table-Scroll {
+        max-height: 540px;
+        max-width: 100%;
+        overflow: auto;
+    }
+
+    td {
+        font-size: 12px;
+    }
+
+    th {
+        font-size: 12px;
+        font: bold;
+    }
+
+    .width50 {
+        width: 500px;
+    }
+
+    .width40 {
+        width: 400px;
+    }
+
+    .width15 {
+        width: 150px;
+    }
+
+    .width30 {
+        width: 300px;
+    }
+
+    .width20 {
+        width: 200px;
+    }
+
+    .width10 {
+        width: 100px;
+    }
+</style>
+
+<style>
+    .Top {
+        margin-top: 5px;
+    }
+
+    .Btn-width {
+        width: 80px;
+        font-family: Calibri;
+        font-size: large;
+        font-style: normal;
+    }
+
+    .table-head {
+        height: 10px;
+        line-height: 8px;
+    }
+
+    .btn-TopHeight {
+        margin-top: 23px;
+    }
+
+    .btn-ItemWidth {
+        width: 100px;
+        /*height: 32px;*/
+    }
+
+    fieldset {
+        margin-top: 20px
+    }
+
+    thead {
+        height: 32px
+    }
+</style>
+
+<div class="form-group FontCSS">
+    <div class="col-md-12">
+        <div class="white-box">
+            <form role="form" action="/Company/RegionSetup" method="post" id="RegionSetup" name="RegionSetup">
+                <div class="row">
+                    <div class="col-md-12">
+                        @if (TempData["SuccessMsg"] != null)
+                        {
+                            <div class="alert alert-success">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <b> @TempData["SuccessMsg"]</b>
+                            </div>
+                        }
+
+                        <div class="row">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Region Code</label>
+                            <div class="col-md-6 input-group">
+                                <div class="input-group-addon BlackBorder"><a data-toggle="modal" data-target="#RegionModal" style="color:blue"><i class="fa fa-search"></i></a></div>
+                                <input class="form-control BlackBorder" type="text" placeholder="Region Code" id="RegionCode" name="RegionCode" readonly>
+                            </div>
+                            <div class="col-md-2 input-group">
+                                <input class="form-control BlackBorder" type="text" placeholder="dd/MM/yyyy" id="TransDate" name="TransDate" value="@ViewBag.CurrentDate" readonly>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row Top">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Region Description</label>
+                            <div class="col-md-8 input-group">
+                                <input class="form-control BlackBorder" type="text" placeholder="Region Description" id="RegionDescription" name="RegionDescription" maxlength="90" required>
+                            </div>
+                        </div>
+
+                        <div class="row Top">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Name Abbreviate</label>
+                            <div class="col-md-8 input-group">
+                                <input class="form-control BlackBorder" type="text" placeholder="Name Abbreviate" id="NameAbbreviate" name="NameAbbreviate" maxlength="40" required>
+                            </div>
+                        </div>
+
+                        <div class="row Top">
+                            <label for="example-text-input" class="col-md-2 col-form-label">City</label>
+                            <div class="col-md-8 input-group">
+                                <input class="form-control BlackBorder" type="text" placeholder="City" id="City" name="City" maxlength="20" required>
+                            </div>
+                        </div>
+
+                        <div class="row Top">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Address</label>
+                            <div class="col-md-8 input-group">
+                                <input class="form-control BlackBorder" type="text" placeholder="Address" id="Address" name="Address" maxlength="140">
+                            </div>
+                        </div>
+
+                        <div class="row Top">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Phone #</label>
+                            <div class="col-md-8 input-group">
+                                <input class="form-control BlackBorder" type="text" data-mask="0999 9999999" placeholder="Contact No" id="Phone" name="Phone" required>
+                            </div>
+                            <input class="btn btn-info" type="button" id="Add" data-toggle="modal" data-target="#ItemModal" value="Add New Item" disabled />
+                        </div>
+
+
+                    </div>
+
+                    <section style="margin-top:15px" class="col-md-12">
+                        <legend> Item Detail Rate</legend>
+                        <div class="col-md-12" style="margin-top:10px">
+                            <table id="ItemTable" data-toggle="table" data-height="250" data-mobile-responsive="true" class="table-striped">
+                                <thead class="FontCSS">
+                                    <tr>
+                                        <th data-width="100"> Item Code </th>
+                                        <th> Item Description </th>
+                                        <th data-width="100"> RegCorporate Rate </th>
+                                        <th data-width="100"> UnRegCorporate Rate </th>
+                                        <th data-width="100"> RegRetailer Rate </th>
+                                        <th data-width="100"> UnRegRetailer Rate </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (ViewBag.ItemList != null)
+                                    {
+                                        foreach (var item in ViewBag.ItemList)
+                                        {
+                                            <tr class="GetQty">
+                                                <td>@item.ItemCode</td>
+                                                <td>@item.ItemDesc</td>
+                                                <td>
+                                                    <input value="0" name="RegCorporateRate" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                           type="number"
+                                                           maxlength="8" />
+                                                </td>
+                                                <td>
+                                                    <input value="0" name="UnRegCorporateRate" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                           type="number"
+                                                           maxlength="8" />
+                                                </td>
+                                                <td>
+                                                    <input value="0" name="RegRetailerRate" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                           type="number"
+                                                           maxlength="8" />
+                                                </td>
+                                                <td>
+                                                    <input value="0" name="UnRegRetailerRate" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                           type="number"
+                                                           maxlength="8" />
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </section>
+                    <div class="row col-md-12" style="margin-top:15px">
+                        <div class="input-group offset-md-9">
+                            @if (ERP.Models.CommonDAL.UserRights("2", "002"))
+                            {
+                                <input class="btn btn-info Btn-width model_img" type="button" id="btnSave" value="Save" style="margin-left:20px" />
+                            }
+                            else
+                            {
+                                <input class="btn btn-info Btn-width model_img" type="button" id="btnSave" value="Save" style="margin-left:20px" disabled />
+                            }
+
+                            &nbsp;
+
+                            @if (ERP.Models.CommonDAL.UserRights("2", "004"))
+                            {
+                                <input class="btn btn-danger Btn-width model_img" type="button" onclick="DeleteModal()" value="Delete" />
+                            }
+                            else
+                            {
+                                <input class="btn btn-danger Btn-width model_img" type="button" onclick="DeleteModal()" value="Delete" disabled />
+                            }
+
+                            &nbsp;
+
+                            <input class="btn btn-default Btn-width" type="reset" id="btnClear" value="Clear" />
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<!--Region Modal-->
+<div class="modal fade" tabindex="-1" id="RegionModal" role="dialog" aria-labelledby="modal123Label" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg col-xs-12">
+        <div class="modal-content">
+            <div class="modal-header">
+                <b>Region Detail</b>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="white-box table-Scroll">
+                        <table id="myTable" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="width10">Region Code</th>
+                                    <th class="width50">Region Description</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (ERP.Models.CommonDAL.UserRights("2", "003"))
+                                {
+                                    if (ViewBag.RegionDetail != null)
+                                    {
+                                        foreach (var item in ViewBag.RegionDetail)
+                                        {
+                                            <tr onclick="GetRegion('@item.RegionCode','@item.RegionDescription')">
+                                                <td>@item.RegionCode</td>
+                                                <td>@item.RegionDescription</td>
+
+                                            </tr>
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="2" style="text-align:center">You have not update rights . . . !</td>
+                                        <td style="display:none"></td>
+                                    </tr>
+                                }
+
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<!--Region Modal-->
+<div class="modal fade" tabindex="-1" id="ItemModal" role="dialog" aria-labelledby="modal123Label" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg col-xs-12">
+        <div class="modal-content">
+            <div class="modal-header">
+                <b>Item List</b>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-11">
+                        @Html.DropDownListFor(M => M.ItemCode, (IEnumerable<SelectListItem>)ViewBag.ItemDDL as SelectList, "Select Item", new { @class = "form-control", @name = "ItemCode", @id = "ItemCode" })
+                    </div>
+                    <div class="input-group-addon"><a style="color:blue" onclick="AddItem()"><i class="fa fa-chevron-down"></i></a></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+
+<script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+<script>
+    document.getElementById("PageHeader").innerHTML = "Region Setup";
+
+
+    document.getElementById("PageLink").style.visibility = "hidden";
+    //var str = "Add New Unit";
+    //var result = str.link("/CompanySetup/UnitSetup");
+    //document.getElementById("PageLink").innerHTML = result;
+
+    document.getElementById("PageTitle").innerHTML = "Region Setup"
+
+    $(function () {
+      
+        //$("#ItemCode").chosen().trigger("chosen:updated");
+
+    });
+
+</script>
+
+<script type="text/javascript">
+
+    function AddItem() {
+
+        var ItemCode = $("#ItemCode").val();
+
+        var ItemDesc = $("#ItemCode option:selected").text();
+
+        var row = '<tr><td>' + ItemCode + ' </td> <td> ' + ItemDesc +
+            '</td><td><input name="RegCorporateRate" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type = "number" maxlength = "8" value="' + 0 + '"/>' +
+            '</td><td><input name="UnRegCorporateRate" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type = "number" maxlength = "8" value="' + 0 + '"/>' +
+            '</td><td><input name="RegRetailerRate" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type = "number" maxlength = "8" value="' + 0 + '"/>' +
+            '</td><td><input name="UnRegRetailerRate" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type = "number" maxlength = "8" value="' + 0 + '"/></td></tr>';
+
+        $("#ItemTable tbody").append(row);
+
+        $("#ItemModal").modal('hide');
+
+    }
+
+
+
+    function GetRegion(RegionCode, RegionDescription) {
+        document.getElementById('RegionCode').value = RegionCode;
+
+        document.getElementById('RegionDescription').value = RegionDescription;
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Company/GetSingleRegion",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode }),
+            contentType: "application/json; charset=utf-8",
+            complete: function (ItemList) {
+                if (ItemList.responseJSON.length > 0) {
+                    $("#ItemTable tbody tr").remove();
+                    $.each(ItemList.responseJSON, function (index, obj) {
+                        var row = '<tr><td>' + obj.ItemCode + ' </td> <td> ' + obj.ItemDescription +
+                            '</td><td><input name="RegCorporateRate" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type = "number" maxlength = "8" value="' + obj.RegCorporateRate + '"/>' +
+                            '</td><td><input name="UnRegCorporateRate" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type = "number" maxlength = "8" value="' + obj.UnRegCorporateRate + '"/>' +
+                            '</td><td><input name="RegRetailerRate" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type = "number" maxlength = "8" value="' + obj.RegRetailerRate + '"/>' +
+                            '</td><td><input name="UnRegRetailerRate" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type = "number" maxlength = "8" value="' + obj.UnRegRetailerRate + '"/></td></tr>';
+
+                        document.getElementById('City').value = obj.City;
+                        document.getElementById('Address').value = obj.Address;
+                        document.getElementById('Phone').value = obj.Phone;
+                        document.getElementById('NameAbbreviate').value = obj.NameAbbreviate;
+                        document.getElementById('TransDate').value = obj.UpdDate;
+
+                        $("#ItemTable tbody").append(row);
+                    });
+
+
+                }
+            }
+        });
+
+        $("#Add").removeAttr("disabled", true);
+
+        $('#RegionModal').modal('hide');
+    }
+
+</script>
+
+<script>
+
+    var ItemTable = []
+
+
+    function checkAllEmptyInputs() {
+        var isEmpty = false,
+            RegionDescription = document.getElementById('RegionDescription').value,
+
+            City = document.getElementById('City').value,
+            Address = document.getElementById('Address').value,
+            Phone = document.getElementById('Phone').value,
+            NameAbbreviate = document.getElementById('NameAbbreviate').value;
+
+        if (RegionDescription == "") {
+            alert('Region Description cannot be Empty');
+            isEmpty = true;
+        }
+        else if (City == "") {
+            alert('City cannot be Empty');
+            isEmpty = true;
+        }
+        else if (Address == "") {
+            alert('Address cannot be Empty');
+            isEmpty = true;
+        }
+        else if (Phone == "") {
+            alert('Phone cannot be Empty');
+            isEmpty = true;
+        }
+        else if (NameAbbreviate == "") {
+            alert('Name Abbreviate cannot be Empty');
+            isEmpty = true;
+        }
+
+        return isEmpty;
+    }
+
+
+    function ItemRows() {
+
+        itemCount = 0;
+        $("table#ItemTable").find('tr').each(function () {
+            var tableItem = document.getElementById('ItemTable');
+            var RegCorporateRate = $(this).find("input[name='RegCorporateRate']").val();
+            var UnRegCorporateRate = $(this).find("input[name='UnRegCorporateRate']").val();
+            var RegRetailerRate = $(this).find("input[name='RegRetailerRate']").val();
+            var UnRegRetailerRate = $(this).find("input[name='UnRegRetailerRate']").val();
+
+            if (itemCount != 0) {
+                var itemList = $(this).find("td");
+                // check empty row
+
+                var vouch = {
+                    ItemCode: $(itemList[0]).html(), ItemDesc: $(itemList[1]).html(), RegCorporateRate: parseFloat(RegCorporateRate), UnRegCorporateRate: parseFloat(UnRegCorporateRate), RegRetailerRate: parseFloat(RegRetailerRate), UnRegRetailerRate: parseFloat(UnRegRetailerRate)
+                };
+                ItemTable.push(vouch);
+            }
+            itemCount++;
+        })
+
+        //var itemList = $(this).find("td");
+        //var DiscountAmt = $(this).find("input[name='DiscountAmt']").val();
+        //var vouch = {
+        //    ItemCode: $(itemList[1]).html(), ItemDesc: $(itemList[2]).html(), DiscountAmt: DiscountAmt
+        //};
+        //ItemTable.push(vouch);
+    }
+
+    $("#btnSave").click(function (e) {
+        e.preventDefault();
+        if (!(checkAllEmptyInputs())) {
+            ItemRows();
+
+            $.ajax({
+                type: "POST",
+                url: "/Company/RegionItemRate",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({ RegionItemRate: ItemTable }),
+                contentType: "application/json; charset=utf-8",
+                complete: function (data) {
+                    document.forms["RegionSetup"].submit();
+                }
+            });
+
+        }
+    });
+
+</script>
+
+<script type="text/javascript">
+
+    //Warning Message
+    function DeleteModal() {
+        var Id = $('#RegionCode').val();
+        var Url = "/Company/DeleteRegion";
+
+        if (Id == null || Id == "") {
+            alert("Region Code Cannot be empty . . . !");
+        } else {
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this record . . . !",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it...!",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    type: "POST",
+                    url: Url,
+                    dataType: "json",
+                    contentType: 'application/json',
+                    data: JSON.stringify({ RegionCode: Id }),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data == true) {
+                            swal({
+                                title: "Deleted!",
+                                text: "Your record has been deleted.",
+                                type: "success"
+                            }, function () {
+                                location.reload();
+                            });
+                        }
+                        else {
+                            swal({
+                                title: "Not Deleted!",
+                                text: "Something went wrong, Record not deleted . . . !",
+                                type: "warning"
+                            }, function () {
+                                location.reload();
+                            });
+                        }
+                    }
+                });
+            })
+        }
+
+    }
+
+
+</script>

@@ -1,0 +1,976 @@
+﻿
+@{
+    ViewBag.Title = "ShortCashRecovery";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<style type="text/css">
+    /*label {
+        font-weight: 100;
+        font-size: 12px;
+    }*/
+
+    /*.btn {
+        line-height: 0.25;
+        font-size: 12px;
+    }*/
+
+    .checkbox {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-off,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-on,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-label {
+        line-height: 1.2;
+    }
+
+    /*.modal-header {
+        padding: 5px;
+    }*/
+
+
+
+    /*.input-group-addon {
+        padding: 3px 8px;
+        /*color: #0084BF;
+    }*/
+
+
+
+    .table-Scroll {
+        max-height: 540px;
+        max-width: 100%;
+        overflow: auto;
+    }
+
+    td {
+        font-size: 12px;
+    }
+
+    th {
+        font-size: 12px;
+        font: bold;
+    }
+
+    .width50 {
+        width: 500px;
+    }
+
+    .width40 {
+        width: 400px;
+    }
+
+    .width15 {
+        width: 150px;
+    }
+
+    .width30 {
+        width: 300px;
+    }
+
+    .width20 {
+        width: 200px;
+    }
+
+    .width10 {
+        width: 100px;
+    }
+
+    .White {
+        color: white;
+    }
+
+    .Black {
+        color: black;
+    }
+</style>
+
+<style>
+    .Top {
+        margin-top: 5px;
+    }
+
+    .Btn-width {
+        width: 80px;
+        font-family: Calibri;
+        font-size: large;
+        font-style: normal;
+    }
+
+    .table-head {
+        height: 10px;
+        line-height: 8px;
+    }
+
+    .btn-TopHeight {
+        margin-top: 23px;
+    }
+
+    .btn-ItemWidth {
+        width: 100px;
+        /*height: 32px;*/
+    }
+
+    fieldset {
+        margin-top: 20px
+    }
+
+    thead {
+        height: 32px
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <form action="/Transaction/ShortCashRecovery" method="post" id="ShortCashRecovery" name="ShortCashRecovery">
+            <div class="white-box">
+                @if (TempData["SuccessMsg"] != null)
+                {
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <b> @TempData["SuccessMsg"]</b>
+                    </div>
+                }
+
+                <input type="hidden" id="SessionRecDate" value="@Session["SessSCRecDate"]" />
+                <input type="hidden" id="SessionRegionCode" value="@Session["SessSCRecRegionCode"]" />
+                <input type="hidden" id="SessionEmpCode" value="@Session["SessSCRecEmpCode"]" />
+
+                <div class="row">
+
+                    <label for="example-text-input" class="col-md-1 col-form-label">Recovery No</label>
+                    <div class="col-md-2 input-group">
+                        <div class="input-group-addon"><a data-toggle="modal" data-target="#RecoveryModal" style="color:blue"><b><i class="fa fa-search"></i></b></a></div>
+                        <input class="form-control" type="text" placeholder="Receipt No" id="Id" name="Id" readonly>
+                    </div>
+
+                    <label for="example-text-input" class="col-md-1 col-form-label">Rec Date</label>
+                    @if (ERP.Models.CommonDAL.UserRoleName() == "Admin")
+                    {
+                        <div class="col-md-2 input-group">
+                            <input class="form-control Datepicker-AutoCloseAdmin" type="text" placeholder="dd/mm/yyyy" id="RecDate" autocomplete="off" data-mask="99/99/9999" name="RecDate" readonly>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-2 input-group">
+                            <input class="form-control Datepicker-AutoCloseDEO" type="text" placeholder="dd/mm/yyyy" id="RecDate" autocomplete="off" data-mask="99/99/9999" name="RecDate" readonly>
+                        </div>
+                    }
+
+
+                        <select class="col-md-1 input-group" id="Type" name="Type" onchange="ChangeOfType()">
+                            <option value="Cash">Cash</option>
+                            <option value="Cheq">Cheq</option>
+                            <option value="Bill">Bill</option>
+                            <option value="IBFT">Online/IBFT</option>
+                        </select>
+
+                </div>
+                <div class="row Top">
+
+                    <label for="example-text-input" class="col-md-1 col-form-label">Cheq No</label>
+                    <div class="col-md-2 input-group">
+                        <input class="form-control" type="text" placeholder="ChequeNo" id="CheqNo" name="CheqNo" readonly>
+                    </div>
+                    <label for="example-text-input" class="col-md-1 col-form-label">Cheq Date</label>
+                    <div class="col-md-2 input-group">
+                        <input class="form-control Datepicker-AutoCloseAdmin" type="text" placeholder="Cheq Date" id="CheqDate" name="CheqDate" readonly disabled>
+                    </div>
+
+                    <input type="button" class="btn btn-info" value="Add" onclick="AddNewRow()" style="height:30px" />
+
+                    <label for="example-text-input" class="col-md-1 col-form-label" style="margin-left:50px"><b>Total:</b></label>
+                    <div class="col-md-1 input-group">
+                        <input class="form-control" type="number" placeholder="Recovery" id="TtlRecovery" name="TtlRecovery" readonly>
+                    </div>
+
+
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="white-box">
+                        <div class="table-responsive">
+                            <table id="ItemTable" data-toggle="table" data-height="400" data-mobile-responsive="true" class="table-striped">
+                                <thead class="bg-info">
+                                    <tr>
+                                        <th class="width20 White">Region</th>
+                                        <th class="width30 White">Party</th>
+                                        <th class="width10 White">Salesman</th>
+                                        <th class="width10 White">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                   
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Buttons For Actions-->
+                <div class=" row Top">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="input-group col-md-3 offset-md-9">
+                            <div class="input-group">
+
+                                @if (ERP.Models.CommonDAL.UserRights("8", "002"))
+                                {
+                                    <input class="btn btn-info Btn-width" type="button" id="btnSave" value="Save" style="margin-left:5px" />
+                                }
+                                else
+                                {
+                                    <input class="btn btn-info Btn-width" type="button" id="btnSave" value="Save" style="margin-left:5px" disabled />
+                                }
+
+                                &nbsp;
+
+                                @if (ERP.Models.CommonDAL.UserRights("8", "004"))
+                                {
+                                    <input class="btn btn-danger Btn-width" type="button" id="btnDelete" onclick="DeleteModal()" value="Delete" />
+                                }
+                                else
+                                {
+                                    <input class="btn btn-danger Btn-width" type="button" id="btnDelete" onclick="DeleteModal()" value="Delete" disabled />
+                                }
+                                &nbsp;
+                                <input class="btn btn-default Btn-width" type="button" id="btnClear" value="Clear" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!--Invoice Record-->
+<div class="modal fade" tabindex="-1" id="RecoveryModal" role="dialog" aria-labelledby="modal123Label" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="margin-top:50px; height:700px;width:800px">
+            <div class="modal-header">
+                <b>Recovery Detail</b>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="col-md-9 input-group">
+                        <input class="form-control Datepicker-AutoClose" type="text" placeholder="dd/mm/yyyy" name="GetRecDate" id="GetRecDate" value="" data-mask="99/99/9999">
+
+                    </div>
+
+                    <div class="col-md-2 input-group">
+                        <input type="button" class="btn btn-info" value="Get Detail" onclick="GetRecDetail()" />
+                    </div>
+                    <div class="white-box table-Scroll">
+                        <table id="tblInvoice" class="table table-striped table-bordered">
+                            <thead>
+                                <tr class="bg-info">
+                                    <th class="width20" style="Color:White">Recovery No</th>
+                                    <th class="width20" style="Color:White">Recovery Date</th>
+                                    <th class="width50" style="Color:White">Region Desc</th>
+                                    <th class="width50" style="Color:White">Party Desc</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+
+
+<script>
+    document.getElementById("PageHeader").innerHTML = "Short Cash Recovery";
+
+    $("#SearchAutoComplete").show("true");
+
+    document.getElementById("PageTitle").innerHTML = "Short Cash Recovery";
+</script>
+
+<script>
+
+    $(function () {
+
+        $("#PartyCode").chosen();
+        $("#RegionCode").chosen();
+        $("#EmpCode").chosen();
+
+        $('#ItemTable tbody tr').remove();
+    });
+
+    function ChangeOfType() {
+        var Type = $("#Type").val();
+        if (Type === "Cheq" || Type === "IBFT") {
+            $("#CheqNo").attr("readonly", false);
+            $("#CheqDate").attr("disabled", false);
+        } else {
+            $("#CheqNo").attr("readonly", true);
+            $("#CheqDate").attr("disabled", true);
+        }
+    }
+
+    $(function () {
+
+        var RecDate = $("#SessionRecDate").val();
+        var RegionCode = $("#SessionRegionCode").val();
+        var EmpCode = $("#SessionEmpCode").val();
+
+        $("#RecDate").val(RecDate);
+
+
+        $("table#ItemTable tbody").find('tr').each(function () {
+
+            var tableItem = document.getElementById('ItemTable');
+            var CountRows = $('#ItemTable tbody').find('tr').length;
+            var itemList = $(this).find("td");
+            // check empty row
+            var rows = tableItem.rows;
+            var firstRow = rows[1];
+
+
+            if (firstRow.innerText == "No matching records found") {
+                $('#ItemTable tbody tr').remove();
+            }
+        });
+
+
+        var row = '<tr><td class="width20"><div class="R"><select class="form-control Reg"></select></div></td><td class="width30"><div class="P"><select class="Par form-control"></select></div></td><td class="width10"><div class="E"><select class="Emp form-control"></select></div></td><td class="width10"><input class="form-control" name="RecoveryAmount" onkeyup="CalTotalAll()" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" maxlength="15" value="' +
+            0 + '"/></td><tr>';
+
+
+        $("#ItemTable tbody").append(row);
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetRegionListDDL",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({}),
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            success: function (data) {
+
+                if (data.RDDL.length > 0) {
+                    $('.Reg').empty().trigger('change');
+
+                    //$('.Reg').append($('<option>', {
+                    //    value: '',
+                    //    text: "Select Any Value"
+                    //}));
+
+                    $.each(data.RDDL, function (index, obj) {
+                        $('.Reg').append($('<option>', {
+                            value: obj.RegionCode,
+                            text: obj.RegionDescription
+                        }));
+                    });
+
+                    $(".Reg option[value=" + RegionCode + "]").attr('selected', true);
+
+
+                }
+            }
+        });
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetRegionPartyFast",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode }),
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            success: function (data) {
+                $('.Par').empty().trigger("change");
+
+                if (data.length > 0) {
+                    $.each(data, function (index, obj) {
+
+                        $('.Par').append($('<option>', {
+                            value: obj.PartyCode,
+                            text: parseInt(obj.PartyCode) + "  ==>  " + obj.PartyName
+                        })).trigger("change");
+
+                        //rIndex.find('.Par').select2('data', {
+                        //    id: obj.PartyCode,
+                        //    text: obj.PartyCode + "  ==>  " + obj.PartyName
+                        //});
+
+                    });
+                }
+            }
+        });
+
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetRegionParty",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode }),
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            success: function (data) {
+                $('.Emp').empty().trigger("change");
+
+                if (data.length > 0) {
+                    $.each(data, function (index, obj) {
+
+                        $('.Emp').append($('<option>', {
+                            value: obj.EmpCode,
+                            text:  obj.EmpName
+                        })).trigger("change");
+
+                    });
+
+                    $(".Emp option[value=" + EmpCode + "]").attr('selected', true);
+
+                }
+            }
+        });
+
+
+
+
+
+
+    });
+
+    
+    function AddNewRow() {
+
+        $("table#ItemTable tbody").find('tr').each(function () {
+
+            var tableItem = document.getElementById('ItemTable');
+            var CountRows = $('#ItemTable tbody').find('tr').length;
+            var itemList = $(this).find("td");
+            // check empty row
+            var rows = tableItem.rows;
+            var firstRow = rows[1];
+
+
+            if (firstRow.innerText == "No matching records found") {
+                $('#ItemTable tbody tr').remove();
+            }
+        })
+
+
+        var row = '<tr><td class="width20"><div class="R"><select class="form-control Reg"></select></div></td><td class="width30"><div class="P"><select class="Par form-control"></select></div></td><td class="width10"><div class="E"><select class="Emp form-control"></select></div></td><td class="width10"><input class="form-control" name="RecAmount" onkeyup="CalTotalAll()" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" maxlength="15" value="' +
+            0 + '"/></td><tr>';
+
+
+        $("#ItemTable tbody").append(row);
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetRegionListDDL",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({}),
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            success: function (data) {
+
+                if (data.RDDL.length > 0) {
+                    //$('.Reg').empty().trigger('change');
+
+                    $('.Reg').append($('<option>', {
+                        value: '',
+                        text: "Select Any Value"
+                    }));
+
+                    $.each(data.RDDL, function (index, obj) {
+                        $('.Reg').append($('<option>', {
+                            value: obj.RegionCode,
+                            text: obj.RegionDescription
+                        }));
+                    });
+                }
+            }
+        });
+
+       
+
+    }
+
+    function CalTotalAll() {
+
+        var TotalRecovery = 0;
+        
+
+        var CountRows = $('#ItemTable tbody').find('tr').length;
+
+        if (CountRows !== 0) {
+
+            $("table#ItemTable tbody").find('tr').each(function () {
+                var tableItem = document.getElementById('ItemTable');
+
+                var RecAmount = $(this).find("input[name='RecoveryAmount']").val();
+
+                //if (itemCount != 0) {
+                var itemList = $(this).find("td");
+                // check empty row
+                var rows = tableItem.rows;
+                var firstRow = rows[1];
+
+                if (RecAmount !== undefined) {
+                    TotalRecovery += parseFloat(RecAmount);
+                }
+
+            });
+
+            document.getElementById("TtlRecovery").value = TotalRecovery;
+
+        } else {
+
+            document.getElementById("TtlRecovery").value = 0;
+        }
+        
+    }
+
+
+
+
+    $("#ItemTable").on('change', '.Reg', function () {
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+
+        var RegionCode = rIndex.find('.Reg option:selected').val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetRegionPartyFast",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode }),
+            contentType: "application/json; charset=utf-8",
+            async:false,
+            success: function (data) {
+                rIndex.find('.Par').empty().trigger("change");
+
+                if (data.length > 0) {
+                    $.each(data, function (index, obj) {
+
+                        rIndex.find('.Par').append($('<option>', {
+                            value: obj.PartyCode,
+                            text: parseInt(obj.PartyCode) + "  ==>  " + obj.PartyName
+                        })).trigger("change");
+
+                        //rIndex.find('.Par').select2('data', {
+                        //    id: obj.PartyCode,
+                        //    text: obj.PartyCode + "  ==>  " + obj.PartyName
+                        //});
+
+                    });
+                }
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetRegionParty",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode }),
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            success: function (data) {
+                rIndex.find('.Emp').empty().trigger("change");
+
+                if (data.length > 0) {
+                    $.each(data, function (index, obj) {
+
+                        rIndex.find('.Emp').append($('<option>', {
+                            value: obj.EmpCode,
+                            text:  obj.EmpName
+                        })).trigger("change");
+
+                        //rIndex.find('.Emp').select2('data', {
+                        //    id: obj.EmpCode,
+                        //    text: obj.EmpCode + "  ==>  " + obj.EmpName
+                        //});
+
+                    });
+                }
+            }
+        });
+    });
+
+
+    function GetRecDetail() {
+
+        var GetRecDate = $("#GetRecDate").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetShortCashRecoveryDetail",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RecDate: GetRecDate }),
+            contentType: "application/json; charset=utf-8",
+            complete: function (data) {
+                if (data.responseJSON.RecDetail.length > 0 && data.responseJSON.UpdTrue == "Update") {
+                    $("#tblInvoice tbody tr").remove();
+
+                    $.each(data.responseJSON.RecDetail, function (index, obj) {
+
+                        var row = '<tr class="RecClick" ><td style="font-size:large">' + obj.Id + '</td><td style="font-size:large"> ' + obj.RecDate + '</td><td style="text-align:center;font-size:large"> ' + obj.RegionDesc +
+
+                            '</td><td style="text-align:center;font-size:large"> ' + obj.PartyDesc + '</td></tr>';
+
+                        $("#tblInvoice tbody").append(row);
+
+                    });
+
+                }
+                else if (data.responseJSON.RecDetail.length == 0 && data.responseJSON.UpdTrue == "Update") {
+
+                    $("#tblInvoice tbody tr").remove();
+
+                    var row = '<tr class="DamageFunction" ><td colspan="4" style="font-size:large;text-align:center">' + "No Record Fouond . . . !" + '</td></tr>';
+
+                    $("#tblInvoice tbody").append(row);
+
+                }
+                else {
+
+                    $("#tblInvoice tbody tr").remove();
+
+                    var row = '<tr class="DamageFunction" ><td colspan="4" style="font-size:large;text-align:center">' + "You Have No Update Rights.Contact to Administrator . . . !" + '</td></tr>';
+
+                    $("#tblInvoice tbody").append(row);
+
+                }
+            }
+        });
+
+    }
+
+
+</script>
+
+
+
+<script>
+    var ItemTable = []
+
+    function checkAllEmptyInputs() {
+        var isEmpty = false,
+            RecDate = document.getElementById('RecDate').value,
+            CheqNo = document.getElementById('CheqNo').value,
+            CheqDate = document.getElementById('CheqDate').value
+
+        if (RecDate == "") {
+            alert('Rec Date cannot be Empty');
+            isEmpty = true;
+        }
+       
+        else
+        {
+            if (CheqNo != "") {
+                if (CheqDate == "") {
+                    alert('Cheq Date cannot be Empty');
+                    isEmpty = true;
+                }
+
+            }
+        }
+
+        return isEmpty;
+    }
+
+    function ItemRows() {
+        ItemTable = [];
+        itemCount = 0;
+        $("table#ItemTable").find('tr').each(function () {
+            var tableItem = document.getElementById('ItemTable');
+            var RecAmount = $(this).find("input[name='RecoveryAmount']").val();
+
+            var RegionCode = $(this).find(".Reg option:selected").val();
+            var PartyCode = $(this).find(".Par option:selected").val();
+            var EmpCode = $(this).find(".Emp option:selected").val();
+
+            if (RegionCode != null) {
+
+                var vouch = {
+                    RegionCode: RegionCode, PartyCode: PartyCode, EmpCode: EmpCode, RecoveryAmount: parseFloat(RecAmount)
+                };
+                ItemTable.push(vouch);
+            }
+            itemCount++;
+        })
+
+
+    }
+
+    $("#btnSave").click(function (e) {
+        e.preventDefault();
+        var CheqNo = $("#CheqNo").val();
+        var Id = $("#Id").val();
+
+        if (CheqNo !== '' && Id == '') {
+
+            $.ajax({
+                type: "POST",
+                url: "/Transaction/CheckSCRecoveryCheq",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({ CheqNo: CheqNo }),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data == true) {
+                        swal({
+                            title: "Duplicate CheqNo Found!",
+                            text: "Cheq No Already Exist,Please Choose Another Cheq No.",
+                            type: "warning"
+                        }, function () {
+                            isEmpty = true;
+                        });
+                        isEmpty = true;
+                    }
+                    else {
+
+                        if (!(checkAllEmptyInputs())) {
+                            ItemRows();
+
+                            $.ajax({
+                                type: "POST",
+                                url: "/Transaction/GetSCRecoveryDetail",
+                                dataType: "json",
+                                contentType: 'application/json',
+                                data: JSON.stringify({ ItemTable: ItemTable }),
+                                contentType: "application/json; charset=utf-8",
+                                complete: function (data) {
+
+                                    document.forms["ShortCashRecovery"].submit();
+                                }
+                            });
+
+                        }
+                    }
+
+                }
+            });
+        }
+        else {
+            if (!(checkAllEmptyInputs())) {
+                ItemRows();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Transaction/GetSCRecoveryDetail",
+                    dataType: "json",
+                    contentType: 'application/json',
+                    data: JSON.stringify({ ItemTable: ItemTable }),
+                    contentType: "application/json; charset=utf-8",
+                    complete: function (data) {
+
+                        document.forms["ShortCashRecovery"].submit();
+                    }
+                });
+
+            }
+        }
+    });
+
+
+
+
+
+
+
+</script>
+
+<script>
+
+    $("table#tblInvoice").on('click', '.RecClick', function () {
+
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+
+        var Id = rIndex.find('td:eq(0)').text().replace(/\s+/g, "");
+        var RecoveryDate = rIndex.find('td:eq(1)').text().replace(/\s+/g, "");
+
+
+        document.getElementById("Id").value = Id;
+        document.getElementById("RecDate").value = RecoveryDate;
+        var RegionCode;
+        var PartyCode;
+        var EmpCode;
+        var PartyDesc;
+        var EmpName;
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetSingleSCRecovery",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ Id: Id }),
+            contentType: "application/json; charset=utf-8",
+            complete: function (ItemList) {
+                if (ItemList.responseJSON.length > 0) {
+                    $("#ItemTable tbody tr").remove();
+
+                    var ttlRec = 0;
+
+                    $.each(ItemList.responseJSON, function (index, obj) {
+
+
+                        if (obj.CheqNo !== null) {
+                            document.getElementById("CheqNo").value = obj.CheqNo;
+                            document.getElementById("CheqDate").value = formatDate(obj.CheqDate);
+                        }
+                        //document.getElementById("CheqDate").value = obj.CheqDate;
+
+                        document.getElementById("Type").value = obj.Type;
+
+                        ChangeOfType();
+
+                        RegionCode = obj.RegionCode
+
+                        PartyCode = obj.PartyCode;
+                        EmpCode = obj.EmpCode;
+
+                        var row = '<tr><td class="width20"><div class="R"><select class="form-control Reg"></select></div></td><td class="width30"><div class="P"><select class="Par form-control"></select></div></td><td class="width10"><div class="E"><select class="Emp form-control"></select></div></td><td class="width10"><input class="form-control" name="RecoveryAmount" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type="number" onkeyup="CalTotalAll()" maxlength="15" value="' +
+                            obj.RecAmount + '"/></td><tr>';
+
+                        ttlRec += obj.RecAmount;
+
+                        $("#ItemTable tbody").append(row);
+
+                        $('.Par').append($('<option>', {
+                            value: obj.PartyCode,
+                            text: obj.PartyDesc
+                        })).trigger("change");
+
+                        $('.Emp').append($('<option>', {
+                            value: obj.EmpCode,
+                            text: obj.EmpName
+                        })).trigger("change");
+
+                    });
+
+                    document.getElementById("TtlRecovery").value = ttlRec;
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Transaction/GetRegionListDDL",
+                        dataType: "json",
+                        contentType: 'application/json',
+                        data: JSON.stringify({}),
+                        contentType: "application/json; charset=utf-8",
+                        async: false,
+                        success: function (data) {
+
+                            if (data.RDDL.length > 0) {
+                                $('.Reg').empty().trigger('change');
+
+                                $.each(data.RDDL, function (index, obj) {
+                                    $('.Reg').append($('<option>', {
+                                        value: obj.RegionCode,
+                                        text: obj.RegionDescription
+                                    }));
+                                });
+
+                                $(".Reg option[value=" + RegionCode + "]").attr('selected', true);
+
+
+                            }
+                        }
+                    });
+                }
+
+                $("#RecoveryModal").modal("hide");
+            }
+        });
+    })
+
+</script>
+
+<script type="text/javascript">
+
+    //Warning Message
+    function DeleteModal() {
+        var Id = $('#Id').val();
+        var Url = "/Transaction/DeleteSCRecovery";
+
+        if (Id == null || Id == "") {
+            alert("Region Code Cannot be empty . . . !");
+        }
+        else
+        {
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this record . . . !",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it...!",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    type: "POST",
+                    url: Url,
+                    dataType: "json",
+                    contentType: 'application/json',
+                    data: JSON.stringify({ Id: Id }),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data == true) {
+                            swal({
+                                title: "Deleted!",
+                                text: "Your record has been deleted.",
+                                type: "success"
+                            }, function () {
+                                location.reload();
+                            });
+                        }
+                        else {
+                            swal({
+                                title: "Not Deleted!",
+                                text: "Something went wrong, Record not deleted . . . !",
+                                type: "warning"
+                            }, function () {
+                                location.reload();
+                            });
+                        }
+                    }
+                });
+            })
+        }
+    }
+
+
+
+
+</script>
+

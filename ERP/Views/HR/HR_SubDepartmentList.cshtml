@@ -1,0 +1,240 @@
+﻿@model ERP.Models.HR_SubDepartmentInfo
+
+@{
+    ViewBag.Title = "HR_SubDepartmentList";
+    Layout = "~/Views/Shared/_HR_Layout.cshtml";
+}
+
+@if (ERP.Models.CommonDAL.UserRights("1502", "002"))
+{
+    <div class="card mb-3">
+        <div class="card-body pt-0">
+
+            <form action="/HR/HR_CreateEdit_SubDepartmentList" method="post">
+                <div class="row">
+
+                    <div class="form-group mt-1 col-md-2">
+                        <label class="control-label col-md-12">Code</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-sm" type="number" id="SubDepCode" name="SubDepCode" value="0" readonly />
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-1 col-md-3">
+                        <label class="control-label col-md-12">Site</label>
+                        <div class="col-md-12">
+                            @Html.DropDownListFor(model => model.SiteCode, (IEnumerable<SelectListItem>)ViewBag.SiteDDL as SelectList, "Select Site", new { @class = "form-select form-select-sm", @name = "SiteCode", @id = "SiteCode", @Required = "Required", @onchange = "GetDepDDL()" })
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-1 col-md-5">
+                        <label class="control-label col-md-12">Department</label>
+                        <div class="col-md-12">
+                            <select class="form-select form-select-sm" name="DepCode" id="DepCode"></select>
+                            <input type="hidden" name="HDepCode" id="HDepCode" />
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-1 col-md-7">
+                        <label class="control-label col-md-12">SubDepartment Description</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-sm" type="text" id="SubDepDescription" name="SubDepDescription" required />
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-1 col-md-2">
+                        <label class="control-label col-md-12">Short Name</label>
+                        <div class="col-md-12">
+                            <input class="form-control form-control-sm" type="text" id="SubDepShortName" name="SubDepShortName" required />
+                        </div>
+                    </div>
+
+                    <div class="col-md-2" style="margin-top:35px">
+                        <button class="btn btn-falcon-success btn-sm" type="submit">
+                            <span class="fas fa-download" data-fa-transform="shrink-3 down-2"></span>
+                            <span class="ms-1">Submit</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+}
+
+
+<div class="card mb-3">
+    <div class="card-body pt-0">
+        <div class="table-responsive scrollbar">
+            <table class="table table-sm table-hover table-striped overflow-hidden" id="tblSubDepartment">
+                <thead>
+                    <tr>
+                        <td style="display:none">
+                            <b>
+                                Site
+                            </b>
+                        </td>
+                        <td width="150">
+                            <b>
+                                Site
+                            </b>
+                        </td>
+                        <td width="150">
+                            <b>
+                                Department
+                            </b>
+                        </td>
+                        <td width="50">
+                            <b>
+                                Code
+                            </b>
+                        </td>
+                        <td>
+                            <b>
+                                Name
+                            </b>
+                        </td>
+                        <td width="100">
+                            <b>
+                                Short
+                            </b>
+                        </td>
+                        <td width="100">
+                            <b>
+                                Actions
+                            </b>
+                        </td>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @if (ViewBag.DepartmentSubList != null)
+                    {
+                        foreach (var item in ViewBag.DepartmentSubList)
+                        {
+                    <tr>
+                        <td style="display:none">
+                            @item.HR_DepartmentInfo.HR_SiteInfo.SiteCode
+                        </td>
+                        <td>
+                            @item.HR_DepartmentInfo.HR_SiteInfo.SiteName
+                        </td>
+                        <td style="display:none">
+                            @item.HR_DepartmentInfo.DepCode
+                        </td>
+                        <td>
+                            @item.HR_DepartmentInfo.DepDescription
+                        </td>
+                        <td>
+                            @item.SubDepCode
+                        </td>
+                        <td>
+                            @item.SubDepDescription
+                        </td>
+                        <td>
+                            @item.SubDepShortName
+                        </td>
+                        @if (ERP.Models.CommonDAL.UserRights("1502", "003"))
+                        {
+                            <td>
+                                <a class="selectItem" style="color:blue"><i class="fa fa-edit"></i></a>
+                                &nbsp;&nbsp;|&nbsp;&nbsp;
+                                <a class="deleteItem" style="color:red"><i class="fa fa-trash"></i></a>
+                            </td>
+                        }
+                    </tr>
+                        }
+                    }
+
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+<script>
+
+    function GetDepDDL() {
+
+        var SiteCode = $("#SiteCode").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/HR/GetDepartmentDDL",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ SiteCode: SiteCode }),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $('#DepCode').empty();
+
+                if (data !== null) {
+
+                    if (data.length > 0) {
+                        $.each(data, function (index, obj) {
+
+                            $('#DepCode').append($('<option>', {
+                                value: obj.Code,
+                                text: obj.Name
+                            })).trigger("chosen:updated");
+
+                        });
+                    }
+                }
+            }
+        });
+
+    }
+
+    $("table#tblSubDepartment").on('click', '.selectItem', function () {
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr').rowIndex;
+        //rIndex = this.rowIndex;
+        //console.log(index);
+        var SiteCode = rIndex.find('td:eq(0)').text().replace(/\s+/g, "");
+        var DepCode = rIndex.find('td:eq(2)').text().replace(/\s+/g, "");
+        var SubDepCode = rIndex.find('td:eq(4)').text().replace(/\s+/g, "");
+        var SubDepDescription = rIndex.find('td:eq(5)').text();
+        var SubDepShortName = rIndex.find('td:eq(6)').text();
+
+        document.getElementById('SiteCode').value = SiteCode;
+        document.getElementById('DepCode').value = DepCode;
+        document.getElementById('SubDepCode').value = SubDepCode;
+        document.getElementById('SubDepDescription').value = SubDepDescription.trim();
+        document.getElementById('SubDepShortName').value = SubDepShortName.trim();
+
+    });
+
+    $("table#tblSubDepartment").on('click', '.deleteItem', function () {
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr').rowIndex;
+
+        var SubDepCode = rIndex.find('td:eq(4)').text().replace(/\s+/g, "");
+
+        if (confirm("Are you sure to want delete . . . ?") == true) {
+
+            $.ajax({
+                type: "POST",
+                url: "/HR/HR_Delete_SubDepartmentList",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({ SubDepCode: SubDepCode }),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    location.reload();
+
+                }
+            });
+        }
+
+    });
+
+</script>
+

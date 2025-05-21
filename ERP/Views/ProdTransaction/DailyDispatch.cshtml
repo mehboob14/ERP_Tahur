@@ -1,0 +1,474 @@
+﻿@model ERP.Models.DailyDispatch
+@{
+    ViewBag.Title = "DailyDispatch";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+
+
+
+
+<style type="text/css">
+    /*label {
+            font-weight: 100;
+            font-size: 12px;
+        }*/
+
+    /*.btn {
+            line-height: 0.25;
+            font-size: 12px;
+        }*/
+
+    .checkbox {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-off,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-on,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-label {
+        line-height: 1.2;
+    }
+
+    /*.modal-header {
+            padding: 5px;
+        }*/
+
+
+
+    /*.input-group-addon {
+            padding: 3px 8px;
+            /*color: #0084BF;
+        }*/
+
+
+
+    .table-Scroll {
+        max-height: 540px;
+        max-width: 100%;
+        overflow: auto;
+    }
+
+    td {
+        font-size: 12px;
+    }
+
+    th {
+        font-size: 12px;
+        font: bold;
+    }
+
+    .width50 {
+        width: 500px;
+    }
+
+    .width40 {
+        width: 400px;
+    }
+
+    .width15 {
+        width: 150px;
+    }
+
+    .width30 {
+        width: 300px;
+    }
+
+    .width20 {
+        width: 200px;
+    }
+
+    .width10 {
+        width: 100px;
+    }
+</style>
+
+<style>
+    .Top {
+        margin-top: 5px;
+    }
+
+    .Btn-width {
+        width: 80px;
+        font-family: Calibri;
+        font-size: large;
+        font-style: normal;
+    }
+
+    .table-head {
+        height: 10px;
+        line-height: 8px;
+    }
+
+    .btn-TopHeight {
+        margin-top: 23px;
+    }
+
+    .btn-ItemWidth {
+        width: 100px;
+        /*height: 32px;*/
+    }
+
+    fieldset {
+        margin-top: 20px
+    }
+
+    thead {
+        height: 32px
+    }
+
+    .White{
+        color:white;
+    }
+
+    .Black{
+        color:black;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="white-box">
+            <form id="DailyDispatch" name="DailyDispatch" method="post">
+                @if (TempData["SuccessMsg"] != null)
+                {
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <b> @TempData["SuccessMsg"]</b>
+                    </div>
+                }
+
+                <div class="row">
+                    <label for="example-text-input" class="col-md-1 col-form-label">DP Code</label>
+                    <div class="col-md-2 input-group">
+                        <div class="input-group-addon"><a data-toggle="modal" data-target="#DSRModal" style="color:blue"><b><i class="fa fa-search"></i></b></a></div>
+                        <input class="form-control" type="text" placeholder="DSR No" id="DispatchCode" name="DispatchCode" readonly>
+                    </div>
+
+                    <label for="example-text-input" class="col-md-1 col-form-label">DP Date</label>
+                    <div class="col-md-2 input-group">
+                        <input class="form-control Datepicker-AutoClose" type="text" placeholder="dd/mm/yyyy" value="@DateTime.Now.ToString("dd/MM/yyyy")" id="DispatchDate" name="DispatchDate"  required>
+                    </div>
+                </div>
+
+                <div class="row Top">
+                    <label for="example-text-input" class="col-md-1 col-form-label">Region Code</label>
+                    <div class="col-md-9 input-group">
+                        @Html.DropDownListFor(M => M.RegionCode, (IEnumerable<SelectListItem>)ViewBag.RegionDDL as SelectList, "Please Select Region", new { @class = "form-control p-0", @name = "RegionCode", @id = "RegionCode" })
+                    </div>
+
+                </div>
+
+                <div class="row Top">
+                    <label for="example-text-input" class="col-md-1 col-form-label">Vehicle Code</label>
+                    <div class="col-md-9 input-group">
+                        @Html.DropDownListFor(M => M.VehicleCode, (IEnumerable<SelectListItem>)ViewBag.VehicleDDL as SelectList, "Please Select Vehicle", new { @class = "form-control p-0", @name = "VehicleCode", @id = "VehicleCode" })
+                    </div>
+
+                </div>
+
+
+                <fieldset>
+                    <legend>Add Item Quantity</legend>
+                    <div class="col-sm-12">
+                        <div class="white-box">
+                            <table id="ItemTable" data-toggle="table" data-height="350" data-mobile-responsive="true" class="table-striped">
+                                <thead class="bg-info">
+                                    <tr>
+                                        <th class="White" data-width="100"> Item Code </th>
+                                        <th class="White"> Item Description </th>
+                                        <th class="White" data-width="200"> Quantity </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (ViewBag.ItemList != null)
+                                    {
+                                        foreach (var item in ViewBag.ItemList)
+                                        {
+                                            <tr class="GetQty">
+                                                <td class="Black">@item.ItemCode</td>
+                                                <td class="Black">@item.ItemDesc</td>
+                                                <td class="Black">
+                                                    <input value="0" name="Quantity" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                           type="number"
+                                                           maxlength="5" />
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend></legend>
+                    <div class="form-group row">
+                        <div class="col-md-4 offset-md-9">
+                            @if (ERP.Models.CommonDAL.UserRights("505", "002"))
+                            {
+                                <input class="btn btn-info Btn-width" type="button" id="btnSave" value="Save" />
+                            }
+                            else
+                            {
+                                <input class="btn btn-info Btn-width" type="button" id="btnSave" value="Save" disabled />
+                            }
+
+
+                            <input class="btn btn-default Btn-width" type="reset" id="btnClear" value="Clear" />
+
+                            @if (ERP.Models.CommonDAL.UserRights("505", "004"))
+                            {
+                                <input class="btn btn-danger Btn-width" type="button" id="btnDelete" value="Delete" onclick="DeleteModal()" />
+                            }
+                            else
+                            {
+                                <input class="btn btn-danger Btn-width" type="button" id="btnDelete" disabled value="Delete" />
+                            }
+
+                            @if (ERP.Models.CommonDAL.UserRights("505", "006"))
+                            {
+                                @*<input class="btn btn-success Btn-width" type="button" onclick="SimpleInNewWin()" id="btnPrint" value="Print" />*@
+                            }
+                            else
+                            {
+                                @*<input class="btn btn-success Btn-width" type="button" onclick="SimpleInNewWin()" id="btnPrint" value="Print" disabled />*@
+                            }
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--DSR Modal-->
+<div class="modal fade" tabindex="-1" id="DSRModal" role="dialog" aria-labelledby="modal123Label" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="margin-top:50px; height:620px;width:800px">
+            <div class="modal-header">
+                <b>Daily Dispatch Detail</b>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="white-box table-Scroll">
+                        <table id="myTable" class="table table-striped DataTable">
+                            <thead>
+                                <tr>
+                                    <th class="width20">Dispatch Code</th>
+                                    <th class="width20">Dispatch Date</th>
+                                    <th class="width50">Region</th>
+                                    <th class="width20">Vehicle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (ViewBag.DispatchList != null)
+                                {
+                                    foreach (var item in ViewBag.DispatchList)
+                                    {
+                                <tr onclick="GetDSR('@item.DispatchCode','@item.DispatchDate.ToString("dd/MM/yyyy")')">
+                                    <td>@item.DispatchCode</td>
+                                    <td>@item.DispatchDate.ToString("dd/MM/yyyy")</td>
+                                    <td>@item.RegionDesc</td>
+                                    <td>@item.VehicleRegNo</td>
+                                   
+                                </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+<script type="text/javascript">
+    document.getElementById("PageHeader").innerHTML = "Daily Dispatch";
+
+  
+
+    document.getElementById("PageTitle").innerHTML = "Daily Dispatch"
+
+
+    $(function () {
+        $("#RegionCode").chosen();
+
+        $("#VehicleCode").chosen();
+
+    })
+
+</script>
+
+<script type="text/javascript">
+
+
+
+
+
+    function GetDSR(DispatchCode,DispatchDate) {
+        document.getElementById("DispatchCode").value = DispatchCode;
+        document.getElementById("DispatchDate").value = DispatchDate;
+
+        $.ajax({
+            type: "POST",
+            url: "/ProdTransaction/GetSingleDispatch",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ DispatchCode: DispatchCode }),
+            contentType: "application/json; charset=utf-8",
+            complete: function (GetSingeDDList) {
+                if (GetSingeDDList.responseJSON.length > 0) {
+                    $("#ItemTable tbody tr").remove();
+                    $.each(GetSingeDDList.responseJSON, function (index, obj) {
+                        var row = '<tr><td>' + obj.ItemCode + '</td><td>' + obj.ItemDesc +
+                            '</td><td><input name="Quantity" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type = "number" maxlength = "5" value="' + obj.DispatchQty + '"/></td></tr>';
+
+                        $("#ItemTable tbody").append(row);
+
+                        $('#RegionCode').val(obj.RegionCode);
+                        $('#RegionCode').trigger("chosen:updated");
+
+                        $('#VehicleCode').val(obj.VehicleCode);
+                        $('#VehicleCode').trigger("chosen:updated");
+
+                       
+                    });
+                    $("#PDModal").modal("hide");
+                }
+            }
+        });
+
+
+        $("#DSRModal").modal("hide");
+    }
+
+    function SimpleInNewWin() {
+        var DispatchCode = $("#DispatchCode").val();
+        if (DispatchCode == null || DispatchCode == "") {
+            alert("Please, Select Dispatch Code . . . !");
+        } else {
+            window.open("../ReportWebForms/Transaction/DailyDispatch.aspx?DispatchCode=" + encodeURI(DispatchCode), 'mywindow', 'fullscreen=yes, scrollbars=auto');
+        }
+
+    }
+
+
+</script>
+
+<script>
+    var ItemTable = []
+
+    function ItemRows() {
+
+        itemCount = 0;
+        $("table#ItemTable").find('tr').each(function () {
+            var tableItem = document.getElementById('ItemTable');
+            var Quantity = $(this).find("input[name='Quantity']").val();
+
+            if (itemCount != 0) {
+                var itemList = $(this).find("td");
+                // check empty row
+
+                var vouch = {
+                    ItemCode: $(itemList[0]).html(), ItemDesc: $(itemList[1]).html(), DispatchQty: parseFloat(Quantity)
+                };
+                ItemTable.push(vouch);
+            }
+            itemCount++;
+        })
+
+
+    }
+
+    $("#btnSave").click(function (e) {
+        e.preventDefault();
+        ItemRows();
+
+        $.ajax({
+            type: "POST",
+            url: "/ProdTransaction/DailyDispatchDetail",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ ItemQuantity: ItemTable }),
+            contentType: "application/json; charset=utf-8",
+            complete: function (data) {
+                document.forms["DailyDispatch"].submit();
+            }
+        });
+
+    });
+
+
+
+
+
+    //Warning Message
+    function DeleteModal() {
+        var Id = $('#DispatchCode').val();
+        var Url = "/ProdTransaction/DeleteDispatch";
+
+        if (Id == null || Id == "") {
+            alert("Please, Select Dispatch Code . . . !");
+        } else {
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this record . . . !",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it...!",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    type: "POST",
+                    url: Url,
+                    dataType: "json",
+                    contentType: 'application/json',
+                    data: JSON.stringify({ DispatchCode: Id }),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data == true) {
+                            swal({
+                                title: "Deleted!",
+                                text: "Your record has been deleted.",
+                                type: "success"
+                            }, function () {
+                                location.reload();
+                            });
+                        }
+                        else {
+                            swal({
+                                title: "Not Deleted!",
+                                text: "Something went wrong, Record not deleted . . . !",
+                                type: "warning"
+                            }, function () {
+                                location.reload();
+                            });
+                        }
+                    }
+                });
+            })
+        }
+
+    }
+
+
+
+
+</script>

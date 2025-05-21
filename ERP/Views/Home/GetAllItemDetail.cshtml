@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "GetAllItemDetail";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div class="white-box">
+    <table id="" class="table table-striped DataTable ExportTable">
+        <thead>
+            <tr>
+                <th class="width20">Item Code</th>
+                <th class="width50">Item Description</th>
+                <th class="width20">Brand</th>
+                <th class="width20">Category</th>
+                <th class="width20">Sub Category</th>
+                <th class="width20">SaleTaxPer</th>
+                <th class="width20">FurtherTaxPer</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (ViewBag.ItemDescription != null)
+            {
+                foreach (var item in ViewBag.ItemDescription)
+                {
+            <tr>
+                <td>@item.ItemCode</td>
+                <td>@item.ItemDesc</td>
+                <td>@item.Brand</td>
+                <td>@item.Category</td>
+                <td>@item.SubCategory</td>
+                <td>@item.SaleGSTPer</td>
+                <td>@item.SaleFurtherTaxPer</td>
+            </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+</div>
+<script>
+    document.getElementById("PageHeader").innerHTML = "Sale Party Detail";
+
+
+    document.getElementById("PageLink").style.visibility = "hidden";
+    //var str = "Add New Unit";
+    //var result = str.link("/CompanySetup/UnitSetup");
+    //document.getElementById("PageLink").innerHTML = result;
+
+
+</script>
+

@@ -1,0 +1,623 @@
+﻿@model ERP.Models.SaleInvoiceMaster
+@{
+    ViewBag.Title = "DailyStockReceiveTerminal";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+
+
+<style type="text/css">
+    /*label {
+        font-weight: 100;
+        font-size: 12px;
+    }*/
+
+    /*.btn {
+        line-height: 0.25;
+        font-size: 12px;
+    }*/
+
+    .checkbox {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-off,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-on,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-label {
+        line-height: 1.2;
+    }
+
+    /*.modal-header {
+        padding: 5px;
+    }*/
+
+
+
+    /*.input-group-addon {
+        padding: 3px 8px;
+        /*color: #0084BF;
+    }*/
+
+
+
+    .table-Scroll {
+        max-height: 540px;
+        max-width: 100%;
+        overflow: auto;
+    }
+
+    td {
+        font-size: 12px;
+    }
+
+    th {
+        font-size: 12px;
+        font: bold;
+    }
+
+    .width50 {
+        width: 500px;
+    }
+
+    .width40 {
+        width: 400px;
+    }
+
+    .width15 {
+        width: 150px;
+    }
+
+    .width30 {
+        width: 300px;
+    }
+
+    .width20 {
+        width: 200px;
+    }
+
+    .width10 {
+        width: 100px;
+    }
+
+    .White {
+        color: white;
+    }
+
+    .Black {
+        color: black;
+    }
+</style>
+
+<style>
+    .Top {
+        margin-top: 5px;
+    }
+
+    .Btn-width {
+        width: 80px;
+        font-family: Calibri;
+        font-size: large;
+        font-style: normal;
+    }
+
+    .table-head {
+        height: 10px;
+        line-height: 8px;
+    }
+
+    .btn-TopHeight {
+        margin-top: 23px;
+    }
+
+    .btn-ItemWidth {
+        width: 100px;
+        /*height: 32px;*/
+    }
+
+    fieldset {
+        margin-top: 20px
+    }
+
+    thead {
+        height: 32px
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="white-box">
+            <form action="/Transaction/DailyStockReceiveTerminal" id="DailyStockReceiveTerminal" name="DailyStockReceiveTerminal" method="post">
+                @if (TempData["SuccessMsg"] != null)
+                {
+                    <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <b> @TempData["SuccessMsg"]</b>
+                    </div>
+                }
+
+                <div class="row">
+                    <label for="example-text-input" class="col-md-1 col-form-label">DSR No</label>
+                    <div class="col-md-2 input-group">
+                        <div class="input-group-addon"><a data-toggle="modal" data-target="#DSRModal" style="color:blue"><b><i class="fa fa-search"></i></b></a></div>
+                        <input class="form-control" type="text" placeholder="DSR No" id="DSRNo" name="DSRNo" readonly>
+                    </div>
+
+                    <label for="example-text-input" class="col-md-1 col-form-label">DSR Date</label>
+                    @if (ERP.Models.CommonDAL.UserRoleName() == "Admin")
+                    {
+                        <div class="col-md-2 input-group">
+                            <input class="form-control Datepicker-AutoCloseAdmin" type="text" placeholder="dd/mm/yyyy" value="@ViewBag.CurrentDate" id="DSRDate" name="DSRDate" required readonly>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-2 input-group">
+                            <input class="form-control Datepicker-AutoCloseDEO" type="text" placeholder="dd/mm/yyyy" value="@ViewBag.CurrentDate" id="DSRDate" name="DSRDate" required readonly>
+                        </div>
+                    }
+                </div>
+                <div class="row Top">
+                    <label for="example-text-input" class="col-md-1 col-form-label">Region Code</label>
+                    <div class="col-md-9 input-group">
+                        @Html.DropDownListFor(M => M.RegionCode, (IEnumerable<SelectListItem>)ViewBag.RegionDDL as SelectList, "Please Select Region", new { @class = "form-control p-0", @name = "RegionCode", @id = "RegionCode" })
+                    </div>
+                    @*<div class="col-md-2 input-group">
+                            <div class="input-group-addon"><a data-toggle="modal" data-target="#RegionModal" style="color:blue"><b><i class="fa fa-search"></i></b></a></div>
+                            <input class="form-control" type="text" placeholder="Region Code" id="RegionCode" onkeypress="return false;" name="RegionCode" required="required" readonly>
+                        </div>
+                        <div class="col-md-6 input-group">
+                            <input class="form-control" type="text" placeholder="Region Description" onkeypress="return false;" id="RegionDescription" required="required" readonly>
+                        </div>*@
+                </div>
+
+                <fieldset>
+                    <legend>Add Item Quantity</legend>
+                    <div class="col-sm-12">
+                        <div class="white-box">
+                            <table id="ItemTable" data-toggle="table" data-height="250" data-mobile-responsive="true" class="table-striped">
+                                <thead class="bg-info">
+                                    <tr>
+                                        <th class="White"> Item Code </th>
+                                        <th class="White"> Item Description </th>
+                                        <th class="White" data-width="200"> Quantity </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (ViewBag.ItemList != null)
+                                    {
+                                        foreach (var item in ViewBag.ItemList)
+                                        {
+                                            <tr class="GetQty">
+                                                <td class="Black">@item.ItemCode</td>
+                                                <td class="Black">@item.ItemDesc</td>
+                                                <td class="Black">
+                                                    <input value="0" name="DiscountAmt" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                           type="number"
+                                                           maxlength="5" />
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend></legend>
+                    <div class="form-group row">
+                        <div class="col-md-4 offset-md-9">
+                            @if (ERP.Models.CommonDAL.UserRights("23", "002"))
+                            {
+                                <input class="btn btn-info Btn-width" type="button" id="btnSave" value="Save" />
+                            }
+                            else
+                            {
+                                <input class="btn btn-info Btn-width" type="button" id="btnSave" value="Save" disabled />
+                            }
+
+
+                            <input class="btn btn-default Btn-width" type="reset" id="btnClear" value="Clear" />
+
+
+                            @if (ERP.Models.CommonDAL.UserRights("23", "006"))
+                            {
+                                @*<input class="btn btn-success Btn-width" type="button" onclick="SimpleInNewWin()" id="btnPrint" value="Print" />*@
+                            }
+                            else
+                            {
+                                @*<input class="btn btn-success Btn-width" type="button" onclick="SimpleInNewWin()" id="btnPrint" value="Print" disabled />*@
+                            }
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--DSR Modal-->
+<div class="modal fade" tabindex="-1" id="DSRModalOld" role="dialog" aria-labelledby="modal123Label" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="margin-top:50px; height:620px;width:800px">
+            <div class="modal-header">
+                <b>Daily Stock Receive Detail</b>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="white-box table-Scroll">
+                        <table id="myTable" class="table table-striped DataTable">
+                            <thead>
+                                <tr>
+                                    <th class="width20">DSR No Code</th>
+                                    <th class="width50">DSR Date</th>
+                                    <th class="width50">Region Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @*@if (ViewBag.GetDailyStockReceive != null)
+                                    {
+                                        foreach (var item in ViewBag.GetDailyStockReceive)
+                                        {
+                                            <tr onclick="GetDSR('@item.DSRNo','@item.DSRDate.ToString("dd/MM/yyyy")','@item.RegionCode','@item.RegionDescription')">
+                                                <td>@item.DSRNo</td>
+                                                <td>@item.DSRDate.ToString("dd/MM/yyyy")</td>
+                                                <td>@item.RegionDescription</td>
+                                            </tr>
+                                        }
+                                    }*@
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<!--Invoice Record-->
+<div class="modal fade" tabindex="-1" id="DSRModal" role="dialog" aria-labelledby="modal123Label" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="margin-top:50px; height:700px;width:800px">
+            <div class="modal-header">
+                <b>Daily Stock Detail</b>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="col-md-9 input-group">
+                        <input class="form-control Datepicker-AutoClose" type="text" placeholder="dd/mm/yyyy" name="GetDSRDate" id="GetDSRDate" value="" data-mask="99/99/9999">
+
+                    </div>
+
+                    <div class="col-md-2 input-group">
+                        <input type="button" class="btn btn-info" value="Get Detail" onclick="GetDailyStockDetail()" />
+                    </div>
+                    <div class="white-box table-Scroll">
+                        <table id="tblInvoice" class="table table-striped table-bordered">
+                            <thead>
+                                <tr class="bg-info">
+                                    <th class="width20" style="color:white">DSR No Code</th>
+                                    <th class="width50" style="color:white">DSR Date</th>
+                                    <th class="width50" style="color:white">Region Code</th>
+                                    <th class="width50" style="color:white">Region Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @*@if (ViewBag.GetDailyStockReceive != null)
+                                    {
+                                        foreach (var item in ViewBag.GetDailyStockReceive)
+                                        {
+                                            <tr onclick="GetDSR('@item.DSRNo','@item.DSRDate.ToString("dd/MM/yyyy")','@item.RegionCode','@item.RegionDescription')">
+                                                <td>@item.DSRNo</td>
+                                                <td>@item.DSRDate.ToString("dd/MM/yyyy")</td>
+                                                <td>@item.RegionDescription</td>
+                                            </tr>
+                                        }
+                                    }*@
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!--Region Modal-->
+<div class="modal fade" tabindex="-1" id="RegionModal" role="dialog" aria-labelledby="modal123Label" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="margin-top:50px; height:620px;width:800px">
+            <div class="modal-header">
+                <b>Region Detail</b>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="white-box table-Scroll">
+                        <table id="" class="table table-striped DataTable">
+                            <thead>
+                                <tr>
+                                    <th class="width20">Region Code</th>
+                                    <th class="width50">Region Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (ViewBag.RegionList != null)
+                                {
+                                    foreach (var item in ViewBag.RegionList)
+                                    {
+                                        <tr onclick="GetRegion('@item.RegionCode','@item.RegionDescription')">
+                                            <td>@item.RegionCode</td>
+                                            <td>@item.RegionDescription</td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+<script>
+    document.getElementById("PageHeader").innerHTML = "Daily Stock Receive Terminal";
+
+
+    //document.getElementById("PageLink").style.visibility = "hidden";
+    //var str = "Add New Unit";
+    //var result = str.link("/CompanySetup/UnitSetup");
+    //document.getElementById("PageLink").innerHTML = result;
+
+    document.getElementById("PageTitle").innerHTML = "Daily Stock Receive Terminal"
+</script>
+
+<script type="text/javascript">
+
+    $(function () {
+        $("#RegionCode").chosen();
+
+    })
+
+    function GetRegion(RegionCode, RegionDescription) {
+
+        document.getElementById("RegionCode").value = RegionCode;
+        document.getElementById("RegionDescription").value = RegionDescription;
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetSingleDSRNo",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ DSRNo: DSRNo }),
+            contentType: "application/json; charset=utf-8",
+            complete: function (ItemList) {
+                if (ItemList.responseJSON.length > 0) {
+                    $("#ItemTable tbody tr").remove();
+                    $.each(ItemList.responseJSON, function (index, obj) {
+                        var row = '<tr><td>' + obj.ItemCode + ' </td> <td> ' + obj.ItemDesc +
+                            '</td><td><input name="DiscountAmt" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type = "number" maxlength = "5" value="' + obj.Quantity + '"/></td></tr>';
+
+                        $("#ItemTable tbody").append(row);
+
+
+                    });
+                    $("#PDModal").modal("hide");
+                }
+            }
+        });
+
+
+        $("#RegionModal").modal("hide");
+    };
+
+    $("table#tblInvoice").on('click', '.DSRClick', function () {
+
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+
+        var DSRNo = rIndex.find('td:eq(0)').text().replace(/\s+/g, "");
+        var DSRDate = rIndex.find('td:eq(1)').text().replace(/\s+/g, "");
+        var RegionCode = rIndex.find('td:eq(2)').text().replace(/\s+/g, "");
+        var RegionDescription = rIndex.find('td:eq(3)').text().replace(/\s+/g, "");
+
+        document.getElementById("DSRNo").value = DSRNo;
+        document.getElementById("DSRDate").value = DSRDate;
+        //document.getElementById("RegionCode").value = RegionCode;
+        $('#RegionCode').val(RegionCode);
+        $('#RegionCode').trigger("chosen:updated");
+        //document.getElementById("RegionDescription").value = RegionDescription;
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetSingleDSRNoTerminal",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ DSRDate: DSRDate, RegionCode: RegionCode }),
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            success: function (ItemList) {
+                if (ItemList.length > 0) {
+                    $("#ItemTable tbody tr").remove();
+                    $.each(ItemList, function (index, obj) {
+                        var row = '<tr><td>' + obj.ItemCode + ' </td> <td> ' + obj.ItemDesc +
+                            '</td><td><input name="DiscountAmt" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" type = "number" maxlength = "5" value="' + obj.Quantity + '"/></td></tr>';
+
+                        $("#ItemTable tbody").append(row);
+                    });
+                    $("#PDModal").modal("hide");
+                }
+            }
+        });
+
+
+        $("#DSRModal").modal("hide");
+    });
+
+    function SimpleInNewWin() {
+        var DSRCode = $("#DSRNo").val();
+        if (DSRCode == null || DSRCode == "") {
+            alert("Please, Select DSR No . . . !");
+        } else {
+            window.open("../ReportWebForms/Transaction/DailyStockReceive.aspx?DSRCode=" + encodeURI(DSRCode), 'mywindow', 'fullscreen=yes, scrollbars=auto');
+        }
+
+    }
+
+
+
+    function GetDailyStockDetail() {
+        var GetDSRDate = $("#GetDSRDate").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetDSTerminalDDetail",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ GetDSRDate: GetDSRDate }),
+            contentType: "application/json; charset=utf-8",
+            complete: function (data) {
+                if (data.responseJSON.DSDDetail.length > 0 && data.responseJSON.UpdTrue == "Update") {
+                    $("#tblInvoice tbody tr").remove();
+
+
+                    $.each(data.responseJSON.DSDDetail, function (index, obj) {
+
+                        var row = '<tr class="DSRClick" ><td style="font-size:large">' + obj.DSRNo + '</td><td style="font-size:large"> ' + obj.DSRDate + '</td><td style="text-align:center;font-size:large"> ' + obj.RegionCode +
+
+                            '</td><td style="text-align:center;font-size:large"> ' + obj.RegionDescription + '</td></tr>';
+
+                        $("#tblInvoice tbody").append(row);
+
+                    });
+
+                }
+                else if (data.responseJSON.DSDDetail.length == 0 && data.responseJSON.UpdTrue == "Update") {
+
+                    $("#tblInvoice tbody tr").remove();
+
+                    var row = '<tr><td style="font-size:large;text-align:center" colspan="4">' + "No Result Found...!" + '</td></tr>';
+
+                    $("#tblInvoice tbody").append(row);
+                }
+                else {
+
+                    $("#tblInvoice tbody tr").remove();
+
+                    var row = '<tr><td style="font-size:large;text-align:center" colspan="4">' + "Limited Rights Found. You have not update rights...!" + '</td></tr>';
+
+                    $("#tblInvoice tbody").append(row);
+                }
+            }
+        });
+
+    }
+
+
+
+</script>
+
+<script>
+    var ItemTable = []
+
+
+    function checkAllEmptyInputs() {
+        var isEmpty = false,
+            RegionCode = document.getElementById('RegionCode').value,
+            PdDate = document.getElementById('DSRDate').value
+
+        if (RegionCode == "") {
+            alert('Region Code cannot be Empty');
+            isEmpty = true;
+        }
+        else if (DSRDate == "") {
+            alert('Date cannot be Empty');
+            isEmpty = true;
+        }
+
+        return isEmpty;
+    }
+
+
+    function ItemRows() {
+
+        itemCount = 0;
+        $("table#ItemTable").find('tr').each(function () {
+            var tableItem = document.getElementById('ItemTable');
+            var DiscountAmt = $(this).find("input[name='DiscountAmt']").val();
+
+            if (itemCount != 0) {
+                var itemList = $(this).find("td");
+                // check empty row
+
+                var vouch = {
+                    ItemCode: $(itemList[0]).html(), ItemDesc: $(itemList[1]).html(), DiscountAmt: parseFloat(DiscountAmt)
+                };
+                ItemTable.push(vouch);
+            }
+            itemCount++;
+        })
+
+        //var itemList = $(this).find("td");
+        //var DiscountAmt = $(this).find("input[name='DiscountAmt']").val();
+        //var vouch = {
+        //    ItemCode: $(itemList[1]).html(), ItemDesc: $(itemList[2]).html(), DiscountAmt: DiscountAmt
+        //};
+        //ItemTable.push(vouch);
+    }
+
+    $("#btnSave").click(function (e) {
+        e.preventDefault();
+        if (!(checkAllEmptyInputs())) {
+            ItemRows();
+
+            $.ajax({
+                type: "POST",
+                url: "/Transaction/ItemDiscountDSRTerminal",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({ ItemDiscountDSR: ItemTable }),
+                contentType: "application/json; charset=utf-8",
+                complete: function (data) {
+                    document.forms["DailyStockReceiveTerminal"].submit();
+                }
+            });
+
+        }
+    });
+
+</script>
+
+

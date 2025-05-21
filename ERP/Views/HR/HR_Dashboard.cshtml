@@ -1,0 +1,116 @@
+﻿
+@{
+    ViewBag.Title = "HR_Dashboard";
+    Layout = "~/Views/Shared/_HR_Layout.cshtml";
+}
+
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="row flex-between-center">
+            <div class="col-sm-auto mb-2 mb-sm-0">
+                <h6 class="mb-0">Showing @ViewBag.EmpListCount of @ViewBag.CountAll Employees</h6>
+            </div>
+            @*<div class="col-sm-auto">
+                <div class="row gx-2 align-items-center">
+                    <div class="col-auto">
+                        <form class="row gx-2">
+                            <div class="col-auto"><small>Get Records: </small></div>
+                            <div class="col-auto">
+                                <select class="form-select form-select-sm" aria-label="Bulk actions">
+                                    <option value="50" selected="">50</option>
+                                    <option value="200">150</option>
+                                    <option value="300">300</option>
+                                    <option value="All">All</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>*@
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body p-0 overflow-hidden">
+        <div class="row g-0">
+
+            @if (ViewBag.EmpList != null)
+            {
+                foreach (var item in ViewBag.EmpList)
+                {
+
+                    <div class="col-12 p-card">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div >
+                                    @if (item.ProfilePictureSource == "" || item.ProfilePictureSource == null)
+                                    {
+                                        <img class="img-fluid" src="/HR_Content/assets/img/team/avatar.png" alt="" style="height:200px;width:230px" />
+                                    }
+                                    else
+                                    {
+                                        <img class="img-fluid" src="@item.ProfilePictureSource" alt="" style="height:200px;width:230px" />
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <h5 class="mt-3 mt-sm-0">@item.EmpName</h5>
+                                        <p class="fs--1 mb-2 mb-md-3"><a class="text-500" href="#!">@item.Address</a></p>
+                                        <ul class="list-unstyled d-none d-lg-block">
+                                            <li><span class="fas fa-circle" data-fa-transform="shrink-12"></span><span>@item.SiteName</span></li>
+                                            <li><span class="fas fa-circle" data-fa-transform="shrink-12"></span><span>@item.DepName</span></li>
+                                            <li><span class="fas fa-circle" data-fa-transform="shrink-12"></span><span>@item.ContactNo</span></li>
+                                            <li><span class="fas fa-circle" data-fa-transform="shrink-12"></span><span>@item.CNIC</span></li>
+                                            <li><span class="fas fa-circle" data-fa-transform="shrink-12"></span><span>@item.Gender</span></li>
+                                            @if (item.Active == "Y")
+                                            {
+                                                <li>
+                                                    <span class="badge badge rounded-pill badge-soft-success">Active<span class="ms-1 fas fa-check" data-fa-transform="shrink-2"></span></span>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <span class="badge badge rounded-pill badge-soft-secondary">In-Active<span class="ms-1 fas fa-ban" data-fa-transform="shrink-2"></span></span>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                    <div class="col-lg-4 d-flex justify-content-between flex-column">
+                                        <div>
+                                            <h4 class="fs-1 fs-md-2 text-warning mb-0">@item.HR_DesignationInfo.DesDescription</h4>
+                                            <h5 class="fs--1 text-500 mb-0 mt-1"><span class="ms-1">@item.EmpRefNo</span></h5>
+                                            
+                                            <div class="d-none d-lg-block">
+                                                <p class="fs--1 mb-1">Date of Birth: <strong>@item.DOB</strong></p>
+                                                <p class="fs--1 mb-1">Date of Joining: <strong>@item.DOJ</strong></p>
+                                                <p class="fs--1 mb-1">Joining Place: <strong>@item.PlaceOfJoining</strong></p>
+                                                <p class="fs--1 mb-1">Job Status: <strong>@item.Status</strong></p>
+                                                <p class="fs--1 mb-1">Qualification: <strong>@item.Qualification</strong></p>
+                                               
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            }
+
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+
+
+
+

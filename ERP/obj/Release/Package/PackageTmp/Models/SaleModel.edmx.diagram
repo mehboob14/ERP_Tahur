@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d8282f45479b45fb9fd85a61eb4ad8af" Name="Diagram1" ZoomLevel="85">
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.PartyDiscount" Width="1.5" PointX="13.125" PointY="0.75" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.Farm" Width="1.5" PointX="7.375" PointY="9.75" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.DailyIntake" Width="1.5" PointX="0.75" PointY="12.75" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.DailyProduction" Width="1.5" PointX="8" PointY="12" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.Vehicle" Width="1.5" PointX="3.375" PointY="12.75" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.DailyDispatch" Width="1.5" PointX="13.375" PointY="10.75" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.CompanyEmp" Width="1.5" PointX="5.875" PointY="14" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.CompanySetup" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.Discount" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.RegionSetup" Width="1.5" PointX="10.75" PointY="6.75" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.ShortCash" Width="1.5" PointX="10.375" PointY="11.75" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.DailyStockReceiveTerminal" Width="1.5" PointX="15.375" PointY="4.75" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.SalesmanOpeningStockTerminal" Width="2" PointX="15.375" PointY="8.75" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.DailyStockReceive" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.SalesmanOpeningStock" Width="1.5" PointX="0.75" PointY="16.75" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.DailyDemand" Width="1.5" PointX="15.375" PointY="0.75" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.SaleDemandRight" Width="1.5" PointX="15.375" PointY="12.75" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.PreRegionSetup" Width="1.5" PointX="8.375" PointY="16.75" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.HR_DepartmentInfo" Width="1.5" PointX="19.625" PointY="14.875" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.HR_SiteInfo" Width="1.5" PointX="17.375" PointY="15.125" />
+        <AssociationConnector Association="AT_Tahur_SUITEModel.FK_HR_DepartmentInfo_HR_SiteInfo" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.InvoiceTableSrNo" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.Recovery" Width="1.5" PointX="17.375" PointY="0.75" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.HR_DesignationInfo" Width="1.5" PointX="24.125" PointY="14.625" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.HR_EmployeeInfo" Width="1.5" PointX="26.375" PointY="12.875" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.HR_SubDepartmentInfo" Width="1.5" PointX="21.875" PointY="14.75" />
+        <AssociationConnector Association="AT_Tahur_SUITEModel.FK_HR_SubDepartmentInfo_HR_DepartmentInfo" />
+        <AssociationConnector Association="AT_Tahur_SUITEModel.FK_HR_DesignationInfo_HR_SubDepartmentInfo" />
+        <AssociationConnector Association="AT_Tahur_SUITEModel.FK_HR_EmployeeInfo_HR_DesignationInfo" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.ShortCashOpening" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.ShortCashRecovery" Width="1.5" PointX="9.375" PointY="0.75" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.ActivePartiesSalesman" Width="1.5" PointX="18.375" PointY="7.75" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.SaleParty" Width="1.5" PointX="5.375" PointY="3.75" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.SaleInvoiceDetail" Width="1.5" PointX="12.625" PointY="17.25" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.SaleInvoiceMaster" Width="1.5" PointX="10.375" PointY="17.5" />
+        <EntityTypeShape EntityType="AT_Tahur_SUITEModel.SaleItem" Width="1.5" PointX="15.375" PointY="17.75" />
+        <AssociationConnector Association="AT_Tahur_SUITEModel.FK_SaleInvoiceDetail_SaleInvoiceMaster" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

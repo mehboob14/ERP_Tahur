@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="76dc7133dc164c2fa67463846b3223c2" Name="Diagram1">
+        <EntityTypeShape EntityType="FAS_BlazorModel.AccountType" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FAS_BlazorModel.chartOfAccount" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="FAS_BlazorModel.SubAccountType" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <AssociationConnector Association="FAS_BlazorModel.FK_SubAccountTypes_AccountTypes_ATypeCode" ManuallyRouted="false" />
+        <AssociationConnector Association="FAS_BlazorModel.FK_chartOfAccounts_SubAccountTypes_SATypeCode" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="FAS_BlazorModel.BRV_Details" Width="1.5" PointX="3" PointY="7.375" />
+        <EntityTypeShape EntityType="FAS_BlazorModel.BRV_Masters" Width="1.5" PointX="0.75" PointY="7" />
+        <AssociationConnector Association="FAS_BlazorModel.FK_BRV_Details_BRV_Masters_BRV_No" />
+        <EntityTypeShape EntityType="FAS_BlazorModel.CRV_Details" Width="1.5" PointX="7.625" PointY="7.375" />
+        <EntityTypeShape EntityType="FAS_BlazorModel.CRV_Masters" Width="1.5" PointX="5.375" PointY="7" />
+        <AssociationConnector Association="FAS_BlazorModel.FK_CRV_Details_CRV_Masters_CRV_No" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

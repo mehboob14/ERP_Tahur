@@ -1,0 +1,950 @@
+﻿@model ERP.Models.SaleInvoiceMaster
+@{
+    ViewBag.Title = "ReportIndex";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<style type="text/css">
+    /*label {
+        font-weight: 100;
+        font-size: 12px;
+    }*/
+
+    /*.btn {
+        line-height: 0.25;
+        font-size: 12px;
+    }*/
+
+    .checkbox {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-off,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-on,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-label {
+        line-height: 1.2;
+    }
+
+    /*.modal-header {
+        padding: 5px;
+    }*/
+
+
+
+    /*.input-group-addon {
+        padding: 3px 8px;
+        /*color: #0084BF;
+    }*/
+
+
+
+    .table-Scroll {
+        max-height: 540px;
+        max-width: 100%;
+        overflow: auto;
+    }
+
+    td {
+        font-size: 12px;
+    }
+
+    th {
+        font-size: 12px;
+        font: bold;
+    }
+
+    .width50 {
+        width: 500px;
+    }
+
+    .width40 {
+        width: 400px;
+    }
+
+    .width15 {
+        width: 150px;
+    }
+
+    .width30 {
+        width: 300px;
+    }
+
+    .width20 {
+        width: 200px;
+    }
+
+    .width10 {
+        width: 100px;
+    }
+
+
+    .width5 {
+        width: 50px;
+    }
+
+    .Ghaib {
+        display: none;
+    }
+</style>
+
+<style>
+    .Top {
+        margin-top: 5px;
+    }
+
+    .Btn-width {
+        width: 110px;
+        font-family: Calibri;
+        font-size: large;
+        font-style: normal;
+    }
+
+    .table-head {
+        height: 10px;
+        line-height: 8px;
+    }
+
+    .btn-TopHeight {
+        margin-top: 23px;
+    }
+
+    .btn-ItemWidth {
+        width: 100px;
+        /*height: 32px;*/
+    }
+
+    fieldset {
+        margin-top: 20px
+    }
+
+    thead {
+        height: 32px
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="white-box">
+            <form name="EmployeeMaster" role="form" method="post">
+                <div class="row">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="form-group row Category">
+                            <label for="example-text-input" class="col-md-1 offset-2 col-form-label">Region</label>
+                            <div class="col-md-5 form-group row">
+                                @Html.DropDownListFor(M => M.RegionCode, (IEnumerable<SelectListItem>)ViewBag.RegionDDL as SelectList, "Please Select Region", new { @class = "form-control p-0 select2 m-b-10 select2-multiple", @placeholder = "choose", @multiple = "multiple", @name = "RegionCode", @id = "RegionCode", @onchange = "GetRegionPartyDDL()" })
+                                @*@Html.DropDownListFor(M => M.RegionCode, (IEnumerable<SelectListItem>)ViewBag.RegionDDL as SelectList, "Please Select Region", new { @class = "form-control p-0", @name = "RegionCode", @id = "RegionCode", @onchange = "GetRegionPartyDDL()" })*@
+                            </div>
+                            <div class="input-group col-md-1">
+                                <div class="checkbox checkbox-info">
+                                    <input type="checkbox" id="SelectRegion" name="SelectRegion" value="RegionAll" />
+                                    <label for="SelectRegion" style="padding-left:10px">All </label>
+                                </div>
+                            </div>
+
+                            <div class="input-group col-md-2">
+                                <div class="checkbox checkbox-info">
+                                    <input type="checkbox" id="NorthRegion" name="NorthRegion" value="NorthRegion" />
+                                    <label for="NorthRegion" style="padding-left:10px">North</label>
+                                </div>
+                            </div>
+
+                            <div class="input-group col-md-1">
+                                <div class="checkbox checkbox-info">
+                                    <input type="checkbox" id="CheckAll" name="CheckAll" value="CheckAll" onclick="AllCheck()" />
+                                    <label for="CheckAll" style="padding-left:10px">Check All</label>
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+
+                        @*<div class="offset-md-2 col-md-7" style="border:1px solid lightblue">*@
+
+                        <div class="form-group row Category" style="margin-top:10px">
+                            <label for="example-text-input" class="col-md-1 offset-md-2 col-form-label">Party</label>
+                            <div class="col-md-1 input-group">
+                                <input type="text" id="ManualMPartyCode" name="ManualMPartyCode" class="form-control col-md-2" tabindex="2" />
+                            </div>
+                            <div class="col-md-4 form-group row">
+                                @*@Html.DropDownListFor(M => M.PartyCode, (IEnumerable<SelectListItem>)ViewBag.PartyDDL as SelectList, "Please Select Party", new { @class = "form-control p-0", @name = "PartyCode", @id = "PartyCode" })*@
+                                <select class="form-control p-0" name="PartyCode" id="PartyCode"></select>
+                            </div>
+                            <div class="input-group col-md-2">
+                                <div class="checkbox checkbox-info">
+                                    <input type="checkbox" id="SelectParty" name="SelectParty" value="PartyAll" />
+                                    <label for="SelectParty" style="padding-left:10px">All</label>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group row Category">
+                            <label for="example-text-input" class="col-md-1 offset-md-2 col-form-label">Type</label>
+                            <div class="col-md-5 form-group row ">
+                                <select class="col-md-12" id="PartyType" name="PartyType">
+                                    <option value="">Cash / Credit</option>
+                                    <option value="Cash">Cash</option>
+                                    <option value="Credit">Credit</option>
+                                </select>
+                            </div>
+                            <div class="input-group col-md-1">
+                                <div class="checkbox checkbox-info">
+                                    <input type="checkbox" id="PartyTypeBoth" name="PartyTypeBoth" value="PTBoth" />
+                                    <label for="PartyTypeBoth">Both </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row Category">
+                            <label for="example-text-input" class="col-md-1 offset-md-2 col-form-label">Cat.</label>
+                            <div class="col-md-5 form-group row">
+                                <select class="col-md-12" id="PartyCategory" name="PartyCategory">
+                                    <option value=""> Corporate / Retailer</option>
+                                    <option value="CORPORATE">Corporate</option>
+                                    <option value="Retailer">Retailer</option>
+                                </select>
+                            </div>
+                            <div class="input-group col-md-1">
+                                <div class="checkbox checkbox-info">
+                                    <input type="checkbox" id="PartyCategoryBoth" name="PartyCategoryBoth" value="PCBoth" />
+                                    <label for="PartyCategoryBoth">Both </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row Category">
+                            <label for="example-text-input" class="col-md-1 offset-md-2 col-form-label">Status</label>
+                            <div class="col-md-5 form-group row">
+                                <select class="col-md-12" id="PartySTaxReg" name="PartySTaxReg">
+                                    <option value=""> Register / Un-Register</option>
+                                    <option value="Y">Register</option>
+                                    <option value="N">UnReg</option>
+                                </select>
+                            </div>
+                            <div class="input-group col-md-1">
+                                <div class="checkbox checkbox-info">
+                                    <input type="checkbox" id="PartySTaxRegBoth" name="PartySTaxRegBoth" value="PSTRBoth" />
+                                    <label for="PartySTaxRegBoth">Both </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        @*</div>*@
+
+
+                        <div class="form-group col-md-12 row Category">
+                            <label for="example-text-input" class="col-md-1 offset-2 col-form-label">Saleman</label>
+                            <div class="col-md-5 form-group row">
+                                @*@Html.DropDownListFor(M => M.EmpCode, (IEnumerable<SelectListItem>)ViewBag.SalesmanDDL as SelectList, "Please Select Salesman", new { @class = "form-control p-0", @name = "EmpCode", @id = "EmpCode" })*@
+                                <select class="col-md-12" name="EmpCode" id="EmpCode"></select>
+                            </div>
+                            <div class="input-group col-md-2">
+                                <div class="checkbox checkbox-info">
+                                    <input type="checkbox" id="SelectEmp" name="SelectEmp" value="EmpAll" />
+                                    <label for="SelectEmp">Select All Salesman</label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group col-md-12 row Category">
+
+                            <label for="exampleInputuname" class="offset-2 col-form-label col-md-1">Item Code *</label>
+                            <div class="col-md-5 form-group row">
+                                @Html.DropDownListFor(M => M.PartyCode, (IEnumerable<SelectListItem>)ViewBag.ItemDDL as SelectList, "Select Item", new { @class = "form-control p-0", @name = "ItemCode", @id = "ItemCode", @tabindex = "3" })
+
+                            </div>
+                            <div class="input-group col-md-2">
+                                <div class="checkbox checkbox-info">
+                                    <input type="checkbox" id="SelectItemCode" name="SelectItemCode" value="ItemAll" />
+                                    <label for="SelectItemCode">Select All Items</label>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+
+                            <div class="clearfix"></div>
+                            <div class="form-group row">
+                                <label for="exampleInputuname" class="offset-md-2 col-md-1">From Date</label>
+                                <div class="input-group col-md-2">
+                                    <input type="text" class="form-control Datepicker-AutoClose" id="FromDate" placeholder="dd/mm/yyyy" autocomplete="off">
+                                </div>
+                                <label for="exampleInputuname" class="col-md-1">To Date</label>
+                                <div class="input-group col-md-2">
+                                    <input type="text" class="form-control Datepicker-AutoClose" id="ToDate" placeholder="dd/mm/yyyy" autocomplete="off">
+                                </div>
+                                <div class="input-group col-md-2">
+                                    <div class="checkbox checkbox-info">
+                                        <input type="checkbox" id="DSRExcel" name="DSRExcel" value="DSRExcel" />
+                                        <label for="exampleInputuname" style="padding-left:10px">DSR for Excel</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!--Buttons For Actions-->
+                <div class="form-group row Top">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="input-group offset-md-3">
+                            @if (ERP.Models.CommonDAL.UserRights("11", "006"))
+                            {
+                                <input type="button" class="btn btn-success col-md-2" value="Print" onclick="CISReportInNewWin();" />
+                            }
+                            else
+                            {
+                                <input type="button" class="btn btn-success" value="Print" onclick="CISReportInNewWin();" disabled />
+                            }
+
+                            &nbsp;&nbsp;
+
+                            <input type="reset" class="btn btn-info" value="Clear" />
+                            &nbsp;&nbsp;
+                            <div class="input-group-addon"><a style="color:green" onclick="PrintDSRDetail();"><i class="fa fa-print"> DSR Detail</i></a></div>
+                            &nbsp;&nbsp;
+                            <div class="input-group-addon"><a style="color:green" onclick="PrintSaleSummary();"><i class="fa fa-print"> DSR Summary</i></a></div>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--Modals-->
+
+
+
+
+
+
+<!--Scripts-->
+<script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+<script>
+    document.getElementById("PageHeader").innerHTML = "Sale Invoice Detail Report";
+
+     document.getElementById("PageTitle").innerHTML = "Daily Sale Report"
+
+    $("#SearchAutoComplete").show("true");
+   
+    //var str = "Add New Unit";
+    //var result = str.link("/CompanySetup/UnitSetup");
+    //document.getElementById("PageLink").innerHTML = result;
+
+    $(function () {
+        $("#RegionCode").chosen();
+        $("#PartyCode").chosen();
+        $("#EmpCode").chosen();
+        $("#ItemCode").chosen();
+
+        $("#PartyType").chosen();
+        $("#PartyCategory").chosen();
+        $("#PartySTaxReg").chosen();
+        
+    });
+
+         function GetRegionPartyDDL() {
+             var RegionCode = $("#RegionCode").val();
+
+             if (RegionCode[0] !== "001") {
+
+                 $.ajax({
+                     type: "POST",
+                     url: "/Transaction/GetMulitRegionPartyDDL",
+                     dataType: "json",
+                     contentType: 'application/json',
+                     data: JSON.stringify({ RegionCode: RegionCode }),
+                     contentType: "application/json; charset=utf-8",
+                     success: function (data) {
+
+                         $('#PartyCode').empty().trigger("chosen:updated");
+
+                         $('#PartyCode').append($('<option>', {
+                             value: "Select Any Value",
+                             text: "Select Any Value"
+                         })).trigger("chosen:updated");
+
+                         if (data.length > 0) {
+                             $.each(data, function (index, obj) {
+
+                                 $('#PartyCode').append($('<option>', {
+                                     value: obj.PartyCode,
+                                     text: obj.PartyCode + " ==> " + obj.PartyName
+                                 })).trigger("chosen:updated");
+
+                             });
+                         }
+
+                        
+                     }
+                 });
+
+             }
+
+             GetRegionEmpDDL();
+         }
+
+     function GetRegionEmpDDL() {
+        var RegionCode = $("#RegionCode").val();
+
+             $.ajax({
+            type: "POST",
+            url: "/Transaction/GetMultiRegionEmp",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode }),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $('#EmpCode').empty().trigger("chosen:updated");
+
+                $('#EmpCode').append($('<option>', {
+                    value: "Select Any Value",
+                    text: "Select Any Value"
+                })).trigger("chosen:updated");
+
+                if (data.GetRegionEmp.length > 0) {
+                    $.each(data.GetRegionEmp, function (index, obj) {
+
+                        $('#EmpCode').append($('<option>', {
+                            value: obj.EmpCode,
+                            text: obj.EmpName
+                        })).trigger("chosen:updated");
+
+                    });
+                }
+            }
+             });
+       
+    }
+
+
+    $("#tblSalesman").on('click', '.GetEmp', function () {
+
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+
+        var EmpCode = rIndex.find('td:eq(0)').text().replace(/\s+/g, "");
+        var EmpName = rIndex.find('td:eq(1)').text().replace(/\s+/g, "");
+
+        document.getElementById("EmpCode").value = EmpCode;
+        document.getElementById("EmpName").value = EmpName;
+
+        $("#EmpModal").modal("hide");
+
+    });
+
+    $("#tblParty").on('click', '.GetParty', function () {
+
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+
+        var PartyCode = rIndex.find('td:eq(0)').text().replace(/\s+/g, "");
+        var PartyDesc = rIndex.find('td:eq(1)').text().replace(/\s+/g, "");
+
+        document.getElementById("PartyCode").value = PartyCode;
+        document.getElementById("PartyDesc").value = PartyDesc;
+
+        $("#PartyModal").modal("hide");
+
+    });
+
+
+
+
+</script>
+
+<script type="text/javascript">
+
+
+
+    $(document).keydown(function (e) {
+        if (e.ctrlKey && (e.which == 80)) {
+            e.preventDefault();
+
+            GeSinglePartyDDL();
+        }
+    })
+
+
+    function GeSinglePartyDDL() {
+        var RegionCode = $("#RegionCode").val();
+        var ManualPartyCode = $("#ManualMPartyCode").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Company/SinglePartyDDL",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode[0], PartyCode: ManualPartyCode }),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $('#PartyCode').empty().trigger("chosen:updated");
+
+                if (data !== null) {
+
+
+                    $('#PartyCode').append($('<option>', {
+                        value: data.PartyCode,
+                        text: data.PartyCode + "  ==>  " + data.PartyName
+                    })).trigger("chosen:updated");
+                  
+                }
+            }
+        });
+
+    }
+
+
+
+    function AllCheck() {
+
+        if ($('#CheckAll').is(":checked")) {
+
+            $("#PartyTypeBoth").attr("checked", true);
+
+            $("#PartyCategoryBoth").attr("checked", true);
+
+            $("#PartySTaxRegBoth").attr("checked", true);
+
+            $("#SelectEmp").attr("checked", true);
+
+            $("#SelectParty").attr("checked", true);
+
+            $("#SelectRegion").attr("checked", true);
+
+            $("#NorthRegion").attr("checked", true);
+        }
+        else {
+            if ($('#PartyTypeBoth').is(":checked")) {
+                $("#PartyTypeBoth").removeAttr("checked", true);
+            }
+
+            if ($('#PartyCategoryBoth').is(":checked")) {
+                $("#PartyCategoryBoth").removeAttr("checked", true);
+            }
+
+            if ($('#PartySTaxRegBoth').is(":checked")) {
+                $("#PartySTaxRegBoth").removeAttr("checked", true);
+            }
+
+            if ($('#SelectEmp').is(":checked")) {
+                $("#SelectEmp").removeAttr("checked", true);
+            }
+
+            if ($('#SelectParty').is(":checked")) {
+                $("#SelectParty").removeAttr("checked", true);
+            }
+
+
+            if ($('#SelectRegion').is(":checked")) {
+                $("#SelectRegion").removeAttr("checked", true);
+            }
+
+            if ($('#NorthRegion').is(":checked")) {
+                $("#NorthRegion").removeAttr("checked", true);
+            }
+
+        }
+      
+
+    }
+
+    function UnCheckAll() {
+
+        if ($('#PartyTypeBoth').is(":checked")) {
+            $("#PartyTypeBoth").removeAttr("checked", true);
+        }
+
+        if ($('#PartyCategoryBoth').is(":checked")) {
+            $("#PartyCategoryBoth").removeAttr("checked", true);
+        }
+
+        if ($('#PartySTaxRegBoth').is(":checked")) {
+            $("#PartySTaxRegBoth").removeAttr("checked", true);
+        }
+     
+        if ($('#SelectEmp').is(":checked")) {
+            $("#SelectEmp").removeAttr("checked", true);
+        }
+
+        if ($('#SelectParty').is(":checked")) {
+            $("#SelectParty").removeAttr("checked", true);
+        }
+      
+
+        if ($('#SelectRegion').is(":checked")) {
+            $("#SelectRegion").removeAttr("checked", true);
+        }
+      
+        if ($('#NorthRegion').is(":checked")) {
+            $("#NorthRegion").removeAttr("checked", true);
+        }
+
+    }
+
+
+    function GetParty(PartyCode, PartyName) {
+        document.getElementById("PartyCode").value = PartyCode;
+        document.getElementById("PartyName").value = PartyName;
+
+        $("#PartyModal").modal("hide");
+    }
+
+    function GetEmp(EmpCode, EmpName) {
+        document.getElementById("EmpCode").value = EmpCode;
+        document.getElementById("EmpName").value = EmpName;
+
+        $("#EmpModal").modal("hide");
+    }
+
+
+
+
+    // For Reporting
+    function SimpleInNewWin() {
+
+        if ($('#DSRExcel').is(":checked")) {
+            var DSRExcel = "DSRExcel";
+        }
+        else {
+            var DSRExcel = null;
+        }
+
+        window.open("../ReportWebForms/DetailWebForms/SaleInvoiceDetail.aspx?DSRExcel=" + encodeURI(DSRExcel), 'mywindow', 'fullscreen=yes, scrollbars=auto');
+    }
+    function CISReportInNewWin() {
+
+        var PartyCode = document.getElementById("PartyCode").value;
+        var EmpCode = document.getElementById("EmpCode").value;
+        var fromdate = document.getElementById("FromDate").value;
+        var todate = document.getElementById("ToDate").value;
+
+        var RegionCode = $("#RegionCode").val();
+        var PType = document.getElementById("PartyType").value;
+        var PCategory = document.getElementById("PartyCategory").value;
+        var PSTaxReg = document.getElementById("PartySTaxReg").value;
+        var ItemCode = document.getElementById("ItemCode").value;
+
+
+
+        if ($('#PartyTypeBoth').is(":checked")) {
+            var PTypeBoth = "PartyTypeBoth";
+        }
+        else {
+            var PTypeBoth = null;
+        }
+
+        if ($('#PartyCategoryBoth').is(":checked")) {
+            var PCategoryBoth = "PartyCategoryBoth";
+        }
+        else {
+            var PCategoryBoth = null;
+        }
+
+        if ($('#PartySTaxRegBoth').is(":checked")) {
+            var PSTaxRegBoth = "PartySTaxRegBoth";
+        }
+        else {
+            var PSTaxRegBoth = null;
+        }
+
+
+
+
+        if ($('#SelectEmp').is(":checked")) {
+            var EmpType = "AllEmp";
+        }
+        else {
+            var EmpType = null;
+        }
+
+
+
+
+        if ($('#SelectParty').is(":checked")) {
+            var PartyType = "AllParty";
+        }
+        else {
+            var PartyType = null;
+        }
+
+        if ($('#SelectRegion').is(":checked")) {
+            var RegionType = "AllRegion";
+        }
+        else {
+            var RegionType = null;
+        }
+
+        if ($('#SelectItemCode').is(":checked")) {
+            var ItemType = "AllItem";
+        }
+        else {
+            var ItemType = null;
+        }
+
+        if ($('#DSRExcel').is(":checked")) {
+            var DSRExcel = "DSRExcel";
+        }
+        else {
+            var DSRExcel = null;
+        }
+
+        if ($('#NorthRegion').is(":checked")) {
+            var NorthRegion = "NorthRegion";
+        }
+        else {
+            var NorthRegion = null;
+        }
+
+        //if (CusCode == null && CusCode == '') {
+        //    alert("Enter The Customer Code");
+        //}
+        //else if (todate < fromdate) {
+        //    alert("To Date cannot be less than from date");
+        //}
+        /*   else*/
+        $.ajax({
+            url: '/Report/ShowSaleInvoiceDetail',
+
+            data: JSON.stringify({ FromDate: fromdate, ToDate: todate, EmpType: EmpType, PartyType: PartyType, PartyCode: PartyCode, EmpCode: EmpCode, PType: PType, PCategory: PCategory, PSTaxReg: PSTaxReg, PTypeBoth: PTypeBoth, PCategoryBoth: PCategoryBoth, PSTaxRegBoth: PSTaxRegBoth, RegionCode: RegionCode, RegionType: RegionType, NorthRegion: NorthRegion, ItemType: ItemType, ItemCode: ItemCode }),
+            type: 'POST',
+            contentType: 'application/json;',
+            dataType: 'json',
+            complete: function (data) {
+                SimpleInNewWin();
+            }
+        });
+
+
+    }
+
+
+
+
+
+
+
+
+
+     function PrintSaleSummary() {
+
+        var PartyCode = document.getElementById("PartyCode").value;
+        var EmpCode = document.getElementById("EmpCode").value;
+        var fromdate = document.getElementById("FromDate").value;
+        var todate = document.getElementById("ToDate").value;
+
+        var RegionCode = $("#RegionCode").val();
+
+        var PType = document.getElementById("PartyType").value;
+        var PCategory = document.getElementById("PartyCategory").value;
+        var PSTaxReg = document.getElementById("PartySTaxReg").value;
+        var ItemCode = document.getElementById("ItemCode").value;
+
+         //RegionCode = JSON.stringify(RegArray);
+
+        if ($('#PartyTypeBoth').is(":checked")) {
+            var PTypeBoth = "PartyTypeBoth";
+        }
+        else {
+            var PTypeBoth = null;
+        }
+
+        if ($('#PartyCategoryBoth').is(":checked")) {
+            var PCategoryBoth = "PartyCategoryBoth";
+        }
+        else {
+            var PCategoryBoth = null;
+        }
+
+        if ($('#PartySTaxRegBoth').is(":checked")) {
+            var PSTaxRegBoth = "PartySTaxRegBoth";
+        }
+        else {
+            var PSTaxRegBoth = null;
+        }
+
+
+
+
+        if ($('#SelectEmp').is(":checked")) {
+            var EmpType = "AllEmp";
+        }
+        else {
+            var EmpType = null;
+        }
+
+
+
+
+        if ($('#SelectParty').is(":checked")) {
+            var PartyType = "AllParty";
+        }
+        else {
+            var PartyType = null;
+        }
+
+        if ($('#SelectRegion').is(":checked")) {
+            var RegionType = "AllRegion";
+        }
+        else {
+            var RegionType = null;
+        }
+
+        if ($('#SelectItemCode').is(":checked")) {
+            var ItemType = "AllItem";
+        }
+        else {
+            var ItemType = null;
+        }
+
+        if ($('#DSRExcel').is(":checked")) {
+            var DSRExcel = "DSRExcel";
+        }
+        else {
+            var DSRExcel = null;
+        }
+
+        if ($('#NorthRegion').is(":checked")) {
+            var NorthRegion = "NorthRegion";
+        }
+        else {
+            var NorthRegion = null;
+        }
+
+
+         $.ajax({
+             url: '/Report/ShowSaleInvoiceDetail',
+
+             data: JSON.stringify({ FromDate: fromdate, ToDate: todate, EmpType: EmpType, PartyType: PartyType, PartyCode: PartyCode, EmpCode: EmpCode, PType: PType, PCategory: PCategory, PSTaxReg: PSTaxReg, PTypeBoth: PTypeBoth, PCategoryBoth: PCategoryBoth, PSTaxRegBoth: PSTaxRegBoth, RegionCode: RegionCode, RegionType: RegionType, NorthRegion: NorthRegion, ItemType: ItemType, ItemCode: ItemCode }),
+             type: 'POST',
+             contentType: 'application/json;',
+             dataType: 'json',
+             complete: function (data) {
+                 var baseurl = '@Url.Action("/PrintSaleSummary")';
+                 window.open(baseurl, '_blank');
+             }
+         });
+
+    }
+
+
+
+
+
+
+    function PrintDSRDetail() {
+
+        var PartyCode = document.getElementById("PartyCode").value;
+        var EmpCode = document.getElementById("EmpCode").value;
+        var fromdate = document.getElementById("FromDate").value;
+        var todate = document.getElementById("ToDate").value;
+
+        var RegionCode = $("#RegionCode").val();
+
+        var PType = document.getElementById("PartyType").value;
+        var PCategory = document.getElementById("PartyCategory").value;
+        var PSTaxReg = document.getElementById("PartySTaxReg").value;
+        var ItemCode = document.getElementById("ItemCode").value;
+
+         //RegionCode = JSON.stringify(RegArray);
+
+        if ($('#PartyTypeBoth').is(":checked")) {
+            var PTypeBoth = "PartyTypeBoth";
+        }
+        else {
+            var PTypeBoth = null;
+        }
+
+        if ($('#PartyCategoryBoth').is(":checked")) {
+            var PCategoryBoth = "PartyCategoryBoth";
+        }
+        else {
+            var PCategoryBoth = null;
+        }
+
+        if ($('#PartySTaxRegBoth').is(":checked")) {
+            var PSTaxRegBoth = "PartySTaxRegBoth";
+        }
+        else {
+            var PSTaxRegBoth = null;
+        }
+
+
+
+
+        if ($('#SelectEmp').is(":checked")) {
+            var EmpType = "AllEmp";
+        }
+        else {
+            var EmpType = null;
+        }
+
+
+
+
+        if ($('#SelectParty').is(":checked")) {
+            var PartyType = "AllParty";
+        }
+        else {
+            var PartyType = null;
+        }
+
+        if ($('#SelectRegion').is(":checked")) {
+            var RegionType = "AllRegion";
+        }
+        else {
+            var RegionType = null;
+        }
+
+        if ($('#SelectItemCode').is(":checked")) {
+            var ItemType = "AllItem";
+        }
+        else {
+            var ItemType = null;
+        }
+
+        if ($('#DSRExcel').is(":checked")) {
+            var DSRExcel = "DSRExcel";
+        }
+        else {
+            var DSRExcel = null;
+        }
+
+        if ($('#NorthRegion').is(":checked")) {
+            var NorthRegion = "NorthRegion";
+        }
+        else {
+            var NorthRegion = null;
+        }
+
+
+         $.ajax({
+             url: '/Report/ShowSaleInvoiceDetail',
+             data: JSON.stringify({ FromDate: fromdate, ToDate: todate, EmpType: EmpType, PartyType: PartyType, PartyCode: PartyCode, EmpCode: EmpCode, PType: PType, PCategory: PCategory, PSTaxReg: PSTaxReg, PTypeBoth: PTypeBoth, PCategoryBoth: PCategoryBoth, PSTaxRegBoth: PSTaxRegBoth, RegionCode: RegionCode, RegionType: RegionType, NorthRegion: NorthRegion, ItemType: ItemType, ItemCode: ItemCode }),
+             type: 'POST',
+             contentType: 'application/json;',
+             dataType: 'json',
+             complete: function (data) {
+                 var baseurl = '@Url.Action("/PrintDSRDetail")';
+                 window.open(baseurl, '_blank');
+             }
+         });
+
+    }
+
+
+
+
+</script>

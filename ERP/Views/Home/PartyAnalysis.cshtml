@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "PartyAnalysis";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<div class="white-box">
+    <table id="" class="table table-striped DataTable ExportTable">
+        <thead class="bg-info">
+            <tr>
+                <th style="color:white; font-family:Arial; text-align:left; font-size:large" width="10">Sr.</th>
+                <th style="color:white; font-family:Arial; text-align:left; font-size:large" width="10">Region Code</th>
+                <th style="color:white; font-family:Arial; text-align:left; font-size:large" width="10">Party Code</th>
+                <th style="color:white; font-family:Arial; text-align:left; font-size:large" width="250">Party Name</th>
+                <th style="color:white; font-family:Arial; text-align:center; font-size:large" width="50">No Of Inv.</th>
+                <th style="color:white; font-family:Arial; text-align:center; font-size:large" width="50">Sale Amt</th>
+                <th style="color:white; font-family:Arial; text-align:center; font-size:large" width="100">Create/Update Date</th>
+                <th style="color:white; font-family:Arial; text-align:center; font-size:large" width="100">Last Sale Date</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (ViewBag.PartyAnalysis != null)
+            {
+                var i = 1;
+                var Dash = "-";
+                foreach (var item in ViewBag.PartyAnalysis)
+                {
+            <tr>
+                <td>@i</td>
+                <td>@item.RegionCode</td>
+                <td>@item.PartyCode</td>
+                <td>@item.PartyName</td>
+                <td style="text-align:center">@item.NoofInvoices</td>
+                <td style="text-align:center">@item.SaleAmount</td>
+                <td style="text-align:center">@item.UpdDate.ToString("dd/MM/yyyy")</td>
+                <td style="text-align:center">
+                    @if (item.LastSaleDate == null)
+                    {
+                        @Dash
+                    }
+                    else
+                    {
+                        @item.LastSaleDate.ToString("dd/MM/yyyy");
+                    }
+
+
+
+
+                </td>
+
+
+
+            </tr>
+                    i++;
+                }
+            }
+
+        </tbody>
+    </table>
+</div>
+<script>
+    document.getElementById("PageHeader").innerHTML = "Sale Party Detail";
+
+
+    document.getElementById("PageLink").style.visibility = "hidden";
+    //var str = "Add New Unit";
+    //var result = str.link("/CompanySetup/UnitSetup");
+    //document.getElementById("PageLink").innerHTML = result;
+
+
+</script>
+

@@ -1,0 +1,3549 @@
+﻿@model ERP.Models.SaleInvoiceMaster
+
+
+@{
+    /**/
+
+    ViewBag.Title = "SaleInvoice";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+    //Layout = "~/Views/Shared/_HR_Layout.cshtml";
+
+}
+
+<title>Sale Invoice</title>
+
+
+<style type="text/css">
+
+
+
+    /*label {
+        font-weight: 100;
+        font-size: 12px;
+    }*/
+
+    /*.btn {
+        line-height: 0.25;
+        font-size: 12px;
+    }*/
+
+    .checkbox {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-off,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-on,
+    .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-label {
+        line-height: 1.2;
+    }
+
+    /*.modal-header {
+        padding: 5px;
+    }*/
+
+
+
+    /*.input-group-addon {
+        padding: 3px 8px;
+        /*color: #0084BF;
+    }*/
+
+
+
+    .table-Scroll {
+        max-height: 540px;
+        max-width: 100%;
+        overflow: auto;
+    }
+
+    td {
+        font-size: 12px;
+    }
+
+    th {
+        font-size: 12px;
+        font: bold;
+    }
+
+    .width50 {
+        width: 500px;
+    }
+
+    .width40 {
+        width: 400px;
+    }
+
+    .width15 {
+        width: 150px;
+    }
+
+    .width30 {
+        width: 300px;
+    }
+
+    .width20 {
+        width: 200px;
+    }
+
+    .width10 {
+        width: 100px;
+    }
+
+
+    .width5 {
+        width: 50px;
+    }
+
+    .Ghaib {
+        display: none;
+    }
+
+    .White {
+        color: white;
+    }
+</style>
+
+<style>
+    .Top {
+        margin-top: 5px;
+    }
+
+    .Btn-width {
+        width: 110px;
+        font-family: Calibri;
+        font-size: large;
+        font-style: normal;
+    }
+
+    .table-head {
+        height: 10px;
+        line-height: 8px;
+    }
+
+    .btn-TopHeight {
+        margin-top: 23px;
+    }
+
+    .btn-ItemWidth {
+        width: 100px;
+        /*height: 32px;*/
+    }
+
+    fieldset {
+        margin-top: 20px
+    }
+
+    thead {
+        height: 32px
+    }
+</style>
+
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="white-box">
+
+            @if (TempData["SuccessMsg"] != null)
+            {
+                <div class="alert alert-success">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <b> @TempData["SuccessMsg"]</b>
+                </div>
+            }
+
+            @if (TempData["ErrorMsg"] != null)
+            {
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <b> @TempData["ErrorMsg"]</b>
+                </div>
+            }
+
+            @if (TempData["DeadLockMsg"] != null)
+            {
+                <div class="alert alert-warning">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <b> @TempData["DeadLockMsg"]</b>
+                </div>
+            }
+
+            @*@if (TempData["DangerMsg"] != null)
+                {
+                    <div class="row">
+                        <div class="alert alert-danger col-md-10">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <b> @TempData["DangerMsg"]</b>
+
+                        </div>
+                        <div class="col-md-2">
+                            <a class="btn btn-success" href="@Url.Action("TryAgain", "Transaction")">Try Again</a>
+                        </div>
+                    </div>
+
+                 }*@
+
+            <div class="alert alert-warning" id="WarningAlert" style="display:none">
+                <b>Party Discount Not Added, Plz, Add Party Discount otherwise you can't save invoice for this party . . . !</b>
+            </div>
+
+            <form action="/Transaction/SaleInvoice" method="post" id="SaleInvoice" name="SaleInvoice">
+
+                <div class="row">
+                    <label for="example-text-input" class="col-md-1 col-form-label">Invoice No</label>
+                    <div class="col-md-2 input-group">
+                        <div class="input-group-addon"><a data-toggle="modal" data-target="#InvoiceModal" style="color:blue"><i class="fa fa-search"></i></a></div>
+                        <input class="form-control" type="text" placeholder="SI No" id="InvoiceNo" name="InvoiceNo" readonly>
+                    </div>
+                    <label for="example-text-input" class="col-md-1 col-form-label">Man. Inv.No</label>
+                    <div class="col-md-2 input-group">
+                        <input class="form-control RemoveTab" type="text" placeholder="Manual Invoice No" id="ManInvoiceNo" tabindex="1" name="ManInvoiceNo" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                               maxlength="20">
+                    </div>
+                    <label for="example-text-input" class="col-md-1 col-form-label">Rep. Inv.No</label>
+                    <div class="col-md-1 input-group">
+                        <input class="form-control" type="text" placeholder="Replace Invoice No" id="RepInvoiceNo" data-mask="9999" value="0000" name="RepInvoiceNo">
+                    </div>
+                    <label for="example-text-input" class="col-md-1 col-form-label">Date</label>
+                    @if (ERP.Models.CommonDAL.UserRoleName() == "Admin")
+                    {
+                        <div class="col-md-1 input-group">
+                            <input class="form-control Datepicker-AutoCloseAdmin" type="text" placeholder="dd/mm/yyyy" name="InvoiceDate" id="InvoiceDate" value="@ViewBag.CurrentDate" data-mask="99/99/9999" readonly>
+                            <input type="hidden" id="SessionInvoiceDate" value="@Session["InvoiceDate"]" />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-1 input-group">
+                            <input class="form-control Datepicker-AutoCloseDEO" type="text" placeholder="dd/mm/yyyy" name="InvoiceDate" id="InvoiceDate" value="@ViewBag.CurrentDate" data-mask="99/99/9999" readonly>
+                            <input type="hidden" id="SessionInvoiceDate" value="@Session["InvoiceDate"]" />
+                        </div>
+                    }
+                    @if (ERP.Models.CommonDAL.UserRights("7", "003"))
+                    {
+                        <div class="col-md-1 input-group">
+                            <div class="input-group-addon"><a style="color:blue;width:75px" onclick="Backward()"><i class="fa fa-arrow-left"></i></a></div>
+                        </div>
+                    }
+                    @if (ERP.Models.CommonDAL.UserRights("7", "003"))
+                    {
+                        <div class="col-md-1 input-group">
+                            <div class="input-group-addon"><a style="color:blue;width:75px" onclick="Farword()"><i class="fa fa-arrow-right"></i></a></div>
+                        </div>
+                    }
+
+                    
+
+                </div>
+
+                <div class="row Top">
+                    <label for="example-text-input" class="col-md-1 col-form-label">Region Code</label>
+                    <div class="col-md-6 input-group">
+                        @*GetRegion(), I Skip this function from Region Change because it is unnecessary.*@
+                        @Html.DropDownListFor(M => M.RegionCode, (IEnumerable<SelectListItem>)ViewBag.RegionDDL as SelectList, "Please Select Region", new { @class = "form-control p-0", @name = "RegionCode", @id = "RegionCode", @onchange = "GetRegionPartyDDL()" })
+                        <input type="hidden" id="SessionRegionCode" value="@Session["RegionCode"]" />
+                    </div>
+
+
+                    <div class="col-md-4 row input-group m-l-5">
+                        <div class="form-check">
+                            <label class="custom-control custom-radio">
+                                <input id="Curr" name="PreCurr" type="radio" checked class="custom-control-input">
+                                <span class="custom-control-indicator" style="width:18px;height:18px"></span>
+                                <span class="custom-control-description m-l-5" style="font-size:18px"><b>Current Rate</b></span>
+                            </label>
+                        </div>
+
+                        @if (ERP.Models.CommonDAL.UserRoleName() == "Admin")
+                        {
+                            <div class="form-check m-l-20">
+                                <label class="custom-control custom-radio">
+                                    <input id="Pre" name="PreCurr" type="radio" class="custom-control-input">
+                                    <span class="custom-control-indicator" style="width:18px;height:18px"></span>
+                                    <span class="custom-control-description m-l-5" style="font-size:18px"><b>Previous Rate</b></span>
+                                </label>
+                            </div>
+                        }
+
+                        <input type="hidden" id="txtPreCurr" name="txtPreCurr" value="@Session["txtPreCurr"]" />
+                    </div>
+
+                    <div class="col-md-1 input-group" id="PSpinner">
+
+                    </div>
+
+                    @*<div class="col-md-4 bt-switch input-group">
+            <div>
+                <input type="checkbox" id="PreCurr" name="PreCurr" data-size="mini" data-on-color="info" data-off-color="warning" data-on-text="Cur Rate" data-off-text="Pre Rate">
+                <input type="hidden" id="txtPreCurr" name="txtPreCurr" value="@Session["txtPreCurr"]" />
+            </div>
+        </div>*@
+                </div>
+
+                <div class="row Top">
+                    <label for="example-text-input" class="col-md-1 col-form-label">Party Code</label>
+                    <div class="col-md-1 input-group">
+                        <input type="text" id="ManualMPartyCode" name="ManualMPartyCode" class="form-control col-md-2 RemoveTab" tabindex="2" />
+                        <input type="hidden" id="MainPartyCode" name="MainPartyCode" />
+                    </div>
+
+                    <div class="col-md-5 input-group">
+                        <select class="form-control p-0 RemoveTab" name="PartyCode" id="PartyCode" onchange="GetPartyDetail()" tabindex="3"></select>
+                    </div>
+                    @*<div class="col-md-4 input-group">
+            <input class="form-control" type="text" placeholder="Party Description" id="PartyDesc" readonly>
+        </div>*@
+                    <div class="col-md-1 input-group">
+                        <input class="form-control" type="text" placeholder="Party Type" id="PartyType" name="TransType" readonly>
+                    </div>
+                    <div class="col-md-1 input-group">
+                        <input class="form-control" type="text" placeholder="SaleTaxReg" id="STaxReg" name="PartyStatus" readonly>
+                    </div>
+                    <div class="col-md-1 input-group">
+                        <input class="form-control" type="text" placeholder="Category" id="Category" name="Category" readonly>
+                    </div>
+                    <div class="col-md-1 input-group" style="display:none">
+                        <input class="form-control" type="text" placeholder="Taxable" id="Taxable" name="Taxable" readonly>
+                    </div>
+                    <div class="col-md-2 input-group">
+                        <input class="form-control" type="text" placeholder="3rd Sch" id="ThirdSch_Category" name="ThirdSch_Category" readonly>
+                    </div>
+
+                    
+
+                </div>
+
+                <div class="row Top">
+                    <label for="example-text-input" class="col-md-1 col-form-label">Saleman Cd</label>
+
+                    <div class="col-md-6 input-group">
+                        <select class="form-control p-0" id="EmpCode" name="EmpCode"></select>
+                        <input type="hidden" id="SessionEmpCode" value="@Session["EmpCode"]" />
+                    </div>
+
+                    <div class="col-md-4 input-group" style="font-size:20px">
+                        <span class="col-md-4"><b>Short Cash:</b></span>
+                        <span class="col-md-8 pull-right" style="color:red"><b id="ShortCash">0</b></span>
+                    </div>
+                    
+
+                    <div class="col-md-1 input-group" id="SSpinner">
+                        
+                    </div>
+
+
+                </div>
+
+
+                <fieldset>
+                    <legend>Item Detail</legend>
+                    <div class="form-group" style="margin-top:10px">
+                        <div class="form-group row">
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <label for="exampleInputuname">Item Code *</label>
+                                <div class="input-group">
+                                    @Html.DropDownListFor(M => M.PartyCode, (IEnumerable<SelectListItem>)ViewBag.ItemDDL as SelectList, "Select Item", new { @class = "form-control p-0 RemoveTab", @name = "ItemCode", @id = "ItemCode", @onchange = "GetItemRate()", @tabindex = "4" })
+                                    @*<div class="input-group-addon"><a data-toggle="modal" data-target="#ItemModal" style="color:blue"><i class="fa fa-search"></i></a></div>
+                <input type="text" class="form-control" id="ItemCode" name="ItemCode" placeholder="Item Code" readonly>*@
+                                </div>
+                            </div>
+                            @*<div class="col-sm-3 col-xs-12">
+            <label for="exampleInputuname">Item Description</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="ItemDesc" name="ItemDesc" placeholder="Item Description" readonly>
+            </div>
+        </div>*@
+                            @*<div class="col-sm-1 col-xs-12">
+            <label for="exampleInputuname">Unit</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="Unit" onchange="Quant('A');" placeholder="Unit" readonly>
+            </div>
+        </div>*@
+
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                <label for="exampleInputuname">Quantity</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control RemoveTab" id="Quantity" onkeyup="CalTotalAmt()" placeholder="Quantity" tabindex="5" value="0">
+                                </div>
+                            </div>
+
+                            @*<div class="col-sm-1 col-xs-12">
+            <label for="exampleInputuname">Weight</label>
+            <div class="input-group">
+                <input type="text" class="form-control" id="Weight" onchange="Quant('A');" placeholder="Weight" value="0" readonly>
+            </div>
+        </div>*@
+
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                <label for="exampleInputuname">Rate</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="Rate" placeholder="Rate" value="0" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                <label for="exampleInputuname">C_Rate</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="C_Rate" placeholder="C_Rate" value="0" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                <label for="exampleInputuname">Damage</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control RemoveTab" id="Damage" placeholder="Damage" tabindex="6" value="0">
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                <label for="exampleInputuname">Replace</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control RemoveTab" id="Replace" placeholder="Replace" tabindex="7" value="0">
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                <label for="exampleInputuname">FOC</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control RemoveTab" id="FOC" placeholder="FreeOfCost" tabindex="8" value="0">
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                <label for="exampleInputuname">Sampling</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control RemoveTab" id="Sampling" placeholder="Sampling" tabindex="9" value="0">
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                <label for="exampleInputuname">Scheme</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control RemoveTab" id="Scheme" placeholder="Scheme" tabindex="10" value="0">
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                <label for="exampleInputuname">Return</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control RemoveTab" id="Return" placeholder="Return" tabindex="11" value="0">
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                <label for="exampleInputuname">WHT</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="WHT" onkeyup="afterWHT()" placeholder="WHT" value="0">
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                <label for="exampleInputuname">STax % | Amt</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="SaleTaxPer" value="0" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                <label for="exampleInputuname">FTax % | Amt</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="FTaxPer" value="0" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                <label for="exampleInputuname">ITax % | Amt</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="ITaxPer" value="0" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                <label for="exampleInputuname">FED % | Amt</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="FEDTaxPer" value="0" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                <label for="exampleInputuname">Disc %</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="DiscPer" placeholder="Price" value="0" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                <label for="exampleInputuname">Disc Amt</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="DiscAmt" placeholder="Discount" onkeyup="CalTotalAmtWithDisc()" tabindex="12" value="0">
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                <label for="exampleInputuname">Total Amount</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="TotalAmount" placeholder="TotalAmount" value="0" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                <label for="exampleInputuname">Total Cash</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="IncTaxAmt" placeholder="Total Cash" value="0" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 col-sm-1 col-xs-12">
+                                <label for="exampleInputuname">ExcTaxAmt</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="ExcTaxAmt" placeholder="CashReceive" value="0" readonly>
+                                </div>
+                            </div>
+
+                            <input type="hidden" id="HDIncTaxAmt" value="0" />
+                            <input type="hidden" id="HDExcTaxAmt" value="0" />
+                            <input type="hidden" id="HDDiscAmt" value="0" />
+                            <input type="hidden" id="HDDiscPer" value="0" />
+                            <input type="hidden" id="HDSTaxPer" value="0" />
+                            <input type="hidden" id="HDSTaxAmt" value="0" />
+                            <input type="hidden" id="HDFTaxPer" value="0" />
+                            <input type="hidden" id="HDFTaxAmt" value="0" />
+                            <input type="hidden" id="HDITaxPer" value="0" />
+                            <input type="hidden" id="HDITaxAmt" value="0" />
+                            <input type="hidden" id="HDC_Rate" value="0" />
+                            <input type="hidden" id="HDFEDTaxPer" value="0" />
+                            <input type="hidden" id="HDFEDTaxAmt" value="0" />
+
+
+                            <div class="col-md-1 col-sm-1 col-xs-12 btn-TopHeight">
+                                <input class="btn btn-info Btn-width btn-sm btn-ItemWidth RemoveTab" type="button" tabindex="13" id="addItem" value="Add" />
+                            </div>
+
+                            <div class="col-md-1 col-sm-1 col-xs-12 btn-TopHeight ">
+                                <input class="btn btn-info Btn-width btn-sm btn-ItemWidth RemoveTab" type="button" tabindex="14" id="ClearItem" value="Clear" />
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <table id="ItemTable" data-toggle="table" data-height="200" style="overflow-y:scroll" data-mobile-responsive="true">
+                                <thead class="bg-info">
+                                    <tr>
+                                        <th class="width5 White">Sr.</th>
+                                        <th class="width10 White">Item Code</th>
+                                        <th class="width30 White">Item Desc</th>
+                                        <th class="width10 White">Quantity</th>
+                                        <th class="width10 White">Rate</th>
+                                        <th class="width10 White">Damage</th>
+                                        <th class="width10 White">Replace</th>
+                                        <th class="width10 White">FOC</th>
+                                        <th class="width10 White">Sampling</th>
+                                        <th class="width10 White">Scheme</th>
+                                        <th class="width10 White">Return</th>
+                                        <th class="width10 White">WHT</th>
+                                        <th class="width10 White">STax</th>
+                                        <th class="width10 White">FTax</th>
+                                        <th class="width10 White">ITax</th>
+                                        <th class="width10 White">FEDTax</th>
+                                        <th class="width10 White">Disc</th>
+                                        <th class="width10 White">Total Amt</th>
+                                        <th class="width10 White">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ItemTabletbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12 offset-md-8">
+                        @*<div class="row Top">
+            <label for="example-text-input" class="col-md-2 col-form-label">Total Qty</label>
+            <div class="col-md-2 input-group">
+                <input class="form-control" type="text" placeholder="TotalQty" value="0" id="TotalQty" name="TotalQty" readonly>
+            </div>
+        </div>
+
+        <div class="row Top">
+            <label for="example-text-input" class="col-md-2 col-form-label">Total Disc Amt</label>
+            <div class="col-md-2 input-group">
+                <input class="form-control" type="text" placeholder="TotalDiscAmt" value="0" id="DiscAmt" name="DiscAmt" readonly>
+            </div>
+        </div>*@
+                        <div class="row Top">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Cash Received</label>
+                            <div class="col-md-2 input-group">
+                                <input class="form-control" type="text" placeholder="Cash Received" id="ttlCashReceived" value="0" name="CashReceived" onkeyup="CalculateShortCash()" readonly>
+                            </div>
+                        </div>
+                        <div class="row Top">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Total Discount</label>
+                            <div class="col-md-2 input-group">
+                                <input class="form-control" type="text" placeholder="Net Amount" id="ttlDiscount" value="0" name="Discount" readonly>
+                            </div>
+                        </div>
+                        <div class="row Top">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Total Inclisive Tax Amt</label>
+                            <div class="col-md-2 input-group">
+                                <input class="form-control" type="text" placeholder="Inclusive Tax Amt" id="ttlIncTaxAmt" value="0" name="IncTaxAmt" readonly>
+                            </div>
+                        </div>
+                        <div class="row Top">
+                            <label for="example-text-input" class="col-md-2 col-form-label">Total Exclusive Tax Amt</label>
+                            <div class="col-md-2 input-group">
+                                <input class="form-control" type="text" placeholder="Exclusive Tax Amt" id="ttlExcTaxAmt" value="0" name="ExcTaxAmt" readonly>
+                            </div>
+                        </div>
+
+
+                        <div class="row col-md-4 Top" style="margin-top:20px;">
+
+                            @if (ERP.Models.CommonDAL.UserRights("7", "002"))
+                            {
+                                <input class="btn btn-info Btn-width" type="button" id="btnSave" value="Save" />
+                            }
+                            else
+                            {
+                                <input class="btn btn-info Btn-width" type="button" id="btnSave" value="Save" disabled />
+                            }
+
+
+
+                            @if (ERP.Models.CommonDAL.UserRights("7", "004"))
+                            {
+                                <input class="btn btn-danger Btn-width" type="button" id="btnDelete" value="Delete" onclick="DeleteModal()" />
+                            }
+                            else
+                            {
+                                <input class="btn btn-danger Btn-width" type="button" id="btnDelete" disabled value="Delete" />
+                            }
+
+
+                            <input class="btn btn-default Btn-width" type="reset" id="btnClear" value="Clear" onclick="Reset()" />
+
+
+                            @if (ERP.Models.CommonDAL.UserRights("7", "006"))
+                            {
+                                <input class="btn btn-success Btn-width" type="button" id="btnPrint" onclick="SimpleInNewWin()" value="Print" />
+                            }
+                            else
+                            {
+                                <input class="btn btn-success Btn-width" type="button" id="btnPrint" disabled value="Print" />
+                            }
+                        </div>
+
+                    </div>
+
+                </fieldset>
+
+            </form>
+
+
+
+            @*<div class="col-md-12">
+                    <div class="col-md-12 offset-md-8">
+                        <input class="btn btn-info Btn-width" type="button" id="btnSave" value="Save" />
+
+                        <input class="btn btn-danger Btn-width" type="button" id="btnDelete" disabled value="Delete" />
+
+                        <input class="btn btn-default Btn-width" type="reset" id="btnClear" value="Clear" />
+
+                        <input class="btn btn-success Btn-width" type="button" id="btnPrint" disabled value="Print" />
+                    </div>
+                </div>*@
+
+
+
+        </div>
+    </div>
+</div>
+
+<!--Invoice Record-->
+<div class="modal fade" tabindex="-1" id="InvoiceModal" role="dialog" aria-labelledby="modal123Label" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="margin-top:50px; height:700px;width:800px">
+            <div class="modal-header">
+                <b>Invoice Detail For Damages/Relaces</b>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    @if (ERP.Models.CommonDAL.UserRoleName() == "Admin")
+                    {
+                        <div class="col-md-9 input-group">
+                            <input class="form-control Datepicker-AutoCloseAdmin" type="text" placeholder="dd/mm/yyyy" name="DamageDate" id="DamageDate" value="" data-mask="99/99/9999">
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-9 input-group">
+                            <input class="form-control Datepicker-AutoCloseDEO" type="text" placeholder="dd/mm/yyyy" name="DamageDate" id="DamageDate" value="" data-mask="99/99/9999">
+                        </div>
+                    }
+                    <div class="col-md-2 input-group">
+                        <input type="button" class="btn btn-info" value="Get Damge Invoice" onclick="GetDamageInvoices()" />
+                    </div>
+                    <div class="white-box table-Scroll">
+                        <table id="tblInvoice" class="table table-striped table-bordered">
+                            <thead>
+                                <tr class="bg-info">
+                                    <th style="color:white; font-family:Arial; text-align:center; font-size:large" width="100">Inv No</th>
+                                    <th style="color:white; font-family:Arial; text-align:center; font-size:large" width="100">Date</th>
+                                    <th style="color:white; font-family:Arial; text-align:center; font-size:large" width="100">Man Inv No</th>
+                                    <th style="color:white; font-family:Arial; text-align:center; font-size:large" width="100">Rep Inv No</th>
+                                    <th style="color:white; font-family:Arial; text-align:center; font-size:large" width="150">Region</th>
+                                    <th style="color:white; font-family:Arial; text-align:center; font-size:large" width="250">Party</th>
+                                    <th style="color:white; font-family:Arial; text-align:center; font-size:large" width="100">Emp. Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @*@if (ViewBag.SaleInvoice != null)
+                                    {
+                                         foreach (var item in ViewBag.SaleInvoice)
+                                         {
+                                             <tr onclick="GetInvoice('@item.InvoiceNo')">
+                                                 <td>@item.InvoiceNo</td>
+                                                 <td>@item.InvoiceDate</td>
+                                                 <td>@item.ManInvoiceNo</td>
+                                                 <td>@item.RepInvoiceNo</td>
+                                                 <td>@item.RegionDesc</td>
+                                                 <td>@item.PartyDesc</td>
+                                                 <td>
+                                                     @item.EmpName
+                                                 </td>
+                                             </tr>
+                                         }
+                                    }*@
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!--Region Record-->
+<div class="modal fade" tabindex="-1" id="RegionModal" role="dialog" aria-labelledby="modal123Label" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="margin-top:50px; height:620px;width:800px">
+            <div class="modal-header">
+                <b>Region Detail</b>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="white-box table-Scroll">
+                        <table id="tblRegionDetail" class="table table-striped DataTable">
+                            <thead>
+                                <tr>
+                                    <th class="width20">Region Code</th>
+                                    <th class="width50">Region Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (ViewBag.RegionList != null)
+                                {
+                                    foreach (var item in ViewBag.RegionList)
+                                    {
+                                        <tr onclick="GetRegion('@item.RegionCode','@item.RegionDescription')">
+                                            <td>@item.RegionCode</td>
+                                            <td>@item.RegionDescription</td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!--Salesman Modal-->
+<div class="modal fade" tabindex="-1" id="EmpModal" role="dialog" aria-labelledby="modal123Label" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="margin-top:50px; height:620px;width:800px">
+            <div class="modal-header">
+                <b>Salesman Detail</b>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="white-box table-Scroll">
+                        <table id="tblSalesman" data-toggle="table" data-height="500" data-mobile-responsive="true" class="table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="width20">Salesman Code</th>
+                                    <th class="width50">Salesman Description</th>
+                                    <th class="width50">Region Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @*@if (ViewBag.EmpList != null)
+                                    {
+                                        foreach (var item in ViewBag.EmpList)
+                                        {
+                                            <tr onclick="GetEmp('@item.EmpCode','@item.EmpName')">
+                                                <td>@item.EmpCode</td>
+                                                <td>@item.EmpName</td>
+                                            </tr>
+                                        }
+                                    }*@
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!--Party Modal-->
+<div class="modal fade" tabindex="-1" id="PartyModal" role="dialog" aria-labelledby="modal123Label" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="margin-top:50px; height:620px;width:800px">
+            <div class="modal-header">
+                <b>Party Detail</b>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="white-box table-Scroll">
+                        <table id="tblParty" data-toggle="table" data-height="500" data-mobile-responsive="true" class="table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="width20">MainPartyCode</th>
+                                    <th class="width20">Party Code</th>
+                                    <th class="width50">Party Description</th>
+                                    <th class="width20">Party Type</th>
+                                    <th class="width20">Reg Status</th>
+                                    <th class="width20">Category</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @*@if (ViewBag.PartyList != null)
+                                    {
+                                        foreach (var item in ViewBag.PartyList)
+                                        {
+                                            <tr onclick="GetParty('@item.PartyCode','@item.PartyName','@item.PartyType','@item.STaxReg')">
+                                                <td>@item.PartyCode</td>
+                                                <td>@item.PartyName</td>
+                                            </tr>
+                                        }
+                                    }*@
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<script src="~/Content/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+<!--Item Modal-->
+<div class="modal fade" tabindex="-1" id="ItemModal" role="dialog" aria-labelledby="modal123Label" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="margin-top:50px; height:620px;width:800px">
+            <div class="modal-header">
+                <b>Item Detail</b>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <div class="white-box table-Scroll">
+                        <table id="myTable" class="table table-striped DataTable">
+                            <thead>
+                                <tr>
+                                    <th class="width20">Item Code</th>
+                                    <th class="width50">Item Descrioption</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @if (ViewBag.ItemList != null)
+                                {
+                                    foreach (var item in ViewBag.ItemList)
+                                    {
+                                        <tr onclick="GetItem('@item.ItemCode','@item.ItemDesc','@item.SaleRateReg','@item.SaleRateUnReg','@item.WeightType','@item.SubCategory')">
+                                            <td>@item.ItemCode</td>
+                                            <td>@item.ItemDesc</td>
+                                        </tr>
+                                    }
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script>
+    document.getElementById("PageHeader").innerHTML = "Sale Invoice";
+
+    $("#SearchAutoComplete").show("true");
+
+    //var str = "Add New Unit";
+    //var result = str.link("/CompanySetup/UnitSetup");
+    //document.getElementById("PageLink").innerHTML = result;
+
+    document.getElementById("PageTitle").innerHTML = "Sale Invoice"
+</script>
+
+
+
+<!-- DDL Working -->
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        document.getElementById("ManInvoiceNo").focus();
+        var txtPreCurr = $("#txtPreCurr").val();
+
+        if (txtPreCurr == "") {
+            $("#Curr").prop("checked", true);
+        } else {
+            if (txtPreCurr == "Curr") {
+                $("#Curr").prop("checked", true);
+            } else {
+                $("#Pre").prop("checked", true);
+            }
+        }
+        
+    })
+
+    function Reset() {
+        $('#ItemTable tbody').remove();
+
+        $('#RegionCode').val("");
+        $('#RegionCode').trigger("chosen:updated");
+
+        $('#PartyCode').val("");
+        $('#PartyCode').trigger("chosen:updated");
+
+        $('#EmpCode').val("");
+        $('#EmpCode').trigger("chosen:updated");
+    }
+
+    //function ChangeTabIndex() {
+
+    //    $(".RemoveTab").removeAttr("tabindex");
+
+    //    document.getElementById("ItemCode").tabIndex = 1;
+    //    document.getElementById("Quantity").tabIndex = 2;
+    //    document.getElementById("Damage").tabIndex = 3;
+    //    document.getElementById("Replace").tabIndex = 4;
+    //    document.getElementById("FOC").tabIndex = 5;
+    //    document.getElementById("Sampling").tabIndex = 6;
+    //    document.getElementById("Scheme").tabIndex = 7;
+    //    document.getElementById("Return").tabIndex = 8;
+    //    document.getElementById("addItem").tabIndex = 9;
+    //    document.getElementById("ClearItem").tabIndex = 10;
+
+    //}
+
+    $(document).keydown(function (e) {
+        if (e.ctrlKey && (e.which == 9 || e.altKey)) {
+            $("#ItemCode").trigger("chosen:activate");
+            //$('#ItemCode').css("left", "0");
+
+        }
+
+        if (event.keyCode == 9 && $(event.target).is('#addItem')) {
+            event.preventDefault();
+            if (!(checkAllEmptyItem())) {
+                AddItem();
+            }
+            $('#ItemCode').trigger("chosen:activate");
+
+        }
+
+    })
+
+    $(document).keydown(function (e) {
+        if (e.ctrlKey && (e.which == 77 || e.altKey)) {
+            e.preventDefault();
+            $("#ManInvoiceNo").focus();
+        }
+    })
+
+    $(document).keydown(function (e) {
+        if (e.ctrlKey && (e.which == 85 || e.altKey)) {
+            e.preventDefault();
+
+            var ManInvoiceNo = $("#ManInvoiceNo").val();
+            GetManInvoice(ManInvoiceNo);
+        }
+    })
+
+    function Farword() {
+
+        var RegionCode = $("#RegionCode").val();
+        var InvoiceDate = $("#InvoiceDate").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetRegionDateInvoiceData",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode, InvoiceDate: InvoiceDate }),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+            }
+        })
+
+        var ManInvoiceNo = $("#ManInvoiceNo").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetRegionDateManInvoice",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ ManInvoiceNo: ManInvoiceNo }),
+            contentType: "application/json; charset=utf-8",
+            complete: function (ManInvoice) {
+                $("#ManInvoiceNo").val(ManInvoice.responseJSON);
+                GetManInvoice(ManInvoice.responseJSON);
+            }
+        })
+    }
+
+    function Backward() {
+
+
+
+        var RegionCode = $("#RegionCode").val();
+        var InvoiceDate = $("#InvoiceDate").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetRegionDateInvoiceData",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode, InvoiceDate: InvoiceDate }),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+            }
+        })
+
+        var ManInvoiceNo = $("#ManInvoiceNo").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetRegionDateManInvoicePre",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ ManInvoiceNo: ManInvoiceNo }),
+            contentType: "application/json; charset=utf-8",
+            complete: function (ManInvoice) {
+                $("#ManInvoiceNo").val(ManInvoice.responseJSON);
+                GetManInvoice(ManInvoice.responseJSON);
+            }
+        })
+    }
+
+    function SetCaretPos() {
+        $('#ManInvoiceNo').setSelectionRange(0, 0);
+    }
+
+
+    $(document).keydown(function (e) {
+        if (e.which == 9) {
+
+            var ManualPartyCode = $("#ManualMPartyCode").val();
+
+            if (ManualPartyCode !== "" || ManualPartyCode !== null) {
+                GeSinglePartyDDL();
+            }
+
+
+        }
+    })
+
+
+    function GeSinglePartyDDL() {
+        var RegionCode = $("#RegionCode").val();
+        var ManualPartyCode = $("#ManualMPartyCode").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Company/SinglePartyDDL",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode, PartyCode: ManualPartyCode }),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $('#PartyCode').empty().trigger("chosen:updated");
+
+                if (data !== null) {
+
+
+                    $('#PartyCode').append($('<option>', {
+                        value: data.PartyCode,
+                        text: data.PartyCode + "  ==>  " + data.PartyName
+                    })).trigger("chosen:updated");
+
+                    GetPartyDetail();
+                }
+            }
+        });
+
+    }
+
+
+
+
+    $(document).ready(function () {
+
+        var EmpCode = $("#SessionEmpCode").val();
+        var RegionCode = $("#SessionRegionCode").val();
+        var InvoiceDate = $("#SessionInvoiceDate").val();
+
+
+
+        $('#RegionCode').val(RegionCode);
+        $('#RegionCode').trigger("chosen:updated");
+
+        $('#InvoiceDate').val(InvoiceDate);
+
+        if (RegionCode !== "001" && RegionCode !== "") {
+            
+            $.ajax({
+                type: "POST",
+                url: "/Transaction/GetRegionPartyDDL",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({ RegionCode: RegionCode }),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    var txtP = 0;
+
+                    $('#PartyCode').empty().trigger("chosen:updated");
+
+                    $('#PartyCode').append($('<option>', {
+                        value: "",
+                        text: "Select Any Value"
+                    })).trigger("chosen:updated");
+
+                    if (data.length > 0) {
+                        $.each(data, function (index, obj) {
+
+                            $('#PartyCode').append($('<option>', {
+                                value: obj.PartyCode,
+                                text: obj.PartyCode + "  ==>  " + obj.PartyName
+                            })).trigger("chosen:updated");
+                            
+                        });
+                    }
+
+                    
+
+                }
+            });
+        }
+        else {
+            $('#PartyCode').empty().trigger("chosen:updated");
+        }
+
+
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetRegionParty",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode }),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $('#EmpCode').empty().trigger("chosen:updated");
+
+                $('#EmpCode').append($('<option>', {
+                    value: "",
+                    text: "Select Any Value"
+                })).trigger("chosen:updated");
+
+                if (data.length > 0) {
+                    $.each(data, function (index, obj) {
+
+                        $('#EmpCode').append($('<option>', {
+                            value: obj.EmpCode,
+                            text: obj.EmpName
+                        })).trigger("chosen:updated");
+
+                    });
+
+                    $('#EmpCode').val(EmpCode);
+                    $('#EmpCode').trigger("chosen:updated");
+                }
+            }
+        });
+
+
+
+    })
+
+
+    function checkAllEmptyItem() {
+        var isEmpty = false,
+            Rate = document.getElementById('Rate').value;
+        //Qty = $("#Quantity").val();
+        //DiscAmt = $("#HDDiscAmt").val();
+        //TotalDisAmt = $("#DiscAmt").val();
+        //IncTaxAmt = $("#IncTaxAmt").val();
+        //TotalAmt = Qty * Rate;
+        //CalTotalDisc = Qty * DiscAmt;
+
+        if (Rate === "0") {
+            alert('Item Rate Cannot be equal to 0 ...!');
+            isEmpty = true;
+        }
+        //else if (parseInt(Qty) !== 0)
+        //{
+        //    if (parseInt(TotalDisAmt) !== parseInt(CalTotalDisc)) {
+        //    alert('Discount Calculation is wrong, Type the Quantity again...!');
+        //    isEmpty = true;
+        //    }
+        //    if (parseInt(TotalAmt) > parseInt(IncTaxAmt) && parseInt(CalTotalDisc) == 0) {
+        //        alert('Total Amount Calculation is wrong, Type the Quantity again...!');
+        //        isEmpty = true;
+        //    }
+        //}
+
+
+        return isEmpty;
+    }
+
+    $('#ClearItem').on('focus', function () {
+        // "last" focus guard got focus: set focus to the first field
+        $('#ManInvoiceNo').focus();
+        if (!(checkAllEmptyItem())) {
+            AddItem();
+        }
+    });
+
+    $(document).on('keydown', function (e) {
+        if (e.ctrlKey && (e.which == 32)) {
+            AddItem();
+        }
+    });
+
+
+
+    $(document).on('keypress', function (e) {
+        if (e.ctrlKey && (e.which == 13 || e.which == 10)) {
+            $("#btnSave").click();
+        }
+    });
+
+
+
+    function GetPartyDetail() {
+        var PartyCode = $("#PartyCode").val();
+        var RegionCode = $("#RegionCode").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/DDLPartyDetail",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode, PartyCode: PartyCode }),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                if (data != null) {
+
+                    document.getElementById("PartyType").value = data.PartyType;
+                    var RegStatus = "";
+                    if (data.STaxReg == "N") {
+                        RegStatus = "Un-Reg";
+                    } else {
+                        RegStatus = "Reg";
+                    }
+
+                    document.getElementById("STaxReg").value = RegStatus;
+                    document.getElementById("Category").value = data.Category;
+                    document.getElementById("MainPartyCode").value = data.MainPartyCode;
+                    document.getElementById("Taxable").value = data.Taxable;
+
+                    if (data.ThirdSch_Category == "" || data.ThirdSch_Category == null || data.ThirdSch_Category == "null") {
+                        document.getElementById("ThirdSch_Category").value = "Retailer_InActive";
+                    } else {
+                        document.getElementById("ThirdSch_Category").value = data.ThirdSch_Category;
+                    }
+                   
+
+                }
+
+            }
+        })
+
+    }
+
+
+
+
+
+
+
+
+    function GetItemRate() {
+
+        var PartyCode = $("#PartyCode").val();
+        var RegionCode = $("#RegionCode").val();
+        var ItemCode = $("#ItemCode").val();
+        var PartyType = $("#PartyType").val();
+        var PartyRate = $("#STaxReg").val();
+        var Category = $("#Category").val();
+        var Taxable = $("#Taxable").val();
+        var ThirdSch_Category = $("#ThirdSch_Category").val();
+        var PartyName = $('#PartyCode').find(":selected").text();
+        if (PartyCode == "" || PartyCode == null) {
+            alert("You Can't Add Item ,Select Party First . . . !");
+        }
+        else {
+
+            var PreCurr = "";
+
+            if ($('[id="Curr"]').is(':checked')) {
+                PreCurr = "Curr";
+            } else {
+                PreCurr = "Pre";
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/Transaction/CheckPartyDiscount",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({ RegionCode: RegionCode, PartyCode: PartyCode, ItemCode: ItemCode, PreCurr: PreCurr }),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    var str = PartyName;
+                    var res = str.split("> ");
+                    var Rem = res[1];
+                    var AfterRem = res[1].split("-");
+
+                    if (AfterRem[0] === " MAF HYPERMARKET (PVT) LTD ") {
+                        if (ItemCode.trim() === "001") {
+                            document.getElementById("Rate").value = 271.60;
+                        }
+                        else if (ItemCode.trim() === "002") {
+                            document.getElementById("Rate").value = 252.20;
+                        }
+                        else if (ItemCode.trim() === "003") {
+                            document.getElementById("Rate").value = 82.45;
+                        }
+                        else if (ItemCode.trim() === "004") {
+                            document.getElementById("Rate").value = 121.25;
+                        }
+                        else if (ItemCode.trim() === "005") {
+                            document.getElementById("Rate").value = 82.45;
+                        }
+                        else if (ItemCode.trim() === "007") {
+                            document.getElementById("Rate").value = 172.63;
+                        }
+                        else if (ItemCode.trim() === "008") {
+                            document.getElementById("Rate").value = 172.63;
+                        }
+                        else if (ItemCode.trim() === "009") {
+                            document.getElementById("Rate").value = 176.74;
+                        }
+                        else if (ItemCode.trim() === "010") {
+                            document.getElementById("Rate").value = 139.75;
+                        }
+                        else if (ItemCode.trim() === "013") {
+                            document.getElementById("Rate").value = 98.644;
+                        }
+                        else if (ItemCode.trim() === "014") {   
+                            document.getElementById("Rate").value = 98.644;
+                        }
+                        else if (ItemCode.trim() === "016") {
+                            document.getElementById("Rate").value = 61.65;
+                        }
+                        else if (ItemCode.trim() === "017") {
+                            document.getElementById("Rate").value = 61.65;
+                        }
+                        else if (ItemCode.trim() === "018") {
+                            document.getElementById("Rate").value = 73.983;
+                        }
+                        else if (ItemCode.trim() === "019") {
+                            document.getElementById("Rate").value = 73.983;
+                        }
+                        else if (ItemCode.trim() === "020") {
+                            document.getElementById("Rate").value = 69.873;
+                        }
+                        else if (ItemCode.trim() === "021") {
+                            document.getElementById("Rate").value = 61.65;
+                        }
+                        else if (ItemCode.trim() === "022") {
+                            document.getElementById("Rate").value = 348.205;
+                        }
+                        else if (ItemCode.trim() === "025") {
+                            document.getElementById("Rate").value = 348.205;
+                        }
+                        else if (ItemCode.trim() === "027") {
+                            document.getElementById("Rate").value = 69.873;
+                        }
+                        else if (ItemCode.trim() === "031") {
+                            document.getElementById("Rate").value = 121.25;
+                        }
+                        else if (ItemCode.trim() === "032") {
+                            document.getElementById("Rate").value = 435.256;
+                        }
+                        else if (ItemCode.trim() === "033") {
+                            document.getElementById("Rate").value = 82.203;
+                        }
+                        else if (ItemCode.trim() === "034") {
+                            document.getElementById("Rate").value = 82.203;
+                        }
+                        else if (ItemCode.trim() === "037") {
+                            document.getElementById("Rate").value = 327.27;
+                        }
+                        else if (ItemCode.trim() === "040") {
+                            document.getElementById("Rate").value = 73.983;
+                        }
+                        else if (ItemCode.trim() === "041") {
+                            document.getElementById("Rate").value = 69.873;
+                        }
+                        else if (ItemCode.trim() === "042") {
+                            document.getElementById("Rate").value = 82.203;
+                        }
+                        else if (ItemCode.trim() === "043") {
+                            document.getElementById("Rate").value = 82.203;
+                        }
+                        else if (ItemCode.trim() === "044") {
+                            document.getElementById("Rate").value = 73.983;
+                        }
+                        else if (ItemCode.trim() === "045") {
+                            document.getElementById("Rate").value = 43.65;
+                        }
+                        else if (ItemCode.trim() === "048") {
+                            document.getElementById("Rate").value = 82.203;
+                        }
+                        else if (ItemCode.trim() === "052") {
+                            document.getElementById("Rate").value = 82.203;
+                        }
+                        else if (ItemCode.trim() === "054") {
+                            document.getElementById("Rate").value = 59.04;
+                        }
+                        else if (ItemCode.trim() === "055") {
+                            document.getElementById("Rate").value = 59.04;
+                        }
+                    }
+
+                    else if (RegionCode === "001" && PartyCode === "03173") {
+                        if (ItemCode.trim() === "001") {
+                            document.getElementById("Rate").value = 150;
+                        }
+                        else if (ItemCode.trim() === "004") {
+                            document.getElementById("Rate").value = 75;
+                        }
+                        else if (ItemCode.trim() === "005") {
+                            document.getElementById("Rate").value = 45;
+                        }
+                        else if (ItemCode.trim() === "006") {
+                            document.getElementById("Rate").value = 110;
+                        }
+                        else if (ItemCode.trim() === "007") {
+                            document.getElementById("Rate").value = 125;
+                        }
+                        else if (ItemCode.trim() === "008") {
+                            document.getElementById("Rate").value = 125;
+                        }
+                        else if (ItemCode.trim() === "009") {
+                            document.getElementById("Rate").value = 125;
+                        }
+                        else if (ItemCode.trim() === "010") {
+                            document.getElementById("Rate").value = 90;
+                        }
+                        else if (ItemCode.trim() === "016") {
+                            document.getElementById("Rate").value = 50;
+                        }
+                        else if (ItemCode.trim() === "017") {
+                            document.getElementById("Rate").value = 50;
+                        }
+                        else if (ItemCode.trim() === "018") {
+                            document.getElementById("Rate").value = 65;
+                        }
+                        else if (ItemCode.trim() === "019") {
+                            document.getElementById("Rate").value = 65;
+                        }
+                        else if (ItemCode.trim() === "020") {
+                            document.getElementById("Rate").value = 50;
+                        }
+                        else if (ItemCode.trim() === "021") {
+                            document.getElementById("Rate").value = 50;
+                        }
+                        else if (ItemCode.trim() === "022") {
+                            document.getElementById("Rate").value = 280;
+                        }
+                        else if (ItemCode.trim() === "025") {
+                            document.getElementById("Rate").value = 280;
+                        }
+                        else if (ItemCode.trim() === "027") {
+                            document.getElementById("Rate").value = 50;
+                        }
+
+                    }
+
+                    // Rate Revised for Prema C-Collection by Ibrar Exclusive of Tax (26-02-2020)
+                    else if (RegionCode === "001" && PartyCode === "02431") {
+                        if (ItemCode.trim() === "001") {
+                            document.getElementById("Rate").value = 145;
+                        }
+                        else if (ItemCode.trim() === "002") {
+                            document.getElementById("Rate").value = 140;
+                        }
+                        else if (ItemCode.trim() === "003") {
+                            document.getElementById("Rate").value = 45;
+                        }
+                        else if (ItemCode.trim() === "004") {
+                            document.getElementById("Rate").value = 75;
+                        }
+                        else if (ItemCode.trim() === "005") {
+                            document.getElementById("Rate").value = 45;
+                        }
+                        else if (ItemCode.trim() === "006") {
+                            document.getElementById("Rate").value = 101.769;
+                        }
+                        else if (ItemCode.trim() === "007") {
+                            document.getElementById("Rate").value = 110.619;
+                        }
+                        else if (ItemCode.trim() === "008") {
+                            document.getElementById("Rate").value = 110.619;
+                        }
+                        else if (ItemCode.trim() === "009") {
+                            document.getElementById("Rate").value = 110.619;
+                        }
+                        else if (ItemCode.trim() === "010") {
+                            document.getElementById("Rate").value = 79.646;
+                        }
+                        else if (ItemCode.trim() === "013") {
+                            document.getElementById("Rate").value = 66.371;
+                        }
+                        else if (ItemCode.trim() === "014") {
+                            document.getElementById("Rate").value = 66.371;
+                        }
+                        else if (ItemCode.trim() === "016") {
+                            document.getElementById("Rate").value = 39.823;
+                        }
+                        else if (ItemCode.trim() === "017") {
+                            document.getElementById("Rate").value = 39.823;
+                        }
+                        else if (ItemCode.trim() === "018") {
+                            document.getElementById("Rate").value = 57.522;
+                        }
+                        else if (ItemCode.trim() === "019") {
+                            document.getElementById("Rate").value = 57.522;
+                        }
+                        else if (ItemCode.trim() === "020") {
+                            document.getElementById("Rate").value = 44.247;
+                        }
+                        else if (ItemCode.trim() === "021") {
+                            document.getElementById("Rate").value = 0;
+                        }
+                        else if (ItemCode.trim() === "022") {
+                            document.getElementById("Rate").value = 247.787;
+                        }
+                        else if (ItemCode.trim() === "025") {
+                            document.getElementById("Rate").value = 247.787;
+                        }
+                        else if (ItemCode.trim() === "026") {
+                            document.getElementById("Rate").value = 57.522;
+                        }
+                        else if (ItemCode.trim() === "027") {
+                            document.getElementById("Rate").value = 44.247;
+                        }
+                    }
+
+                    else if (RegionCode === "010" && PartyCode === "00126") {
+                        document.getElementById("Rate").value = 16;
+                    }
+
+                    else {
+
+                        if (data.ItemRate != null) {
+
+                            var RegStatus = $("#STaxReg").val();
+                            var Category = $("#Category").val();
+
+                            if (RegStatus == "Reg" && Category == "CORPORATE") {
+                                document.getElementById("Rate").value = data.ItemRate.RegCorporateRate;
+                            }
+
+                            else if (RegStatus == "Un-Reg" && Category == "CORPORATE") {
+                                document.getElementById("Rate").value = data.ItemRate.UnRegCorporateRate;
+                            }
+
+                            else if (RegStatus == "Reg" && Category == "Retailer") {
+                                document.getElementById("Rate").value = data.ItemRate.RegRetailerRate;
+                            }
+
+                            else if (RegStatus == "Un-Reg" && Category == "Retailer") {
+                                document.getElementById("Rate").value = data.ItemRate.UnRegRetailerRate;
+                            }
+
+                        }
+                    }
+
+                    //if (data.Data != null) {
+                    //    document.getElementById("DiscPer").value = data.Data;
+                    //    document.getElementById("HDDiscPer").value = data.Data;
+                    //}
+                    var Rate = $("#Rate").val();
+                    //var DiscountPer = $("#DiscPer").val();
+
+                    var STaxReg = $("#STaxReg").val();
+                    //var DiscountAmt = Rate / 100 * DiscountPer;
+                    var DiscountAmt = data.Data;
+
+                    if (Taxable === "Y") {
+
+                        if (data.Item != null) {
+
+                            if (STaxReg == "Reg") {
+
+                                if (data.ItemRate.Category.trim() != "Juice") {
+
+                                    DiscountAmt = DiscountAmt / ((100 + parseFloat(data.Item.SaleGSTPer)) / 100);
+                                    Rate = Rate - DiscountAmt;
+                                    var FTaxAmt = 0;
+                                    var GSTTaxAmt = Rate / 100 * data.Item.SaleGSTPer;
+
+                                    document.getElementById("FTaxPer").value = 0 + " % |  " + 0;
+                                    document.getElementById("HDFTaxPer").value = 0;
+                                    document.getElementById("HDFTaxAmt").value = 0;
+
+                                    document.getElementById("SaleTaxPer").value = data.Item.SaleGSTPer + " % |  " + parseFloat(GSTTaxAmt.toFixed(4));
+                                    document.getElementById("HDSTaxPer").value = data.Item.SaleGSTPer;
+                                    document.getElementById("HDSTaxAmt").value = parseFloat(GSTTaxAmt.toFixed(4));
+
+                                    document.getElementById("ITaxPer").value = 0 + " % |  " + 0;
+                                    document.getElementById("HDITaxPer").value = 0;
+                                    document.getElementById("HDITaxAmt").value = 0;
+
+                                    document.getElementById("FEDTaxPer").value = 0 + " % |  " + 0;
+                                    document.getElementById("HDFEDTaxPer").value = 0;
+                                    document.getElementById("HDFEDTaxAmt").value = 0;
+
+                                } else {
+
+                                    //DiscountAmt = DiscountAmt / ((100 + parseFloat(data.Item.SaleGSTPer)) / 100);
+                                    Rate = Rate - DiscountAmt;
+                                    var FTaxAmt = 0;
+                                    var GSTTaxAmt = data.ItemRate.Consumer_Rate / 100 * data.Item.SaleGSTPer;
+                                    var FEDTaxAmt = data.ItemRate.Consumer_Rate / 100 * data.ItemRate.FEDTaxPer;
+
+                                    document.getElementById("C_Rate").value = data.ItemRate.Consumer_Rate;
+                                    document.getElementById("HDC_Rate").value = data.ItemRate.Consumer_Rate;
+                                    document.getElementById("FTaxPer").value = 0 + " % |  " + 0;
+                                    document.getElementById("HDFTaxPer").value = 0;
+                                    document.getElementById("HDFTaxAmt").value = 0;
+
+                                    document.getElementById("SaleTaxPer").value = data.Item.SaleGSTPer + " % |  " + parseFloat(GSTTaxAmt.toFixed(4));
+                                    document.getElementById("HDSTaxPer").value = data.Item.SaleGSTPer;
+                                    document.getElementById("HDSTaxAmt").value = parseFloat(GSTTaxAmt.toFixed(4));
+
+                                    document.getElementById("FEDTaxPer").value = data.ItemRate.FEDTaxPer + " % |  " + parseFloat(FEDTaxAmt.toFixed(4));
+                                    document.getElementById("HDFEDTaxPer").value = data.ItemRate.FEDTaxPer;
+                                    document.getElementById("HDFEDTaxAmt").value = parseFloat(FEDTaxAmt.toFixed(4));
+
+                                    if (ThirdSch_Category == "Retailer_Active") {
+                                        document.getElementById("ITaxPer").value = data.ItemRate.RetTaxPer_Act;
+                                        document.getElementById("HDITaxPer").value = data.ItemRate.RetTaxPer_Act;
+                                    }
+                                    else if (ThirdSch_Category == "Retailer_InActive") {
+                                        document.getElementById("ITaxPer").value = data.ItemRate.RetTaxPer_InAct;
+                                        document.getElementById("HDITaxPer").value = data.ItemRate.RetTaxPer_InAct;
+                                    }
+                                    else if (ThirdSch_Category == "Distributer_Active") {
+                                        document.getElementById("ITaxPer").value = data.ItemRate.DistTaxPer_Act;
+                                        document.getElementById("HDITaxPer").value = data.ItemRate.DistTaxPer_Act;
+                                    }
+                                    else {
+                                        document.getElementById("ITaxPer").value = data.ItemRate.DistTaxPer_InAct;
+                                        document.getElementById("HDITaxPer").value = data.ItemRate.DistTaxPer_InAct;
+                                    }
+
+                                }
+                                
+                            }
+                            else
+                            {
+
+                                if (data.ItemRate.Category.trim() != "Juice") {
+
+                                    DiscountAmt = DiscountAmt / ((100 + parseFloat(parseFloat(data.Item.SaleGSTPer)) + parseFloat(parseFloat(data.Item.SaleFurtherTaxPer))) / 100);
+                                    Rate = Rate - DiscountAmt;
+                                    var FTaxAmt = Rate / 100 * data.Item.SaleFurtherTaxPer;
+                                    var GSTTaxAmt = Rate / 100 * data.Item.SaleGSTPer;
+
+                                    document.getElementById("FTaxPer").value = data.Item.SaleFurtherTaxPer + " % |  " + parseFloat(FTaxAmt.toFixed(4));
+                                    document.getElementById("HDFTaxPer").value = data.Item.SaleFurtherTaxPer;
+                                    document.getElementById("HDFTaxAmt").value = parseFloat(FTaxAmt.toFixed(4));
+
+                                    document.getElementById("SaleTaxPer").value = data.Item.SaleGSTPer + " % |  " + parseFloat(GSTTaxAmt.toFixed(4));
+                                    document.getElementById("HDSTaxPer").value = data.Item.SaleGSTPer;
+                                    document.getElementById("HDSTaxAmt").value = parseFloat(GSTTaxAmt.toFixed(4));
+
+                                    document.getElementById("ITaxPer").value = 0 + " % |  " + 0;
+                                    document.getElementById("HDITaxPer").value = 0;
+                                    document.getElementById("HDITaxAmt").value = 0;
+
+                                    document.getElementById("FEDTaxPer").value = 0 + " % |  " + 0;
+                                    document.getElementById("HDFEDTaxPer").value = 0;
+                                    document.getElementById("HDFEDTaxAmt").value = 0;
+
+                                } else {
+
+                                    //DiscountAmt = DiscountAmt / ((100 + parseFloat(data.Item.SaleGSTPer)) / 100);
+                                    Rate = Rate - DiscountAmt;
+                                    var FTaxAmt = 0;
+                                    var GSTTaxAmt = data.ItemRate.Consumer_Rate / 100 * data.Item.SaleGSTPer;
+                                    var FEDTaxAmt = data.ItemRate.Consumer_Rate / 100 * data.ItemRate.FEDTaxPer;
+
+                                    document.getElementById("C_Rate").value = data.ItemRate.Consumer_Rate;
+                                    document.getElementById("HDC_Rate").value = data.ItemRate.Consumer_Rate;
+                                    document.getElementById("FTaxPer").value = 0 + " % |  " + 0;
+                                    document.getElementById("HDFTaxPer").value = 0;
+                                    document.getElementById("HDFTaxAmt").value = 0;
+
+                                    document.getElementById("SaleTaxPer").value = data.Item.SaleGSTPer + " % |  " + parseFloat(GSTTaxAmt.toFixed(4));
+                                    document.getElementById("HDSTaxPer").value = data.Item.SaleGSTPer;
+                                    document.getElementById("HDSTaxAmt").value = parseFloat(GSTTaxAmt.toFixed(4));
+
+                                    document.getElementById("FEDTaxPer").value = data.ItemRate.FEDTaxPer + " % |  " + parseFloat(FEDTaxAmt.toFixed(4));
+                                    document.getElementById("HDFEDTaxPer").value = data.ItemRate.FEDTaxPer;
+                                    document.getElementById("HDFEDTaxAmt").value = parseFloat(FEDTaxAmt.toFixed(4));
+
+                                    if (ThirdSch_Category == "Retailer_Active")
+                                    {
+                                        document.getElementById("ITaxPer").value = data.ItemRate.RetTaxPer_Act;
+                                        document.getElementById("HDITaxPer").value = data.ItemRate.RetTaxPer_Act;
+                                    }
+                                    else if (ThirdSch_Category == "Retailer_InActive") {
+                                        document.getElementById("ITaxPer").value = data.ItemRate.RetTaxPer_InAct;
+                                        document.getElementById("HDITaxPer").value = data.ItemRate.RetTaxPer_InAct;
+                                    }
+                                    else if (ThirdSch_Category == "Distributer_Active") {
+                                        document.getElementById("ITaxPer").value = data.ItemRate.DistTaxPer_Act;
+                                        document.getElementById("HDITaxPer").value = data.ItemRate.DistTaxPer_Act;
+                                    }
+                                    else {
+                                        document.getElementById("ITaxPer").value = data.ItemRate.DistTaxPer_InAct;
+                                        document.getElementById("HDITaxPer").value = data.ItemRate.DistTaxPer_InAct;
+                                    }
+                                }
+                            }
+
+                        }
+
+                    }
+
+                    document.getElementById("DiscAmt").value = parseFloat(DiscountAmt.toFixed(4));
+                    document.getElementById("HDDiscAmt").value = parseFloat(DiscountAmt.toFixed(4));
+
+                }
+            });
+
+        }
+
+
+        $("#ItemModal").modal("hide");
+    }
+
+
+
+    //------------------------------------------------------
+
+    var tableItem = document.getElementById('ItemTable');
+    var i = 0;
+
+    function AddItem() {
+
+        var ItemCode = $("#ItemCode").val();
+        if (ItemCode === null || ItemCode === "") {
+
+            alert("Item Code cannot be empty . . . !");
+
+        }
+        else {
+
+            var Rate = $("#Rate").val()
+
+            if (Rate = 0) {
+                alert("Item Rate Cannot be equal to 0.");
+            }
+            else {
+
+
+                var tableItem = document.getElementById('ItemTable');
+                var rows = tableItem.rows;
+                var firstRow = rows[1];
+                if (typeof firstRow !== "undefined") {
+                    var firstRowvalue = firstRow.innerText;
+                }
+
+                if (firstRowvalue == "No matching records found") {
+                    $("table#ItemTable tbody").remove();
+                }
+
+                //document.getElementById('HDIncTaxAmt').value = 0;
+                //document.getElementById('HDExcTaxAmt').value = 0;
+                var Input1 = $("#SaleTaxPer").val();
+                var Input2 = $("#FTaxPer").val();
+                var Input3 = $("#ITaxPer").val();
+                var Input4 = $("#FEDTaxPer").val();
+
+                var field1 = Input1.split('|');
+                var field2 = Input2.split('|');
+                var field3 = Input3.split('|');
+                var field4 = Input4.split('|');
+
+                var SPer1 = field1[0];
+                var SPfield = SPer1.split('%');
+                var SPer = SPfield[0];
+
+                var SAmt = field1[1];
+                var FPer1 = field2[0];
+                var FPfield = FPer1.split('%');
+                var FPer = FPfield[0];
+                var FAmt = field2[1];
+
+                var If = field3[0];
+                var IFPer = If.split('%');
+                var IPer = IFPer[0].trim();
+                var IAmt = field3[1].trim();
+
+                var FEDf = field4[0];
+                var ffPer = FEDf.split('%');
+                var FEDPer = ffPer[0].trim();
+                var FEDAmt = field4[1].trim();
+
+                i++;
+
+                $("table#ItemTable").append('<tr><td>' + i
+                    + '</td><td class="width5">' + $("#ItemCode").val()
+                    + '</td><td class="width30">' + $('#ItemCode option:selected').text().toUpperCase() 
+                    + '</td><td class="width5" >' + $("#Quantity").val()
+                    + '</td><td class="width5" >' + $("#Rate").val()
+                    + '</td><td class="width5">' + $("#Damage").val() 
+                    + '</td><td class="width5">' + $("#Replace").val()
+                    + '</td><td class="width5">' + $("#FOC").val()
+                    + '</td><td class="width5">' + $("#Sampling").val() 
+                    + '</td><td class="width5">' + $("#Scheme").val()
+                    + '</td><td class="width5">' + $("#Return").val()
+                    + '</td><td class="width5">' + $("#WHT").val() 
+                    + '</td><td class="width10">' + SAmt
+                    + '</td class="width10"><td>' + FAmt
+                    + '</td class="width10"><td>' + IAmt
+                    + '</td class="width10"><td>' + FEDAmt
+                    + '</td><td class="width10" >' + $("#DiscAmt").val()
+                    + '</td><td class="width10">' + $("#TotalAmount").val() 
+                    + '</td><td class="Ghaib width10">' + $("#IncTaxAmt").val()
+                    + '</td><td class="Ghaib width10">' + $("#ExcTaxAmt").val()
+                    + '</td><td class="width10 Ghaib">' + SPer
+                    + '</td><td class="width10 Ghaib">' + FPer 
+                    + '</td><td class="width10 Ghaib">' + IPer 
+                    + '</td><td class="width10 Ghaib">' + FEDPer 
+                    + '</td><td class="width10 Ghaib">' + $("#DiscPer").val()
+                    + '</td><td class="width10 Ghaib">' + $("#C_Rate").val() 
+                    + '</td><td style="text-align:center"><a class="selectItem" ><i class="fa fa-edit" style="color:blue;"></i></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class= "deleteTerm" style="color:blue" ><i class="fa fa-trash"></i></a></td>');
+
+
+                var IncTaxAmt = $("#IncTaxAmt").val();
+                var ExcTaxAmt = $("#ExcTaxAmt").val();
+                var DiscountAmt = $("#DiscAmt").val();
+                var ttlDiscountAmt = $("#ttlDiscount").val();
+                var ttlIncTaxAmt = $("#ttlIncTaxAmt").val();
+                var ttlExcTaxAmt = $("#ttlExcTaxAmt").val();
+
+                ttlIncTaxAmt = parseFloat(ttlIncTaxAmt) + parseFloat(IncTaxAmt);
+                ttlExcTaxAmt = parseFloat(ttlExcTaxAmt) + parseFloat(ExcTaxAmt);
+                ttlDiscountAmt = parseFloat(ttlDiscountAmt) + parseFloat(DiscountAmt);
+                document.getElementById('ttlIncTaxAmt').value = ttlIncTaxAmt.toFixed(4);
+                document.getElementById('ttlExcTaxAmt').value = ttlExcTaxAmt.toFixed(4);
+                document.getElementById('ttlDiscount').value = ttlDiscountAmt.toFixed(4);
+                document.getElementById('ttlCashReceived').value = ttlIncTaxAmt.toFixed(4);
+
+
+
+                //document.getElementById('ItemCode').value = "";
+                //document.getElementById('ItemDesc').value = "";
+                document.getElementById('Quantity').value = 0;
+                document.getElementById('Damage').value = 0;
+                document.getElementById('Replace').value = 0;
+
+                document.getElementById("SaleTaxPer").value = 0;
+                document.getElementById("FTaxPer").value = 0;
+                document.getElementById("ITaxPer").value = 0;
+                document.getElementById("FEDTaxPer").value = 0;
+
+                document.getElementById("HDFTaxPer").value = 0;
+                document.getElementById("HDFTaxAmt").value = 0;
+                document.getElementById("HDSTaxPer").value = 0;
+                document.getElementById("HDSTaxAmt").value = 0;
+                document.getElementById("HDITaxPer").value = 0;
+                document.getElementById("HDITaxAmt").value = 0;
+                document.getElementById("HDFEDTaxPer").value = 0;
+                document.getElementById("HDFEDTaxAmt").value = 0;
+                document.getElementById("HDIncTaxAmt").value = 0;
+                document.getElementById("HDExcTaxAmt").value = 0;
+                document.getElementById("HDDiscAmt").value = 0;
+                document.getElementById("HDDiscPer").value = 0;
+                document.getElementById("C_Rate").value = 0;
+                document.getElementById("HDC_Rate").value = 0;
+
+
+                document.getElementById("IncTaxAmt").value = 0;
+                document.getElementById("ExcTaxAmt").value = 0;
+                document.getElementById('DiscPer').value = 0;
+                document.getElementById('FOC').value = 0;
+                document.getElementById('Sampling').value = 0;
+                document.getElementById('Scheme').value = 0;
+                document.getElementById('Return').value = 0;
+                document.getElementById('Rate').value = 0;
+                document.getElementById('WHT').value = 0;
+                document.getElementById('DiscAmt').value = 0;
+                document.getElementById('TotalAmount').value = 0;
+            }
+
+        }
+
+    }
+
+</script>
+
+<script type="text/javascript">
+
+    function CalculateShortCash() {
+        var IncAmt = $("#ttlIncTaxAmt").val();
+        var CashReceived = $("#ttlCashReceived").val();
+
+        $("#ShortCash").text((parseFloat(IncAmt) - parseFloat(CashReceived)).toFixed(2));
+    }
+
+    $(function () {
+        $("#PartyCode").chosen();
+        $("#RegionCode").chosen();
+
+        $("#EmpCode").chosen();
+        $("#ItemCode").chosen();
+
+    });
+
+    function GetRegionPartyDDL() {
+        var RegionCode = $("#RegionCode").val();
+        GetRegionEmpDDL();
+        if (RegionCode !== "001") {
+
+            $("#PSpinner").html('<img src="/Content/spinner.gif" height="30" width="30" id="PImg" />');
+            $("#SSpinner").html('<img src="/Content/spinner.gif" height="30" width="30" id="SImg" />');
+
+            $.ajax({
+                type: "POST",
+                url: "/Transaction/GetRegionPartyDDL",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({ RegionCode: RegionCode }),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    $('#PartyCode').empty().trigger("chosen:updated");
+
+                    $('#PartyCode').append($('<option>', {
+                        value: "",
+                        text: "Select Any Value"
+                    })).trigger("chosen:updated");
+
+                    if (data.length > 0) {
+                        $.each(data, function (index, obj) {
+
+                            $('#PartyCode').append($('<option>', {
+                                value: obj.PartyCode,
+                                text: obj.PartyCode + "  ==>  " + obj.PartyName
+                            })).trigger("chosen:updated");
+
+                        });
+
+                        $("#PImg").remove();
+                    }
+
+
+                }
+            });
+        }
+        else {
+            $('#PartyCode').empty().trigger("chosen:updated");
+
+        }
+
+
+    }
+
+    function GetRegionEmpDDL() {
+        var RegionCode = $("#RegionCode").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetRegionParty",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode }),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $('#EmpCode').empty().trigger("chosen:updated");
+
+                $('#EmpCode').append($('<option>', {
+                    value: "",
+                    text: "Select Any Value"
+                })).trigger("chosen:updated");
+
+                if (data.length > 0) {
+                    $.each(data, function (index, obj) {
+
+                        $('#EmpCode').append($('<option>', {
+                            value: obj.EmpCode,
+                            text: obj.EmpName
+                        })).trigger("chosen:updated");
+
+                    });
+
+                    $("#SImg").remove();
+                }
+            }
+        });
+
+    }
+
+
+    function afterWHT() {
+        var WHT = $("#WHT").val();
+        var IncTaxAmt = $("#HDIncTaxAmt").val();
+        if (WHT === " " || WHT === "") {
+            WHT = 0;
+        }
+        IncTaxAmt = parseFloat(IncTaxAmt) - parseFloat(WHT);
+        document.getElementById("IncTaxAmt").value = IncTaxAmt;
+    }
+
+    function getNum(val) {
+        if (isNaN(val)) {
+            return 0;
+        }
+        return val;
+    }
+
+    function CalTotalAmt() {
+
+        var Rate = $("#Rate").val();
+        var IncTaxAmt = $("#HDIncTaxAmt").val();
+        var ExcTaxAmt = $("#HDExcTaxAmt").val();
+        var Qty = $("#Quantity").val();
+        var DiscAmt = $("#HDDiscAmt").val();
+        var DiscPer = $("#HDDiscPer").val();
+        var STaxReg = $("#STaxReg").val();
+        var STaxPer = $("#HDSTaxPer").val();
+        var STaxAmt = $("#HDSTaxAmt").val();
+        var FTaxPer = $("#HDFTaxPer").val();
+        var ITaxPer = $("#HDITaxPer").val();
+        
+        var FTaxAmt = $("#HDFTaxAmt").val();
+        var FEDTaxPer = $("#HDFEDTaxPer").val();
+        var FEDTaxAmt = $("#HDFEDTaxAmt").val();
+
+        //var field1 = Input1.split('|');
+        //var field2 = Input2.split('|');
+        //var STaxPer = field1[0];
+        //var FTaxPer = field2[0];
+        DiscAmt = getNum(DiscAmt);
+        DiscPer = getNum(DiscPer);
+        STaxReg = getNum(STaxReg);
+        STaxPer = getNum(STaxPer);
+        STaxAmt = getNum(STaxAmt);
+        FTaxPer = getNum(FTaxPer);
+        FTaxAmt = getNum(FTaxAmt);
+        FEDTaxPer = getNum(FEDTaxPer);
+        FEDTaxAmt = getNum(FEDTaxAmt);
+        if (Rate == 0) {
+            alert("Rate Cannot be equal to zero,Please wait for a second...! ");
+        }
+        else {
+            var TotalTaxPer = parseFloat(STaxPer) + parseFloat(FTaxPer) + parseFloat(FEDTaxPer);
+            var TotalTaxAmt = (parseFloat(STaxAmt) + parseFloat(FTaxAmt) + parseFloat(FEDTaxAmt)) * Qty;
+            var NetAmount = Rate * Qty;
+            var TotalDiscount = Qty * DiscAmt;
+            var AmtAfterDisc = NetAmount - TotalDiscount;
+            var TaxAmt = parseFloat(AmtAfterDisc) / 100 * parseFloat(TotalTaxPer);
+
+            var FinalAmt = parseFloat(AmtAfterDisc) + parseFloat(TotalTaxAmt);
+
+
+            // Calculat Total
+            var Inc = FinalAmt;
+            var ITaxAmt = parseFloat(Inc / 100 * ITaxPer);
+            var FinalInc = parseFloat(Inc) + ITaxAmt;
+            var Exc = parseFloat(AmtAfterDisc);
+            var STax1 = STaxPer;
+            var STax2 = Qty * STaxAmt;
+            var FTax1 = FTaxPer;
+            var FTax2 = Qty * FTaxAmt;
+
+            var FEDTax1 = FEDTaxPer;
+            var FEDTax2 = Qty * FEDTaxAmt;
+
+            var Disc1 = DiscPer;
+            var Disc2 = Qty * DiscAmt;
+
+            document.getElementById("IncTaxAmt").value = FinalInc;
+            document.getElementById("HDIncTaxAmt").value = FinalInc;
+            document.getElementById("ExcTaxAmt").value = Exc;
+            document.getElementById("HDExcTaxAmt").value = Exc;
+            
+            document.getElementById("SaleTaxPer").value = parseFloat(STax1) + " % | " + parseFloat(STax2.toFixed(4));
+            document.getElementById("FTaxPer").value = parseFloat(FTax1) + " % | " + parseFloat(FTax2.toFixed(4));
+            document.getElementById("ITaxPer").value = parseFloat(ITaxPer) + " % | " + parseFloat(ITaxAmt.toFixed(4));
+
+            document.getElementById("FEDTaxPer").value = parseFloat(FEDTax1) + " % | " + parseFloat(FEDTax2.toFixed(4));
+
+            document.getElementById("DiscPer").value = Disc1;
+            document.getElementById("DiscAmt").value = Disc2.toFixed(4);
+
+
+            //----------------
+
+            //var TotalAmt = IncTaxAmt * Qty;
+            //var DiscountedAmt = parseFloat(TotalAmt.toFixed(4)) - parseFloat(TotalDiscount.toFixed(4));
+            //var ExcTaxAmt = Rate * Qty;
+            document.getElementById("TotalAmount").value = parseFloat(FinalInc.toFixed(4));
+            //document.getElementById("ExcTaxAmt").value = parseFloat(ExcTaxAmt.toFixed(4));
+            //document.getElementById("HDNetAmount").value = parseFloat(NetAmount.toFixed(4));
+        }
+
+    }
+
+
+    function CalTotalAmtWithDisc() {
+
+        var Rate = $("#Rate").val();
+        var IncTaxAmt = $("#HDIncTaxAmt").val();
+        var ExcTaxAmt = $("#HDExcTaxAmt").val();
+        var Qty = $("#Quantity").val();
+        var DiscAmt = $("#DiscAmt").val();
+        var HdDiscAmt = DiscAmt / Qty;
+        $("#HDDiscAmt").val(HdDiscAmt);
+        var DiscPer = $("#DiscPer").val();
+        var STaxReg = $("#STaxReg").val();
+        var STaxPer = $("#HDSTaxPer").val();
+        var STaxAmt = $("#HDSTaxAmt").val();
+        var FTaxPer = $("#HDFTaxPer").val();
+        var FTaxAmt = $("#HDFTaxAmt").val();
+        var ITaxPer = $("#HDITaxPer").val();
+
+        var FEDTaxPer = $("#HDFEDTaxPer").val();
+        var FEDTaxAmt = $("#HDFEDTaxAmt").val();
+
+        //var field1 = Input1.split('|');
+        //var field2 = Input2.split('|');
+        //var STaxPer = field1[0];
+        //var FTaxPer = field2[0];
+
+        DiscAmt = getNum(DiscAmt);
+        DiscPer = getNum(DiscPer);
+        STaxReg = getNum(STaxReg);
+        STaxPer = getNum(STaxPer);
+        STaxAmt = getNum(STaxAmt);
+        FTaxPer = getNum(FTaxPer);
+        FTaxAmt = getNum(FTaxAmt);
+        FEDTaxPer = getNum(FEDTaxPer);
+        FEDTaxAmt = getNum(FEDTaxAmt);
+
+
+
+        if (Rate == 0) {
+            alert("Rate Cannot be equal to zero,Please wait for a second...! ");
+        }
+        else {
+
+            var TotalTaxPer = parseFloat(STaxPer) + parseFloat(FTaxPer) + parseFloat(FEDTaxPer);
+            var TotalTaxAmt = (parseFloat(STaxAmt) + parseFloat(FTaxAmt) + parseFloat(FEDTaxAmt)) * Qty;
+            var NetAmount = Rate * Qty;
+            var TotalDiscount = DiscAmt;
+            var AmtAfterDisc = NetAmount - TotalDiscount;
+            var TaxAmt = parseFloat(AmtAfterDisc) / 100 * parseFloat(TotalTaxPer);
+
+            var FinalAmt = parseFloat(AmtAfterDisc) + parseFloat(TotalTaxAmt);
+
+
+            // Calculat Total
+            var Inc = FinalAmt;
+            var ITaxAmt = parseFloat(Inc / 100 * ITaxPer);
+            var FinalInc = parseFloat(Inc) + ITaxAmt;
+            var Exc = parseFloat(AmtAfterDisc);
+            var STax1 = STaxPer;
+            var STax2 = Qty * STaxAmt;
+            var FTax1 = FTaxPer;
+            var FTax2 = Qty * FTaxAmt;
+
+            var FEDTax1 = FEDTaxPer;
+            var FEDTax2 = Qty * FEDTaxAmt;
+
+            var Disc1 = DiscPer;
+            var Disc2 = DiscAmt;
+
+            document.getElementById("IncTaxAmt").value = FinalInc;
+            document.getElementById("HDIncTaxAmt").value = FinalInc;
+            document.getElementById("ExcTaxAmt").value = Exc;
+            document.getElementById("HDExcTaxAmt").value = Exc;
+            document.getElementById("SaleTaxPer").value = parseFloat(STax1) + " % | " + parseFloat(STax2.toFixed(4));
+            document.getElementById("FTaxPer").value = parseFloat(FTax1) + " % | " + parseFloat(FTax2.toFixed(4));
+            document.getElementById("ITaxPer").value = parseFloat(ITaxPer) + " % | " + parseFloat(ITaxAmt.toFixed(4));
+
+            document.getElementById("FEDTaxPer").value = parseFloat(FEDTax1) + " % | " + parseFloat(FEDTax2.toFixed(4));
+
+            document.getElementById("DiscPer").value = Disc1;
+            document.getElementById("DiscAmt").value = Disc2;
+
+
+            //----------------
+
+            //var TotalAmt = IncTaxAmt * Qty;
+            //var DiscountedAmt = parseFloat(TotalAmt.toFixed(4)) - parseFloat(TotalDiscount.toFixed(4));
+            //var ExcTaxAmt = Rate * Qty;
+            document.getElementById("TotalAmount").value = parseFloat(FinalInc.toFixed(4));
+            //document.getElementById("ExcTaxAmt").value = parseFloat(ExcTaxAmt.toFixed(4));
+            //document.getElementById("HDNetAmount").value = parseFloat(NetAmount.toFixed(4));
+        }
+
+    }
+
+    function GetRegion() {
+
+        var RegionCode = $("#RegionCode").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetRegionParty",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ RegionCode: RegionCode }),
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+
+                $.each(data.Data, function (index, obj) {
+                    $('#PartyCode').append(
+                        $('<option></option>').val(obj.PartyCode).html(obj.PartyName)
+                    );
+                    
+                });
+
+                var mySelect = $('#EmpCode');
+                $.each(data.GetRegionEmp, function (index, obj) {
+                    mySelect.append(
+                        //$('<option></option>').val(obj.EmpCode).html(obj.EmpName)
+                        ("<option value = '" + obj.EmpCode + " '>" + obj.EmpName + " </option>")
+                    );
+                });
+            }
+        });
+
+        
+        
+
+        //$("#RegionModal").modal("hide");
+    }
+
+    function GetEmp(EmpCode, EmpName) {
+        document.getElementById("EmpCode").value = EmpCode;
+        document.getElementById("EmpName").value = EmpName;
+
+        $("#EmpModal").modal("hide");
+    }
+
+    $("#tblParty").on('click', '.GetParty', function () {
+
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+
+        var MainPartyCode = rIndex.find('td:eq(0)').text().replace(/\s+/g, "");
+        var PartyCode = rIndex.find('td:eq(1)').text().replace(/\s+/g, "");
+        var PartyName = rIndex.find('td:eq(2)').text().replace(/\s+/g, "");
+        var PartyType = rIndex.find('td:eq(3)').text().replace(/\s+/g, "");
+        var STaxReg = rIndex.find('td:eq(4)').text().replace(/\s+/g, "");
+
+
+
+        document.getElementById("PartyCode").value = PartyCode;
+        document.getElementById("PartyDesc").value = PartyName;
+        document.getElementById("PartyType").value = PartyType;
+        if (STaxReg == "Un-Reg") {
+            document.getElementById("STaxReg").value = "UnRegister";
+        } else {
+            document.getElementById("STaxReg").value = "Registered";
+        }
+        document.getElementById("MainPartyCode").value = MainPartyCode;
+
+
+        //$.ajax({
+        //    type: "POST",
+        //    url: "/Transaction/CheckPartyDiscount",
+        //    dataType: "json",
+        //    contentType: 'application/json',
+        //    data: JSON.stringify({ PartyCode: PartyCode }),
+        //    contentType: "application/json; charset=utf-8",
+        //    success: function (data) {
+        //        if (data.length > 0) {
+        //            $("#WarningAlert").hide();
+        //            $("#btnSave").attr("disabled", false);
+        //        }
+        //    }
+        //});
+
+        $("#PartyModal").modal("hide");
+
+    });
+
+    $("#tblSalesman").on('click', '.GetSalesman', function () {
+
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+
+        var EmpCode = rIndex.find('td:eq(0)').text().replace(/\s+/g, "");
+        var EmpName = rIndex.find('td:eq(1)').text().replace(/\s+/g, "");
+        var RegionDesc = rIndex.find('td:eq(2)').text().replace(/\s+/g, "");
+
+        document.getElementById("EmpCode").value = EmpCode;
+        document.getElementById("EmpName").value = EmpName;
+        document.getElementById("RegionDesc").value = RegionDesc;
+
+        $("#EmpModal").modal("hide");
+    });
+
+
+
+    function GetItem(ItemCode, ItemDesc, SaleRateReg, SaleRateUnReg, WeightType, SubCategory) {
+
+        var PartyCode = $("#PartyCode").val();
+        var PartyType = $("#PartyType").val();
+        var PartyRate = $("#STaxReg").val();
+
+        if (PartyCode == "" || PartyCode == null) {
+            alert("You Can't Add Item ,Select Party First . . . !");
+        }
+        else {
+            document.getElementById("ItemCode").value = ItemCode;
+
+            document.getElementById("ItemDesc").value = ItemDesc;
+
+            if (PartyRate == "Registered") {
+                document.getElementById("Rate").value = SaleRateReg;
+            } else {
+                document.getElementById("Rate").value = SaleRateUnReg;
+            }
+
+            //document.getElementById("Unit").value = WeightType;
+
+            $.ajax({
+                type: "POST",
+                url: "/Transaction/CheckPartyDiscount",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({ PartyCode: PartyCode, ItemCode: ItemCode }),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    if (data.Data != null) {
+                        document.getElementById("DiscPer").value = data.Data;
+                        document.getElementById("HDDiscPer").value = data.Data;
+                    }
+                    var Rate = $("#Rate").val();
+                    var DiscountPer = $("#DiscPer").val();
+
+                    var STaxReg = $("#STaxReg").val();
+                    var DiscountAmt = Rate / 100 * DiscountPer;
+
+
+                    if (data.Item != null) {
+
+                        if (STaxReg == "Registered") {
+
+                            DiscountAmt = DiscountAmt / ((100 + parseFloat(data.Item.SaleGSTPer)) / 100);
+                            Rate = Rate - DiscountAmt;
+                            var FTaxAmt = 0;
+                            var GSTTaxAmt = Rate / 100 * data.Item.SaleGSTPer;
+
+
+
+
+
+
+                            document.getElementById("FTaxPer").value = 0 + " % |  " + 0;
+                            document.getElementById("HDFTaxPer").value = 0;
+                            document.getElementById("HDFTaxAmt").value = 0;
+
+
+                            document.getElementById("SaleTaxPer").value = data.Item.SaleGSTPer + " % |  " + parseFloat(GSTTaxAmt.toFixed(4));
+                            document.getElementById("HDSTaxPer").value = data.Item.SaleGSTPer;
+                            document.getElementById("HDSTaxAmt").value = parseFloat(GSTTaxAmt.toFixed(4));
+                        }
+                        else {
+
+                            DiscountAmt = DiscountAmt / ((100 + parseFloat(parseFloat(data.Item.SaleGSTPer)) + parseFloat(parseFloat(data.Item.SaleFurtherTaxPer))) / 100);
+                            Rate = Rate - DiscountAmt;
+                            var FTaxAmt = Rate / 100 * data.Item.SaleFurtherTaxPer;
+                            var GSTTaxAmt = Rate / 100 * data.Item.SaleGSTPer;
+
+                            document.getElementById("FTaxPer").value = data.Item.SaleFurtherTaxPer + " % |  " + parseFloat(FTaxAmt.toFixed(4));
+                            document.getElementById("HDFTaxPer").value = data.Item.SaleFurtherTaxPer;
+                            document.getElementById("HDFTaxAmt").value = parseFloat(FTaxAmt.toFixed(4));
+
+                            document.getElementById("SaleTaxPer").value = data.Item.SaleGSTPer + " % |  " + parseFloat(GSTTaxAmt.toFixed(4));
+                            document.getElementById("HDSTaxPer").value = data.Item.SaleGSTPer;
+                            document.getElementById("HDSTaxAmt").value = parseFloat(GSTTaxAmt.toFixed(4));
+                        }
+
+                    }
+
+
+                    document.getElementById("DiscAmt").value = parseFloat(DiscountAmt.toFixed(4));
+                    document.getElementById("HDDiscAmt").value = parseFloat(DiscountAmt.toFixed(4));
+
+                }
+            });
+
+
+
+        }
+
+
+
+
+        $("#ItemModal").modal("hide");
+    }
+
+
+</script>
+
+<script>
+
+
+
+
+    var tableItem = document.getElementById('ItemTable');
+    var i = 0;
+
+    $("#addItem").click(function () {
+
+        if (!(checkAllEmptyItem())) {
+
+
+
+            var ItemCode = $("#ItemCode").val();
+            if (ItemCode === null || ItemCode === "") {
+
+                alert("Item Code cannot be empty . . . !");
+
+            }
+            else {
+
+                var tableItem = document.getElementById('ItemTable');
+                var rows = tableItem.rows;
+                var firstRow = rows[1];
+                if (typeof firstRow !== "undefined") {
+                    var firstRowvalue = firstRow.innerText;
+                }
+
+                if (firstRowvalue == "No matching records found") {
+                    $("table#ItemTable tbody").remove();
+                }
+
+                //document.getElementById('HDIncTaxAmt').value = 0;
+                //document.getElementById('HDExcTaxAmt').value = 0;
+                var Input1 = $("#SaleTaxPer").val();
+                var Input2 = $("#FTaxPer").val();
+                var Input3 = $("#ITaxPer").val();
+                var Input4 = $("#FEDTaxPer").val();
+
+                var field1 = Input1.split('|');
+                var field2 = Input2.split('|');
+                var field3 = Input3.split('|');
+                var field4 = Input4.split('|');
+
+                var SPer1 = field1[0];
+                var SPfield = SPer1.split('%');
+                var SPer = SPfield[0];
+
+                var SAmt = field1[1];
+                var FPer1 = field2[0];
+                var FPfield = FPer1.split('%');
+                var FPer = FPfield[0];
+                var FAmt = field2[1];
+
+                var If = field3[0];
+                var IFPer = If.split('%');
+                var IPer = IFPer[0].trim();
+                var IAmt = field3[1].trim();
+
+                var FEDf = field4[0];
+                var ffPer = FEDf.split('%');
+                var FEDPer = ffPer[0].trim();
+                var FEDAmt = field4[1].trim();
+
+                i++;
+
+                $("table#ItemTable").append('<tr><td>' + i
+                    + '</td><td class="width5">' + $("#ItemCode").val()
+                    + '</td><td class="width30">' + $('#ItemCode option:selected').text().toUpperCase()
+                    + '</td><td class="width5" >' + $("#Quantity").val()
+                    + '</td><td class="width5" >' + $("#Rate").val()
+                    + '</td><td class="width5">' + $("#Damage").val()
+                    + '</td><td class="width5">' + $("#Replace").val()
+                    + '</td><td class="width5">' + $("#FOC").val()
+                    + '</td><td class="width5">' + $("#Sampling").val()
+                    + '</td><td class="width5">' + $("#Scheme").val()
+                    + '</td><td class="width5">' + $("#Return").val()
+                    + '</td><td class="width5">' + $("#WHT").val()
+                    + '</td><td class="width10">' + SAmt
+                    + '</td class="width10"><td>' + FAmt
+                    + '</td class="width10"><td>' + IAmt
+                    + '</td class="width10"><td>' + FEDAmt
+                    + '</td><td class="width10" >' + $("#DiscAmt").val()
+                    + '</td><td class="width10">' + $("#TotalAmount").val()
+                    + '</td><td class="Ghaib width10">' + $("#IncTaxAmt").val()
+                    + '</td><td class="Ghaib width10">' + $("#ExcTaxAmt").val()
+                    + '</td><td class="width10 Ghaib">' + SPer
+                    + '</td><td class="width10 Ghaib">' + FPer
+                    + '</td><td class="width10 Ghaib">' + IPer
+                    + '</td><td class="width10 Ghaib">' + FEDPer
+                    + '</td><td class="width10 Ghaib">' + $("#DiscPer").val()
+                    + '</td><td class="width10 Ghaib">' + $("#C_Rate").val()
+                    + '</td><td style="text-align:center"><a class="selectItem" ><i class="fa fa-edit" style="color:blue;"></i></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class= "deleteTerm" style="color:blue" ><i class="fa fa-trash"></i></a></td>');
+
+
+                var IncTaxAmt = $("#IncTaxAmt").val();
+                var ExcTaxAmt = $("#ExcTaxAmt").val();
+                var DiscountAmt = $("#DiscAmt").val();
+                var ttlDiscountAmt = $("#ttlDiscount").val();
+                var ttlIncTaxAmt = $("#ttlIncTaxAmt").val();
+                var ttlExcTaxAmt = $("#ttlExcTaxAmt").val();
+
+                ttlIncTaxAmt = parseFloat(ttlIncTaxAmt) + parseFloat(IncTaxAmt);
+                ttlExcTaxAmt = parseFloat(ttlExcTaxAmt) + parseFloat(ExcTaxAmt);
+                ttlDiscountAmt = parseFloat(ttlDiscountAmt) + parseFloat(DiscountAmt);
+                document.getElementById('ttlIncTaxAmt').value = ttlIncTaxAmt.toFixed(4);
+                document.getElementById('ttlExcTaxAmt').value = ttlExcTaxAmt.toFixed(4);
+                document.getElementById('ttlDiscount').value = ttlDiscountAmt.toFixed(4);
+                document.getElementById('ttlCashReceived').value = ttlIncTaxAmt.toFixed(4);
+
+
+
+                //document.getElementById('ItemCode').value = "";
+                //document.getElementById('ItemDesc').value = "";
+                document.getElementById('Quantity').value = 0;
+                document.getElementById('Damage').value = 0;
+                document.getElementById('Replace').value = 0;
+
+                document.getElementById("SaleTaxPer").value = 0;
+                document.getElementById("FTaxPer").value = 0;
+                document.getElementById("ITaxPer").value = 0;
+
+                document.getElementById("HDFTaxPer").value = 0;
+                document.getElementById("HDFTaxAmt").value = 0;
+                document.getElementById("HDSTaxPer").value = 0;
+                document.getElementById("HDSTaxAmt").value = 0;
+                document.getElementById("HDITaxAmt").value = 0;
+
+                document.getElementById("HDFEDTaxPer").value = 0;
+                document.getElementById("HDFEDTaxAmt").value = 0;
+
+                document.getElementById("HDITaxPer").value = 0;
+                document.getElementById("HDIncTaxAmt").value = 0;
+                document.getElementById("HDExcTaxAmt").value = 0;
+                document.getElementById("HDDiscAmt").value = 0;
+                document.getElementById("HDDiscPer").value = 0;
+                document.getElementById("HDC_Rate").value = 0;
+
+
+                document.getElementById("IncTaxAmt").value = 0;
+                document.getElementById("ExcTaxAmt").value = 0;
+                document.getElementById('DiscPer').value = 0;
+                document.getElementById('FOC').value = 0;
+                document.getElementById('Sampling').value = 0;
+                document.getElementById('Scheme').value = 0;
+                document.getElementById('Return').value = 0;
+                document.getElementById('Rate').value = 0;
+                document.getElementById('C_Rate').value = 0;
+                document.getElementById('WHT').value = 0;
+                document.getElementById('DiscAmt').value = 0;
+                document.getElementById('TotalAmount').value = 0;
+
+            }
+
+        }
+    });
+
+
+    $("table#ItemTable").on('click', '.deleteTerm', function () {
+        //var s = $(this).closest('tr').find('td:eq(3)').text();
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+        var DiscAmt = rIndex.find('td:eq(15)').text().replace(/\s+/g, " ");
+        var IncTaxAmt = rIndex.find('td:eq(17)').text().replace(/\s+/g, " ");
+        var ExcTaxAmt = rIndex.find('td:eq(18)').text().replace(/\s+/g, " ");
+
+        var ttlIncTaxAmt = $("#ttlIncTaxAmt").val();
+        var ttlExcTaxAmt = $("#ttlExcTaxAmt").val();
+        var ttlDiscount = $("#ttlDiscount").val();
+
+
+        ttlIncTaxAmt = parseFloat(ttlIncTaxAmt) - parseFloat(IncTaxAmt);
+        ttlExcTaxAmt = ttlExcTaxAmt - ExcTaxAmt;
+        ttlDiscount = ttlDiscount - DiscAmt;
+
+        document.getElementById("ttlIncTaxAmt").value = ttlIncTaxAmt.toFixed(4);
+        document.getElementById("ttlExcTaxAmt").value = ttlExcTaxAmt.toFixed(4);
+        document.getElementById("ttlDiscount").value = ttlDiscount.toFixed(4);
+        document.getElementById("ttlCashReceived").value = ttlIncTaxAmt.toFixed(4);
+
+        $(this).closest('tr').remove();
+    });
+
+
+    // For Selection
+    $("table#ItemTable").on('click', '.selectItem', function () {
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr').rowIndex;
+        //rIndex = this.rowIndex;
+        //console.log(index);
+        var col1 = rIndex.find('td:eq(0)').text();
+        var ItemCode = rIndex.find('td:eq(1)').text();
+        var ItemDesc = rIndex.find('td:eq(2)').text().replace(/\s+/g, "");
+        var Qty = rIndex.find('td:eq(3)').text().replace(/\s+/g, " ");
+        var Rate = rIndex.find('td:eq(4)').text().replace(/\s+/g, " ");
+        var Damage = rIndex.find('td:eq(5)').text().replace(/\s+/g, " ");
+        var Replace = rIndex.find('td:eq(6)').text().replace(/\s+/g, " ");
+        var FOC = rIndex.find('td:eq(7)').text().replace(/\s+/g, " ");
+        var Sampling = rIndex.find('td:eq(8)').text().replace(/\s+/g, " ");
+        var Scheme = rIndex.find('td:eq(9)').text().replace(/\s+/g, "");
+        var Return = rIndex.find('td:eq(10)').text().replace(/\s+/g, "");
+        var WHT = rIndex.find('td:eq(11)').text().replace(/\s+/g, "");
+        var STaxAmt = rIndex.find('td:eq(12)').text().replace(/\s+/g, " ");
+        var FTaxAmt = rIndex.find('td:eq(13)').text().replace(/\s+/g, " ");
+        var ITaxAmt = rIndex.find('td:eq(14)').text().replace(/\s+/g, " ");
+        var FEDTaxAmt = rIndex.find('td:eq(15)').text().replace(/\s+/g, " ");
+        var DiscAmt = rIndex.find('td:eq(16)').text().replace(/\s+/g, " ");
+        var TotalAmt = rIndex.find('td:eq(17)').text().replace(/\s+/g, " ");
+
+        var IncTaxAmt = rIndex.find('td:eq(18)').text().replace(/\s+/g, " ");
+        var ExcTaxAmt = rIndex.find('td:eq(19)').text().replace(/\s+/g, " ");
+        var SPer = rIndex.find('td:eq(20)').text().replace(/\s+/g, " ");
+        var FPer = rIndex.find('td:eq(21)').text().replace(/\s+/g, " ");
+        var IPer = rIndex.find('td:eq(22)').text().replace(/\s+/g, " ");
+        var FEDPer = rIndex.find('td:eq(23)').text().replace(/\s+/g, " ");
+        var C_Rate = rIndex.find('td:eq(25)').text().replace(/\s+/g, " ");
+        var DiscPer = 0;
+
+
+        $('#ItemCode').val(ItemCode).trigger("chosen:updated");
+
+
+        //document.getElementById('ItemCode').value = ItemCode;
+        //document.getElementById('ItemDesc').value = ItemDesc;
+        document.getElementById('Quantity').value = Qty;
+        document.getElementById('Damage').value = Damage;
+        document.getElementById('Replace').value = Replace;
+        document.getElementById('FOC').value = FOC;
+        document.getElementById('Sampling').value = Sampling;
+        document.getElementById('Scheme').value = Scheme;
+        document.getElementById('Return').value = Return;
+        document.getElementById('Rate').value = Rate;
+        document.getElementById('C_Rate').value = C_Rate;
+        document.getElementById('WHT').value = WHT;
+        document.getElementById('DiscPer').value = DiscPer;
+        document.getElementById('DiscAmt').value = DiscAmt;
+        document.getElementById('TotalAmount').value = TotalAmt;
+        document.getElementById('SaleTaxPer').value = SPer + " % | " + STaxAmt;
+        document.getElementById('FTaxPer').value = FPer + " % | " + FTaxAmt;
+        document.getElementById('ITaxPer').value = IPer + " % | " + ITaxAmt;
+        document.getElementById('FEDTaxPer').value = FEDPer + " % | " + FEDTaxAmt;
+        document.getElementById('IncTaxAmt').value = IncTaxAmt;
+        document.getElementById('ExcTaxAmt').value = ExcTaxAmt;
+
+        document.getElementById("HDFTaxPer").value = FPer;
+        document.getElementById("HDFTaxAmt").value = FTaxAmt / Qty;
+        document.getElementById("HDSTaxPer").value = SPer;
+        document.getElementById("HDSTaxAmt").value = STaxAmt / Qty;
+        document.getElementById("HDITaxPer").value = IPer;
+        document.getElementById("HDITaxAmt").value = ITaxAmt / Qty;
+
+        document.getElementById("HDFEDTaxPer").value = FEDPer;
+        document.getElementById("HDFEDTaxAmt").value = FEDTaxAmt / Qty;
+
+        document.getElementById("HDIncTaxAmt").value = IncTaxAmt / Qty;
+        document.getElementById("HDExcTaxAmt").value = ExcTaxAmt / Qty;
+        document.getElementById("HDDiscAmt").value = DiscAmt / Qty;
+        document.getElementById("HDDiscPer").value = DiscPer;
+        document.getElementById("HDC_Rate").value = C_Rate;
+
+
+
+        var ttlIncTaxAmt = $("#ttlIncTaxAmt").val();
+        var ttlExcTaxAmt = $("#ttlExcTaxAmt").val();
+        var ttlDiscount = $("#ttlDiscount").val();
+
+
+        ttlIncTaxAmt = parseFloat(ttlIncTaxAmt) - parseFloat(IncTaxAmt);
+        ttlExcTaxAmt = ttlExcTaxAmt - ExcTaxAmt;
+        ttlDiscount = ttlDiscount - DiscAmt;
+
+        document.getElementById("ttlIncTaxAmt").value = ttlIncTaxAmt.toFixed(4);
+        document.getElementById("ttlExcTaxAmt").value = ttlExcTaxAmt.toFixed(4);
+        document.getElementById("ttlDiscount").value = ttlDiscount.toFixed(4);
+        document.getElementById("ttlCashReceived").value = ttlIncTaxAmt.toFixed(4);
+
+
+        $(this).closest('tr').remove();
+    });
+
+</script>
+
+
+<!--Save Item Data-->
+<script>
+
+    //Check for empty inputs before submit
+    function checkAllEmptyInputs() {
+        var isEmpty = false,
+            InvoiceDate = document.getElementById('InvoiceDate').value,
+            ManInvoice = document.getElementById('ManInvoiceNo').value,
+
+            PartyCode = document.getElementById('PartyCode').value,
+            EmpCode = document.getElementById('EmpCode').value,
+            PartyName = $("#PartyCode option:selected").text()
+
+        if (ManInvoice === "") {
+            if (!(PartyName === "00300  ==>  DAMAGES RWP" || PartyName === "00374  ==>  DAMAGES ISB" || PartyName === "00066  ==>  DAMAGES KPK" || PartyName === "00470  ==>  DAMAGES AJK" || PartyName === "00002  ==>  LOSS" || PartyName === "00003  ==>  LOSS" || PartyName === "00039  ==>  LOSS" || PartyName === "LOSS")) {
+                alert('Manual Invoice No cannot be Empty');
+                isEmpty = true;
+            }
+
+        }
+        //else if (ManInvoice === "" &&  PartyName !== "00300  ==>  DAMAGES" ) {
+        //    alert('Manual Invoice No cannot be Empty');
+        //    isEmpty = true;
+        //}
+        //else if (ManInvoice === "" &&  PartyName !== "00066  ==>  DAMAGES") {
+        //    alert('Manual Invoice No cannot be Empty');
+        //    isEmpty = true;
+        //}
+        //else if (ManInvoice === "" &&  PartyName !== "00470  ==>  DAMAGES") {
+        //    alert('Manual Invoice No cannot be Empty');
+        //    isEmpty = true;
+        //}
+        //else if (ManInvoice === "" && PartyName !== "00374  ==>  DAMAGES") {
+        //    alert('Manual Invoice No cannot be Empty');
+        //    isEmpty = true;
+        //}
+
+
+
+
+
+        //else if (ManInvoice === "" && PartyName !== "00002  ==>  LOSS") {
+        //    alert('Manual Invoice No cannot be Empty');
+        //    isEmpty = true;
+        //}
+        //else if (ManInvoice === "" && PartyName !== "00003  ==>  LOSS") {
+        //    alert('Manual Invoice No cannot be Empty');
+        //    isEmpty = true;
+        //}
+        //else if (ManInvoice === "" && PartyName !== "00039  ==>  LOSS") {
+        //    alert('Manual Invoice No cannot be Empty');
+        //    isEmpty = true;
+        //}
+        //else if (ManInvoice === "" && PartyName !== "LOSS") {
+        //    alert('Manual Invoice No cannot be Empty');
+        //    isEmpty = true;
+        //}
+
+        else if (InvoiceDate === '') {
+            alert('Invoice Date cannot be Empty');
+            isEmpty = true;
+        }
+        else if (PartyCode === '') {
+            alert('PartyCode cannot be Empty');
+            isEmpty = true;
+        }
+        else if (EmpCode === '') {
+            alert('EmpCode cannot be Empty');
+            isEmpty = true;
+        }
+        return isEmpty;
+    }
+    // Save all rows into Array and send to Controller
+    var ItemTable = []
+
+    function ItemRows() {
+        itemCount = 0;
+        $("table#ItemTable tbody").find('tr').each(function () {
+            var tableItem = document.getElementById('ItemTable');
+            var CountRows = $('#ItemTable tbody').find('tr').length;
+            //if (itemCount != 0) {
+            var itemList = $(this).find("td");
+            // check empty row
+            var rows = tableItem.rows;
+            var firstRow = rows[1];
+
+
+            NFound = '';
+            NFound = NFound;
+            if (NFound.substring(0, 2) != 'NO') {
+                var vouch = {
+                    ItemCode: $(itemList[1]).html(),
+                    SaleQty: $(itemList[3]).html(),
+                    Rate: $(itemList[4]).html(),
+                    Damage: $(itemList[5]).html(),
+                    Replace: $(itemList[6]).html(),
+                    FOC: $(itemList[7]).html(),
+                    Sampling: $(itemList[8]).html(),
+                    Scheme: $(itemList[9]).html(),
+                    Retrn: $(itemList[10]).html(),
+                    WHT: $(itemList[11]).html(),
+                    SaleTaxAmt: $(itemList[12]).html(),
+                    FurtherTaxAmt: $(itemList[13]).html(),
+                    IncomeTaxAmt: $(itemList[14]).html(),
+                    FEDTaxAmt: $(itemList[15]).html(),
+                    DiscAmt: $(itemList[16]).html(),
+                    Amount: $(itemList[17]).html(),
+                    IncTaxAmt: $(itemList[18]).html(),
+                    ExcTaxAmt: $(itemList[19]).html(),
+                    SaleTaxPer: $(itemList[20]).html(),
+                    FurtherTaxPer: $(itemList[21]).html(),
+                    IncomeTaxPer: $(itemList[22]).html(),
+                    FEDTaxPer: $(itemList[23]).html(),
+                    DiscPer: $(itemList[24]).html(),
+                    ConsumerRate: $(itemList[25]).html()
+
+                };
+                ItemTable.push(vouch);
+
+            }
+            itemCount++;
+        })
+    }
+
+    $("#btnSave").click(function (e) {
+        e.preventDefault();
+
+        ManInvoice = document.getElementById('ManInvoiceNo').value;
+        InvoiceNo = document.getElementById('InvoiceNo').value;
+
+        if (InvoiceNo === '' && ManInvoice !== '') {
+
+            $.ajax({
+                type: "POST",
+                url: "/Transaction/CheckManInvoice",
+                dataType: "json",
+                contentType: 'application/json',
+                data: JSON.stringify({ ManInvoiceNo: ManInvoice }),
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    if (data == true) {
+                        swal({
+                            title: "Same Invoice Found!",
+                            text: "Manual Invoice No Already Exist,Please Choose Another Manual Invoice No.",
+                            type: "warning"
+                        }, function () {
+                            isEmpty = true;
+                        });
+                        isEmpty = true;
+                    }
+                    else {
+
+                        if (!(checkAllEmptyInputs())) {
+                            ItemRows();
+                            var InvoiceDate = $("#InvoiceDate").val();
+
+                            $.ajax({
+                                type: "POST",
+                                url: "/Transaction/SaleInvoiceDetail",
+                                dataType: "json",
+                                contentType: 'application/json',
+                                data: JSON.stringify({ ItemTable: ItemTable }),
+                                contentType: "application/json; charset=utf-8",
+                                complete: function (data) {
+
+                                    document.forms["SaleInvoice"].submit();
+
+
+                                }
+                            });
+                        }
+                    }
+
+                }
+            });
+        }
+        else {
+            if (!(checkAllEmptyInputs())) {
+                ItemRows();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Transaction/SaleInvoiceDetail",
+                    dataType: "json",
+                    contentType: 'application/json',
+                    data: JSON.stringify({ ItemTable: ItemTable, InvoiceDate: InvoiceDate }),
+                    contentType: "application/json; charset=utf-8",
+                    complete: function (data) {
+                        document.forms["SaleInvoice"].submit();
+
+                    }
+                });
+            }
+        }
+
+    });
+
+
+
+
+</script>
+
+
+<script type="text/javascript">
+
+
+
+
+    function ChosenPE(PartyCode, EmpCode) {
+        $('#PartyCode').val(PartyCode);
+        $('#PartyCode').trigger("chosen:updated");
+
+        $('#EmpCode').val(EmpCode);
+        $('#EmpCode').trigger("chosen:updated");
+    }
+
+
+    GetInvoice = function (InvoiceNo) {
+
+        document.getElementById("InvoiceNo").value = InvoiceNo;
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetSingleInvoice",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ InvoiceNo: InvoiceNo }),
+            contentType: "application/json;charset=utf-8",
+            success: function (result) {
+
+                $('#btnSave').attr('disabled', false);
+
+                if (result.Input != null) {
+
+
+                    document.getElementById("InvoiceDate").value = result.Input.InvoiceDate;
+                    document.getElementById("ManInvoiceNo").value = parseInt(result.Input.ManInvoiceNo);
+                    document.getElementById("RepInvoiceNo").value = result.Input.RepInvoiceNo;
+
+                    $('#RegionCode').val(result.Input.RegionCode);
+                    $('#RegionCode').trigger("chosen:updated");
+
+                    $('#PartyCode').empty().trigger("chosen:updated");
+                    $('#EmpCode').empty().trigger("chosen:updated");
+
+                    $('#PartyCode').append($('<option>', {
+                        value: result.Input.PartyCode,
+                        text: result.Input.PartyCode + "  ==>  " + result.Input.PartyDesc
+                    })).trigger("chosen:updated");
+
+
+
+                    $('#EmpCode').append($('<option>', {
+                        value: result.Input.EmpCode,
+                        text: result.Input.EmpName
+                    })).trigger("chosen:updated");
+
+                    var RegionCode = result.Input.RegionCode;
+                    var PartyCode = result.Input.PartyCode;
+                    //var EmpCode = result.Input.EmpCode;
+
+
+
+                    document.getElementById("MainPartyCode").value = result.Input.MainPartyCode;
+                    document.getElementById("ThirdSch_Category").value = result.Input.ThirdSch_Category;
+
+
+                    //document.getElementById("PartyType").value = result.Input.TransType;
+                    //document.getElementById("STaxReg").value = result.Input.PartyStatus;
+                    //document.getElementById("Category").value = result.Input.Category;
+
+
+                    document.getElementById("ttlDiscount").value = result.Input.Discount;
+                    document.getElementById("ttlIncTaxAmt").value = result.Input.IncTaxAmt;
+                    document.getElementById("ttlExcTaxAmt").value = result.Input.ExcTaxAmt;
+                    document.getElementById("ttlCashReceived").value = result.Input.CashReceived;
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Transaction/DDLPartyDetail",
+                        dataType: "json",
+                        contentType: 'application/json',
+                        data: JSON.stringify({ RegionCode: RegionCode, PartyCode: PartyCode }),
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            if (data != null) {
+
+                                document.getElementById("PartyType").value = data.PartyType;
+                                var RegStatus = "";
+                                if (data.STaxReg == "N") {
+                                    RegStatus = "Un-Reg";
+                                } else {
+                                    RegStatus = "Reg";
+                                }
+
+                                document.getElementById("STaxReg").value = RegStatus;
+                                document.getElementById("Category").value = data.Category;
+
+
+                                //$("#PartyCode").val(PartyCode).trigger("chosen:updated");
+                                //$("#PartyCode").trigger("chosen:updated");
+
+                                //$('#EmpCode').val(EmpCode).trigger("chosen:updated");
+                                //$('#EmpCode').trigger("chosen:updated");
+
+
+
+                            }
+                        }
+                    })
+
+
+
+                    if (result.ItemDetail.length > 0) {
+                        var i = 0;
+                        $("#ItemTable tbody tr").remove();
+                        $.each(result.ItemDetail, function (index, obj) {
+                            $("table#ItemTable").append('<tr><td>' + i
+                                + '</td><td class="width5">' + obj.ItemCode
+                                + '</td><td class="width30">' + obj.ItemDesc 
+                                + '</td><td class="width5" >' + obj.SaleQty
+                                + '</td><td class="width5" >' + obj.Rate
+                                + '</td><td class="width5">' + obj.Damage 
+                                + '</td><td class="width5">' + obj.Replace
+                                + '</td><td class="width5">' + obj.FOC
+                                + '</td><td class="width5">' + obj.Sampling 
+                                + '</td><td class="width5">' + obj.Scheme
+                                + '</td><td class="width5">' + obj.Retrn
+                                + '</td><td class="width5">' + obj.WHT 
+                                + '</td><td class="width10">' + obj.SaleTaxAmt
+                                + '</td><td class="width10">' + obj.FurtherTaxAmt
+                                + '</td><td class="width10">' + obj.IncomeTaxAmt
+                                + '</td><td class="width10">' + obj.FEDTaxAmt
+                                + '</td><td class="width10" >' + obj.DiscAmt
+                                + '</td><td class="width10">' + obj.Amount 
+                                + '</td><td class="Ghaib width10">' + obj.IncTaxAmt
+                                + '</td><td class="Ghaib width10">' + obj.ExcTaxAmt
+                                + '</td><td class="width10 Ghaib">' + obj.SaleTaxPer
+                                + '</td><td class="width10 Ghaib">' + obj.FurtherTaxPer
+                                + '</td><td class="width10 Ghaib">' + obj.IncomeTaxPer
+                                + '</td><td class="width10 Ghaib">' + obj.FEDTaxPer
+                                + '</td><td class="width10 Ghaib">' + obj.DiscPer 
+                                + '</td><td class="width10 Ghaib">' + obj.ConsumerRate +
+                                '</td><td style="text-align:center"><a class="selectItem"><i class="fa fa-edit" style="color:blue"></i></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class= "deleteTerm" style="color:blue" ><i class="fa fa-trash"></i></a></td>');
+
+                            i++;
+                        });
+                    }
+
+                    $("#InvoiceModal").modal("hide");
+                }
+            }
+        });
+    }
+
+    GetManInvoice = function (ManInvoiceNo) {
+
+        document.getElementById("ManInvoiceNo").value = ManInvoiceNo.trim();
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetSingleManInvoice",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ ManInvoiceNo: ManInvoiceNo }),
+            contentType: "application/json;charset=utf-8",
+            success: function (result) {
+
+
+
+                $('#btnSave').attr('disabled', false);
+
+                if (result.Input != "NoData") {
+
+                    if (result.Input.InvoiceNo != null) {
+
+                        document.getElementById("InvoiceNo").value = result.Input.InvoiceNo;
+                        document.getElementById("InvoiceDate").value = result.Input.InvoiceDate;
+
+                        document.getElementById("RepInvoiceNo").value = result.Input.RepInvoiceNo;
+
+                        $('#RegionCode').val(result.Input.RegionCode);
+                        $('#RegionCode').trigger("chosen:updated");
+
+                        $('#PartyCode').empty().trigger("chosen:updated");
+                        $('#EmpCode').empty().trigger("chosen:updated");
+
+                        $('#PartyCode').append($('<option>', {
+                            value: result.Input.PartyCode,
+                            text: result.Input.PartyCode + "  ==>  " + result.Input.PartyDesc
+                        })).trigger("chosen:updated");
+
+
+
+                        $('#EmpCode').append($('<option>', {
+                            value: result.Input.EmpCode,
+                            text: result.Input.EmpName
+                        })).trigger("chosen:updated");
+
+                        var RegionCode = result.Input.RegionCode;
+                        var PartyCode = result.Input.PartyCode;
+                        //var EmpCode = result.Input.EmpCode;
+
+
+
+                        document.getElementById("MainPartyCode").value = result.Input.MainPartyCode;
+                        document.getElementById("ThirdSch_Category").value = result.Input.ThirdSch_Category;
+
+
+                        //document.getElementById("PartyType").value = result.Input.TransType;
+                        //document.getElementById("STaxReg").value = result.Input.PartyStatus;
+                        //document.getElementById("Category").value = result.Input.Category;
+
+
+                        document.getElementById("ttlDiscount").value = result.Input.Discount;
+                        document.getElementById("ttlIncTaxAmt").value = result.Input.IncTaxAmt;
+                        document.getElementById("ttlExcTaxAmt").value = result.Input.ExcTaxAmt;
+                        document.getElementById("ttlCashReceived").value = result.Input.CashReceived;
+
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/Transaction/DDLPartyDetail",
+                            dataType: "json",
+                            contentType: 'application/json',
+                            data: JSON.stringify({ RegionCode: RegionCode, PartyCode: PartyCode }),
+                            contentType: "application/json; charset=utf-8",
+                            success: function (data) {
+                                if (data != null) {
+
+                                    document.getElementById("PartyType").value = data.PartyType;
+                                    var RegStatus = "";
+                                    if (data.STaxReg == "N") {
+                                        RegStatus = "Un-Reg";
+                                    } else {
+                                        RegStatus = "Reg";
+                                    }
+
+                                    document.getElementById("STaxReg").value = RegStatus;
+                                    document.getElementById("Category").value = data.Category;
+                                    document.getElementById("Taxable").value = data.Taxable;
+
+                                    //$("#PartyCode").val(PartyCode).trigger("chosen:updated");
+                                    //$("#PartyCode").trigger("chosen:updated");
+
+                                    //$('#EmpCode').val(EmpCode).trigger("chosen:updated");
+                                    //$('#EmpCode').trigger("chosen:updated");
+
+
+
+                                }
+                            }
+
+                        })
+
+
+
+                        if (result.ItemDetail.length > 0) {
+                            var i = 0;
+                            $("#ItemTable tbody tr").remove();
+                            $.each(result.ItemDetail, function (index, obj) {
+                                $("table#ItemTable").append('<tr><td>' + i
+                                    + '</td><td class="width5">' + obj.ItemCode
+                                    + '</td><td class="width30">' + obj.ItemDesc 
+                                    + '</td><td class="width5" >' + obj.SaleQty
+                                    + '</td><td class="width5" >' + obj.Rate
+                                    + '</td><td class="width5">' + obj.Damage 
+                                    + '</td><td class="width5">' + obj.Replace
+                                    + '</td><td class="width5">' + obj.FOC
+                                    + '</td><td class="width5">' + obj.Sampling 
+                                    + '</td><td class="width5">' + obj.Scheme
+                                    + '</td><td class="width5">' + obj.Retrn
+                                    + '</td><td class="width5">' + obj.WHT 
+                                    + '</td><td class="width10">' + obj.SaleTaxAmt
+                                    + '</td><td class="width10">' + obj.FurtherTaxAmt
+                                    + '</td><td class="width10">' + obj.IncomeTaxAmt
+                                    + '</td><td class="width10">' + obj.FEDTaxAmt
+                                    + '</td><td class="width10">' + obj.DiscAmt
+                                    + '</td><td class="width10">' + obj.Amount 
+                                    + '</td><td class="Ghaib width10">' + obj.IncTaxAmt
+                                    + '</td><td class="Ghaib width10">' + obj.ExcTaxAmt
+                                    + '</td><td class="width10 Ghaib">' + obj.SaleTaxPer
+                                    + '</td><td class="width10 Ghaib">' + obj.FurtherTaxPer
+                                    + '</td><td class="width10 Ghaib">' + obj.IncomeTaxPer
+                                    + '</td><td class="width10 Ghaib">' + obj.FEDTaxPer
+                                    + '</td><td class="width10 Ghaib">' + obj.DiscPer 
+                                    + '</td><td class="width10 Ghaib">' + obj.ConsumerRate 
+                                    + '</td><td style="text-align:center"><a class="selectItem"><i class="fa fa-edit" style="color:blue"></i></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class= "deleteTerm" style="color:blue" ><i class="fa fa-trash"></i></a></td>');
+
+                                i++;
+                            });
+                        }
+
+
+
+
+
+                        //$("#InvoiceModal").modal("hide");
+                    }
+
+                    else {
+                        swal("Invoice Not Found", "There is no Invoice Against this Invoice No . . . !", "error");
+                    }
+                } else {
+                    swal("Limited Right", "You can't update Invoice.Contact to Administrator . . . !", "warning");
+                }
+            }
+        });
+    }
+
+
+
+    //--------------------------For Delete Record-----------------------------
+
+    //Warning Message
+    function DeleteModal() {
+        var Id = $('#InvoiceNo').val();
+        var Url = "/Transaction/DeleteInvoice";
+
+        if (Id == null || Id == "") {
+            alert("Please, Select Invoice No . . . !");
+        } else {
+            swal({
+                title: "Are you sure?",
+                text: "You will not be able to recover this record . . . !",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes, delete it...!",
+                closeOnConfirm: false
+            }, function () {
+                $.ajax({
+                    type: "POST",
+                    url: Url,
+                    dataType: "json",
+                    contentType: 'application/json',
+                    data: JSON.stringify({ InvoiceNo: Id }),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data == true) {
+                            swal({
+                                title: "Deleted!",
+                                text: "Your record has been deleted.",
+                                type: "success"
+                            }, function () {
+                                location.reload();
+                            });
+                        }
+                        else {
+                            swal({
+                                title: "Not Deleted!",
+                                text: "Something went wrong, Record not deleted . . . !",
+                                type: "warning"
+                            }, function () {
+                                location.reload();
+                            });
+                        }
+                    }
+                });
+            })
+        }
+
+    }
+
+
+
+
+
+
+    function checkAllEmptyInputsRpt() {
+        var isEmpty = false,
+            InvoiceNo = document.getElementById('InvoiceNo').value
+
+        if (InvoiceNo == "") {
+            alert('Invoice No cannot be Empty');
+            isEmpty = true;
+        }
+
+
+        return isEmpty;
+    }
+
+
+    function SimpleInNewWin() {
+        var InvoiceNo = document.getElementById('InvoiceNo').value;
+        var PartyDesc = $("#PartyCode option:selected").text();
+
+        if (!(checkAllEmptyInputsRpt())) {
+
+            window.open("../ReportWebForms/Transaction/SaleInvoice.aspx?InvoiceNo=" + encodeURI(InvoiceNo) + "&PartyDesc=" + encodeURI(PartyDesc), 'mywindow', 'fullscreen=yes, scrollbars=auto');
+
+        }
+    }
+
+
+    function GetDamageInvoices() {
+        var DamageDate = $("#DamageDate").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Transaction/GetDamagerInvoices",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ DamageDate: DamageDate }),
+            contentType: "application/json; charset=utf-8",
+            complete: function (DamageInvoice) {
+                if (DamageInvoice.responseJSON.length > 0) {
+                    $("#tblInvoice tbody tr").remove();
+
+
+                    $.each(DamageInvoice.responseJSON, function (index, obj) {
+
+                        var row = '<tr class="DamageFunction" ><td style="font-size:large">' + obj.InvoiceNo + '</td><td style="font-size:large"> ' + obj.InvoiceDate + '</td><td style="text-align:center;font-size:large"> ' + obj.ManInvoiceNo +
+
+                            '</td><td style="text-align:center;font-size:large"> ' + obj.RepInvoiceNo + '</td><td style="text-align:center;font-size:large"> ' + obj.RegionDesc +
+
+                            '</td><td style="text-align:center;font-size:large">' + obj.PartyDesc + '</td><td style="text-align:center;font-size:large"> ' + obj.EmpName + '</td></tr>';
+
+
+
+                        $("#tblInvoice tbody").append(row);
+
+                    });
+
+                }
+                else {
+                    $("#tblInvoice tbody tr").remove();
+
+                    var row = '<tr class="DamageFunction" ><td colspan="7" style="font-size:large;text-align:center">' + "You Have No Update Rights.Contact to Administrator . . . !" + '</td></tr>';
+
+                    $("#tblInvoice tbody").append(row);
+                }
+            }
+        });
+
+    }
+
+
+    $("table#tblInvoice").on('click', '.DamageFunction', function () {
+
+        rIndex = $(this).closest('tr');
+        index = $(this).closest('tr')[0].rowIndex;
+
+        var InvoiceNo = rIndex.find('td:eq(0)').text().replace(/\s+/g, "");
+
+
+        document.getElementById("InvoiceNo").value = InvoiceNo;
+
+        $.ajax({
+
+            type: "POST",
+            url: "/Transaction/GetSingleInvoice",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({ InvoiceNo: InvoiceNo }),
+            contentType: "application/json;charset=utf-8",
+            success: function (result) {
+
+                $('#btnSave').attr('disabled', false);
+
+                if (result.Input != null) {
+
+
+                    document.getElementById("InvoiceDate").value = result.Input.InvoiceDate;
+                    document.getElementById("ManInvoiceNo").value = parseInt(result.Input.ManInvoiceNo);
+                    document.getElementById("RepInvoiceNo").value = result.Input.RepInvoiceNo;
+
+                    $('#RegionCode').val(result.Input.RegionCode);
+                    $('#RegionCode').trigger("chosen:updated");
+
+                    $('#PartyCode').empty().trigger("chosen:updated");
+                    $('#EmpCode').empty().trigger("chosen:updated");
+
+                    $('#PartyCode').append($('<option>', {
+                        value: result.Input.PartyCode,
+                        text: result.Input.PartyCode + "  ==>  " + result.Input.PartyDesc
+                    })).trigger("chosen:updated");
+
+
+
+                    $('#EmpCode').append($('<option>', {
+                        value: result.Input.EmpCode,
+                        text: result.Input.EmpName
+                    })).trigger("chosen:updated");
+
+                    var RegionCode = result.Input.RegionCode;
+                    var PartyCode = result.Input.PartyCode;
+                    //var EmpCode = result.Input.EmpCode;
+
+
+
+                    document.getElementById("MainPartyCode").value = result.Input.MainPartyCode;
+
+
+                    //document.getElementById("PartyType").value = result.Input.TransType;
+                    //document.getElementById("STaxReg").value = result.Input.PartyStatus;
+                    //document.getElementById("Category").value = result.Input.Category;
+
+
+                    document.getElementById("ttlDiscount").value = result.Input.Discount;
+                    document.getElementById("ttlIncTaxAmt").value = result.Input.IncTaxAmt;
+                    document.getElementById("ttlExcTaxAmt").value = result.Input.ExcTaxAmt;
+                    document.getElementById("ttlCashReceived").value = result.Input.CashReceived;
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Transaction/DDLPartyDetail",
+                        dataType: "json",
+                        contentType: 'application/json',
+                        data: JSON.stringify({ RegionCode: RegionCode, PartyCode: PartyCode }),
+                        contentType: "application/json; charset=utf-8",
+                        success: function (data) {
+                            if (data != null) {
+
+                                document.getElementById("PartyType").value = data.PartyType;
+                                var RegStatus = "";
+                                if (data.STaxReg == "N") {
+                                    RegStatus = "Un-Reg";
+                                } else {
+                                    RegStatus = "Reg";
+                                }
+
+                                document.getElementById("STaxReg").value = RegStatus;
+                                document.getElementById("Category").value = data.Category;
+
+
+                                //$("#PartyCode").val(PartyCode).trigger("chosen:updated");
+                                //$("#PartyCode").trigger("chosen:updated");
+
+                                //$('#EmpCode').val(EmpCode).trigger("chosen:updated");
+                                //$('#EmpCode').trigger("chosen:updated");
+
+
+
+                            }
+                        }
+                    })
+
+
+
+                    if (result.ItemDetail.length > 0) {
+                        var i = 0;
+                        $("#ItemTable tbody tr").remove();
+                        $.each(result.ItemDetail, function (index, obj) {
+                            $("table#ItemTable").append('<tr><td>' + i
+                                + '</td><td class="width5">' + obj.ItemCode
+                                + '</td><td class="width30">' + obj.ItemDesc
+                                + '</td><td class="width5" >' + obj.SaleQty
+                                + '</td><td class="width5" >' + obj.Rate
+                                + '</td><td class="width5">' + obj.Damage
+                                + '</td><td class="width5">' + obj.Replace
+                                + '</td><td class="width5">' + obj.FOC
+                                + '</td><td class="width5">' + obj.Sampling
+                                + '</td><td class="width5">' + obj.Scheme
+                                + '</td><td class="width5">' + obj.Retrn
+                                + '</td><td class="width5">' + obj.WHT
+                                + '</td><td class="width10">' + obj.SaleTaxAmt
+                                + '</td><td class="width10">' + obj.FurtherTaxAmt
+                                + '</td><td class="width10">' + obj.IncomeTaxAmt
+                                + '</td><td class="width10">' + obj.FEDTaxAmt
+                                + '</td><td class="width10">' + obj.DiscAmt
+                                + '</td><td class="width10">' + obj.Amount
+                                + '</td><td class="Ghaib width10">' + obj.IncTaxAmt
+                                + '</td><td class="Ghaib width10">' + obj.ExcTaxAmt
+                                + '</td><td class="width10 Ghaib">' + obj.SaleTaxPer
+                                + '</td><td class="width10 Ghaib">' + obj.FurtherTaxPer
+                                + '</td><td class="width10 Ghaib">' + obj.IncomeTaxPer
+                                + '</td><td class="width10 Ghaib">' + obj.FEDTaxPer
+                                + '</td><td class="width10 Ghaib">' + obj.DiscPer
+                                + '</td><td class="width10 Ghaib">' + obj.ConsumerRate 
+                                + '</td><td style="text-align:center"><a class="selectItem"><i class="fa fa-edit" style="color:blue"></i></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a class= "deleteTerm" style="color:blue" ><i class="fa fa-trash"></i></a></td>');
+
+                            i++;
+                        });
+                    }
+
+
+
+
+
+                    $("#InvoiceModal").modal("hide");
+                }
+            }
+        });
+
+    });
+
+
+   
+
+        
+
+           
+
+       
+    
+
+
+
+</script>
+
